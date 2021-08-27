@@ -27,6 +27,8 @@ public class Node2 : Node
             address.Port = 25565;
             client.Create();
 
+            // Testing VSC Git Control
+
             Peer peer = client.Connect(address);
 
             Event netEvent;

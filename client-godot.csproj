@@ -5,5 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ENet-CSharp" Version="2.4.7" />
+    <Reference Include="Common">
+      <HintPath>Scripts\Plugins\Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

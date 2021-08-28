@@ -11,8 +11,12 @@ config_version=4
 [application]
 
 config/name="client-godot"
-run/main_scene="res://Main Scene.tscn"
+run/main_scene="res://Scenes/SceneMenu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+ENetClient="*res://Scripts/Netcode/ENetClient.cs"
 
 [global]
 

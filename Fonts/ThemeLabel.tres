@@ -3,7 +3,8 @@
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Light.ttf" type="DynamicFontData" id=1]
 
 [sub_resource type="DynamicFont" id=1]
-size = 46
+size = 24
+use_filter = true
 font_data = ExtResource( 1 )
 
 [resource]

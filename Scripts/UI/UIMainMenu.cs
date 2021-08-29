@@ -1,19 +1,24 @@
 using Godot;
 using System;
-using KRU.Networking;
 
-public class UIMainMenu : Node
+namespace KRU.UI
 {
-    private ENetClient ENetClient;
-
-    public override void _Ready()
+    public class UIMainMenu : Node
     {
-        ENetClient = GetNode<ENetClient>("/root/ENetClient");
-    }
+        private void _on_Btn_Multiplayer_pressed()
+        {
+            GetTree().ChangeScene("res://Scenes/SceneLogin.tscn");
+        }
 
-    private void _on_BtnConnect_pressed()
-    {
-        ENetClient.Connect();
-        GetTree().ChangeScene("res://Scenes/SceneMain.tscn");
+        private void _on_Btn_Options_pressed()
+        {
+            GetTree().ChangeScene("res://Scenes/SceneOptions.tscn");
+        }
+
+        private void _on_Btn_Credits_pressed()
+        {
+            GetTree().ChangeScene("res://Scenes/SceneCredits.tscn");
+        }
     }
 }
+

@@ -1,10 +1,13 @@
 using Godot;
 using System;
 
-public class UIGameMenu : Node
+namespace KRU.UI 
 {
-    private void _on_Btn_Menu_pressed()
+    public class UIGameMenu : Node
     {
-        GetTree().ChangeScene("res://Scenes/SceneMenu.tscn");
+        private void _on_Btn_Menu_pressed()
+        {
+            GetTree().ChangeScene("res://Scenes/SceneMainMenu.tscn");
+        }
     }
 }

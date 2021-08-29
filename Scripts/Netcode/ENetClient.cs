@@ -23,12 +23,14 @@ using Godot;
 using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using ENet;
 using Common.Networking.Packet;
+using Common.Networking.IO;
 
 using Thread = System.Threading.Thread;
 
@@ -49,13 +51,15 @@ namespace KRU.Networking
         };
 
         public static ConcurrentQueue<GodotInstructions> GodotCmds { get; set; }
-        private static ConcurrentQueue<ENetInstructionOpcode> ENetCmds { get; set; }
+        public static ConcurrentQueue<ENetInstructionOpcode> ENetCmds { get; set; }
         private static ConcurrentQueue<ClientPacket> Outgoing { get; set; }
         private static ConcurrentBag<Event> Incoming { get; set; }
 
+        public static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket { get; private set; }
+
         private static Peer Peer { get; set; }
         private static bool TryingToConnect { get; set; }
-        private static bool ConnectedToServer { get; set; }
+        public static bool ConnectedToServer { get; set; }
         private static bool RunningNetCode { get; set; }
         private static bool ReadyToQuitUnity { get; set; }
 
@@ -79,11 +83,111 @@ namespace KRU.Networking
             // The packets received from the server
             Incoming = new ConcurrentBag<Event>();
 
+            HandlePacket = typeof(HandlePacket).Assembly.GetTypes()
+                .Where(x => typeof(HandlePacket)
+                .IsAssignableFrom(x) && !x.IsAbstract)
+                .Select(Activator.CreateInstance)
+                .Cast<HandlePacket>()
+                .ToDictionary(x => x.Opcode, x => x);
+
             // Make sure queues are completely drained before starting
             if (Incoming != null) while (Incoming.TryTake(out _)) ;
             if (Outgoing != null) while (Outgoing.TryDequeue(out _)) ;
             if (GodotCmds != null) while (GodotCmds.TryDequeue(out _)) ;
             if (ENetCmds != null) while (ENetCmds.TryDequeue(out _)) ;
+        }
+
+        public override void _Process(float delta)
+        {
+            while (GodotCmds.TryDequeue(out GodotInstructions result))
+            {
+                foreach (var cmd in result.Instructions)
+                {
+                    var opcode = cmd.Key;
+
+                    if (opcode == GodotInstructionOpcode.ServerResponseMessage)
+                    {
+                        //LoginScript.loginFeedbackText.text = (string)cmd.Value[0];
+                    }
+
+                    if (opcode == GodotInstructionOpcode.LogMessage)
+                    {
+                        //TerminalScript.Log((string)cmd.Value[0]);
+                    }
+
+                    if (opcode == GodotInstructionOpcode.Timeout)
+                    {
+                        // Load timeout scene
+                        //LoginScript.btnConnect.interactable = true;
+                        //LoginScript.loginFeedbackText.text = "Timed out from game server";
+
+                        //MenuScript.LoadTimeoutDisconnectScene();
+                        //MenuScript.gameScript.InGame = false;
+
+                        // Reset player values
+                        //MenuScript.gameScript.Player = null;
+
+                        // Clear terminal output
+                        //TerminalScript.
+                    }
+
+                    if (opcode == GodotInstructionOpcode.Disconnect)
+                    {
+                        // Load timeout scene
+                        //LoginScript.btnConnect.interactable = true;
+
+                        /*var loginFeedbackText = LoginScript.loginFeedbackText;
+
+                        switch ((DisconnectOpcode)cmd.Value[0])
+                        {
+                            case DisconnectOpcode.Disconnected:
+                                loginFeedbackText.text = "Disconnected from game server";
+                                break;
+                            case DisconnectOpcode.Maintenance:
+                                loginFeedbackText.text = "Server is going down for maintenance";
+                                break;
+                            case DisconnectOpcode.Restarting:
+                                loginFeedbackText.text = "Server is restarting";
+                                break;
+                            case DisconnectOpcode.Kicked:
+                                loginFeedbackText.text = "You were kicked";
+                                break;
+                            case DisconnectOpcode.Banned:
+                                loginFeedbackText.text = "You were banned";
+                                break;
+                        }*/
+
+                        //MenuScript.LoadTimeoutDisconnectScene();
+                        //MenuScript.gameScript.InGame = false;
+
+                        // Reset player values
+                        //MenuScript.gameScript.Player = null;
+
+                        // Clear terminal output
+                        //TerminalScript.
+                    }
+
+                    if (opcode == GodotInstructionOpcode.LoadMainScene)
+                    {
+                        //MenuScript.FromConnectingToMainScene();
+                        //LoginScript.loginFeedbackText.text = "";
+                        //LoginScript.btnConnect.interactable = true;
+                        //MenuScript.gameScript.InGame = true;
+						GetTree().ChangeScene("res://Scenes/SceneMainGame.tscn");
+                    }
+
+                    if (opcode == GodotInstructionOpcode.LoginSuccess)
+                    {
+                        //GameScript.UILoopRunning = true;
+                        //StartCoroutine(GameScript.UILoop);
+                    }
+
+                    if (opcode == GodotInstructionOpcode.Quit)
+                    {
+						GetTree().Quit();
+                    }
+                }
+            }
         }
 
         public static void Connect()
@@ -128,6 +232,16 @@ namespace KRU.Networking
                     // ENet Instructions (from Unity Thread)
                     while (ENetCmds.TryDequeue(out ENetInstructionOpcode result))
                     {
+						if (result == ENetInstructionOpcode.Disconnect)
+						{
+							GD.Print("Disconnected");
+							Peer.Disconnect(0);
+							ConnectedToServer = false;
+                            TryingToConnect = false;
+                            RunningNetCode = false;
+							break;
+						}
+
                         if (result == ENetInstructionOpcode.CancelConnection)
                         {
                             GD.Print("Cancel connection");
@@ -149,7 +263,18 @@ namespace KRU.Networking
                     // Incoming
                     while (Incoming.TryTake(out Event netEvent))
                     {
-                        //HandlePacket.Handle(ref netEvent);
+                        var peer = netEvent.Peer;
+                        var packetSizeMax = 1024;
+                        var readBuffer = new byte[packetSizeMax];
+                        var packetReader = new PacketReader(readBuffer);
+                        packetReader.BaseStream.Position = 0;
+
+                        netEvent.Packet.CopyTo(readBuffer);
+
+                        var opcode = (ServerPacketOpcode)packetReader.ReadByte();
+
+                        HandlePacket[opcode].Handle(netEvent, packetReader);
+
                         netEvent.Packet.Dispose();
                     }
 
@@ -284,12 +409,6 @@ namespace KRU.Networking
             packet.Create(gamePacket.Data, packetFlags);
             Peer.Send(channelID, ref packet);
         }
-
-        // Called every frame. 'delta' is the elapsed time since the previous frame.
-        public override void _Process(float delta)
-        {
-
-        }
     }
 
     public struct ClientVersion
@@ -336,6 +455,7 @@ namespace KRU.Networking
     public enum ENetInstructionOpcode
     {
         CancelConnection,
-        UserWantsToQuit
+        UserWantsToQuit,
+		Disconnect
     }
 }

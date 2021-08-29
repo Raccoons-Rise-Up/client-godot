@@ -19,6 +19,11 @@ namespace KRU.UI
         {
             GetTree().ChangeScene("res://Scenes/SceneCredits.tscn");
         }
+
+        private void _on_Btn_Quit_pressed()
+        {
+            GetTree().Quit();
+        }
     }
 }
 

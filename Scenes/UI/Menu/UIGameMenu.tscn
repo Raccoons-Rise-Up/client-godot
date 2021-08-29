@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/UI/UIGameMenu.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=2]
 
 [node name="Game Menu" type="Control"]
 anchor_right = 1.0
@@ -22,12 +23,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Btn Menu" type="Button" parent="VBoxContainer"]
+[node name="Btn Options" parent="VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 624.0
-margin_bottom = 20.0
-text = "Main Menu"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 36.0
+text = "Options"
 
-[connection signal="pressed" from="VBoxContainer/Btn Menu" to="." method="_on_Btn_Menu_pressed"]
+[node name="Btn Disconnect" parent="VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 40.0
+margin_right = 624.0
+margin_bottom = 76.0
+text = "Disconnect"
+
+[connection signal="pressed" from="VBoxContainer/Btn Options" to="." method="_on_Btn_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Btn Disconnect" to="." method="_on_Btn_Disconnect_pressed"]

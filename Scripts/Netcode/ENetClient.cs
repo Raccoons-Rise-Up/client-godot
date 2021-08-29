@@ -21,6 +21,9 @@
 
 using Godot;
 using System;
+using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -28,6 +31,8 @@ using ENet;
 using Common.Networking.Packet;
 
 using Thread = System.Threading.Thread;
+
+using KRU.Networking.Security;
 
 namespace KRU.Networking
 {
@@ -79,8 +84,6 @@ namespace KRU.Networking
             if (Outgoing != null) while (Outgoing.TryDequeue(out _)) ;
             if (GodotCmds != null) while (GodotCmds.TryDequeue(out _)) ;
             if (ENetCmds != null) while (ENetCmds.TryDequeue(out _)) ;
-
-
         }
 
         public static void Connect()
@@ -198,6 +201,7 @@ namespace KRU.Networking
                             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
                             {
                                 Username = "appleman",
+                                PasswordHash = ENetSecurity.CreatePasswordHash("nimda"),
                                 VersionMajor = Version.Major,
                                 VersionMinor = Version.Minor,
                                 VersionPatch = Version.Patch

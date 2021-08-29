@@ -10,6 +10,7 @@ namespace KRU.Networking
         public byte VersionMinor { private get; set; }
         public byte VersionPatch { private get; set; }
         public string Username { private get; set; }
+        public string PasswordHash { private get; set; }
 
         public void Write(PacketWriter writer)
         {
@@ -17,6 +18,7 @@ namespace KRU.Networking
             writer.Write(VersionMinor);
             writer.Write(VersionPatch);
             writer.Write(Username);
+            writer.Write(PasswordHash);
         }
     }
 }

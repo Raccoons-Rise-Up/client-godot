@@ -4,9 +4,15 @@
     <RootNamespace>clientgodot</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ENet-CSharp" Version="2.4.7" />
+    <!--<PackageReference Include="ENet-CSharp" Version="2.4.7" />-->
+    <Reference Include="enet">
+      <HintPath>enet.dll</HintPath>
+    </Reference>
+    <Reference Include="ENet-CSharp">
+      <HintPath>ENet-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Common">
-      <HintPath>Scripts\Plugins\Common.dll</HintPath>
+      <HintPath>Common.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

@@ -1,0 +1,119 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/SceneMainGameBottomMenu.gd" type="Script" id=1]
+
+[node name="Game Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 200.0
+margin_top = 100.0
+margin_right = -200.0
+margin_bottom = -100.0
+rect_pivot_offset = Vector2( -293.95, -81.1775 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -200.0
+margin_top = 452.0
+margin_right = 824.0
+margin_bottom = 500.0
+color = Color( 0.247059, 0.247059, 0.247059, 0.627451 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = -0.321
+anchor_top = -0.25
+anchor_right = 1.321
+anchor_bottom = 1.25
+margin_left = 72.304
+margin_top = 560.0
+margin_right = -56.3041
+margin_bottom = -15.9999
+rect_scale = Vector2( 0.982356, 1.18101 )
+custom_constants/separation = 24
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Menu" type="Button" parent="HBoxContainer"]
+margin_right = 107.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Map" type="Button" parent="HBoxContainer"]
+margin_left = 131.0
+margin_right = 238.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Map"
+
+[node name="Overview" type="Button" parent="HBoxContainer"]
+margin_left = 262.0
+margin_right = 369.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Overview"
+
+[node name="Build" type="Button" parent="HBoxContainer"]
+margin_left = 393.0
+margin_right = 501.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Store"
+
+[node name="Kittens" type="Button" parent="HBoxContainer"]
+margin_left = 525.0
+margin_right = 632.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Kittens"
+
+[node name="Research" type="Button" parent="HBoxContainer"]
+margin_left = 656.0
+margin_right = 763.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Research"
+
+[node name="Leaderboard" type="Button" parent="HBoxContainer"]
+margin_left = 787.0
+margin_right = 895.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Leaderboard"
+
+[node name="Settings" type="Button" parent="HBoxContainer"]
+visible = false
+margin_left = 804.0
+margin_right = 895.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Settings"
+
+[connection signal="pressed" from="HBoxContainer/Btn Menu" to="." method="_on_Btn_Menu_pressed"]
+[connection signal="pressed" from="HBoxContainer/Map" to="." method="_on_Map_pressed"]
+[connection signal="pressed" from="HBoxContainer/Overview" to="." method="_on_Overview_pressed"]
+[connection signal="toggled" from="HBoxContainer/Overview" to="." method="_on_Overview_toggled"]
+[connection signal="pressed" from="HBoxContainer/Build" to="." method="_on_Build_pressed"]
+[connection signal="pressed" from="HBoxContainer/Kittens" to="." method="_on_Kittens_pressed"]
+[connection signal="pressed" from="HBoxContainer/Research" to="." method="_on_Research_pressed"]
+[connection signal="pressed" from="HBoxContainer/Leaderboard" to="." method="_on_Leaderboard_pressed"]
+[connection signal="pressed" from="HBoxContainer/Settings" to="." method="_on_Settings_pressed"]

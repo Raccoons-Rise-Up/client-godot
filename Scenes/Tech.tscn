@@ -1,0 +1,88 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Fonts/Merienda-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 24
+font_data = ExtResource( 1 )
+
+[node name="Tech" type="Control"]
+margin_left = 21.7091
+margin_top = 9.43874
+margin_right = 137.709
+margin_bottom = 45.4387
+rect_scale = Vector2( 1.08822, 1.16967 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 2.31442
+margin_top = 1.74977
+margin_right = 2050.31
+margin_bottom = 47.1428
+rect_scale = Vector2( 0.05, 40.621 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.72205e-06
+margin_right = 114.0
+margin_bottom = 24.0
+rect_scale = Vector2( 0.433821, 0.631656 )
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 20.3513
+margin_top = 6.63816
+margin_right = 239.351
+margin_bottom = 68.6382
+rect_scale = Vector2( 0.889203, 0.713172 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Panel/VBoxContainer"]
+margin_right = 219.0
+margin_bottom = 36.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+custom_fonts/font = SubResource( 5 )
+text = "Stone Tools"
+
+[node name="Description" type="Label" parent="Panel/VBoxContainer"]
+margin_top = 40.0
+margin_right = 219.0
+margin_bottom = 54.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Increase stone production by 50%"
+
+[node name="Cost" type="Label" parent="Panel/VBoxContainer"]
+margin_top = 58.0
+margin_right = 219.0
+margin_bottom = 72.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "50"

@@ -1,0 +1,845 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/Tech.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/new_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Fonts/Merienda-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scripts/SceneTechTree.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/SceneMainGameBottomMenu.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.125714, 1 )
+colors = PoolColorArray( 0.466667, 0.466667, 0.466667, 1, 0.317647, 0.317647, 0.317647, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[node name="TechTree" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lines" type="Node" parent="."]
+
+[node name="Line2D2" type="Line2D" parent="Lines"]
+visible = false
+show_behind_parent = true
+position = Vector2( 33.9836, 109.541 )
+scale = Vector2( 0.994865, 1.49493 )
+points = PoolVector2Array( 193.273, 176.413, 104.819, 176.413, 104.819, 130.134 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D18" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 186.264, 197.265 )
+scale = Vector2( 0.994865, 1.49493 )
+points = PoolVector2Array( 193.273, 176.413, 104.819, 176.413, 104.819, 130.134 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D4" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 110.286, 99.1918 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 195.821, 131.711, 115.11, 131.711 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D5" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 266.264, 101.265 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 94.5523, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D6" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 418.264, 101.265 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 216.12, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D7" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 578.264, 101.265 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D8" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 730.264, 101.265 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 216.12, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D3" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 33.9836, 102.942 )
+scale = Vector2( 0.994865, 1.57622 )
+points = PoolVector2Array( 193.273, 49.6902, 104.819, 49.6902, 104.819, 98.7582 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D17" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 186.264, 13.2648 )
+scale = Vector2( 0.994865, 1.57622 )
+points = PoolVector2Array( 193.273, 49.6902, 104.819, 49.6902, 104.819, 98.7582 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D9" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 270.582, 4.10559 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 94.5523, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D10" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 422.582, 4.10559 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 216.12, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D11" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 582.582, 4.10559 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D12" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 268.834, 195.133 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 94.5523, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D13" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 420.834, 195.133 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 216.12, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D14" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 580.834, 195.133 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D15" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 420.834, 283.133 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 216.12, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Line2D16" type="Line2D" parent="Lines"]
+visible = false
+position = Vector2( 418.264, -82.7352 )
+scale = Vector2( 0.592265, 1.35199 )
+points = PoolVector2Array( 202.612, 130.178, 108.06, 130.178 )
+width = 2.276
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 284.0
+rect_scale = Vector2( 0.998946, 2.26506 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cat1" type="Control" parent="."]
+margin_left = 240.0
+margin_top = 16.0
+margin_right = 1264.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cat1"]
+margin_right = 91.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="cat1/VBoxContainer"]
+margin_right = 99.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+text = "Production"
+
+[node name="Label" type="Label" parent="cat1/VBoxContainer"]
+visible = false
+margin_top = 24.0
+margin_right = 91.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Production"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cat2" type="Control" parent="."]
+margin_left = 384.0
+margin_top = 16.0
+margin_right = 1408.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cat2"]
+margin_right = 91.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="cat2/VBoxContainer"]
+margin_right = 101.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+text = "Necessities"
+
+[node name="Label" type="Label" parent="cat2/VBoxContainer"]
+visible = false
+margin_top = 24.0
+margin_right = 91.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Necessities"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cat3" type="Control" parent="."]
+margin_left = 528.0
+margin_top = 16.0
+margin_right = 1552.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cat3"]
+margin_right = 91.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="cat3/VBoxContainer"]
+margin_right = 91.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+text = "Events"
+
+[node name="Label" type="Label" parent="cat3/VBoxContainer"]
+visible = false
+margin_top = 24.0
+margin_right = 91.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Events"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cat4" type="Control" parent="."]
+margin_left = 672.0
+margin_top = 16.0
+margin_right = 1696.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cat4"]
+margin_right = 91.0
+margin_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="cat4/VBoxContainer"]
+margin_right = 91.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+text = "Kittens"
+
+[node name="Label" type="Label" parent="cat4/VBoxContainer"]
+visible = false
+margin_top = 24.0
+margin_right = 91.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "Kittens"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StoneTools" type="Control" parent="."]
+margin_left = 56.0
+margin_top = 272.518
+margin_right = 220.0
+margin_bottom = 340.518
+hint_tooltip = "We have discovered that stone exists :]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="StoneTools" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="StoneTools/Shaper Axes" index="1"]
+hint_tooltip = "BREAKING NEWS: stone has been discovered!!!"
+
+[node name="Name" parent="StoneTools/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+
+[node name="Description" parent="StoneTools/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 25%"
+
+[node name="Cost" parent="StoneTools/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+text = "100"
+
+[node name="Sharp Axes" type="Control" parent="."]
+margin_left = 200.0
+margin_top = 176.518
+margin_right = 240.0
+margin_bottom = 216.518
+hint_tooltip = "Axes are shaper now..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Sharp Axes" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Sharp Axes/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Sharp Axes"
+
+[node name="Description" parent="Sharp Axes/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase wood production by 25%"
+
+[node name="Cost" parent="Sharp Axes/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+text = "150"
+
+[node name="CoffeeBreaks" type="Control" parent="."]
+margin_left = 200.0
+margin_top = 272.518
+margin_right = 240.0
+margin_bottom = 312.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="CoffeeBreaks" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="CoffeeBreaks/Shaper Axes" index="1"]
+hint_tooltip = "We give kittens free coffee to increase their productivity :)"
+
+[node name="Name" parent="CoffeeBreaks/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Coffee Breaks"
+
+[node name="Description" parent="CoffeeBreaks/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 75%"
+
+[node name="Cost" parent="CoffeeBreaks/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+text = "150"
+
+[node name="Fast Mining" type="Control" parent="."]
+margin_left = 200.0
+margin_top = 368.518
+margin_right = 364.0
+margin_bottom = 408.518
+hint_tooltip = "Time to start threatening to take away benefits in order for the miners to work faster!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Fast Mining" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="Fast Mining/Shaper Axes" index="1"]
+hint_tooltip = "Time to threaten to take away benefits to make the kittens work faster!"
+
+[node name="Name" parent="Fast Mining/Shaper Axes/Panel/VBoxContainer" index="0"]
+text = "Fast Mining"
+
+[node name="Description" parent="Fast Mining/Shaper Axes/Panel/VBoxContainer" index="1"]
+text = "Increase stone production by 25%"
+
+[node name="Cost" parent="Fast Mining/Shaper Axes/Panel/VBoxContainer" index="2"]
+text = "150"
+
+[node name="Shaper Axes" type="Control" parent="."]
+margin_left = 352.0
+margin_top = 88.518
+margin_right = 516.0
+margin_bottom = 128.518
+hint_tooltip = "The axes are shaper now"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Shaper Axes" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Shaper Axes/Shaper Axes/Panel/VBoxContainer" index="0"]
+text = "Sharper Axes"
+
+[node name="Skilled Lumberer" type="Control" parent="."]
+margin_left = 352.0
+margin_top = 176.518
+margin_right = 516.0
+margin_bottom = 216.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Skilled Lumberer" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Skilled Lumberer/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Skilled Lumberer"
+
+[node name="Description" parent="Skilled Lumberer/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does twice the work"
+
+[node name="Cost" parent="Skilled Lumberer/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="No Breaks" type="Control" parent="."]
+margin_left = 352.0
+margin_top = 272.518
+margin_right = 516.0
+margin_bottom = 312.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="No Breaks" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="No Breaks/Shaper Axes" index="1"]
+hint_tooltip = "Breaks aren't necessary anyway"
+
+[node name="Name" parent="No Breaks/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "No Breaks"
+
+[node name="Description" parent="No Breaks/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 100%"
+
+[node name="Cost" parent="No Breaks/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Skilled Miner" type="Control" parent="."]
+margin_left = 352.0
+margin_top = 368.518
+margin_right = 516.0
+margin_bottom = 408.518
+hint_tooltip = "Now we can make kittens get a 4 year degree and require them to have at least 10 years of experience working in the field to actually apply for the miner position,"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Skilled Miner" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="Skilled Miner/Shaper Axes" index="1"]
+hint_tooltip = "Small brain"
+
+[node name="Name" parent="Skilled Miner/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Skilled Miner"
+
+[node name="Description" parent="Skilled Miner/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does twice the work"
+
+[node name="Cost" parent="Skilled Miner/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Faster Mining" type="Control" parent="."]
+margin_left = 352.0
+margin_top = 456.518
+margin_right = 516.0
+margin_bottom = 496.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Faster Mining" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Faster Mining/Shaper Axes/Panel/VBoxContainer" index="0"]
+text = "Faster Mining"
+
+[node name="Sharpest Axes" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 88.518
+margin_right = 676.0
+margin_bottom = 128.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Sharpest Axes" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Sharpest Axes/Shaper Axes/Panel/VBoxContainer" index="0"]
+text = "Sharpest Axes"
+
+[node name="Expert Lumberer" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 176.518
+margin_right = 676.0
+margin_bottom = 216.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Expert Lumberer" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Expert Lumberer/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Expert Lumberer"
+
+[node name="Description" parent="Expert Lumberer/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does thrice the work"
+
+[node name="Cost" parent="Expert Lumberer/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Iron Tools" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 272.518
+margin_right = 676.0
+margin_bottom = 312.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Iron Tools" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Iron Tools/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Iron Tools"
+
+[node name="Description" parent="Iron Tools/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 150%"
+
+[node name="Cost" parent="Iron Tools/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Expert Miner" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 368.518
+margin_right = 676.0
+margin_bottom = 408.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Expert Miner" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="Expert Miner/Shaper Axes" index="1"]
+hint_tooltip = "giga chad brain"
+
+[node name="Name" parent="Expert Miner/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Expert Miner"
+
+[node name="Description" parent="Expert Miner/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does thrice the work"
+
+[node name="Cost" parent="Expert Miner/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Fastest Mining" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 456.518
+margin_right = 676.0
+margin_bottom = 496.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Fastest Mining" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Fastest Mining/Shaper Axes/Panel/VBoxContainer" index="0"]
+text = "Fastest Mining"
+
+[node name="Description" parent="Fastest Mining/Shaper Axes/Panel/VBoxContainer" index="1"]
+text = "Increase stone production by 75%"
+
+[node name="Prestige Lumberer" type="Control" parent="."]
+margin_left = 664.0
+margin_top = 176.518
+margin_right = 828.0
+margin_bottom = 216.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Prestige Lumberer" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Prestige Lumberer/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Prestige Lumberer"
+
+[node name="Description" parent="Prestige Lumberer/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does 4 times the work"
+
+[node name="Cost" parent="Prestige Lumberer/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="NO VACATION" type="Control" parent="."]
+margin_left = 664.0
+margin_top = 272.518
+margin_right = 828.0
+margin_bottom = 312.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="NO VACATION" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="NO VACATION/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "No Vacations"
+
+[node name="Description" parent="NO VACATION/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 250%"
+
+[node name="Cost" parent="NO VACATION/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Prestige Miner" type="Control" parent="."]
+margin_left = 664.0
+margin_top = 368.518
+margin_right = 828.0
+margin_bottom = 408.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Prestige Miner" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Panel" parent="Prestige Miner/Shaper Axes" index="1"]
+hint_tooltip = "Miners are now required to get a 4 year degree, a phd, and have 10 years of experience in the field"
+
+[node name="Name" parent="Prestige Miner/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Prestige Miner"
+
+[node name="Description" parent="Prestige Miner/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "One kitten does 4 times the work"
+
+[node name="Cost" parent="Prestige Miner/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+
+[node name="Nuclear Power" type="Control" parent="."]
+margin_left = 816.0
+margin_top = 272.518
+margin_right = 980.0
+margin_bottom = 312.518
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shaper Axes" parent="Nuclear Power" instance=ExtResource( 1 )]
+margin_left = 25.4674
+margin_top = 17.2354
+margin_right = 141.468
+margin_bottom = 53.2353
+rect_pivot_offset = Vector2( 41.8878, 189.99 )
+
+[node name="Name" parent="Nuclear Power/Shaper Axes/Panel/VBoxContainer" index="0"]
+margin_right = 218.0
+text = "Nuclear Power"
+
+[node name="Description" parent="Nuclear Power/Shaper Axes/Panel/VBoxContainer" index="1"]
+margin_right = 218.0
+text = "Increase all production by 500%"
+
+[node name="Cost" parent="Nuclear Power/Shaper Axes/Panel/VBoxContainer" index="2"]
+margin_right = 218.0
+text = "100000"
+
+[node name="Game Menu" parent="." instance=ExtResource( 5 )]
+anchor_top = 0.00666667
+anchor_bottom = 1.00667
+
+[editable path="StoneTools/Shaper Axes"]
+[editable path="Sharp Axes/Shaper Axes"]
+[editable path="CoffeeBreaks/Shaper Axes"]
+[editable path="Fast Mining/Shaper Axes"]
+[editable path="Shaper Axes/Shaper Axes"]
+[editable path="Skilled Lumberer/Shaper Axes"]
+[editable path="No Breaks/Shaper Axes"]
+[editable path="Skilled Miner/Shaper Axes"]
+[editable path="Faster Mining/Shaper Axes"]
+[editable path="Sharpest Axes/Shaper Axes"]
+[editable path="Expert Lumberer/Shaper Axes"]
+[editable path="Iron Tools/Shaper Axes"]
+[editable path="Expert Miner/Shaper Axes"]
+[editable path="Fastest Mining/Shaper Axes"]
+[editable path="Prestige Lumberer/Shaper Axes"]
+[editable path="NO VACATION/Shaper Axes"]
+[editable path="Prestige Miner/Shaper Axes"]
+[editable path="Nuclear Power/Shaper Axes"]

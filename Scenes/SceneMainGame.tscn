@@ -10,51 +10,6 @@
 script = ExtResource( 2 )
 NodePathGameMenu = NodePath("Game Menu")
 
-[node name="Game Menu2" parent="." instance=ExtResource( 3 )]
-margin_right = 200.0
-margin_bottom = 100.0
-
-[node name="HBoxContainer" parent="Game Menu2" index="1"]
-margin_left = -38.9396
-margin_top = 466.767
-margin_right = 562.06
-margin_bottom = 486.767
-rect_scale = Vector2( 1.15533, 1.11138 )
-
-[node name="Btn Menu" parent="Game Menu2/HBoxContainer" index="0"]
-margin_right = 83.0
-margin_bottom = 20.0
-
-[node name="Map" parent="Game Menu2/HBoxContainer" index="1"]
-margin_left = 107.0
-margin_right = 146.0
-margin_bottom = 20.0
-
-[node name="Overview" parent="Game Menu2/HBoxContainer" index="2"]
-margin_left = 170.0
-margin_right = 242.0
-margin_bottom = 20.0
-
-[node name="Build" parent="Game Menu2/HBoxContainer" index="3"]
-margin_left = 266.0
-margin_right = 311.0
-margin_bottom = 20.0
-
-[node name="Kittens" parent="Game Menu2/HBoxContainer" index="4"]
-margin_left = 335.0
-margin_right = 392.0
-margin_bottom = 20.0
-
-[node name="Research" parent="Game Menu2/HBoxContainer" index="5"]
-margin_left = 416.0
-margin_right = 486.0
-margin_bottom = 20.0
-
-[node name="Leaderboard" parent="Game Menu2/HBoxContainer" index="6"]
-margin_left = 510.0
-margin_right = 601.0
-margin_bottom = 20.0
-
 [node name="Game UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -159,4 +114,43 @@ visible = false
 margin_right = 200.0
 margin_bottom = 100.0
 
-[editable path="Game Menu2"]
+[node name="SceneMainGameBottomMenu" parent="." instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+
+[node name="HBoxContainer" parent="SceneMainGameBottomMenu" index="2"]
+margin_left = 101.0
+margin_top = 548.0
+margin_right = 938.0
+margin_bottom = 578.0
+
+[node name="Btn Menu" parent="SceneMainGameBottomMenu/HBoxContainer" index="0"]
+margin_left = 0.0
+margin_right = 135.0
+
+[node name="Map" parent="SceneMainGameBottomMenu/HBoxContainer" index="1"]
+margin_left = 159.0
+margin_right = 221.0
+
+[node name="Overview" parent="SceneMainGameBottomMenu/HBoxContainer" index="2"]
+margin_left = 245.0
+margin_right = 362.0
+
+[node name="Build" parent="SceneMainGameBottomMenu/HBoxContainer" index="3"]
+margin_left = 386.0
+margin_right = 460.0
+
+[node name="Kittens" parent="SceneMainGameBottomMenu/HBoxContainer" index="4"]
+margin_left = 484.0
+margin_right = 574.0
+
+[node name="Research" parent="SceneMainGameBottomMenu/HBoxContainer" index="5"]
+margin_left = 598.0
+margin_right = 716.0
+
+[node name="Leaderboard" parent="SceneMainGameBottomMenu/HBoxContainer" index="6"]
+margin_left = 740.0
+margin_right = 903.0
+
+[editable path="SceneMainGameBottomMenu"]

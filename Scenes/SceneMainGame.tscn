@@ -2,129 +2,150 @@
 
 [ext_resource path="res://Scenes/UI/Menu/UIGameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/UI/UIGame.cs" type="Script" id=2]
-[ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/SceneMainGameBottomMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/UI/Elements/UIResource.tscn" type="PackedScene" id=5]
 
 [node name="MainGame" type="Node2D"]
 script = ExtResource( 2 )
-NodePathGameMenu = NodePath("CanvasLayer/Game Menu")
+NodePathGameMenu = NodePath("Game Menu")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Game Menu2" parent="." instance=ExtResource( 3 )]
+margin_right = 200.0
+margin_bottom = 100.0
 
-[node name="Game Menu" parent="CanvasLayer" instance=ExtResource( 1 )]
-visible = false
+[node name="HBoxContainer" parent="Game Menu2" index="1"]
+margin_left = -38.9396
+margin_top = 466.767
+margin_right = 562.06
+margin_bottom = 486.767
+rect_scale = Vector2( 1.15533, 1.11138 )
 
-[node name="Game UI" type="Control" parent="CanvasLayer"]
+[node name="Btn Menu" parent="Game Menu2/HBoxContainer" index="0"]
+margin_right = 83.0
+margin_bottom = 20.0
+
+[node name="Map" parent="Game Menu2/HBoxContainer" index="1"]
+margin_left = 107.0
+margin_right = 146.0
+margin_bottom = 20.0
+
+[node name="Overview" parent="Game Menu2/HBoxContainer" index="2"]
+margin_left = 170.0
+margin_right = 242.0
+margin_bottom = 20.0
+
+[node name="Build" parent="Game Menu2/HBoxContainer" index="3"]
+margin_left = 266.0
+margin_right = 311.0
+margin_bottom = 20.0
+
+[node name="Kittens" parent="Game Menu2/HBoxContainer" index="4"]
+margin_left = 335.0
+margin_right = 392.0
+margin_bottom = 20.0
+
+[node name="Research" parent="Game Menu2/HBoxContainer" index="5"]
+margin_left = 416.0
+margin_right = 486.0
+margin_bottom = 20.0
+
+[node name="Leaderboard" parent="Game Menu2/HBoxContainer" index="6"]
+margin_left = 510.0
+margin_right = 601.0
+margin_bottom = 20.0
+
+[node name="Game UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel Bottom" type="Panel" parent="CanvasLayer/Game UI"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -63.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Game UI/Panel Bottom"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Btn Store" parent="CanvasLayer/Game UI/Panel Bottom/HBoxContainer" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 74.0
-margin_bottom = 63.0
-text = "Store"
-
-[node name="Panel Top Left" type="Panel" parent="CanvasLayer/Game UI"]
+[node name="Panel Top Left" type="Panel" parent="Game UI"]
 margin_right = 262.0
 margin_bottom = 376.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Game UI/Panel Top Left"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Game UI/Panel Top Left"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer" instance=ExtResource( 4 )]
+[node name="Label" parent="Game UI/Panel Top Left/VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 262.0
 margin_bottom = 30.0
 text = "Resources"
 
-[node name="Tabs" type="Control" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer"]
+[node name="Tabs" type="Control" parent="Game UI/Panel Top Left/VBoxContainer"]
 margin_top = 34.0
 margin_right = 262.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Game UI/Panel Top Left/VBoxContainer"]
 margin_top = 58.0
 margin_right = 262.0
 margin_bottom = 258.0
 
-[node name="Resource" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 262.0
 margin_bottom = 30.0
 
-[node name="Resource2" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource2" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 34.0
 margin_right = 262.0
 margin_bottom = 64.0
 
-[node name="Resource3" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource3" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 68.0
 margin_right = 262.0
 margin_bottom = 98.0
 
-[node name="Resource4" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource4" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 102.0
 margin_right = 262.0
 margin_bottom = 132.0
 
-[node name="Resource5" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource5" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 136.0
 margin_right = 262.0
 margin_bottom = 166.0
 
-[node name="Resource6" parent="CanvasLayer/Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="Resource6" parent="Game UI/Panel Top Left/VBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 170.0
 margin_right = 262.0
 margin_bottom = 200.0
 
-[node name="Panel Top Right" type="Panel" parent="CanvasLayer/Game UI"]
+[node name="Panel Top Right" type="Panel" parent="Game UI"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -282.0
+margin_left = 749.729
+margin_right = 1031.73
 margin_bottom = 381.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" parent="CanvasLayer/Game UI/Panel Top Right" instance=ExtResource( 4 )]
+[node name="Label" parent="Game UI/Panel Top Right" instance=ExtResource( 4 )]
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.0
@@ -132,3 +153,10 @@ margin_left = -131.0
 margin_right = 131.0
 margin_bottom = 40.0
 text = "Structures"
+
+[node name="Game Menu" parent="." instance=ExtResource( 1 )]
+visible = false
+margin_right = 200.0
+margin_bottom = 100.0
+
+[editable path="Game Menu2"]

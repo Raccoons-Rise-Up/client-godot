@@ -253,8 +253,6 @@ namespace KRU.Networking
                         {
                             GD.Print("Disconnected");
                             Peer.Disconnect(0);
-                            ConnectedToServer = false;
-                            TryingToConnect = false;
                             RunningNetCode = false;
                             break;
                         }
@@ -262,8 +260,6 @@ namespace KRU.Networking
                         if (result == ENetInstructionOpcode.CancelConnection)
                         {
                             GD.Print("Cancel connection");
-                            ConnectedToServer = false;
-                            TryingToConnect = false;
                             RunningNetCode = false;
                             break;
                         }
@@ -385,16 +381,14 @@ namespace KRU.Networking
                                     break;
                             }
 
-                            TryingToConnect = false;
-                            ConnectedToServer = false;
+                            RunningNetCode = false;
                             GodotCmds.Enqueue(cmd);
                         }
 
                         if (eventType == EventType.Timeout)
                         {
                             GD.Print("Client connection timeout to game server");
-                            TryingToConnect = false;
-                            ConnectedToServer = false;
+                            RunningNetCode = false;
                             GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.Timeout));
                         }
 
@@ -410,6 +404,9 @@ namespace KRU.Networking
                 client.Dispose();
 
                 Library.Deinitialize();
+
+                ConnectedToServer = false;
+                TryingToConnect = false;
 
                 if (wantsToQuit)
                 {

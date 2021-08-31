@@ -11,10 +11,12 @@
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 1 )
-nodePathSectionNav = NodePath("CanvasLayer/PanelContainer/Panel/Sections/Nav")
-nodePathSectionOptions = NodePath("CanvasLayer/PanelContainer/Panel/Sections/Options")
-nodePathSectionCredits = NodePath("CanvasLayer/PanelContainer/Panel/Sections/Credits")
-nodePathSectionLogin = NodePath("CanvasLayer/PanelContainer/Panel/Sections/Login")
+nodePaths = {
+"Credits": NodePath("CanvasLayer/PanelContainer/Panel/Sections/Credits"),
+"Login": NodePath("CanvasLayer/PanelContainer/Panel/Sections/Login"),
+"Nav": NodePath("CanvasLayer/PanelContainer/Panel/Sections/Nav"),
+"Options": NodePath("CanvasLayer/PanelContainer/Panel/Sections/Options")
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

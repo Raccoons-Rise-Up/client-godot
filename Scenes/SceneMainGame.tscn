@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/UI/UIGameMenu.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIGame.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/UI/Elements/PanelContainer.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/UI/Elements/Panel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/UIStore.cs" type="Script" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -16,12 +17,14 @@ bg_color = Color( 0, 0, 0, 0.509804 )
 [node name="MainGame" type="Node2D"]
 script = ExtResource( 2 )
 nodePathTitle = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Title")
-nodePathSectionResources = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Resources")
-nodePathSectionStructures = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Structures")
-nodePathSectionKittens = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Kittens")
-nodePathSectionStore = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store")
-nodePathSectionResearch = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Research")
-nodePathSectionMap = NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Map")
+nodePaths = {
+"Kittens": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Kittens"),
+"Map": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Map"),
+"Research": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Research"),
+"Resources": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Resources"),
+"Store": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store"),
+"Structures": NodePath("CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Structures")
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -144,9 +147,9 @@ __meta__ = {
 }
 
 [node name="Store" type="Control" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -157,6 +160,25 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/ScrollContainer"]
+margin_right = 73.0
+margin_bottom = 76.0
+
+[node name="Btn Hut" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/ScrollContainer/GridContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 73.0
+margin_bottom = 36.0
+text = "Hut"
+
+[node name="Btn Farm" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/ScrollContainer/GridContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 40.0
+margin_right = 73.0
+margin_bottom = 76.0
+text = "Farm"
 
 [node name="Research" type="Control" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections"]
 visible = false
@@ -355,6 +377,8 @@ anchor_bottom = 0.0
 margin_right = 924.0
 margin_bottom = 500.0
 
+[connection signal="pressed" from="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/ScrollContainer/GridContainer/Btn Hut" to="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store" method="_on_Btn_Hut_pressed"]
+[connection signal="pressed" from="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/ScrollContainer/GridContainer/Btn Farm" to="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store" method="_on_Btn_Farm_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer/Btn Resources" to="." method="_on_Btn_Resources_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer/Btn Structures" to="." method="_on_Btn_Structures_pressed"]
 [connection signal="pressed" from="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer/Btn Kittens" to="." method="_on_Btn_Kittens_pressed"]

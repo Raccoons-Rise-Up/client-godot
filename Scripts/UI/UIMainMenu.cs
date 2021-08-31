@@ -1,19 +1,17 @@
-using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
 
 namespace KRU.UI
 {
     public class UIMainMenu : Node
     {
-        [Export] private NodePath nodePathSectionNav, nodePathSectionOptions, nodePathSectionCredits, nodePathSectionLogin;
+        [Export] private Dictionary<string, NodePath> nodePaths;
         private Dictionary<string, Control> controlSections = new Dictionary<string, Control>();
 
         public override void _Ready()
         {
-            controlSections["Nav"] = GetNode<Control>(nodePathSectionNav);
-            controlSections["Options"] = GetNode<Control>(nodePathSectionOptions);
-            controlSections["Credits"] = GetNode<Control>(nodePathSectionCredits);
-            controlSections["Login"] = GetNode<Control>(nodePathSectionLogin);
+            foreach (var nodePath in nodePaths)
+                controlSections[nodePath.Key] = GetNode<Control>(nodePath.Value);
 
             ShowSection("Nav");
         }

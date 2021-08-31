@@ -1,6 +1,5 @@
 using Godot;
-using System;
-using System.Collections.Generic;
+using Godot.Collections;
 
 namespace KRU.UI
 {
@@ -11,7 +10,7 @@ namespace KRU.UI
         private Label labelTitle;
 
         // Game Sections
-        [Export] private NodePath nodePathSectionResources, nodePathSectionStructures, nodePathSectionKittens, nodePathSectionStore, nodePathSectionResearch, nodePathSectionMap;
+        [Export] private Dictionary<string, NodePath> nodePaths;
         private Dictionary<string, Control> controlSectionsGame = new Dictionary<string, Control>();
 
         public override void _Ready()
@@ -20,12 +19,8 @@ namespace KRU.UI
             labelTitle = GetNode<Label>(nodePathTitle);
 
             // Game Sections
-            controlSectionsGame["Resources"] = GetNode<Control>(nodePathSectionResources);
-            controlSectionsGame["Structures"] = GetNode<Control>(nodePathSectionStructures);
-            controlSectionsGame["Kittens"] = GetNode<Control>(nodePathSectionKittens);
-            controlSectionsGame["Store"] = GetNode<Control>(nodePathSectionStore);
-            controlSectionsGame["Research"] = GetNode<Control>(nodePathSectionResearch);
-            controlSectionsGame["Map"] = GetNode<Control>(nodePathSectionMap);
+            foreach (var nodePath in nodePaths)
+                controlSectionsGame[nodePath.Key] = GetNode<Control>(nodePath.Value);
 
             // Setup
             ShowGameSection("Resources");

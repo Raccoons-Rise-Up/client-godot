@@ -61,7 +61,7 @@ namespace KRU.Networking
         private static bool TryingToConnect { get; set; }
         public static bool ConnectedToServer { get; set; }
         private static bool RunningNetCode { get; set; }
-        private static bool ReadyToQuitUnity { get; set; }
+        private static bool ReadyToQuitGodot { get; set; }
 
         private static DateTime LastHutPurchase { get; set; }
 
@@ -173,7 +173,7 @@ namespace KRU.Networking
                         //LoginScript.loginFeedbackText.text = "";
                         //LoginScript.btnConnect.interactable = true;
                         //MenuScript.gameScript.InGame = true;
-						GetTree().ChangeScene("res://Scenes/SceneMainGame.tscn");
+                        GetTree().ChangeScene("res://Scenes/SceneMainGame.tscn");
                     }
 
                     if (opcode == GodotInstructionOpcode.LoginSuccess)
@@ -184,9 +184,26 @@ namespace KRU.Networking
 
                     if (opcode == GodotInstructionOpcode.Quit)
                     {
-						GetTree().Quit();
+                        GetTree().Quit();
                     }
                 }
+            }
+        }
+
+        public override void _Notification(int what)
+        {
+            if (what == MainLoop.NotificationWmQuitRequest) 
+            {
+                if (ConnectedToServer)
+                {
+                    ENetCmds.Enqueue(ENetInstructionOpcode.UserWantsToQuit);
+
+                    GetTree().SetAutoAcceptQuit(false);
+
+                    return;
+                }
+
+                GetTree().Quit();
             }
         }
 
@@ -232,15 +249,15 @@ namespace KRU.Networking
                     // ENet Instructions (from Unity Thread)
                     while (ENetCmds.TryDequeue(out ENetInstructionOpcode result))
                     {
-						if (result == ENetInstructionOpcode.Disconnect)
-						{
-							GD.Print("Disconnected");
-							Peer.Disconnect(0);
-							ConnectedToServer = false;
+                        if (result == ENetInstructionOpcode.Disconnect)
+                        {
+                            GD.Print("Disconnected");
+                            Peer.Disconnect(0);
+                            ConnectedToServer = false;
                             TryingToConnect = false;
                             RunningNetCode = false;
-							break;
-						}
+                            break;
+                        }
 
                         if (result == ENetInstructionOpcode.CancelConnection)
                         {
@@ -396,10 +413,18 @@ namespace KRU.Networking
 
                 if (wantsToQuit)
                 {
-                    ReadyToQuitUnity = true;
+                    ReadyToQuitGodot = true;
                     GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.Quit));
                 }
             }
+        }
+
+        public static void PurchaseItem(int itemId)
+        {
+            var data = new WPacketPurchaseItem { ItemID = (ushort)itemId };
+            var clientPacket = new ClientPacket((byte)ClientPacketOpcode.PurchaseItem, data);
+
+            Outgoing.Enqueue(clientPacket);
         }
 
         private static void Send(GamePacket gamePacket, PacketFlags packetFlags)
@@ -456,6 +481,6 @@ namespace KRU.Networking
     {
         CancelConnection,
         UserWantsToQuit,
-		Disconnect
+        Disconnect
     }
 }

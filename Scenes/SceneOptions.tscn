@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=1]
-
-[node name="Options" type="Node2D"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="UI Options" parent="CanvasLayer" instance=ExtResource( 1 )]

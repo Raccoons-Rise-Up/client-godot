@@ -1,29 +1,55 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 namespace KRU.UI
 {
-	public class UIMainMenu : Node
-	{
-		private void _on_Btn_Multiplayer_pressed()
-		{
-			GetTree().ChangeScene("res://Scenes/SceneLogin.tscn");
-		}
+    public class UIMainMenu : Node
+    {
+        [Export] private NodePath nodePathSectionNav, nodePathSectionOptions, nodePathSectionCredits, nodePathSectionLogin;
+        private Dictionary<string, Control> controlSections = new Dictionary<string, Control>();
 
-		private void _on_Btn_Options_pressed()
-		{
-			GetTree().ChangeScene("res://Scenes/SceneOptions.tscn");
-		}
+        public override void _Ready()
+        {
+            controlSections["Nav"] = GetNode<Control>(nodePathSectionNav);
+            controlSections["Options"] = GetNode<Control>(nodePathSectionOptions);
+            controlSections["Credits"] = GetNode<Control>(nodePathSectionCredits);
+            controlSections["Login"] = GetNode<Control>(nodePathSectionLogin);
 
-		private void _on_Btn_Credits_pressed()
-		{
-			GetTree().ChangeScene("res://Scenes/SceneCredits.tscn");
-		}
+            ShowSection("Nav");
+        }
 
-		private void _on_Btn_Quit_pressed()
-		{
-			GetTree().Quit();
-		}
-	}
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            if (@event is InputEventKey eventKey)
+                if (eventKey.Pressed && eventKey.Scancode == (int)KeyList.Escape)
+                {
+                    if (controlSections["Options"].Visible || controlSections["Credits"].Visible)
+                        ShowSection("Nav");
+
+                    if (controlSections["Login"].Visible)
+                    {
+                        // TODO: Cancel connection if connecting
+                        ShowSection("Nav");
+                    }
+                }
+        }
+
+        private void _on_Btn_Multiplayer_pressed() => ShowSection("Login");
+        private void _on_Btn_Options_pressed() => ShowSection("Options");
+        private void _on_Btn_Credits_pressed() => ShowSection("Credits");
+        private void _on_Btn_Quit_pressed() => GetTree().Quit();
+
+        private void ShowSection(string name)
+        {
+            HideAllSections();
+            controlSections[name].Visible = true;
+        }
+
+        private void HideAllSections()
+        {
+            foreach (var section in controlSections.Values)
+                section.Visible = false;
+        }
+    }
 }
 

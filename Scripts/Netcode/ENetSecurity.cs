@@ -40,7 +40,6 @@ namespace KRU.Networking.Security
             Buffer.BlockCopy(hashValue, 0, valueToSave, SaltByteLength, DerivedKeyLength);
             Buffer.BlockCopy(iterationCountBtyeArr, 0, valueToSave, salt.Length + hashValue.Length, iterationCountBtyeArr.Length);
             return Convert.ToBase64String(valueToSave);
-            GD.Print("blah.");
         }
 
         private static bool ConstantTimeComparison(byte[] passwordGuess, byte[] actualPassword)

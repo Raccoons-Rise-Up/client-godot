@@ -48,7 +48,7 @@ In `Scripts/Netcode/Packets/Opcodes.cs`, add the 'opcode' to the following enum.
 ```cs
 public enum ENetInstructionOpcode 
 {
-	CancelConnection
+    CancelConnection
 }
 ```
 
@@ -77,7 +77,7 @@ First add the opcode `LogMessage` to the `GodotInstructionOpcode` enum
 ```cs
 public enum GodotInstructionOpcode
 {
-	LogMessage
+    LogMessage
 }
 ```
 
@@ -98,9 +98,9 @@ Dequeue the data in the Godot thread
 ```cs
 while (GodotCmds.TryDequeue(out GodotInstructions result))
 {
-	foreach (var cmd in result.Instructions)
-	{
-		var opcode = cmd.Key;
+    foreach (var cmd in result.Instructions)
+    {
+        var opcode = cmd.Key;
         
         if (opcode == GodotInstructionOpcode.LogMessage)
         {

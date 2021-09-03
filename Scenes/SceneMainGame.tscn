@@ -12,7 +12,7 @@
 [ext_resource path="res://Scripts/UI/UIStore.cs" type="Script" id=10]
 [ext_resource path="res://Scenes/UI/Elements/UIStore.tscn" type="PackedScene" id=11]
 
-[sub_resource type="CSharpScript" id=2]
+[sub_resource type="CSharpScript" id=1]
 resource_name = "UILabel"
 script/source = "using Godot;
 using System;
@@ -37,7 +37,7 @@ public class UILabel : Label
 }
 "
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 0.509804 )
 
 [node name="MainGame" type="Node2D"]
@@ -80,7 +80,7 @@ margin_top = 5.0
 margin_right = 311.0
 margin_bottom = 35.0
 text = "Title"
-script = SubResource( 2 )
+script = SubResource( 1 )
 
 [node name="Margin Top" type="MarginContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel"]
 anchor_right = 1.0
@@ -174,77 +174,303 @@ __meta__ = {
 }
 
 [node name="Store" type="Control" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_top = -0.014
+anchor_right = 0.999
+anchor_bottom = 0.982
+margin_left = -1.0
+margin_top = -0.14
+margin_right = -0.026062
+margin_bottom = 1.81998
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store"]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store"]
+anchor_left = 0.148
+anchor_top = 0.049
+anchor_right = 0.879
+anchor_bottom = 0.882
+margin_left = -0.152008
+margin_top = -0.0100021
+margin_right = -0.146057
+margin_bottom = -0.180023
+custom_constants/separation = 262
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Column1" type="VBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer"]
+margin_bottom = 408.0
 custom_constants/separation = 83
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Hut" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer" instance=ExtResource( 11 )]
-margin_right = 40.0
+[node name="Hut" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1" instance=ExtResource( 11 )]
+margin_right = 0.0
 
-[node name="Farm" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer" instance=ExtResource( 11 )]
+[node name="Farm" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1" instance=ExtResource( 11 )]
 margin_top = 83.0
-margin_right = 40.0
+margin_right = 0.0
 margin_bottom = 83.0
 
-[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Farm/Panel/VBoxContainer2" index="0"]
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Farm/Panel/VBoxContainer2" index="0"]
 text = "Farm"
 
-[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Farm/Panel/VBoxContainer2" index="1"]
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Farm/Panel/VBoxContainer2" index="1"]
 text = "$ 100"
 
-[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Farm/Panel/VBoxContainer2/HBoxContainer" index="0"]
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Farm/Panel/VBoxContainer2/HBoxContainer" index="0"]
 margin_right = 182.0
 
-[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Farm/Panel/VBoxContainer2/HBoxContainer" index="1"]
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Farm/Panel/VBoxContainer2/HBoxContainer" index="1"]
 margin_left = 210.0
 text = "5 Wheat/s"
 
-[node name="Lumbermill" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer" instance=ExtResource( 11 )]
+[node name="Lumbermill" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1" instance=ExtResource( 11 )]
 margin_top = 166.0
-margin_right = 40.0
+margin_right = 0.0
 margin_bottom = 166.0
 
-[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Lumbermill/Panel/VBoxContainer2" index="0"]
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Lumbermill/Panel/VBoxContainer2" index="0"]
 text = "Lumbermill"
 
-[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Lumbermill/Panel/VBoxContainer2" index="1"]
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Lumbermill/Panel/VBoxContainer2" index="1"]
 text = "$ 100"
 
-[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Lumbermill/Panel/VBoxContainer2/HBoxContainer" index="0"]
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Lumbermill/Panel/VBoxContainer2/HBoxContainer" index="0"]
 margin_right = 176.0
 
-[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Lumbermill/Panel/VBoxContainer2/HBoxContainer" index="1"]
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Lumbermill/Panel/VBoxContainer2/HBoxContainer" index="1"]
 margin_left = 204.0
 text = "5 Wood / s"
 
-[node name="Quarry" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer" instance=ExtResource( 11 )]
+[node name="Quarry" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1" instance=ExtResource( 11 )]
 margin_top = 249.0
-margin_right = 40.0
+margin_right = 0.0
 margin_bottom = 249.0
 
-[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Quarry/Panel/VBoxContainer2" index="0"]
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Quarry/Panel/VBoxContainer2" index="0"]
 text = "Quarry"
 
-[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Quarry/Panel/VBoxContainer2" index="1"]
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Quarry/Panel/VBoxContainer2" index="1"]
 text = "$ 500"
 
-[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Quarry/Panel/VBoxContainer2/HBoxContainer" index="0"]
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Quarry/Panel/VBoxContainer2/HBoxContainer" index="0"]
 margin_right = 191.0
 
-[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Quarry/Panel/VBoxContainer2/HBoxContainer" index="1"]
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Quarry/Panel/VBoxContainer2/HBoxContainer" index="1"]
 margin_left = 219.0
 text = "5 Stone/s"
+
+[node name="ResearchLab" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1" instance=ExtResource( 11 )]
+margin_top = 332.0
+margin_right = 0.0
+margin_bottom = 332.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/ResearchLab/Panel/VBoxContainer2" index="0"]
+text = "Research Lab"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/ResearchLab/Panel/VBoxContainer2" index="1"]
+text = "$ 500"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/ResearchLab/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 193.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/ResearchLab/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 221.0
+text = "5 RP/min"
+
+[node name="Column2" type="VBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer"]
+margin_left = 262.0
+margin_right = 262.0
+margin_bottom = 408.0
+custom_constants/separation = 83
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IronMine" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2" instance=ExtResource( 11 )]
+margin_right = 0.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/IronMine/Panel/VBoxContainer2" index="0"]
+text = "Iron Mine"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/IronMine/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 206.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/IronMine/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 234.0
+text = "Iron G/s"
+
+[node name="SteelFoundry" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2" instance=ExtResource( 11 )]
+margin_top = 83.0
+margin_right = 0.0
+margin_bottom = 83.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/SteelFoundry/Panel/VBoxContainer2" index="0"]
+text = "Steel Foundry"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/SteelFoundry/Panel/VBoxContainer2" index="1"]
+text = "$ 100"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/SteelFoundry/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 201.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/SteelFoundry/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 229.0
+text = "5 Steel/s"
+
+[node name="CoalDeposit" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2" instance=ExtResource( 11 )]
+margin_top = 166.0
+margin_right = 0.0
+margin_bottom = 166.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/CoalDeposit/Panel/VBoxContainer2" index="0"]
+text = "Coal Deposit"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/CoalDeposit/Panel/VBoxContainer2" index="1"]
+text = "$ 100"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/CoalDeposit/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 192.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/CoalDeposit/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 220.0
+text = "5 Coal / s"
+
+[node name="PowerPlant" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2" instance=ExtResource( 11 )]
+margin_top = 249.0
+margin_right = 0.0
+margin_bottom = 249.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/PowerPlant/Panel/VBoxContainer2" index="0"]
+text = "Power Plant"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/PowerPlant/Panel/VBoxContainer2" index="1"]
+text = "$ 500"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/PowerPlant/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 175.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/PowerPlant/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 203.0
+text = "5 Energy/s"
+
+[node name="DiamondMine" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2" instance=ExtResource( 11 )]
+margin_top = 332.0
+margin_right = 0.0
+margin_bottom = 332.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/DiamondMine/Panel/VBoxContainer2" index="0"]
+text = "Diamond Mine"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/DiamondMine/Panel/VBoxContainer2" index="1"]
+text = "$ 500"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/DiamondMine/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 153.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/DiamondMine/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 181.0
+text = "5 Diamond/s"
+
+[node name="Column3" type="VBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer"]
+margin_left = 524.0
+margin_right = 524.0
+margin_bottom = 408.0
+custom_constants/separation = 83
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bunker" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3" instance=ExtResource( 11 )]
+margin_right = 0.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Bunker/Panel/VBoxContainer2" index="0"]
+text = "Bunker"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Bunker/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 142.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Bunker/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 170.0
+text = "5 Bandages/s"
+
+[node name="AC" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3" instance=ExtResource( 11 )]
+margin_top = 83.0
+margin_right = 0.0
+margin_bottom = 83.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/AC/Panel/VBoxContainer2" index="0"]
+text = "Advanced Circuitry"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/AC/Panel/VBoxContainer2" index="1"]
+text = "$ 100"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/AC/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 213.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/AC/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 241.0
+text = "5 A.C./s"
+
+[node name="CarbonFiber" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3" instance=ExtResource( 11 )]
+margin_top = 166.0
+margin_right = 0.0
+margin_bottom = 166.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/CarbonFiber/Panel/VBoxContainer2" index="0"]
+text = "Carbon Fiber"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/CarbonFiber/Panel/VBoxContainer2" index="1"]
+text = "$ 100"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/CarbonFiber/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 99.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/CarbonFiber/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 127.0
+text = "5 Carbon Fiber / s"
+
+[node name="Uranium" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3" instance=ExtResource( 11 )]
+margin_top = 249.0
+margin_right = 0.0
+margin_bottom = 249.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Uranium/Panel/VBoxContainer2" index="0"]
+text = "Uranium"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Uranium/Panel/VBoxContainer2" index="1"]
+text = "$ 500"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Uranium/Panel/VBoxContainer2/HBoxContainer" index="0"]
+margin_right = 158.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Uranium/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 186.0
+text = "5 Uranium/s"
+
+[node name="PlanetHarvesting" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3" instance=ExtResource( 11 )]
+margin_top = 332.0
+margin_right = 0.0
+margin_bottom = 332.0
+
+[node name="Name" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/PlanetHarvesting/Panel/VBoxContainer2" index="0"]
+text = "Planet Harvesting"
+
+[node name="Label2" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/PlanetHarvesting/Panel/VBoxContainer2" index="1"]
+text = "$ 500"
+
+[node name="TextureRect" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/PlanetHarvesting/Panel/VBoxContainer2/HBoxContainer" index="0"]
+visible = false
+margin_right = 18.0
+
+[node name="Label" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/PlanetHarvesting/Panel/VBoxContainer2/HBoxContainer" index="1"]
+margin_left = 23.0
+margin_right = 300.0
+text = "Harvest valuable material"
 
 [node name="Research" type="Control" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections"]
 visible = false
@@ -289,6 +515,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom"]
 margin_right = 1222.0
 margin_bottom = 36.0
+custom_constants/separation = 15
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -296,47 +523,47 @@ __meta__ = {
 [node name="Btn Resources" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 129.0
+margin_right = 135.0
 margin_bottom = 36.0
 text = "Resources"
 
 [node name="Btn Structures" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 133.0
-margin_right = 262.0
+margin_left = 150.0
+margin_right = 286.0
 margin_bottom = 36.0
 text = "Structures"
 
 [node name="Btn Kittens" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 266.0
-margin_right = 356.0
+margin_left = 301.0
+margin_right = 393.0
 margin_bottom = 36.0
 text = "Kittens"
 
 [node name="Btn Store" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 360.0
-margin_right = 434.0
+margin_left = 408.0
+margin_right = 477.0
 margin_bottom = 36.0
 text = "Store"
 
 [node name="Btn Research" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 438.0
-margin_right = 556.0
+margin_left = 492.0
+margin_right = 613.0
 margin_bottom = 36.0
 text = "Research"
 
 [node name="Btn Map" parent="CanvasLayer/Game UI/PanelContainer/Panel/Margin Bottom/HBoxContainer" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 560.0
-margin_right = 622.0
+margin_left = 628.0
+margin_right = 681.0
 margin_bottom = 36.0
 text = "Map"
 
@@ -421,7 +648,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="CanvasLayer/Game Menu/Options"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -454,7 +681,18 @@ margin_bottom = 500.0
 
 [editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Resources/ScrollContainer/Resource List/Gold"]
 [editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Structures/ScrollContainer/Resource List/Huts"]
-[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Hut"]
-[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Farm"]
-[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Lumbermill"]
-[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/VBoxContainer/Quarry"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Hut"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Farm"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Lumbermill"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/Quarry"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column1/ResearchLab"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/IronMine"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/SteelFoundry"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/CoalDeposit"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/PowerPlant"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column2/DiamondMine"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Bunker"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/AC"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/CarbonFiber"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/Uranium"]
+[editable path="CanvasLayer/Game UI/PanelContainer/Panel/Margin Top/Sections/Store/HBoxContainer/Column3/PlanetHarvesting"]

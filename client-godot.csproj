@@ -4,6 +4,7 @@
     <RootNamespace>clientgodot</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="ENet-CSharp" Version="2.4.7" />
     <Reference Include="Common">

@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using KRU.Networking;
 
 namespace KRU.UI
 {
@@ -32,7 +33,12 @@ namespace KRU.UI
                 }
         }
 
-        private void _on_Btn_Multiplayer_pressed() => ShowSection("Login");
+        private void _on_Btn_Multiplayer_pressed()
+        {
+            UILogin.InitLoginSection();
+            ShowSection("Login");
+        }
+
         private void _on_Btn_Options_pressed() => ShowSection("Options");
         private void _on_Btn_Credits_pressed() => ShowSection("Credits");
         private void _on_Btn_Quit_pressed() => GetTree().Quit();

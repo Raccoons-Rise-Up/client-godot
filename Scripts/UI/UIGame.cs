@@ -15,6 +15,8 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            UITerminal.Log("Testing");
+
             // Title
             labelTitle = GetNode<Label>(nodePathTitle);
 

@@ -1,0 +1,641 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/UI/Menu/UICredits.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/UI/Elements/Panel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/UI/Elements/PanelContainer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/UI/Elements/UIResource.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/UI/Elements/Tech.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scripts/UI/UIGame.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/UI/UITerminal.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/UI/UIStore.cs" type="Script" id=13]
+[ext_resource path="res://Scripts/UI/UIGameMenu.cs" type="Script" id=14]
+[ext_resource path="res://Scenes/UIGameSections.cs" type="Script" id=15]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.509804 )
+
+[node name="Root" type="Spatial"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scene Main Menu" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" parent="CanvasLayer/Scene Main Menu" instance=ExtResource( 6 )]
+
+[node name="Panel" parent="CanvasLayer/Scene Main Menu/PanelContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 595.0
+
+[node name="Sections" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Nav" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer"]
+margin_left = 437.0
+margin_top = 217.0
+margin_right = 577.0
+margin_bottom = 373.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Multiplayer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 140.0
+margin_bottom = 36.0
+text = "Multiplayer"
+
+[node name="Btn Options" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 40.0
+margin_right = 140.0
+margin_bottom = 76.0
+text = "Options"
+
+[node name="Btn Credits" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 80.0
+margin_right = 140.0
+margin_bottom = 116.0
+text = "Credits"
+
+[node name="Btn Quit" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 120.0
+margin_right = 140.0
+margin_bottom = 156.0
+text = "Quit"
+
+[node name="Login" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nodePathSceneMainMenu = NodePath("../../../..")
+nodePathSceneGame = NodePath("../../../../../Scene Game")
+nodePathHttp = NodePath("HTTPRequest")
+nodePathInputUsername = NodePath("CenterContainer/VBoxContainer2/Login Section/Input Username")
+nodePathInputPassword = NodePath("CenterContainer/VBoxContainer2/Login Section/Input Password")
+nodePathLoginAsSection = NodePath("CenterContainer/VBoxContainer2/Login As Label")
+nodePathLoginSection = NodePath("CenterContainer/VBoxContainer2/Login Section")
+nodePathBtnLogout = NodePath("CenterContainer/VBoxContainer2/Btn Logout")
+nodePathLabelResponse = NodePath("CenterContainer/VBoxContainer2/Label Response")
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer"]
+margin_left = 386.0
+margin_top = 223.0
+margin_right = 627.0
+margin_bottom = 367.0
+alignment = 1
+
+[node name="Login As Label" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 241.0
+margin_bottom = 30.0
+text = "Connect as Username"
+
+[node name="Login Section" type="VBoxContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2"]
+visible = false
+margin_top = 34.0
+margin_right = 241.0
+margin_bottom = 154.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label Username" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 241.0
+margin_bottom = 30.0
+text = "Username"
+
+[node name="Input Username" type="LineEdit" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section"]
+margin_left = 45.0
+margin_top = 34.0
+margin_right = 195.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Label Password" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 62.0
+margin_right = 241.0
+margin_bottom = 92.0
+text = "Password"
+
+[node name="Input Password" type="LineEdit" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section"]
+margin_left = 45.0
+margin_top = 96.0
+margin_right = 195.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+secret = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Btn Login" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 45.0
+margin_top = 34.0
+margin_right = 195.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Connect"
+
+[node name="Btn Logout" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 45.0
+margin_top = 74.0
+margin_right = 195.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Log Out"
+
+[node name="Label Response" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 114.0
+margin_right = 241.0
+margin_bottom = 144.0
+text = "Response"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login"]
+
+[node name="Options" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Options" instance=ExtResource( 7 )]
+
+[node name="Credits" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Credits" instance=ExtResource( 4 )]
+
+[node name="Scene Game" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
+
+[node name="Game UI" type="Control" parent="CanvasLayer/Scene Game"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" parent="CanvasLayer/Scene Game/Game UI" instance=ExtResource( 6 )]
+
+[node name="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 1019.0
+margin_bottom = 595.0
+
+[node name="Nav" type="MarginContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel"]
+anchor_right = 1.0
+margin_bottom = 36.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav"]
+margin_right = 1014.0
+margin_bottom = 36.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Resources" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 129.0
+margin_bottom = 36.0
+text = "Resources"
+
+[node name="Btn Structures" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 133.0
+margin_right = 262.0
+margin_bottom = 36.0
+text = "Structures"
+
+[node name="Btn Kittens" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 266.0
+margin_right = 356.0
+margin_bottom = 36.0
+text = "Kittens"
+
+[node name="Btn Store" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 360.0
+margin_right = 434.0
+margin_bottom = 36.0
+text = "Store"
+
+[node name="Btn Research" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 438.0
+margin_right = 556.0
+margin_bottom = 36.0
+text = "Research"
+
+[node name="Btn Map" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 560.0
+margin_right = 622.0
+margin_bottom = 36.0
+text = "Map"
+
+[node name="Title" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel" instance=ExtResource( 3 )]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -311.0
+margin_top = 40.0
+margin_right = 311.0
+margin_bottom = 70.0
+text = "Title"
+
+[node name="Content" type="MarginContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 75.0
+margin_right = -20.0
+margin_bottom = -144.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sections" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content"]
+margin_right = 974.0
+margin_bottom = 371.0
+script = ExtResource( 15 )
+
+[node name="Resources" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resource List" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer"]
+margin_right = 72.0
+margin_bottom = 1000.0
+rect_min_size = Vector2( 0, 1000 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gold" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List" instance=ExtResource( 9 )]
+margin_right = 72.0
+
+[node name="Name" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold" index="0"]
+margin_right = 54.0
+text = "Gold:"
+
+[node name="Value" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold" index="1"]
+margin_left = 58.0
+margin_right = 72.0
+
+[node name="Structures" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resource List" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer"]
+margin_right = 72.0
+margin_bottom = 1000.0
+rect_min_size = Vector2( 0, 1000 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Huts" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer/Resource List" instance=ExtResource( 9 )]
+margin_right = 72.0
+
+[node name="Name" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer/Resource List/Huts" index="0"]
+margin_right = 54.0
+text = "Huts:"
+
+[node name="Value" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer/Resource List/Huts" index="1"]
+margin_left = 58.0
+margin_right = 72.0
+
+[node name="Kittens" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Store" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/ScrollContainer"]
+margin_right = 73.0
+margin_bottom = 76.0
+
+[node name="Btn Hut" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/ScrollContainer/GridContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 73.0
+margin_bottom = 36.0
+text = "Hut"
+
+[node name="Btn Farm" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/ScrollContainer/GridContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 40.0
+margin_right = 73.0
+margin_bottom = 76.0
+text = "Farm"
+
+[node name="Research" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel Back" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Research" instance=ExtResource( 10 )]
+margin_left = 12.551
+margin_top = 189.055
+margin_right = 175.551
+margin_bottom = 264.055
+
+[node name="Panel Back2" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Research" instance=ExtResource( 10 )]
+margin_left = 229.157
+margin_top = 187.866
+margin_right = 392.157
+margin_bottom = 262.866
+
+[node name="Map" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Terminal" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -128.0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nodePathTerminal = NodePath("ScrollContainer/VBoxContainer")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Terminal"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Terminal/ScrollContainer"]
+margin_right = 1014.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Game Menu" type="Control" parent="CanvasLayer/Scene Game"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nodePathSectionNav = NodePath("Nav")
+nodePathSectionOptions = NodePath("Options")
+
+[node name="Nav" type="Control" parent="CanvasLayer/Scene Game/Game Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -3.68408
+margin_top = 0.840881
+margin_right = -3.68408
+margin_bottom = 0.840881
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin Nav" type="MarginContainer" parent="CanvasLayer/Scene Game/Game Menu/Nav"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 300.0
+margin_top = 100.0
+margin_right = -300.0
+margin_bottom = -100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" parent="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 424.0
+margin_bottom = 400.0
+
+[node name="Panel" parent="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 419.0
+margin_bottom = 395.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel"]
+margin_right = 414.0
+margin_bottom = 390.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Options" parent="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 414.0
+margin_bottom = 36.0
+text = "Options"
+
+[node name="Btn Disconnect" parent="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 40.0
+margin_right = 414.0
+margin_bottom = 76.0
+text = "Disconnect"
+
+[node name="Options" type="Control" parent="CanvasLayer/Scene Game/Game Menu"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Scene Game/Game Menu/Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin Options" type="MarginContainer" parent="CanvasLayer/Scene Game/Game Menu/Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options Prefab" parent="CanvasLayer/Scene Game/Game Menu/Options/Margin Options" instance=ExtResource( 7 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 924.0
+margin_bottom = 500.0
+
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Multiplayer" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections" method="_on_Btn_Multiplayer_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Options" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections" method="_on_Btn_Options_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Credits" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections" method="_on_Btn_Credits_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Quit" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections" method="_on_Btn_Quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Login" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login" method="_on_Btn_Login_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login" method="_on_Btn_Logout_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Structures" to="CanvasLayer/Scene Game" method="_on_Btn_Structures_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Kittens" to="CanvasLayer/Scene Game" method="_on_Btn_Kittens_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Store" to="CanvasLayer/Scene Game" method="_on_Btn_Store_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Research" to="CanvasLayer/Scene Game" method="_on_Btn_Research_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Nav/HBoxContainer/Btn Map" to="CanvasLayer/Scene Game" method="_on_Btn_Map_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/ScrollContainer/GridContainer/Btn Hut" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store" method="_on_Btn_Hut_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/ScrollContainer/GridContainer/Btn Farm" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store" method="_on_Btn_Farm_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer/Btn Options" to="CanvasLayer/Scene Game/Game Menu" method="_on_Btn_Options_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer/Btn Disconnect" to="CanvasLayer/Scene Game/Game Menu" method="_on_Btn_Disconnect_pressed"]
+
+[editable path="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold"]
+[editable path="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer/Resource List/Huts"]

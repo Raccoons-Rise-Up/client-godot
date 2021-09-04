@@ -21,20 +21,16 @@
 
 using Godot;
 using System;
-using System.IO;
-using System.Text;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Threading;
 using ENet;
 using Common.Networking.Packet;
 using Common.Networking.IO;
 
 using Thread = System.Threading.Thread;
 
-using KRU.Networking.Security;
+using KRU.UI;
 
 namespace KRU.Networking
 {
@@ -49,6 +45,8 @@ namespace KRU.Networking
             Minor = 1,
             Patch = 0
         };
+
+        public static string JsonWebToken { get; set; }
 
         public static ConcurrentQueue<GodotInstructions> GodotCmds { get; set; }
         public static ConcurrentQueue<ENetInstructionOpcode> ENetCmds { get; set; }
@@ -67,10 +65,6 @@ namespace KRU.Networking
 
         public override void _Ready()
         {
-            GD.Print("NEW INSTANCE");
-
-            //Global.ENetClient = this;
-
             // Need a way to communicate with the Unity thread from the ENet thread
             GodotCmds = new ConcurrentQueue<GodotInstructions>();
 
@@ -105,40 +99,16 @@ namespace KRU.Networking
                 {
                     var opcode = cmd.Key;
 
-                    if (opcode == GodotInstructionOpcode.ServerResponseMessage)
-                    {
-                        //LoginScript.loginFeedbackText.text = (string)cmd.Value[0];
-                    }
-
-                    if (opcode == GodotInstructionOpcode.LogMessage)
-                    {
-                        //TerminalScript.Log((string)cmd.Value[0]);
-                    }
-
                     if (opcode == GodotInstructionOpcode.Timeout)
                     {
-                        // Load timeout scene
-                        //LoginScript.btnConnect.interactable = true;
-                        //LoginScript.loginFeedbackText.text = "Timed out from game server";
-
-                        //MenuScript.LoadTimeoutDisconnectScene();
-                        //MenuScript.gameScript.InGame = false;
-
-                        // Reset player values
-                        //MenuScript.gameScript.Player = null;
-
-                        // Clear terminal output
-                        //TerminalScript.
+                        GetTree().ChangeScene("res://Scenes/SceneMainMenu.tscn");
                     }
 
                     if (opcode == GodotInstructionOpcode.Disconnect)
                     {
                         // Load timeout scene
-                        //LoginScript.btnConnect.interactable = true;
 
-                        /*var loginFeedbackText = LoginScript.loginFeedbackText;
-
-                        switch ((DisconnectOpcode)cmd.Value[0])
+                        /*switch ((DisconnectOpcode)cmd.Value[0])
                         {
                             case DisconnectOpcode.Disconnected:
                                 loginFeedbackText.text = "Disconnected from game server";
@@ -156,30 +126,11 @@ namespace KRU.Networking
                                 loginFeedbackText.text = "You were banned";
                                 break;
                         }*/
-
-                        //MenuScript.LoadTimeoutDisconnectScene();
-                        //MenuScript.gameScript.InGame = false;
-
-                        // Reset player values
-                        //MenuScript.gameScript.Player = null;
-
-                        // Clear terminal output
-                        //TerminalScript.
                     }
 
                     if (opcode == GodotInstructionOpcode.LoadMainScene)
                     {
-                        //MenuScript.FromConnectingToMainScene();
-                        //LoginScript.loginFeedbackText.text = "";
-                        //LoginScript.btnConnect.interactable = true;
-                        //MenuScript.gameScript.InGame = true;
                         GetTree().ChangeScene("res://Scenes/SceneMainGame.tscn");
-                    }
-
-                    if (opcode == GodotInstructionOpcode.LoginSuccess)
-                    {
-                        //GameScript.UILoopRunning = true;
-                        //StartCoroutine(GameScript.UILoop);
                     }
 
                     if (opcode == GodotInstructionOpcode.Quit)
@@ -192,7 +143,7 @@ namespace KRU.Networking
 
         public override void _Notification(int what)
         {
-            if (what == MainLoop.NotificationWmQuitRequest) 
+            if (what == MainLoop.NotificationWmQuitRequest)
             {
                 if (ConnectedToServer)
                 {
@@ -237,7 +188,7 @@ namespace KRU.Networking
                 Peer = client.Connect(address);
                 Peer.PingInterval(pingInterval);
                 Peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
-                GD.Print("Attempting to connect...");
+                UILogin.UpdateResponse("Attempting to connect...");
 
                 bool wantsToQuit = false;
 
@@ -338,8 +289,7 @@ namespace KRU.Networking
                             // Send login request
                             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
                             {
-                                Username = "appleman",
-                                PasswordHash = ENetSecurity.CreatePasswordHash("nimda"),
+                                JsonWebToken = JsonWebToken,
                                 VersionMajor = Version.Major,
                                 VersionMinor = Version.Minor,
                                 VersionPatch = Version.Patch
@@ -466,11 +416,8 @@ namespace KRU.Networking
     public enum GodotInstructionOpcode
     {
         LoadMainScene,
-        LogMessage,
-        ServerResponseMessage,
         Timeout,
         Disconnect,
-        LoginSuccess,
         Quit
     }
 

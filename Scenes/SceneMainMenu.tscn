@@ -99,6 +99,13 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+nodePathHttp = NodePath("HTTPRequest")
+nodePathInputUsername = NodePath("CenterContainer/VBoxContainer2/Login Section/Input Username")
+nodePathInputPassword = NodePath("CenterContainer/VBoxContainer2/Login Section/Input Password")
+nodePathLoginAsSection = NodePath("CenterContainer/VBoxContainer2/Login As Label")
+nodePathLoginSection = NodePath("CenterContainer/VBoxContainer2/Login Section")
+nodePathBtnLogout = NodePath("CenterContainer/VBoxContainer2/Btn Logout")
+nodePathLabelResponse = NodePath("CenterContainer/VBoxContainer2/Label Response")
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PanelContainer/Panel/Sections/Login"]
 anchor_right = 1.0
@@ -107,46 +114,96 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer"]
-margin_left = 432.0
-margin_top = 215.0
-margin_right = 582.0
-margin_bottom = 375.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer"]
+margin_left = 386.0
+margin_top = 223.0
+margin_right = 627.0
+margin_bottom = 367.0
+alignment = 1
 
-[node name="Label Username" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer" instance=ExtResource( 6 )]
+[node name="Login As Label" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 150.0
+margin_right = 241.0
+margin_bottom = 30.0
+text = "Connect as Username"
+
+[node name="Login Section" type="VBoxContainer" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2"]
+visible = false
+margin_top = 34.0
+margin_right = 241.0
+margin_bottom = 154.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label Username" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 241.0
 margin_bottom = 30.0
 text = "Username"
 
-[node name="Input Username" type="LineEdit" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer"]
+[node name="Input Username" type="LineEdit" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section"]
+margin_left = 45.0
 margin_top = 34.0
-margin_right = 150.0
+margin_right = 195.0
 margin_bottom = 58.0
 rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="Label Password" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer" instance=ExtResource( 6 )]
+[node name="Label Password" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 62.0
-margin_right = 150.0
+margin_right = 241.0
 margin_bottom = 92.0
 text = "Password"
 
-[node name="Input Password" type="LineEdit" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer"]
+[node name="Input Password" type="LineEdit" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Login Section"]
+margin_left = 45.0
 margin_top = 96.0
-margin_right = 150.0
+margin_right = 195.0
 margin_bottom = 120.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 secret = true
 
-[node name="Btn Connect" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer" instance=ExtResource( 2 )]
+[node name="Btn Login" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 124.0
-margin_right = 150.0
-margin_bottom = 160.0
+margin_left = 45.0
+margin_top = 34.0
+margin_right = 195.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "Connect"
+
+[node name="Btn Logout" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 45.0
+margin_top = 74.0
+margin_right = 195.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 150, 24 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Log Out"
+
+[node name="Label Response" parent="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 114.0
+margin_right = 241.0
+margin_bottom = 144.0
+text = "Response"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="CanvasLayer/PanelContainer/Panel/Sections/Login"]
 
 [node name="Options" type="Control" parent="CanvasLayer/PanelContainer/Panel/Sections"]
 visible = false
@@ -168,8 +225,10 @@ __meta__ = {
 
 [node name="Credits" parent="CanvasLayer/PanelContainer/Panel/Sections/Credits" instance=ExtResource( 4 )]
 
+[connection signal="ready" from="." to="." method="_on_MainMenu_ready"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Multiplayer" to="." method="_on_Btn_Multiplayer_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Options" to="." method="_on_Btn_Options_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Credits" to="." method="_on_Btn_Credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Quit" to="." method="_on_Btn_Quit_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer/Btn Connect" to="CanvasLayer/PanelContainer/Panel/Sections/Login" method="_on_Btn_Connect_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Login" to="CanvasLayer/PanelContainer/Panel/Sections/Login" method="_on_Btn_Login_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/PanelContainer/Panel/Sections/Login" method="_on_Btn_Logout_pressed"]

@@ -9,14 +9,18 @@ namespace KRU.UI
 {
     public class UILogin : Control
     {
+#pragma warning disable CS0649 // Values are assigned in the editor
+        [Export] private NodePath nodePathSceneMainMenu, nodePathSceneGame;
         [Export] private NodePath nodePathHttp, nodePathInputUsername, nodePathInputPassword, nodePathLoginAsSection, nodePathLoginSection, nodePathBtnLogout, nodePathLabelResponse;
+#pragma warning restore CS0649 // Values are assigned in the editor
         private static HTTPRequest httpRequest;
+        private static Control controlSceneMainMenu, controlSceneGame;
         private static Button btnLogout;
         private static LineEdit inputUsername, inputPassword;
         private static Label loginAsSection, labelResponse;
         private static VBoxContainer loginSection;
         private static ENetClient ENetClient;
-        private static Dictionary<string, string> theContents; // token contents
+        private static Dictionary<string, string> theContents; // token contents (messy, clean up later..)
 
         public override void _Ready()
         {
@@ -33,7 +37,22 @@ namespace KRU.UI
 
             labelResponse = GetNode<Label>(nodePathLabelResponse);
 
+            controlSceneMainMenu = GetNode<Control>(nodePathSceneMainMenu);
+            controlSceneGame = GetNode<Control>(nodePathSceneGame);
+
             ENetClient = GetNode<ENetClient>("/root/ENetClient");
+        }
+
+        public static void LoadGameScene()
+        {
+            controlSceneMainMenu.Visible = false;
+            controlSceneGame.Visible = true;
+        }
+
+        public static void LoadMenuScene()
+        {
+            controlSceneMainMenu.Visible = true;
+            controlSceneGame.Visible = false;
         }
 
         public static void InitLoginSection()

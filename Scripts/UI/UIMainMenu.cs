@@ -6,15 +6,17 @@ namespace KRU.UI
 {
     public class UIMainMenu : Node
     {
-        [Export] private Dictionary<string, NodePath> nodePaths;
         private Dictionary<string, Control> controlSections = new Dictionary<string, Control>();
 
         public override void _Ready()
         {
-            foreach (var nodePath in nodePaths)
-                controlSections[nodePath.Key] = GetNode<Control>(nodePath.Value);
+            controlSections["Nav"] = GetNode<Control>("Nav");
+            controlSections["Login"] = GetNode<Control>("Login");
+            controlSections["Options"] = GetNode<Control>("Options");
+            controlSections["Credits"] = GetNode<Control>("Credits");
 
             ShowSection("Nav");
+            UILogin.LoadMenuScene();
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -46,7 +48,7 @@ namespace KRU.UI
         private void ShowSection(string name)
         {
             HideAllSections();
-            controlSections[name].Visible = true;
+            GetNode<Control>(name).Visible = true;
         }
 
         private void HideAllSections()

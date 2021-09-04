@@ -41,7 +41,8 @@ namespace KRU.Networking
                 UILogin.UpdateResponse("Login success!");
 
                 // Load the main game 'scene'
-                ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoadMainScene));
+                //ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoadMainScene));
+                UILogin.LoadGameScene();
 
                 // Update player values
                 /*ENetClient.MenuScript.gameScript.Player = new Player

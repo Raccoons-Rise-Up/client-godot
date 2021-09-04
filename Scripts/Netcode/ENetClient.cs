@@ -99,40 +99,6 @@ namespace KRU.Networking
                 {
                     var opcode = cmd.Key;
 
-                    if (opcode == GodotInstructionOpcode.Timeout)
-                    {
-                        GetTree().ChangeScene("res://Scenes/SceneMainMenu.tscn");
-                    }
-
-                    if (opcode == GodotInstructionOpcode.Disconnect)
-                    {
-                        // Load timeout scene
-
-                        /*switch ((DisconnectOpcode)cmd.Value[0])
-                        {
-                            case DisconnectOpcode.Disconnected:
-                                loginFeedbackText.text = "Disconnected from game server";
-                                break;
-                            case DisconnectOpcode.Maintenance:
-                                loginFeedbackText.text = "Server is going down for maintenance";
-                                break;
-                            case DisconnectOpcode.Restarting:
-                                loginFeedbackText.text = "Server is restarting";
-                                break;
-                            case DisconnectOpcode.Kicked:
-                                loginFeedbackText.text = "You were kicked";
-                                break;
-                            case DisconnectOpcode.Banned:
-                                loginFeedbackText.text = "You were banned";
-                                break;
-                        }*/
-                    }
-
-                    if (opcode == GodotInstructionOpcode.LoadMainScene)
-                    {
-                        GetTree().ChangeScene("res://Scenes/SceneMainGame.tscn");
-                    }
-
                     if (opcode == GodotInstructionOpcode.Quit)
                     {
                         GetTree().Quit();
@@ -305,41 +271,35 @@ namespace KRU.Networking
                         if (eventType == EventType.Disconnect)
                         {
                             var opcode = (DisconnectOpcode)netEvent.Data;
-                            var cmd = new GodotInstructions();
 
                             switch (opcode)
                             {
                                 case DisconnectOpcode.Disconnected:
-                                    cmd.Set(GodotInstructionOpcode.Disconnect, DisconnectOpcode.Disconnected);
-                                    GD.Print("Client was disconnected");
+                                    UILogin.UpdateResponse("Client was disconnected");
                                     break;
                                 case DisconnectOpcode.Maintenance:
-                                    cmd.Set(GodotInstructionOpcode.Disconnect, DisconnectOpcode.Maintenance);
-                                    GD.Print("Client was disconnected because the server is going down for maintenance");
+                                    UILogin.UpdateResponse("Client was disconnected because the server is going down for maintenance");
                                     break;
                                 case DisconnectOpcode.Restarting:
-                                    cmd.Set(GodotInstructionOpcode.Disconnect, DisconnectOpcode.Restarting);
-                                    GD.Print("Client was disconnected because the server is restarting");
+                                    UILogin.UpdateResponse("Client was disconnected because the server is restarting");
                                     break;
                                 case DisconnectOpcode.Kicked:
-                                    cmd.Set(GodotInstructionOpcode.Disconnect, DisconnectOpcode.Kicked);
-                                    GD.Print("Client was kicked");
+                                    UILogin.UpdateResponse("Client was kicked");
                                     break;
                                 case DisconnectOpcode.Banned:
-                                    cmd.Set(GodotInstructionOpcode.Disconnect, DisconnectOpcode.Banned);
-                                    GD.Print("Client was banned");
+                                    UILogin.UpdateResponse("Client was banned");
                                     break;
                             }
 
                             RunningNetCode = false;
-                            GodotCmds.Enqueue(cmd);
+                            UILogin.LoadMenuScene();
                         }
 
                         if (eventType == EventType.Timeout)
                         {
-                            GD.Print("Client connection timeout to game server");
+                            UILogin.UpdateResponse("Client connection timeout to game server");
                             RunningNetCode = false;
-                            GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.Timeout));
+                            UILogin.LoadMenuScene();
                         }
 
                         if (eventType == EventType.Receive)
@@ -415,9 +375,6 @@ namespace KRU.Networking
 
     public enum GodotInstructionOpcode
     {
-        LoadMainScene,
-        Timeout,
-        Disconnect,
         Quit
     }
 

@@ -6,7 +6,9 @@ namespace KRU.UI
 {
     public class UIGameMenu : Control
     {
+#pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathSectionNav, nodePathSectionOptions;
+#pragma warning restore CS0649 // Values are assigned in the editor
         private Dictionary<string, Control> controlSectionsMenu = new Dictionary<string, Control>();
 
         public override void _Ready()
@@ -53,7 +55,7 @@ namespace KRU.UI
         private void _on_Btn_Disconnect_pressed()
         {
             ENetClient.ENetCmds.Enqueue(ENetInstructionOpcode.Disconnect);
-            GetTree().ChangeScene("res://Scenes/SceneMainMenu.tscn");
+            UILogin.LoadMenuScene();
         }
 
         private void ShowMenuSection(string name)

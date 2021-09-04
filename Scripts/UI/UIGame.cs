@@ -3,15 +3,13 @@ using Godot.Collections;
 
 namespace KRU.UI
 {
-    public class UIGame : Node
+    public class UIGame : Control
     {
         // Title
+#pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathTitle;
+#pragma warning restore CS0649 // Values are assigned in the editor
         private Label labelTitle;
-
-        // Game Sections
-        [Export] private Dictionary<string, NodePath> nodePaths;
-        private Dictionary<string, Control> controlSectionsGame = new Dictionary<string, Control>();
 
         public override void _Ready()
         {
@@ -19,10 +17,6 @@ namespace KRU.UI
 
             // Title
             labelTitle = GetNode<Label>(nodePathTitle);
-
-            // Game Sections
-            foreach (var nodePath in nodePaths)
-                controlSectionsGame[nodePath.Key] = GetNode<Control>(nodePath.Value);
 
             // Setup
             ShowGameSection("Resources");
@@ -39,14 +33,14 @@ namespace KRU.UI
         {
             HideAllGameSections();
 
-            var section = controlSectionsGame[name];
+            var section = UIGameSections.ControlSections[name];
             section.Visible = true;
             labelTitle.Text = section.Name;
         }
 
         private void HideAllGameSections()
         {
-            foreach (var section in controlSectionsGame.Values)
+            foreach (var section in UIGameSections.ControlSections.Values)
                 section.Visible = false;
         }
     }

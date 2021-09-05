@@ -84,7 +84,6 @@ namespace KRU.UI
 
         private static void Logout()
         {
-            UpdateResponse("");
             AppData.SaveJsonWebToken(null, "");
             Token = null;
             HideConnectAsSection();
@@ -96,7 +95,7 @@ namespace KRU.UI
         private static async Task<string> GetRequest(string path)
         {
             if (sendingRequest)
-                return "";
+                return "Currently sending a request please wait...";
 
             sendingRequest = true;
 
@@ -107,7 +106,9 @@ namespace KRU.UI
             }
             catch (Exception e)
             {
-                UpdateResponse(e.Message);
+                sendingRequest = false;
+
+                return e.Message;
             }
 
             sendingRequest = false;
@@ -115,10 +116,14 @@ namespace KRU.UI
             return stringTask;
         }
 
-        private static async Task<string> PostRequest(string path, string content)
+        private static async Task<WebPostResponse> PostRequest(string path, string content)
         {
             if (sendingRequest)
-                return "";
+                return new WebPostResponse
+                {
+                    Opcode = WebPostResponseOpcode.InMiddleOfRequest,
+                    Message = "Currently sending a request please wait..."
+                };
 
             sendingRequest = true;
 
@@ -134,16 +139,30 @@ namespace KRU.UI
                 }
                 catch (Exception e)
                 {
+                    sendingRequest = false;
+
                     if (e is HttpRequestException)
-                        UpdateResponse("Web server is offline");
+                        return new WebPostResponse
+                        {
+                            Opcode = WebPostResponseOpcode.WebServerOffline,
+                            Message = "Web server is offline"
+                        };
                     else
-                        UpdateResponse(e.GetType().ToString());
+                        return new WebPostResponse
+                        {
+                            Opcode = WebPostResponseOpcode.Exception,
+                            Message = e.GetType().ToString()
+                        };
                 }
             }
 
             sendingRequest = false;
 
-            return stringTask;
+            return new WebPostResponse
+            {
+                Opcode = WebPostResponseOpcode.Success,
+                Message = stringTask
+            };
         }
 
         private async void _on_Btn_Login_pressed()
@@ -155,27 +174,39 @@ namespace KRU.UI
             {
                 loginInfo = new WebPostLoginContent
                 {
-                    username = inputUsername.Text,
-                    password = inputPassword.Text,
-                    from = "Godot-Client"
+                    Username = inputUsername.Text,
+                    Password = inputPassword.Text,
+                    From = "Godot-Client"
                 };
             }
             else
             {
                 loginInfo = new WebPostLoginContent
                 {
-                    token = Token,
-                    from = "Godot-Client"
+                    Token = Token,
+                    From = "Godot-Client"
                 };
             }
 
             var jsonStr = JsonConvert.SerializeObject(loginInfo);
             UpdateResponse("Sending login request to web server...");
-            var resStr = await PostRequest("api/login", jsonStr);
-            var res = JsonConvert.DeserializeObject<WebPostLoginResponse>(resStr);
-            UpdateResponse(res.message);
+            var webResponse = await PostRequest("api/login", jsonStr);
 
-            switch ((LoginOpcode)res.opcode)
+            switch (webResponse.Opcode)
+            {
+                case WebPostResponseOpcode.InMiddleOfRequest:
+                case WebPostResponseOpcode.WebServerOffline:
+                case WebPostResponseOpcode.Exception:
+                    UpdateResponse(webResponse.Message);
+                    return;
+                case WebPostResponseOpcode.Success:
+                    break;
+            }
+
+            var res = JsonConvert.DeserializeObject<WebPostLoginResponse>(webResponse.Message);
+            UpdateResponse(res.Message);
+
+            switch ((LoginOpcode)res.Opcode)
             {
                 case LoginOpcode.AccountDoesNotExist:
                 case LoginOpcode.InvalidUsernameOrPassword:
@@ -191,8 +222,8 @@ namespace KRU.UI
                     }
                     else
                     {
-                        AppData.SaveJsonWebToken(res.token, inputUsername.Text);
-                        ENetClient.JsonWebToken = res.token;
+                        AppData.SaveJsonWebToken(res.Token, inputUsername.Text);
+                        ENetClient.JsonWebToken = res.Token;
                     }
 
                     ENetClient.Connect();
@@ -213,19 +244,33 @@ namespace KRU.UI
         }
     }
 
-    public class WebPostLoginContent
+    public struct WebPostResponse
     {
-        public string username { get; set; }
-        public string password { get; set; }
-        public string token { get; set; }
-        public string from { get; set; }
+        public string Message { get; set; }
+        public WebPostResponseOpcode Opcode { get; set; }
     }
 
-    public class WebPostLoginResponse
+    public enum WebPostResponseOpcode
     {
-        public int opcode;
-        public string message;
-        public string token;
+        InMiddleOfRequest,
+        WebServerOffline,
+        Exception,
+        Success
+    }
+
+    public struct WebPostLoginContent
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
+        public string From { get; set; }
+    }
+
+    public struct WebPostLoginResponse
+    {
+        public int Opcode;
+        public string Message;
+        public string Token;
     }
 
     public enum LoginOpcode

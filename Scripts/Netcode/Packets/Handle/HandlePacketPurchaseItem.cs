@@ -27,10 +27,10 @@ namespace KRU.Networking
 
                 GD.Print(message);
 
-                var cmd = new GodotInstructions();
-                cmd.Set(GodotInstructionOpcode.LogMessage, message);
+                //var cmd = new GodotInstructions();
+                //cmd.Set(GodotInstructionOpcode.LogMessage, message);
 
-                ENetClient.GodotCmds.Enqueue(cmd);
+                //ENetClient.GodotCmds.Enqueue(cmd);
 
                 // Update the player gold
                 //ENetClient.GameScript.Player.Gold = data.Gold;
@@ -42,10 +42,10 @@ namespace KRU.Networking
 
                 GD.Print(message);
 
-                var cmd = new GodotInstructions();
-                cmd.Set(GodotInstructionOpcode.LogMessage, message);
+                //var cmd = new GodotInstructions();
+                //cmd.Set(GodotInstructionOpcode.LogMessage, message);
 
-                ENetClient.GodotCmds.Enqueue(cmd);
+                //ENetClient.GodotCmds.Enqueue(cmd);
 
                 // Update the player gold
                 //ENetClient.GameScript.Player.Gold = data.Gold;

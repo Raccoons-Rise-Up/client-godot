@@ -2,6 +2,7 @@ using Godot;
 using System;
 using ENet;
 using Common.Networking.IO;
+using KRU.UI;
 
 namespace KRU.Networking
 {
@@ -19,26 +20,29 @@ namespace KRU.Networking
             var data = new RPacketLogin();
             data.Read(packetReader);
 
-            if (data.LoginOpcode == LoginResponseOpcode.VersionMismatch)
+            var opcode = data.LoginOpcode;
+
+            if (opcode == LoginResponseOpcode.InvalidToken)
+            {
+                UILogin.UpdateResponse("Invalid JWT");
+            }
+
+            if (opcode == LoginResponseOpcode.VersionMismatch)
             {
                 var serverVersion = $"{data.VersionMajor}.{data.VersionMinor}.{data.VersionPatch}";
                 var clientVersion = $"{ENetClient.Version.Major}.{ENetClient.Version.Minor}.{ENetClient.Version.Patch}";
                 var message = $"Version mismatch. Server ver. {serverVersion} Client ver. {clientVersion}";
 
-                GD.Print(message);
-
-                var cmd = new GodotInstructions();
-                cmd.Set(GodotInstructionOpcode.ServerResponseMessage, message);
-
-                ENetClient.GodotCmds.Enqueue(cmd);
+                UILogin.UpdateResponse(message);
             }
 
-            if (data.LoginOpcode == LoginResponseOpcode.LoginSuccess)
+            if (opcode == LoginResponseOpcode.LoginSuccess)
             {
-                GD.Print("Loggin success!");
+                UILogin.UpdateResponse("Login success!");
 
                 // Load the main game 'scene'
-                ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoadMainScene));
+                //ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoadMainScene));
+                UILogin.LoadGameScene();
 
                 // Update player values
                 /*ENetClient.MenuScript.gameScript.Player = new Player
@@ -46,8 +50,6 @@ namespace KRU.Networking
                     Gold = data.Gold,
                     StructureHuts = data.StructureHut
                 };*/
-
-                ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoginSuccess));
             }
         }
     }

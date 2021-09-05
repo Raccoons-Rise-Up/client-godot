@@ -55,6 +55,8 @@ namespace KRU.UI
         private void _on_Btn_Disconnect_pressed()
         {
             ENetClient.ENetCmds.Enqueue(ENetInstructionOpcode.Disconnect);
+            ShowMenuSection("Nav");
+            this.Visible = false;
             UILogin.LoadMenuScene();
         }
 

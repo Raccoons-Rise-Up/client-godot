@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
@@ -8,13 +8,18 @@
 [ext_resource path="res://Scenes/UI/Elements/PanelContainer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/UI/Elements/UIResource.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/UI/Elements/UILabelCount.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/UI/Elements/Tech.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scripts/UI/UIGame.cs" type="Script" id=11]
 [ext_resource path="res://Scripts/UI/UITerminal.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/UI/UIStore.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/UI/UIGameMenu.cs" type="Script" id=14]
-[ext_resource path="res://Scenes/UIGameSections.cs" type="Script" id=15]
+[ext_resource path="res://Scripts/UI/UIGameSections.cs" type="Script" id=15]
+[ext_resource path="res://Scripts/UI/UIResources.cs" type="Script" id=16]
+[ext_resource path="res://Scripts/UI/UIStructures.cs" type="Script" id=17]
+[ext_resource path="res://Scripts/UI/UIKittens.cs" type="Script" id=18]
+[ext_resource path="res://Scripts/UI/UIResearch.cs" type="Script" id=19]
+[ext_resource path="res://Scripts/UI/UIMap.cs" type="Script" id=20]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -166,6 +171,7 @@ margin_bottom = 58.0
 rect_min_size = Vector2( 150, 24 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
+text = "appleman"
 caret_blink = true
 caret_blink_speed = 0.5
 
@@ -185,6 +191,7 @@ margin_bottom = 120.0
 rect_min_size = Vector2( 150, 24 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
+text = "nimda"
 secret = true
 caret_blink = true
 caret_blink_speed = 0.5
@@ -357,11 +364,14 @@ margin_bottom = 371.0
 script = ExtResource( 15 )
 
 [node name="Resources" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 16 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+nodePathResourceList = NodePath("ScrollContainer/Resource List")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources"]
 anchor_right = 1.0
@@ -390,9 +400,9 @@ margin_left = 58.0
 margin_right = 72.0
 
 [node name="Structures" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -427,6 +437,7 @@ margin_right = 72.0
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -470,6 +481,7 @@ text = "Farm"
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -490,6 +502,7 @@ margin_bottom = 262.866
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
+script = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

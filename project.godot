@@ -12,7 +12,9 @@ config_version=4
 
 config/name="client-godot"
 run/main_scene="res://Scenes/Root.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://Sprites/black.png"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
+config/icon="res://Sprites/icon.png"
 
 [autoload]
 

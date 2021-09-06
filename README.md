@@ -1,4 +1,10 @@
 # Kittens Rise Up Game Client
+## Table of Contents
+1. [Setup](#setup)
+    - [Godot](#godot)
+    - [VSCode](#vscode)
+2. [Contributing](#contributing)
+
 ## Setup
 ### Godot
 1. Fork this repository
@@ -16,12 +22,6 @@ Note that Godot also supports VS, however I have not tested this out to see how 
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
-
-## Table of Contents
-1. [Setup](#setup)
-    - [Godot](#godot)
-    - [VSCode](#vscode)
-2. [Contributing](#contributing)
 
 ## Contributing
 [CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)

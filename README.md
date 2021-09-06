@@ -3,7 +3,8 @@
 1. [Setup](#setup)
     - [Godot](#godot)
     - [VSCode](#vscode)
-2. [Contributing](#contributing)
+2. [Known Issues](#known-issues)
+3. [Contributing](#contributing)
 
 ## Setup
 ### Godot
@@ -22,6 +23,9 @@ Note that Godot also supports VS, however I have not tested this out to see how 
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
+
+## Known Issues
+Please see the projects [current issues](https://github.com/Kittens-Rise-Up/client-godot/issues)
 
 ## Contributing
 Please see [CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)

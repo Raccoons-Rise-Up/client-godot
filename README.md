@@ -24,4 +24,4 @@ Note that Godot also supports VS, however I have not tested this out to see how 
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
 
 ## Contributing
-[CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)
+Please see [CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)

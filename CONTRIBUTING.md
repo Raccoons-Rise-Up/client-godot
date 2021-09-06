@@ -39,7 +39,6 @@ In VSCode, make sure your `launch.json` looks something like this under `.vscode
 
 ## Formatting Guidelines
 - Methods should follow PascalFormat
-- Most of the time `{}` should be fully expanded
 - Try to use `var` where ever possible
 
 ## Creating a Pull Request

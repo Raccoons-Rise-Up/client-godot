@@ -29,3 +29,5 @@ Please see the projects [current issues](https://github.com/Kittens-Rise-Up/clie
 
 ## Contributing
 Please see [CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)
+
+Talk to `valk#9904` in the [Kittens Rise Up](https://discord.gg/cDNf8ja) discord for more info.

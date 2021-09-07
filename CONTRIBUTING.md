@@ -1,8 +1,6 @@
 # Contributing
 ## Table of Contents
-1. [Setup](#setup)
-    - [Godot](#godot)
-    - [VSCode](#vscode)
+1. [Debugging](#debugging)
 2. [Formatting Guidelines](#formatting-guidelines)
 3. [Creating a Pull Request](#creating-a-pull-request)
 4. [Threads](#threads)
@@ -13,27 +11,39 @@
     - [Sending a Packet from the Client to the Server](#sending-a-packet-from-the-client-to-the-server)
 6. [Exporting](#exporting)
 
-## Setup
-### Godot
-1. Fork this repository
-2. Clone your fork with [git scm](https://git-scm.com) 
-3. Install [Godot Mono 64 Bit](https://godotengine.org)
-4. Install [Build Tools for Visual Studio 2019](https://visualstudio.microsoft.com/downloads/?q=build+tools)
+## Debugging
+In Godot `Project Settings > Mono > Debugger Agent` make sure `Wait for Debugger` is enabled and `Port` is set to `23685`. 
 
-### VSCode
-Note that Godot also supports VS, however I have not tested this out to see how it works.
+In VSCode, make sure your `launch.json` looks something like this under `.vscode`
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "mono",
+            "request": "launch",
+            "program": "${workspaceRoot}/program.exe",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "Attach",
+            "type": "mono",
+            "request": "attach",
+            "address": "localhost",
+            "port": 23685
+        }
+    ]
+}
+```
 
-1. Install [VSCode](https://code.visualstudio.com)
-2. Install the following VSCode extensions
-    - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-    - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
-    - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
-    - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
-3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
+### Errors
+Issue: Attempted to convert an unmarshallable managed type to variant  
+Cause: Add a class that does not extend from `Node` in a `Godot.Collections.Dictionary`  
+Fix: Use `System.Collections.Generic.Dictionary` or continue using Godot Dict and make sure all classes extend from `Node`  
 
 ## Formatting Guidelines
 - Methods should follow PascalFormat
-- Most of the time `{}` should be fully expanded
 - Try to use `var` where ever possible
 
 ## Creating a Pull Request

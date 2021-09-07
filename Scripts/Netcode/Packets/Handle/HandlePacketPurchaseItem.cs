@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using ENet;
+using KRU.Networking;
+using KRU.UI;
 using Common.Networking.IO;
 
 namespace KRU.Networking
@@ -23,7 +25,7 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
             {
-                var message = $"You do not have enough gold for {(ItemType)data.ItemId}.";
+                var message = $"You do not have enough gold for {(StructureType)data.ItemId}.";
 
                 GD.Print(message);
 
@@ -38,26 +40,14 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.Purchased)
             {
-                var message = $"Bought {(ItemType)data.ItemId} for 25 gold.";
+                var message = $"Bought {(StructureType)data.ItemId} for 25 gold.";
 
-                GD.Print(message);
+                UITerminal.Log(message);
 
-                //var cmd = new GodotInstructions();
-                //cmd.Set(GodotInstructionOpcode.LogMessage, message);
-
-                //ENetClient.GodotCmds.Enqueue(cmd);
-
-                // Update the player gold
-                //ENetClient.GameScript.Player.Gold = data.Gold;
-
-                // Update the items
-                switch ((ItemType)data.ItemId)
+                foreach (var resource in data.Resources)
                 {
-                    case ItemType.Hut:
-                        //ENetClient.GameScript.Player.StructureHuts++;
-                        break;
-                    case ItemType.Farm:
-                        break;
+                    var UIResource = UIGame.Resources[resource.Key];
+                    UIResource.Set(resource.Value);
                 }
             }
         }

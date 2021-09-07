@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using KRU.Networking;
 
 namespace KRU.UI
 {

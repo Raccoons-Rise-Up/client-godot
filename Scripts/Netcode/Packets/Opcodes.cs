@@ -39,9 +39,17 @@ namespace KRU.Networking
         Banned
     }
 
-    public enum ItemType
+    public enum ResourceType
+    {
+        Wood,
+        Stone,
+        Wheat,
+        Gold
+    }
+
+    public enum StructureType
     {
         Hut,
-        Farm
+        WheatFarm
     }
 }

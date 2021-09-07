@@ -1,16 +1,9 @@
 using Godot;
+using KRU.Networking;
 using System.Collections.Generic;
 
 namespace KRU.UI
 {
-    public enum ResourceType 
-    {
-        Wood,
-        Stone,
-        Gold,
-        Wheat
-    }
-
     public class UIGame : Control
     {
         // Title

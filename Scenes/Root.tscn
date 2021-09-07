@@ -364,7 +364,6 @@ margin_bottom = 371.0
 script = ExtResource( 15 )
 
 [node name="Resources" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 16 )
@@ -381,25 +380,14 @@ __meta__ = {
 }
 
 [node name="Resource List" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer"]
-margin_right = 72.0
 margin_bottom = 1000.0
 rect_min_size = Vector2( 0, 1000 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Gold" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List" instance=ExtResource( 9 )]
-margin_right = 72.0
-
-[node name="Name" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold" index="0"]
-margin_right = 54.0
-text = "Gold:"
-
-[node name="Value" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold" index="1"]
-margin_left = 58.0
-margin_right = 72.0
-
 [node name="Structures" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 17 )
@@ -650,5 +638,4 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer/Btn Options" to="CanvasLayer/Scene Game/Game Menu" method="_on_Btn_Options_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game Menu/Nav/Margin Nav/PanelContainer/Panel/VBoxContainer/Btn Disconnect" to="CanvasLayer/Scene Game/Game Menu" method="_on_Btn_Disconnect_pressed"]
 
-[editable path="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Resources/ScrollContainer/Resource List/Gold"]
 [editable path="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Structures/ScrollContainer/Resource List/Huts"]

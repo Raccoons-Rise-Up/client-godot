@@ -6,10 +6,10 @@ namespace KRU.Networking
 {
 	public class WPacketLogin : IWritable
 	{
-		public byte VersionMajor { private get; set; }
-		public byte VersionMinor { private get; set; }
-		public byte VersionPatch { private get; set; }
-		public string JsonWebToken { private get; set; }
+		public byte VersionMajor { get; set; }
+		public byte VersionMinor { get; set; }
+		public byte VersionPatch { get; set; }
+		public string JsonWebToken { get; set; }
 
 		public void Write(PacketWriter writer)
 		{

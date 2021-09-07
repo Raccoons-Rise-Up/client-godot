@@ -1,8 +1,16 @@
 using Godot;
-using Godot.Collections;
+using System.Collections.Generic;
 
 namespace KRU.UI
 {
+    public enum ResourceType 
+    {
+        Wood,
+        Stone,
+        Gold,
+        Wheat
+    }
+
     public class UIGame : Control
     {
         // Title
@@ -11,10 +19,17 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
         private Label labelTitle;
 
+        public static Dictionary<ResourceType, UIResource> Resources = new Dictionary<ResourceType, UIResource>();
+
         public override void _Ready()
         {
-            UITerminal.Log("Testing");
+            UITerminal.Log("Welcome");
 
+            UIResources.AddResource(ResourceType.Wood);
+            UIResources.AddResource(ResourceType.Stone);
+            UIResources.AddResource(ResourceType.Gold);
+            UIResources.AddResource(ResourceType.Wheat);
+            
             // Title
             labelTitle = GetNode<Label>(nodePathTitle);
 

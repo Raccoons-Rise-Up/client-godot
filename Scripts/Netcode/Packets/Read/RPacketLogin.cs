@@ -10,8 +10,12 @@ namespace KRU.Networking
         public byte VersionMajor { get; set; }
         public byte VersionMinor { get; set; }
         public byte VersionPatch { get; set; }
+        public uint Wood { get; set; }
+        public uint Stone { get; set; }
+        public uint Wheat { get; set; }
         public uint Gold { get; set; }
-        public uint StructureHut { get; set; }
+        public uint StructureHuts { get; set; }
+        public uint StructureWheatFarms { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -24,9 +28,9 @@ namespace KRU.Networking
                     VersionMinor = reader.ReadByte();
                     VersionPatch = reader.ReadByte();
                     break;
-                case LoginResponseOpcode.LoginSuccess:
-                    Gold = reader.ReadUInt32();
-                    StructureHut = reader.ReadUInt32();
+                case LoginResponseOpcode.LoginSuccessReturningPlayer:
+                    for (int i = 0; i < 6; i++)
+                        reader.ReadUInt32();
                     break;
             }
         }

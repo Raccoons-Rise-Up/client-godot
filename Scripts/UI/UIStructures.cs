@@ -1,10 +1,14 @@
 using Godot;
 using System;
 
-public class UIStructures : Control
+namespace KRU.UI
 {
-    public override void _Ready()
+    public class UIStructures : Control
     {
-        
+        public override void _Ready()
+        {
+
+        }
     }
 }
+

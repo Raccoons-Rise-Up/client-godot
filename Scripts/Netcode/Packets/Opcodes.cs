@@ -24,7 +24,8 @@ namespace KRU.Networking
 
     public enum LoginResponseOpcode
     {
-        LoginSuccess,
+        LoginSuccessReturningPlayer,
+        LoginSuccessNewPlayer,
         VersionMismatch,
         InvalidToken
     }

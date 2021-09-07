@@ -36,20 +36,21 @@ namespace KRU.Networking
                 UILogin.UpdateResponse(message);
             }
 
-            if (opcode == LoginResponseOpcode.LoginSuccess)
+            if (opcode == LoginResponseOpcode.LoginSuccessReturningPlayer)
+            {
+                UIGame.Resources[ResourceType.Wood].Set(data.Wood);
+                UIGame.Resources[ResourceType.Stone].Set(data.Stone);
+                UIGame.Resources[ResourceType.Wheat].Set(data.Wheat);
+                UIGame.Resources[ResourceType.Gold].Set(data.Gold);
+
+                UILogin.UpdateResponse("Login success!");
+                UILogin.LoadGameScene();
+            }
+
+            if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
                 UILogin.UpdateResponse("Login success!");
-
-                // Load the main game 'scene'
-                //ENetClient.GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.LoadMainScene));
                 UILogin.LoadGameScene();
-
-                // Update player values
-                /*ENetClient.MenuScript.gameScript.Player = new Player
-                {
-                    Gold = data.Gold,
-                    StructureHuts = data.StructureHut
-                };*/
             }
         }
     }

@@ -15,11 +15,11 @@ run/main_scene="res://Scenes/Root.tscn"
 boot_splash/image="res://Sprites/black.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://Sprites/icon.png"
+config/windows_native_icon="res://Sprites/icon.ico"
 
 [autoload]
 
 ENetClient="*res://Scripts/Netcode/ENetClient.cs"
-Global="*res://Scripts/Game/Global.cs"
 
 [global]
 

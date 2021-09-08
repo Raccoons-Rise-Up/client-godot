@@ -27,6 +27,7 @@ namespace KRU.UI
         private static VBoxContainer loginSection;
         private static ENetClient ENetClient;
         private static string Token { get; set; }
+        private static bool AttemptedToRenewInvalidToken { get; set; }
 
         public override void _Ready()
         {
@@ -165,7 +166,7 @@ namespace KRU.UI
             };
         }
 
-        private async void _on_Btn_Login_pressed()
+        private async void Login()
         {
             Token = AppData.GetJsonWebToken()["token"];
 
@@ -214,6 +215,13 @@ namespace KRU.UI
                     break;
                 case LoginOpcode.InvalidToken:
                     Logout();
+
+                    // Automatically try to login one more time
+                    if (!AttemptedToRenewInvalidToken)
+                    {
+                        AttemptedToRenewInvalidToken = true;
+                        Login();
+                    }
                     break;
                 case LoginOpcode.LoginSuccess:
                     if (Token != null)
@@ -229,6 +237,11 @@ namespace KRU.UI
                     ENetClient.Connect();
                     break;
             }
+        }
+
+        private void _on_Btn_Login_pressed()
+        {
+            Login();
         }
 
         private void _on_Btn_Logout_pressed()

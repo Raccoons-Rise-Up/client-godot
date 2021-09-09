@@ -52,4 +52,9 @@ namespace KRU.Networking
         Hut,
         WheatFarm
     }
+
+    public enum TechType 
+    {
+        
+    }
 }

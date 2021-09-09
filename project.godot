@@ -27,6 +27,7 @@ debug=false
 
 [mono]
 
+debugger_agent/wait_for_debugger=true
 debugger_agent/wait_timeout=30000
 
 [physics]

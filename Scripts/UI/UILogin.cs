@@ -8,8 +8,6 @@ using KRU.Networking;
 using KRU.IO;
 using KRU.Utils;
 
-using HttpClient = System.Net.Http.HttpClient;
-
 namespace KRU.UI
 {
     public class UILogin : Control
@@ -18,18 +16,21 @@ namespace KRU.UI
         [Export] private NodePath nodePathSceneMainMenu, nodePathSceneGame;
         [Export] private NodePath nodePathHttp, nodePathInputUsername, nodePathInputPassword, nodePathLoginAsSection, nodePathLoginSection, nodePathBtnLogout, nodePathLabelResponse;
 #pragma warning restore CS0649 // Values are assigned in the editor
+
+        // Nodes
         private static HTTPRequest httpRequest;
         private static Control controlSceneMainMenu, controlSceneGame;
         private static Button btnLogout;
         private static LineEdit inputUsername, inputPassword;
         private static Label loginAsSection, labelResponse;
         private static VBoxContainer loginSection;
+
+        // Reference to ENet
         private static ENetClient ENetClient;
+
+        // Web Properties
         private static string Token { get; set; }
         private static bool AttemptedToRenewInvalidToken { get; set; }
-
-        
-        
 
         public override void _Ready()
         {
@@ -51,6 +52,10 @@ namespace KRU.UI
 
             ENetClient = GetNode<ENetClient>("/root/ENetClient");
         }
+
+        private void _on_Btn_Login_pressed() => Login();
+
+        private void _on_Btn_Logout_pressed() => Logout();
 
         public static void LoadGameScene()
         {
@@ -92,7 +97,7 @@ namespace KRU.UI
             HideConnectAsSection();
         }
 
-        
+
 
         private async void Login()
         {
@@ -171,16 +176,6 @@ namespace KRU.UI
             }
         }
 
-        private void _on_Btn_Login_pressed()
-        {
-            Login();
-        }
-
-        private void _on_Btn_Logout_pressed()
-        {
-            Logout();
-        }
-
         private static void HideConnectAsSection()
         {
             loginAsSection.Visible = false;
@@ -188,8 +183,6 @@ namespace KRU.UI
             btnLogout.Visible = false;
         }
     }
-
-    
 
     public struct WebPostLoginContent
     {

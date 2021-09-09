@@ -1,6 +1,7 @@
 # Kittens Rise Up Game Client
 
 ![image](https://user-images.githubusercontent.com/6277739/132770788-9de196ea-548b-4ae7-8e95-4e2a7bbdfa50.png)
+
 Here's a quick rundown of what's been done for the client.
 - User can retrieve JWT from web-server and use that to login to game server (all done in one click of a button "Login")
 - On successful login, client receives all structure data, and this gets populated in "Store" section

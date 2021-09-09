@@ -1,11 +1,27 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Fonts/ThemeButton.tres" type="Theme" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.180392, 0.180392, 0.180392, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
 
 [node name="Btn" type="Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -964.0
+margin_bottom = -560.0
+rect_min_size = Vector2( 50, 25 )
 theme = ExtResource( 1 )
+custom_styles/normal = SubResource( 1 )
 text = "Text"
 __meta__ = {
 "_edit_use_anchors_": false

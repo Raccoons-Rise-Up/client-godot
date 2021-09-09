@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/Icons/icon_wood.png" type="Texture" id=3]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_left = 487.0
+margin_right = 537.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 3 )
+
+[node name="Amount" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 36.0
+margin_top = 4.0
+margin_right = 47.0
+margin_bottom = 27.0
+text = "0"

@@ -1,15 +1,40 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Fonts/Quicksand/Quicksand-Medium.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Fonts/ThemeStoreStructureLabel.tres" type="Theme" id=3]
+[ext_resource path="res://Fonts/Quicksand/Quicksand-Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/UI/Elements/UILabelCountIcon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/UI/Elements/TechRequired.tscn" type="PackedScene" id=5]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=9]
+size = 32
+use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Theme" id=2]
+[sub_resource type="DynamicFont" id=1]
+size = 18
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=3]
 default_font = SubResource( 1 )
 
-[node name="UI Store Structure" type="Control"]
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 1 )
+
+[sub_resource type="Theme" id=8]
+default_font = SubResource( 1 )
+
+[sub_resource type="Theme" id=5]
+default_font = SubResource( 1 )
+
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 1 )
+
+[sub_resource type="Theme" id=7]
+default_font = SubResource( 1 )
+
+[node name="UI Store Structure" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 200, 200 )
@@ -17,48 +42,118 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
+[node name="Panel" type="Panel" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 593.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Button"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/ScrollContainer"]
+margin_right = 1010.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel/ScrollContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 990.0
+margin_bottom = 566.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer"]
+margin_left = 260.0
+margin_top = 112.0
+margin_right = 710.0
+margin_bottom = 434.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label Name" type="Label" parent="Button/VBoxContainer"]
-margin_right = 1024.0
-margin_bottom = 20.0
-theme = ExtResource( 3 )
-text = "Name"
+[node name="Name" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_right = 450.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 9 )
+text = "Wheat Farm"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label Description" type="Label" parent="Button/VBoxContainer"]
-margin_top = 24.0
-margin_right = 1024.0
-margin_bottom = 44.0
-theme = SubResource( 2 )
-text = "Description"
+[node name="Description" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 450.0
+margin_bottom = 67.0
+theme = SubResource( 3 )
+text = "A farm that generates wheat."
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label Cost" type="Label" parent="Button/VBoxContainer"]
-margin_top = 48.0
-margin_right = 1024.0
-margin_bottom = 68.0
-theme = SubResource( 2 )
+[node name="Structures" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_left = 160.0
+margin_top = 71.0
+margin_right = 289.0
+margin_bottom = 94.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Structures"]
+margin_right = 114.0
+margin_bottom = 23.0
+theme = SubResource( 4 )
+text = "Wheat Farms:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Structures"]
+margin_left = 118.0
+margin_right = 129.0
+margin_bottom = 23.0
+theme = SubResource( 8 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cost Elements" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_left = 155.0
+margin_top = 98.0
+margin_right = 294.0
+margin_bottom = 130.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Cost" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Cost Elements"]
+margin_top = 4.0
+margin_right = 37.0
+margin_bottom = 27.0
+theme = SubResource( 5 )
 text = "Cost"
 align = 1
 valign = 1
@@ -66,16 +161,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox Cost" type="VBoxContainer" parent="Button/VBoxContainer"]
-margin_top = 72.0
-margin_right = 1024.0
-margin_bottom = 72.0
+[node name="List Cost" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Cost Elements"]
+margin_left = 41.0
+margin_right = 139.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="Label Production" type="Label" parent="Button/VBoxContainer"]
-margin_top = 76.0
-margin_right = 1024.0
-margin_bottom = 96.0
-theme = SubResource( 2 )
+[node name="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Cost Elements/List Cost" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_right = 47.0
+
+[node name="HBoxContainer2" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Cost Elements/List Cost" instance=ExtResource( 4 )]
+margin_left = 51.0
+margin_right = 98.0
+
+[node name="Production Elements" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_top = 134.0
+margin_right = 450.0
+margin_bottom = 166.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Production" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements"]
+margin_top = 4.0
+margin_right = 90.0
+margin_bottom = 27.0
+theme = SubResource( 6 )
 text = "Production"
 align = 1
 valign = 1
@@ -83,16 +195,54 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox Production" type="VBoxContainer" parent="Button/VBoxContainer"]
-margin_top = 100.0
-margin_right = 1024.0
-margin_bottom = 100.0
+[node name="List Production" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements"]
+margin_left = 94.0
+margin_right = 192.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="Label Tech Required" type="Label" parent="Button/VBoxContainer"]
-margin_top = 104.0
-margin_right = 1024.0
-margin_bottom = 124.0
-theme = SubResource( 2 )
+[node name="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements/List Production" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_right = 47.0
+
+[node name="HBoxContainer2" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements/List Production" instance=ExtResource( 4 )]
+margin_left = 51.0
+margin_right = 98.0
+
+[node name="Production Total" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements"]
+margin_left = 196.0
+margin_top = 4.0
+margin_right = 348.0
+margin_bottom = 27.0
+theme = SubResource( 6 )
+text = "Production (Total)"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List Production Total" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements"]
+margin_left = 352.0
+margin_right = 450.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements/List Production Total" instance=ExtResource( 4 )]
+margin_left = 0.0
+margin_right = 47.0
+
+[node name="HBoxContainer2" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/Production Elements/List Production Total" instance=ExtResource( 4 )]
+margin_left = 51.0
+margin_right = 98.0
+
+[node name="Tech" type="Label" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_top = 170.0
+margin_right = 450.0
+margin_bottom = 193.0
+theme = SubResource( 7 )
 text = "Tech Required"
 align = 1
 valign = 1
@@ -100,7 +250,48 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBox Tech Required" type="VBoxContainer" parent="Button/VBoxContainer"]
-margin_top = 128.0
-margin_right = 1024.0
-margin_bottom = 128.0
+[node name="List Tech" type="GridContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_left = 93.0
+margin_top = 197.0
+margin_right = 356.0
+margin_bottom = 282.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 5
+
+[node name="Tech" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/List Tech" instance=ExtResource( 5 )]
+
+[node name="Tech2" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/List Tech" instance=ExtResource( 5 )]
+margin_left = 89.0
+margin_right = 174.0
+
+[node name="Tech3" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/List Tech" instance=ExtResource( 5 )]
+margin_left = 178.0
+margin_right = 263.0
+
+[node name="List Buttons" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer"]
+margin_left = 169.0
+margin_top = 286.0
+margin_right = 281.0
+margin_bottom = 322.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Btn Buy" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/List Buttons" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 56.0
+margin_bottom = 36.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Buy"
+
+[node name="Btn Sell" parent="Panel/ScrollContainer/MarginContainer/CenterContainer/VBoxContainer/List Buttons" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 60.0
+margin_right = 112.0
+margin_bottom = 36.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Sell"

@@ -135,17 +135,7 @@ namespace KRU.UI
 
             GD.Print(webResponse.Message);
 
-            WebPostLoginResponse res;
-            try
-            {
-                res = JsonConvert.DeserializeObject<WebPostLoginResponse>(webResponse.Message);
-            }
-            catch (JsonReaderException e)
-            {
-
-                GD.Print(e.Message);
-                return;
-            }
+            var res = JsonConvert.DeserializeObject<WebPostLoginResponse>(webResponse.Message);
 
             UpdateResponse(res.Message);
 

@@ -45,6 +45,8 @@ namespace KRU.Networking
 
                 UIGame.StructureData = data.Structures;
 
+                UIGame.InitStore();
+
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
             }
@@ -52,6 +54,8 @@ namespace KRU.Networking
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
                 UIGame.StructureData = data.Structures;
+
+                UIGame.InitStore();
                 
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();

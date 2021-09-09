@@ -6,7 +6,7 @@ namespace KRU.UI
 {
     public class UIStructures : Control
     {
-        #pragma warning disable CS0649 // Values are assigned in the editor
+#pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathStructureList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 

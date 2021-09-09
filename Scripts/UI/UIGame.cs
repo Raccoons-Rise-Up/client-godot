@@ -7,6 +7,9 @@ namespace KRU.UI
 {
     public class UIGame : Control
     {
+        // Prefabs
+        public static PackedScene PrefabButton = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIButton.tscn");
+
         // Title
 #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathTitle;
@@ -14,7 +17,7 @@ namespace KRU.UI
         private Label labelTitle;
 
         public static Dictionary<ResourceType, UILabelCount> Resources = new Dictionary<ResourceType, UILabelCount>();
-        public static List<Structure> StructureData = new List<Structure>();
+        public static Dictionary<uint, Structure> StructureData = new Dictionary<uint, Structure>();
 
         public override void _Ready()
         {
@@ -30,6 +33,14 @@ namespace KRU.UI
 
             // Setup
             ShowGameSection("Resources");
+        }
+
+        public static void InitStore()
+        {
+            UIStructureInfo.PopulateDetails(StructureData[0].Id);
+
+            foreach (var structure in StructureData.Values)
+                UIStore.AddStructure(structure.Name, structure.Id);
         }
 
         private void _on_Btn_Resources_pressed() => ShowGameSection("Resources");

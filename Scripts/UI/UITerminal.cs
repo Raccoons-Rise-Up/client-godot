@@ -9,7 +9,9 @@ namespace KRU.UI
         private static PackedScene labelTerminalPrefab = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/TerminalLabel.tscn");
 
         // Terminal
+#pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathTerminal;
+#pragma warning restore CS0649 // Values are assigned in the editor
         private static VBoxContainer terminal;
 
         public override void _Ready()

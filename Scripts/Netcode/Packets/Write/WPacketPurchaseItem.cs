@@ -6,7 +6,7 @@ namespace KRU.Networking
 {
     public class WPacketPurchaseItem : IWritable
     {
-        public ushort StructureID { get; set; }
+        public uint StructureID { get; set; }
 
         public void Write(PacketWriter writer)
         {

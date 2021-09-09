@@ -19,7 +19,7 @@ namespace KRU.Networking
         public uint StructureHuts { get; set; }
         public uint StructureWheatFarms { get; set; }
 
-        public List<Structure> Structures { get; set; }
+        public Dictionary<uint, Structure> Structures { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -43,12 +43,13 @@ namespace KRU.Networking
 
         public void ReadStructureData(ref PacketReader reader)
         {
-            Structures = new List<Structure>();
+            Structures = new Dictionary<uint, Structure>();
             var structureCount = reader.ReadUInt32();
             for (int i = 0; i < structureCount; i++)
             {
                 var structure = new Structure();
 
+                structure.Id = reader.ReadUInt32();
                 structure.Name = reader.ReadString();
                 structure.Description = reader.ReadString();
 
@@ -78,7 +79,7 @@ namespace KRU.Networking
                     structure.TechRequired.Add((TechType)tech);
                 }
 
-                Structures.Add(structure);
+                Structures.Add(structure.Id, structure);
             }
         }
     }

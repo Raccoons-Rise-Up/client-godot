@@ -10,7 +10,7 @@ namespace KRU.UI
         private Label LabelName { get; set; }
         private Label LabelValue { get; set; }
 
-        public UILabelCount(VBoxContainer resourceList, string resourceType, int value)
+        public UILabelCount(Node resourceList, string resourceType, int value)
         {
             this.Node = PrefabLabelCount.Instance();
 

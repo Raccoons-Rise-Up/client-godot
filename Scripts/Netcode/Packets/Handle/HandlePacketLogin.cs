@@ -43,12 +43,16 @@ namespace KRU.Networking
                 UIGame.Resources[ResourceType.Wheat].Set(data.Wheat);
                 UIGame.Resources[ResourceType.Gold].Set(data.Gold);
 
+                UIGame.StructureData = data.Structures;
+
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
             }
 
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
+                UIGame.StructureData = data.Structures;
+                
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
             }

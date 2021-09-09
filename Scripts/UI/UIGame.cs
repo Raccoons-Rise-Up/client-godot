@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using Godot;
 using KRU.Networking;
-using System.Collections.Generic;
+using KRU.Game;
 
 namespace KRU.UI
 {
@@ -12,16 +13,17 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
         private Label labelTitle;
 
-        public static Dictionary<ResourceType, UIResource> Resources = new Dictionary<ResourceType, UIResource>();
+        public static Dictionary<ResourceType, UILabelCount> Resources = new Dictionary<ResourceType, UILabelCount>();
+        public static List<Structure> StructureData = new List<Structure>();
 
         public override void _Ready()
         {
             UITerminal.Log("Welcome");
 
-            UIResources.AddResource(ResourceType.Wood);
-            UIResources.AddResource(ResourceType.Stone);
-            UIResources.AddResource(ResourceType.Gold);
-            UIResources.AddResource(ResourceType.Wheat);
+            UIResources.AddLabelCount(ResourceType.Wood);
+            UIResources.AddLabelCount(ResourceType.Stone);
+            UIResources.AddLabelCount(ResourceType.Gold);
+            UIResources.AddLabelCount(ResourceType.Wheat);
             
             // Title
             labelTitle = GetNode<Label>(nodePathTitle);

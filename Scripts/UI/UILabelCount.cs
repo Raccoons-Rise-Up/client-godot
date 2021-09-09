@@ -3,24 +3,24 @@ using KRU.Networking;
 
 namespace KRU.UI 
 {
-    public class UIResource
+    public class UILabelCount
     {
+        public static PackedScene PrefabLabelCount = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCount.tscn");
         private Node Node { get; set; }
         private Label LabelName { get; set; }
         private Label LabelValue { get; set; }
 
-        public UIResource(Node node, ResourceType resourceType, int value)
+        public UILabelCount(VBoxContainer resourceList, string resourceType, int value)
         {
-            this.Node = node;
+            this.Node = PrefabLabelCount.Instance();
 
             LabelName = Node.GetNode<Label>("Name");
-            LabelName.Text = resourceType.ToString();
+            LabelName.Text = resourceType;
 
             LabelValue = Node.GetNode<Label>("Value");
             LabelValue.Text = "" + value;
 
-            UIResources.ResourceList.AddChild(node);
-            UIGame.Resources.Add(resourceType, this);
+            resourceList.AddChild(Node);
         }
 
         public void Reset() => LabelValue.Text = "";

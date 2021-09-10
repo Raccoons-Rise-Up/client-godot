@@ -1,7 +1,6 @@
 using Godot;
-using KRU.Networking;
 
-namespace KRU.UI 
+namespace KRU.UI
 {
     public class UILabelCount
     {
@@ -24,8 +23,11 @@ namespace KRU.UI
         }
 
         public void Reset() => LabelValue.Text = "";
+
         public void Set(uint amount) => LabelValue.Text = "" + amount;
+
         public void Add(uint amount) => LabelValue.Text = "" + uint.Parse(LabelValue.Text) + amount;
+
         public uint Get() => uint.Parse(LabelValue.Text);
     }
 }

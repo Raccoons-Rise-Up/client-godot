@@ -14,23 +14,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- * 
+ *
  * Contact valkyrienyanko by joining the Kittens Rise Up discord at
  * https://discord.gg/cDNf8ja or email sebastianbelle074@protonmail.com
  */
 
-using Godot;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using ENet;
-using Common.Networking.Packet;
 using Common.Networking.IO;
-
-using Thread = System.Threading.Thread;
-
+using Common.Networking.Packet;
+using ENet;
+using Godot;
 using KRU.UI;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using Thread = System.Threading.Thread;
 
 namespace KRU.Networking
 {
@@ -59,9 +57,6 @@ namespace KRU.Networking
         private static bool TryingToConnect { get; set; }
         public static bool ConnectedToServer { get; set; }
         private static bool RunningNetCode { get; set; }
-        private static bool ReadyToQuitGodot { get; set; }
-
-        private static DateTime LastHutPurchase { get; set; }
 
         public override void _Ready()
         {
@@ -193,7 +188,6 @@ namespace KRU.Networking
                     // Incoming
                     while (Incoming.TryTake(out Event netEvent))
                     {
-                        var peer = netEvent.Peer;
                         var packetSizeMax = 1024;
                         var readBuffer = new byte[packetSizeMax];
                         var packetReader = new PacketReader(readBuffer);
@@ -219,9 +213,9 @@ namespace KRU.Networking
                                 Send(clientPacket, PacketFlags.Reliable);
 
                                 break;
+
                             case ClientPacketOpcode.PurchaseItem:
                                 GD.Print("Sending purchase item request to game server..");
-                                LastHutPurchase = DateTime.Now;
 
                                 Send(clientPacket, PacketFlags.Reliable);
 
@@ -277,15 +271,19 @@ namespace KRU.Networking
                                 case DisconnectOpcode.Disconnected:
                                     UILogin.UpdateResponse("Client was disconnected");
                                     break;
+
                                 case DisconnectOpcode.Maintenance:
                                     UILogin.UpdateResponse("Client was disconnected because the server is going down for maintenance");
                                     break;
+
                                 case DisconnectOpcode.Restarting:
                                     UILogin.UpdateResponse("Client was disconnected because the server is restarting");
                                     break;
+
                                 case DisconnectOpcode.Kicked:
                                     UILogin.UpdateResponse("Client was kicked");
                                     break;
+
                                 case DisconnectOpcode.Banned:
                                     UILogin.UpdateResponse("Client was banned");
                                     break;
@@ -319,10 +317,7 @@ namespace KRU.Networking
                 TryingToConnect = false;
 
                 if (wantsToQuit)
-                {
-                    ReadyToQuitGodot = true;
                     GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.Quit));
-                }
             }
         }
 

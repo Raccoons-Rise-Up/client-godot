@@ -1,7 +1,5 @@
-using Godot;
-using System;
-using ENet;
 using Common.Networking.IO;
+using ENet;
 using KRU.UI;
 
 namespace KRU.Networking
@@ -56,11 +54,10 @@ namespace KRU.Networking
                 UIGame.StructureData = data.Structures;
 
                 UIGame.InitStore();
-                
+
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
             }
         }
     }
-
 }

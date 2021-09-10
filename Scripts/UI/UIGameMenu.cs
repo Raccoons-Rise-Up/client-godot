@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Godot;
 using KRU.Networking;
+using System.Collections.Generic;
 
 namespace KRU.UI
 {

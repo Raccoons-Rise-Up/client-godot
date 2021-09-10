@@ -1,14 +1,13 @@
 using Godot;
 using System;
-using System.Threading.Tasks;
-using System.IO;
-using System.Text;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace KRU.Utils 
+namespace KRU.Utils
 {
-    public static class WebUtils 
+    public static class WebUtils
     {
         private static readonly HttpClient webClient = new HttpClient();
         private static bool SendingRequest { get; set; }
@@ -57,6 +56,7 @@ namespace KRU.Utils
                         {
                             case (HttpStatusCode)429: // HttpStatusCode.TooManyRequests not supported in this version of .NET
                                 return WebPostResponse(WebPostResponseOpcode.TooManyRequests, "Please wait a bit before making another request");
+
                             case HttpStatusCode.OK:
                                 break;
                         }

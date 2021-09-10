@@ -1,9 +1,7 @@
-using Godot;
-using System;
-using ENet;
-using KRU.Networking;
-using KRU.UI;
 using Common.Networking.IO;
+using ENet;
+using Godot;
+using KRU.UI;
 
 namespace KRU.Networking
 {
@@ -52,5 +50,4 @@ namespace KRU.Networking
             }
         }
     }
-
 }

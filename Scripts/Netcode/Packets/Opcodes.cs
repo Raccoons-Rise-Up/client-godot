@@ -30,7 +30,7 @@ namespace KRU.Networking
         InvalidToken
     }
 
-    public enum DisconnectOpcode 
+    public enum DisconnectOpcode
     {
         Disconnected,
         Maintenance,
@@ -53,8 +53,7 @@ namespace KRU.Networking
         WheatFarm
     }
 
-    public enum TechType 
+    public enum TechType
     {
-        
     }
 }

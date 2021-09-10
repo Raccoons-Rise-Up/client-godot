@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.IO;
-using Common.Networking.Packet;
 using Common.Networking.IO;
 using Common.Networking.Message;
+using System.Collections.Generic;
 
 namespace KRU.Networking
 {

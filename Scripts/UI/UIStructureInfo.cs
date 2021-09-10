@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using KRU.Networking;
 
 namespace KRU.UI
@@ -7,17 +6,18 @@ namespace KRU.UI
     public class UIStructureInfo : Node
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private NodePath nodePathTitle;
-        [Export] private NodePath nodePathDescription;
-        [Export] private NodePath nodePathStructuresOwned;
-        [Export] private NodePath nodePathCostList;
-        [Export] private NodePath nodePathProductionList;
-        [Export] private NodePath nodePathProductionTotalList;
-        [Export] private NodePath nodePathTechRequiredList;
+        [Export] private readonly NodePath nodePathTitle;
+        [Export] private readonly NodePath nodePathDescription;
+        [Export] private readonly NodePath nodePathStructuresOwned;
+        [Export] private readonly NodePath nodePathCostList;
+        [Export] private readonly NodePath nodePathProductionList;
+        [Export] private readonly NodePath nodePathProductionTotalList;
+        [Export] private readonly NodePath nodePathTechRequiredList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         // UI Elements
         private static Label uiTitle;
+
         private static Label uiDescription;
         private static Label uiStructuresOwned;
         private static HBoxContainer uiCostList;
@@ -41,6 +41,7 @@ namespace KRU.UI
 
         private void _on_Btn_Buy_pressed()
         {
+            GD.Print("Active Structure ID: " + activeStructureId);
             ENetClient.PurchaseItem(activeStructureId);
         }
 
@@ -59,5 +60,4 @@ namespace KRU.UI
             uiStructuresOwned.Text = "" + 0;
         }
     }
-
 }

@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using KRU.Networking;
 
 namespace KRU.UI
 {
@@ -16,17 +15,17 @@ namespace KRU.UI
         // Singleton
         public static UIStore uiStore;
 
-        public override void _Ready() 
-        { 
+        public override void _Ready()
+        {
             uiStore = this;
-            ResourceList = GetNode<GridContainer>(nodePathStructureList); 
+            ResourceList = GetNode<GridContainer>(nodePathStructureList);
         }
 
-        public static void AddStructure(string name, uint id) 
-        { 
+        public static void AddStructure(string name, uint id)
+        {
             var button = (Button)UIGame.PrefabButton.Instance();
             button.Text = name;
-            button.Connect("pressed", uiStore, nameof(_on_Btn_pressed), new Array{ id });
+            button.Connect("pressed", uiStore, nameof(_on_Btn_pressed), new Array { id });
 
             ResourceList.AddChild(button);
         }
@@ -37,5 +36,4 @@ namespace KRU.UI
             UIStructureInfo.PopulateDetails(structure.Id);
         }
     }
-
 }

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using KRU.Networking;
 
 namespace KRU.UI
@@ -13,11 +12,11 @@ namespace KRU.UI
         private static VBoxContainer ResourceList { get; set; }
 
         public override void _Ready() => ResourceList = GetNode<VBoxContainer>(nodePathResourceList);
-        public static void AddLabelCount(ResourceType resourceType, int value = 0) 
+
+        public static void AddLabelCount(ResourceType resourceType, int value = 0)
         {
             var labelCount = new UILabelCount(ResourceList, resourceType.ToString(), value);
             UIGame.Resources.Add(resourceType, labelCount); // Resources should be received from the server? Not added here?
         }
     }
-
 }

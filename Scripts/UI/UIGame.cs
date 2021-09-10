@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Godot;
-using KRU.Networking;
 using KRU.Game;
+using KRU.Networking;
+using System.Collections.Generic;
 
 namespace KRU.UI
 {
@@ -27,7 +27,7 @@ namespace KRU.UI
             UIResources.AddLabelCount(ResourceType.Stone);
             UIResources.AddLabelCount(ResourceType.Gold);
             UIResources.AddLabelCount(ResourceType.Wheat);
-            
+
             // Title
             labelTitle = GetNode<Label>(nodePathTitle);
 
@@ -44,10 +44,15 @@ namespace KRU.UI
         }
 
         private void _on_Btn_Resources_pressed() => ShowGameSection("Resources");
+
         private void _on_Btn_Structures_pressed() => ShowGameSection("Structures");
+
         private void _on_Btn_Kittens_pressed() => ShowGameSection("Kittens");
+
         private void _on_Btn_Store_pressed() => ShowGameSection("Store");
+
         private void _on_Btn_Research_pressed() => ShowGameSection("Research");
+
         private void _on_Btn_Map_pressed() => ShowGameSection("Map");
 
         private void ShowGameSection(string name)

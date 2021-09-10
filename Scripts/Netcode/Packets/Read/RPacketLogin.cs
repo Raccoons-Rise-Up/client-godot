@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using Common.Networking.Packet;
 using Common.Networking.IO;
 using Common.Networking.Message;
 using KRU.Game;
+using System.Collections.Generic;
 
 namespace KRU.Networking
 {
@@ -32,6 +31,7 @@ namespace KRU.Networking
                     VersionMinor = reader.ReadByte();
                     VersionPatch = reader.ReadByte();
                     break;
+
                 case LoginResponseOpcode.LoginSuccessReturningPlayer:
                     for (int i = 0; i < 6; i++)
                         reader.ReadUInt32();
@@ -67,7 +67,7 @@ namespace KRU.Networking
                 {
                     var resourceName = reader.ReadUInt16();
                     var resourceValue = reader.ReadUInt32();
-                    
+
                     structure.Production.Add((ResourceType)resourceName, resourceValue);
                 }
 

@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 
 namespace KRU.UI
 {
@@ -19,5 +18,4 @@ namespace KRU.UI
             ControlSections["Map"] = GetNode<Control>("Map");
         }
     }
-
 }

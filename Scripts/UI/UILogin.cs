@@ -1,35 +1,37 @@
-using System;
-using System.Threading.Tasks;
-
 using Godot;
-using Godot.Collections;
-using Newtonsoft.Json;
-using KRU.Networking;
 using KRU.IO;
+using KRU.Networking;
 using KRU.Utils;
+using Newtonsoft.Json;
 
 namespace KRU.UI
 {
     public class UILogin : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private NodePath nodePathSceneMainMenu, nodePathSceneGame;
-        [Export] private NodePath nodePathHttp, nodePathInputUsername, nodePathInputPassword, nodePathLoginAsSection, nodePathLoginSection, nodePathBtnLogout, nodePathLabelResponse;
+        [Export] private readonly NodePath nodePathSceneMainMenu;
+        [Export] private readonly NodePath nodePathSceneGame;
+        [Export] private readonly NodePath nodePathHttp;
+        [Export] private readonly NodePath nodePathInputUsername;
+        [Export] private readonly NodePath nodePathInputPassword;
+        [Export] private readonly NodePath nodePathLoginAsSection;
+        [Export] private readonly NodePath nodePathLoginSection;
+        [Export] private readonly NodePath nodePathBtnLogout;
+        [Export] private readonly NodePath nodePathLabelResponse;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         // Nodes
         private static HTTPRequest httpRequest;
+
         private static Control controlSceneMainMenu, controlSceneGame;
         private static Button btnLogout;
         private static LineEdit inputUsername, inputPassword;
         private static Label loginAsSection, labelResponse;
         private static VBoxContainer loginSection;
 
-        // Reference to ENet
-        private static ENetClient ENetClient;
-
         // Web Properties
         private static string Token { get; set; }
+
         private static bool AttemptedToRenewInvalidToken { get; set; }
 
         public override void _Ready()
@@ -49,8 +51,6 @@ namespace KRU.UI
 
             controlSceneMainMenu = GetNode<Control>(nodePathSceneMainMenu);
             controlSceneGame = GetNode<Control>(nodePathSceneGame);
-
-            ENetClient = GetNode<ENetClient>("/root/ENetClient");
         }
 
         private void _on_Btn_Login_pressed() => Login();
@@ -97,8 +97,6 @@ namespace KRU.UI
             HideConnectAsSection();
         }
 
-
-
         private async void Login()
         {
             Token = AppData.GetJsonWebToken()["token"];
@@ -134,6 +132,7 @@ namespace KRU.UI
                 case WebPostResponseOpcode.TooManyRequests:
                     UpdateResponse(webResponse.Message);
                     return;
+
                 case WebPostResponseOpcode.Success:
                     break;
             }
@@ -150,6 +149,7 @@ namespace KRU.UI
                 case LoginOpcode.InvalidUsernameOrPassword:
                 case LoginOpcode.PasswordsDoNotMatch:
                     break;
+
                 case LoginOpcode.InvalidToken:
                     Logout();
 
@@ -160,6 +160,7 @@ namespace KRU.UI
                         Login();
                     }
                     break;
+
                 case LoginOpcode.LoginSuccess:
                     if (Token != null)
                     {
@@ -208,4 +209,3 @@ namespace KRU.UI
         InvalidToken
     }
 }
-

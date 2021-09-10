@@ -1,8 +1,7 @@
-using Common.Networking.Message;
 using Common.Networking.IO;
-using Common.Networking.Packet;
+using Common.Networking.Message;
 
-namespace KRU.Networking 
+namespace KRU.Networking
 {
     public class WPacketPurchaseItem : IWritable
     {

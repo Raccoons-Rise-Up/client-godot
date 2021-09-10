@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-namespace KRU.UI 
+namespace KRU.UI
 {
     public class UICredits : Node
     {

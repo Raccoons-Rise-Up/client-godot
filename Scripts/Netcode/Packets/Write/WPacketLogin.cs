@@ -1,22 +1,21 @@
-using Common.Networking.Message;
 using Common.Networking.IO;
-using Common.Networking.Packet;
+using Common.Networking.Message;
 
 namespace KRU.Networking
 {
-	public class WPacketLogin : IWritable
-	{
-		public byte VersionMajor { get; set; }
-		public byte VersionMinor { get; set; }
-		public byte VersionPatch { get; set; }
-		public string JsonWebToken { get; set; }
+    public class WPacketLogin : IWritable
+    {
+        public byte VersionMajor { get; set; }
+        public byte VersionMinor { get; set; }
+        public byte VersionPatch { get; set; }
+        public string JsonWebToken { get; set; }
 
-		public void Write(PacketWriter writer)
-		{
-			writer.Write(VersionMajor);
-			writer.Write(VersionMinor);
-			writer.Write(VersionPatch);
-			writer.Write(JsonWebToken);
-		}
-	}
+        public void Write(PacketWriter writer)
+        {
+            writer.Write(VersionMajor);
+            writer.Write(VersionMinor);
+            writer.Write(VersionPatch);
+            writer.Write(JsonWebToken);
+        }
+    }
 }

@@ -31,7 +31,9 @@ Things that eventually need to be done
 4. Install [Build Tools for Visual Studio 2019](https://visualstudio.microsoft.com/downloads/?q=build+tools)
 
 ### VSCode
-Note that Godot also supports VS, however I have not tested this out to see how it works.
+Note that Godot also supports VS, but debugger is currently NOT supported!
+
+I use VS to edit the code and only use VSCode when debugging. Note if you do not see the value of for e.g. a property in the VSCode debugger, you will need to add it to the VSCode debug "watch list".
 
 1. Install [VSCode](https://code.visualstudio.com)
 2. Install the following VSCode extensions

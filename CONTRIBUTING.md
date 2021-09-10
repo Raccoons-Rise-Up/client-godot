@@ -1,17 +1,33 @@
 # Contributing
 ## Table of Contents
 1. [Debugging](#debugging)
-2. [Formatting Guidelines](#formatting-guidelines)
-3. [Creating a Pull Request](#creating-a-pull-request)
-4. [Threads](#threads)
+    - [VSCode Setup](#vscode-setup)
+    - [Attaching the Debugger](#attaching-the-debugger)
+3. [Formatting Guidelines](#formatting-guidelines)
+4. [Creating a Pull Request](#creating-a-pull-request)
+5. [Threads](#threads)
     - [Communicating from Godot to ENet](#communicating-from-godot-to-enet)
     - [Communicating from ENet to Godot](#communicating-from-enet-to-godot)
-5. [Networking](#networking)
+6. [Networking](#networking)
     - [Security](#security)
     - [Sending a Packet from the Client to the Server](#sending-a-packet-from-the-client-to-the-server)
-6. [Exporting](#exporting)
+7. [Exporting](#exporting)
 
 ## Debugging
+### VSCode Setup
+Note that Godot also supports VS, but debugger is currently NOT supported!
+
+I use VS to edit the code and only use VSCode when debugging. Note if you do not see the value of for e.g. a property in the VSCode debugger, you will need to add it to the VSCode debug "watch list".
+
+1. Install [VSCode](https://code.visualstudio.com)
+2. Install the following VSCode extensions
+    - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+    - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
+    - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
+    - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
+3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
+
+### Attaching the Debugger
 In Godot `Project Settings > Mono > Debugger Agent` make sure `Wait for Debugger` is enabled and `Port` is set to `23685`. 
 
 In VSCode, make sure your `launch.json` looks something like this under `.vscode`

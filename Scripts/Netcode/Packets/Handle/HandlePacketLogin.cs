@@ -36,12 +36,15 @@ namespace KRU.Networking
 
             if (opcode == LoginResponseOpcode.LoginSuccessReturningPlayer)
             {
-                UIGame.Resources[ResourceType.Wood].Set(data.Wood);
-                UIGame.Resources[ResourceType.Stone].Set(data.Stone);
-                UIGame.Resources[ResourceType.Wheat].Set(data.Wheat);
-                UIGame.Resources[ResourceType.Gold].Set(data.Gold);
+                UIGame.InitGame();
+                UIGame.ResourceInfoData = data.ResourceInfoData;
+                UIGame.StructureInfoData = data.StructureInfoData;
 
-                UIGame.StructureData = data.Structures;
+                foreach (var resource in data.ResourceCounts) 
+                    UIResources.AddLabelCount(resource.Key, resource.Value);
+
+                foreach (var structure in data.StructureCounts)
+                    UIStructures.AddLabelCount(structure.Key, structure.Value);
 
                 UIGame.InitStore();
 
@@ -51,7 +54,9 @@ namespace KRU.Networking
 
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
-                UIGame.StructureData = data.Structures;
+                UIGame.InitGame();
+                UIGame.ResourceInfoData = data.ResourceInfoData;
+                UIGame.StructureInfoData = data.StructureInfoData;
 
                 UIGame.InitStore();
 

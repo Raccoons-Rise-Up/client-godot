@@ -38,22 +38,4 @@ namespace KRU.Networking
         Kicked,
         Banned
     }
-
-    public enum ResourceType
-    {
-        Wood,
-        Stone,
-        Wheat,
-        Gold
-    }
-
-    public enum StructureType
-    {
-        Hut,
-        WheatFarm
-    }
-
-    public enum TechType
-    {
-    }
 }

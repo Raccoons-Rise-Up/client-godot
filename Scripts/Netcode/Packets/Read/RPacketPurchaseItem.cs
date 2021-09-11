@@ -8,7 +8,7 @@ namespace KRU.Networking
     {
         public PurchaseItemResponseOpcode PurchaseItemResponseOpcode { get; set; }
         public ushort ItemId { get; set; }
-        public Dictionary<ResourceType, uint> Resources { get; set; }
+        public Dictionary<ushort, uint> Resources { get; set; }
         public byte ResourcesLength { get; set; }
 
         public void Read(PacketReader reader)
@@ -16,7 +16,7 @@ namespace KRU.Networking
             PurchaseItemResponseOpcode = (PurchaseItemResponseOpcode)reader.ReadByte();
             ItemId = reader.ReadUInt16();
 
-            Resources = new Dictionary<ResourceType, uint>();
+            Resources = new Dictionary<ushort, uint>();
 
             ResourcesLength = reader.ReadByte();
 
@@ -25,7 +25,7 @@ namespace KRU.Networking
                 var resourceType = reader.ReadByte();
                 var resourceValue = reader.ReadUInt32();
 
-                Resources.Add((ResourceType)resourceType, resourceValue);
+                Resources.Add(resourceType, resourceValue);
             }
         }
     }

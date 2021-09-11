@@ -2,6 +2,7 @@ using Common.Networking.IO;
 using ENet;
 using Godot;
 using KRU.UI;
+using System.Collections.Generic;
 
 namespace KRU.Networking
 {
@@ -23,31 +24,36 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
             {
-                var message = $"You do not have enough gold for {(StructureType)data.ItemId}.";
+                var structure = UIGame.StructureInfoData[data.ItemId];
+                var message = $"Could not afford 1 x {structure.Name}, {ConvertCostToString(data.Resources)} is needed";
 
-                GD.Print(message);
-
-                //var cmd = new GodotInstructions();
-                //cmd.Set(GodotInstructionOpcode.LogMessage, message);
-
-                //ENetClient.GodotCmds.Enqueue(cmd);
-
-                // Update the player gold
-                //ENetClient.GameScript.Player.Gold = data.Gold;
+                UITerminal.Log(message);
             }
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.Purchased)
             {
-                var message = $"Bought {(StructureType)data.ItemId} for 25 gold.";
+                var structure = UIGame.StructureInfoData[data.ItemId];
+                var message = $"Bought 1 x {structure.Name} for {ConvertCostToString(structure.Cost)}.";
 
                 UITerminal.Log(message);
 
                 foreach (var resource in data.Resources)
-                {
-                    var UIResource = UIGame.Resources[resource.Key];
-                    UIResource.Set(resource.Value);
-                }
+                    UIGame.Resources[resource.Key].Set(resource.Value);
             }
+        }
+
+        private string ConvertCostToString(Dictionary<ushort, uint> resourceListCost)
+        {
+            string readableResourceListCost = "";
+            foreach (var resource in resourceListCost)
+            {
+                var name = UIGame.ResourceInfoData[resource.Key].Name;
+                var amount = resource.Value;
+
+                readableResourceListCost += $"{amount} {name}, ";
+            }
+
+            return readableResourceListCost;
         }
     }
 }

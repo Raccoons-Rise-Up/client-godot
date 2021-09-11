@@ -321,9 +321,9 @@ namespace KRU.Networking
             }
         }
 
-        public static void PurchaseItem(uint itemId)
+        public static void PurchaseItem(ushort itemId)
         {
-            var data = new WPacketPurchaseItem { StructureID = (uint)itemId };
+            var data = new WPacketPurchaseItem { StructureID = itemId };
             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.PurchaseItem, data);
 
             Outgoing.Enqueue(clientPacket);

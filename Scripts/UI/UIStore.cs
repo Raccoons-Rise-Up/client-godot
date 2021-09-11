@@ -6,8 +6,8 @@ namespace KRU.UI
     public class UIStore : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private NodePath nodePathStructureList;
-        [Export] private NodePath nodePathStructureInfo;
+        [Export] private readonly NodePath nodePathStructureList;
+        [Export] private readonly NodePath nodePathStructureInfo;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static GridContainer ResourceList { get; set; }
@@ -21,7 +21,7 @@ namespace KRU.UI
             ResourceList = GetNode<GridContainer>(nodePathStructureList);
         }
 
-        public static void AddStructure(string name, uint id)
+        public static void AddStructure(string name, ushort id)
         {
             var button = (Button)UIGame.PrefabButton.Instance();
             button.Text = name;
@@ -30,10 +30,15 @@ namespace KRU.UI
             ResourceList.AddChild(button);
         }
 
-        private void _on_Btn_pressed(uint id)
+        public static void ClearButtons()
         {
-            var structure = UIGame.StructureData[id];
-            UIStructureInfo.PopulateDetails(structure.Id);
+            foreach (Node label in ResourceList.GetChildren())
+                ResourceList.RemoveChild(label);
+        }
+
+        private void _on_Btn_pressed(ushort id)
+        {
+            UIStructureInfo.PopulateDetails(id);
         }
     }
 }

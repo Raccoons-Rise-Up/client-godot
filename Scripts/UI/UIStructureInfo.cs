@@ -26,7 +26,7 @@ namespace KRU.UI
         private static GridContainer uiTechRequiredList;
 
         // Logic
-        private static uint activeStructureId;
+        private static ushort activeStructureId;
 
         public override void _Ready()
         {
@@ -50,11 +50,11 @@ namespace KRU.UI
             // TODO: Not implemented yet
         }
 
-        public static void PopulateDetails(uint id)
+        public static void PopulateDetails(ushort id)
         {
             activeStructureId = id;
 
-            var structure = UIGame.StructureData[id];
+            var structure = UIGame.StructureInfoData[id];
             uiTitle.Text = structure.Name;
             uiDescription.Text = structure.Description;
             uiStructuresOwned.Text = "" + 0;

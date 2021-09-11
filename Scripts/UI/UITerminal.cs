@@ -25,5 +25,11 @@ namespace KRU.UI
             label.Text = message;
             terminal.AddChild(label);
         }
+
+        public static void ClearMessages()
+        {
+            foreach (Node label in terminal.GetChildren())
+                terminal.RemoveChild(label);
+        }
     }
 }

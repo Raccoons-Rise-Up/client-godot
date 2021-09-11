@@ -11,14 +11,10 @@ namespace KRU.Networking
         public byte VersionMajor { get; set; }
         public byte VersionMinor { get; set; }
         public byte VersionPatch { get; set; }
-        public uint Wood { get; set; }
-        public uint Stone { get; set; }
-        public uint Wheat { get; set; }
-        public uint Gold { get; set; }
-        public uint StructureHuts { get; set; }
-        public uint StructureWheatFarms { get; set; }
-
-        public Dictionary<uint, Structure> Structures { get; set; }
+        public Dictionary<ushort, uint> ResourceCounts { get; set; }
+        public Dictionary<ushort, uint> StructureCounts { get; set; }
+        public Dictionary<ushort, ResourceInfo> ResourceInfoData { get; set; }
+        public Dictionary<ushort, StructureInfo> StructureInfoData { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -33,25 +29,64 @@ namespace KRU.Networking
                     break;
 
                 case LoginResponseOpcode.LoginSuccessReturningPlayer:
-                    for (int i = 0; i < 6; i++)
-                        reader.ReadUInt32();
+                    // Resource counts
+                    ResourceCounts = new Dictionary<ushort, uint>();
+                    StructureCounts = new Dictionary<ushort, uint>();
+
+                    var resourceCount = reader.ReadUInt16();
+                    for (int i = 0; i < resourceCount; i++) 
+                    {
+                        var resourceKey = reader.ReadUInt16();
+                        var resourceValue = reader.ReadUInt32();
+
+                        ResourceCounts.Add(resourceKey, resourceValue);
+                    }
+
+                    // Structure counts
+                    var structureCount = reader.ReadUInt16();
+                    for (int i = 0; i < structureCount; i++) 
+                    {
+                        var structureKey = reader.ReadUInt16();
+                        var structureValue = reader.ReadUInt32();
+
+                        StructureCounts.Add(structureKey, structureValue);
+                    }
                     break;
             }
 
+            ReadResourceData(ref reader);
             ReadStructureData(ref reader);
         }
 
-        public void ReadStructureData(ref PacketReader reader)
+        private void ReadResourceData(ref PacketReader reader) 
         {
-            Structures = new Dictionary<uint, Structure>();
-            var structureCount = reader.ReadUInt32();
+            ResourceInfoData = new Dictionary<ushort, ResourceInfo>();
+            var resourceCount = reader.ReadUInt16();
+            for (int i = 0; i < resourceCount; i++) 
+            {
+                var resourceId = reader.ReadUInt16();
+                var resource = new ResourceInfo
+                {
+                    Name = reader.ReadString(),
+                    Description = reader.ReadString()
+                };
+
+                ResourceInfoData.Add(resourceId, resource);
+            }
+        }
+
+        private void ReadStructureData(ref PacketReader reader)
+        {
+            StructureInfoData = new Dictionary<ushort, StructureInfo>();
+            var structureCount = reader.ReadUInt16();
             for (int i = 0; i < structureCount; i++)
             {
-                var structure = new Structure();
-
-                structure.Id = reader.ReadUInt32();
-                structure.Name = reader.ReadString();
-                structure.Description = reader.ReadString();
+                var structureId = reader.ReadUInt16();
+                var structure = new StructureInfo
+                {
+                    Name = reader.ReadString(),
+                    Description = reader.ReadString()
+                };
 
                 var structureCostCount = reader.ReadByte();
                 for (int j = 0; j < structureCostCount; j++)
@@ -59,7 +94,7 @@ namespace KRU.Networking
                     var resourceName = reader.ReadUInt16();
                     var resourceValue = reader.ReadUInt32();
 
-                    structure.Cost.Add((ResourceType)resourceName, resourceValue);
+                    structure.Cost.Add(resourceName, resourceValue);
                 }
 
                 var structureProductionCount = reader.ReadByte();
@@ -68,7 +103,7 @@ namespace KRU.Networking
                     var resourceName = reader.ReadUInt16();
                     var resourceValue = reader.ReadUInt32();
 
-                    structure.Production.Add((ResourceType)resourceName, resourceValue);
+                    structure.Production.Add(resourceName, resourceValue);
                 }
 
                 var structureTechRequiredCount = reader.ReadByte();
@@ -76,10 +111,10 @@ namespace KRU.Networking
                 {
                     var tech = reader.ReadUInt16();
 
-                    structure.TechRequired.Add((TechType)tech);
+                    structure.TechRequired.Add(tech);
                 }
 
-                Structures.Add(structure.Id, structure);
+                StructureInfoData.Add(structureId, structure);
             }
         }
     }

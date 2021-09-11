@@ -13,10 +13,16 @@ namespace KRU.UI
 
         public override void _Ready() => ResourceList = GetNode<VBoxContainer>(nodePathResourceList);
 
-        public static void AddLabelCount(ResourceType resourceType, int value = 0)
+        public static void AddLabelCount(ushort resourceId, uint value = 0)
         {
-            var labelCount = new UILabelCount(ResourceList, resourceType.ToString(), value);
-            UIGame.Resources.Add(resourceType, labelCount); // Resources should be received from the server? Not added here?
+            var labelCount = new UILabelCount(ResourceList, UIGame.ResourceInfoData[resourceId].Name, value);
+            UIGame.Resources.Add(resourceId, labelCount); // Resources should be received from the server? Not added here?
+        }
+
+        public static void ClearLabelCounts()
+        {
+            foreach (Node label in ResourceList.GetChildren())
+                ResourceList.RemoveChild(label);
         }
     }
 }

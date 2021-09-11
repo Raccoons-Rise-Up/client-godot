@@ -12,35 +12,41 @@ namespace KRU.UI
 
         // Title
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private NodePath nodePathTitle;
+        [Export] private readonly NodePath nodePathTitle;
 #pragma warning restore CS0649 // Values are assigned in the editor
-        private Label labelTitle;
+        private static Label labelTitle;
 
-        public static Dictionary<ResourceType, UILabelCount> Resources = new Dictionary<ResourceType, UILabelCount>();
-        public static Dictionary<uint, Structure> StructureData = new Dictionary<uint, Structure>();
+        public static Dictionary<ushort, UILabelCount> Resources { get; set; }
+        public static Dictionary<ushort, ResourceInfo> ResourceInfoData { get; set; }
+        public static Dictionary<ushort, StructureInfo> StructureInfoData { get; set; }
 
         public override void _Ready()
         {
+            labelTitle = GetNode<Label>(nodePathTitle); // Title
+        }
+
+        public static void InitGame() 
+        {
+            UIResources.ClearLabelCounts();
+            UIStructures.ClearLabelCounts();
+            UIStore.ClearButtons();
+            UITerminal.ClearMessages();
+
+            Resources = new Dictionary<ushort, UILabelCount>();
+            ResourceInfoData = new Dictionary<ushort, ResourceInfo>();
+            StructureInfoData = new Dictionary<ushort, StructureInfo>();
+
             UITerminal.Log("Welcome");
 
-            UIResources.AddLabelCount(ResourceType.Wood);
-            UIResources.AddLabelCount(ResourceType.Stone);
-            UIResources.AddLabelCount(ResourceType.Gold);
-            UIResources.AddLabelCount(ResourceType.Wheat);
-
-            // Title
-            labelTitle = GetNode<Label>(nodePathTitle);
-
-            // Setup
             ShowGameSection("Resources");
         }
 
         public static void InitStore()
         {
-            UIStructureInfo.PopulateDetails(StructureData[0].Id);
+            UIStructureInfo.PopulateDetails(0);
 
-            foreach (var structure in StructureData.Values)
-                UIStore.AddStructure(structure.Name, structure.Id);
+            foreach (var structure in StructureInfoData)
+                UIStore.AddStructure(structure.Value.Name, structure.Key);
         }
 
         private void _on_Btn_Resources_pressed() => ShowGameSection("Resources");
@@ -55,7 +61,7 @@ namespace KRU.UI
 
         private void _on_Btn_Map_pressed() => ShowGameSection("Map");
 
-        private void ShowGameSection(string name)
+        private static void ShowGameSection(string name)
         {
             HideAllGameSections();
 
@@ -64,7 +70,7 @@ namespace KRU.UI
             labelTitle.Text = section.Name;
         }
 
-        private void HideAllGameSections()
+        private static void HideAllGameSections()
         {
             foreach (var section in UIGameSections.ControlSections.Values)
                 section.Visible = false;

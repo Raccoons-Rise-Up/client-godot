@@ -188,7 +188,7 @@ namespace KRU.Networking
                     // Incoming
                     while (Incoming.TryTake(out Event netEvent))
                     {
-                        var packetSizeMax = 1024;
+                        var packetSizeMax = 8192;
                         var readBuffer = new byte[packetSizeMax];
                         var packetReader = new PacketReader(readBuffer);
                         packetReader.BaseStream.Position = 0;

@@ -6,7 +6,7 @@ namespace KRU.UI
     public class UIResources : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private NodePath nodePathResourceList;
+        [Export] private readonly NodePath nodePathResourceList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private static VBoxContainer ResourceList { get; set; }
@@ -22,7 +22,7 @@ namespace KRU.UI
         public static void ClearLabelCounts()
         {
             foreach (Node label in ResourceList.GetChildren())
-                ResourceList.RemoveChild(label);
+                label.QueueFree();
         }
     }
 }

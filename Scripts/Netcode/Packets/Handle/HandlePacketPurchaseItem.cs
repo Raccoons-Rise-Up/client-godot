@@ -1,5 +1,6 @@
 using Common.Networking.IO;
 using ENet;
+using System.Linq;
 using Godot;
 using KRU.UI;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace KRU.Networking
             if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
             {
                 var structure = UIGame.StructureInfoData[data.ItemId];
-                var message = $"Could not afford 1 x {structure.Name}, {ConvertCostToString(data.Resources)} is needed";
+                var message = $"Could not afford 1 x {structure.Name} ({ConvertCostToString(data.Resources)} is needed)";
 
                 UITerminal.Log(message);
             }
@@ -42,18 +43,6 @@ namespace KRU.Networking
             }
         }
 
-        private string ConvertCostToString(Dictionary<ushort, uint> resourceListCost)
-        {
-            string readableResourceListCost = "";
-            foreach (var resource in resourceListCost)
-            {
-                var name = UIGame.ResourceInfoData[resource.Key].Name;
-                var amount = resource.Value;
-
-                readableResourceListCost += $"{amount} {name}, ";
-            }
-
-            return readableResourceListCost;
-        }
+        private string ConvertCostToString(Dictionary<ushort, uint> resourceListCost) => string.Join(" ", resourceListCost.Select(x => $"{x.Value} :{x.Key}:"));
     }
 }

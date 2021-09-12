@@ -20,7 +20,7 @@ namespace KRU.UI
         public static void ClearLabelCounts()
         {
             foreach (Node label in StructureList.GetChildren())
-                StructureList.RemoveChild(label);
+                label.QueueFree();
         }
     }
 }

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon_wood.png-a23030ce5866d1c35750046c08f039b2.stex"
+path="res://.import/Gold.png-24ffc0a49fc379f12636f44447fb791a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Icons/icon_wood.png"
-dest_files=[ "res://.import/icon_wood.png-a23030ce5866d1c35750046c08f039b2.stex" ]
+source_file="res://Gold.png"
+dest_files=[ "res://.import/Gold.png-24ffc0a49fc379f12636f44447fb791a.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

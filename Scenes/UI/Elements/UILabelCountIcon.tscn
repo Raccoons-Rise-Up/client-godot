@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Sprites/Icons/icon_wood.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Icons/wood.png" type="Texture" id=3]
 
 [node name="HBoxContainer" type="HBoxContainer"]
 margin_left = 487.0
@@ -22,7 +22,7 @@ texture = ExtResource( 3 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 36.0
-margin_top = 4.0
-margin_right = 47.0
-margin_bottom = 27.0
+margin_top = 1.0
+margin_right = 50.0
+margin_bottom = 31.0
 text = "0"

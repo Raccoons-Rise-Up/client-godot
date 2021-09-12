@@ -33,7 +33,7 @@ namespace KRU.UI
         public static void ClearButtons()
         {
             foreach (Node label in ResourceList.GetChildren())
-                ResourceList.RemoveChild(label);
+                label.QueueFree();
         }
 
         private void _on_Btn_pressed(ushort id)

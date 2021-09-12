@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Godot;
 
 namespace KRU.Game
 {
@@ -10,11 +11,16 @@ namespace KRU.Game
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public TextureRect TextureRectIcon { get; set; }
 
-        public ResourceInfo() 
+        public ResourceInfo(string name, string description) 
         {
-            Name = "Resource";
-            Description = "No description was given for this resource.";
+            Name = name;
+            Description = description;
+            TextureRectIcon = new TextureRect
+            {
+                Texture = ResourceLoader.Load<StreamTexture>($"res://Sprites/Icons/{Name.ToLower()}.png")
+            };
         }
     }
 }

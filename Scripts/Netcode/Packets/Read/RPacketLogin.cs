@@ -1,7 +1,10 @@
 using Common.Networking.IO;
 using Common.Networking.Message;
 using KRU.Game;
+using Godot;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 
 namespace KRU.Networking
 {
@@ -34,7 +37,7 @@ namespace KRU.Networking
                     StructureCounts = new Dictionary<ushort, uint>();
 
                     var resourceCount = reader.ReadUInt16();
-                    for (int i = 0; i < resourceCount; i++) 
+                    for (int i = 0; i < resourceCount; i++)
                     {
                         var resourceKey = reader.ReadUInt16();
                         var resourceValue = reader.ReadUInt32();
@@ -44,7 +47,7 @@ namespace KRU.Networking
 
                     // Structure counts
                     var structureCount = reader.ReadUInt16();
-                    for (int i = 0; i < structureCount; i++) 
+                    for (int i = 0; i < structureCount; i++)
                     {
                         var structureKey = reader.ReadUInt16();
                         var structureValue = reader.ReadUInt32();
@@ -58,18 +61,16 @@ namespace KRU.Networking
             ReadStructureData(ref reader);
         }
 
-        private void ReadResourceData(ref PacketReader reader) 
+        private void ReadResourceData(ref PacketReader reader)
         {
             ResourceInfoData = new Dictionary<ushort, ResourceInfo>();
             var resourceCount = reader.ReadUInt16();
-            for (int i = 0; i < resourceCount; i++) 
+            for (int i = 0; i < resourceCount; i++)
             {
                 var resourceId = reader.ReadUInt16();
-                var resource = new ResourceInfo
-                {
-                    Name = reader.ReadString(),
-                    Description = reader.ReadString()
-                };
+                var resourceName = reader.ReadString();
+                var resourceDesc = reader.ReadString();
+                var resource = new ResourceInfo(resourceName, resourceDesc);
 
                 ResourceInfoData.Add(resourceId, resource);
             }

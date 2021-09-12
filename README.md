@@ -22,6 +22,8 @@ Things that eventually need to be done
 3. [Contributing](#contributing)
 
 ## Setup
+Note: The [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) need to be running so the client can connect to the game server properly.
+
 1. Fork this repository
 2. Clone your fork with [git scm](https://git-scm.com) 
 3. Install [Godot Mono 64 Bit](https://godotengine.org)

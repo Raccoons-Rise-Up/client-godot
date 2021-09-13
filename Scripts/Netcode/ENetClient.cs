@@ -57,9 +57,12 @@ namespace KRU.Networking
         private static bool TryingToConnect { get; set; }
         public static bool ConnectedToServer { get; set; }
         private static bool RunningNetCode { get; set; }
+        private static SceneTree SceneTree { get; set; }
 
         public override void _Ready()
         {
+            SceneTree = GetTree();
+
             // Need a way to communicate with the Unity thread from the ENet thread
             GodotCmds = new ConcurrentQueue<GodotInstructions>();
 
@@ -104,8 +107,11 @@ namespace KRU.Networking
 
         public override void _Notification(int what)
         {
+            // Called when user presses top right window X button or does Alt + F4
             if (what == MainLoop.NotificationWmQuitRequest)
             {
+                FreeUpNodes();
+
                 if (ConnectedToServer)
                 {
                     ENetCmds.Enqueue(ENetInstructionOpcode.UserWantsToQuit);
@@ -117,6 +123,20 @@ namespace KRU.Networking
 
                 GetTree().Quit();
             }
+        }
+
+        // Exit application from main menu by pressing "Quit" button
+        public static void ExitApplication()
+        {
+            FreeUpNodes();
+
+            SceneTree.Quit();
+        }
+
+        private static void FreeUpNodes()
+        {
+            foreach (var resource in UIGame.ResourceInfoData.Values)
+                resource.TextureRectIcon.Free();
         }
 
         public static void Connect()
@@ -158,7 +178,7 @@ namespace KRU.Networking
                 {
                     var polled = false;
 
-                    // ENet Instructions (from Unity Thread)
+                    // ENet Instructions (from Godot Thread)
                     while (ENetCmds.TryDequeue(out ENetInstructionOpcode result))
                     {
                         if (result == ENetInstructionOpcode.Disconnect)

@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using KRU.Networking;
 
 namespace KRU.UI
 {
@@ -44,7 +45,7 @@ namespace KRU.UI
 
         private void _on_Btn_Credits_pressed() => ShowSection("Credits");
 
-        private void _on_Btn_Quit_pressed() => GetTree().Quit();
+        private void _on_Btn_Quit_pressed() => ENetClient.ExitApplication();
 
         private void ShowSection(string name)
         {

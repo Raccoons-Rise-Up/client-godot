@@ -17,7 +17,6 @@ namespace KRU.UI
 
         // UI Elements
         private static Label uiTitle;
-
         private static Label uiDescription;
         private static Label uiStructuresOwned;
         private static HBoxContainer uiCostList;
@@ -50,14 +49,90 @@ namespace KRU.UI
             // TODO: Not implemented yet
         }
 
-        public static void PopulateDetails(ushort id)
+        public static void UpdateDetails(ushort id)
         {
             activeStructureId = id;
 
             var structure = UIGame.StructureInfoData[id];
             uiTitle.Text = structure.Name;
             uiDescription.Text = structure.Description;
-            uiStructuresOwned.Text = "" + 0;
+
+            var structuresOwned = UIGame.StructureCountLabels[id].GetAmount();
+
+            uiStructuresOwned.Text = "" + structuresOwned;
+
+            foreach (Node child in uiCostList.GetChildren())
+                child.QueueFree();
+
+            var cost = structure.Cost;
+
+            foreach (var resource in cost)
+            {
+                var resourceCountIcon = UIGame.PrefabUILabelCountIcon.Instance();
+                var image = resourceCountIcon.GetNode<TextureRect>("Image");
+                var amount = resourceCountIcon.GetNode<Label>("Amount");
+
+                var resourceInfo = UIGame.ResourceInfoData[resource.Key];
+
+                image.Texture = resourceInfo.TextureRectIcon.Texture;
+                amount.Text = "" + resource.Value;
+
+                uiCostList.AddChild(resourceCountIcon);
+            }
+
+            foreach (Node child in uiProductionList.GetChildren())
+                child.QueueFree();
+
+            var production = structure.Production;
+
+            if (production.Count == 0)
+            {
+                var label = new Label();
+                label.Text = "Does not produce anything";
+                uiProductionList.AddChild(label);
+            } 
+            else 
+            {
+                foreach (var resource in production)
+                {
+                    var resourceCountIcon = UIGame.PrefabUILabelCountIcon.Instance();
+                    var image = resourceCountIcon.GetNode<TextureRect>("Image");
+                    var amount = resourceCountIcon.GetNode<Label>("Amount");
+
+                    var resourceInfo = UIGame.ResourceInfoData[resource.Key];
+
+                    image.Texture = resourceInfo.TextureRectIcon.Texture;
+                    amount.Text = "" + resource.Value;
+
+                    uiProductionList.AddChild(resourceCountIcon);
+                }
+            }
+
+            foreach (Node child in uiProductionTotalList.GetChildren())
+                child.QueueFree();
+
+            if (production.Count == 0)
+            {
+                var label = new Label();
+                label.Text = "Does not produce anything";
+                uiProductionTotalList.AddChild(label);
+            } 
+            else 
+            {
+                foreach (var resource in production)
+                {
+                    var resourceCountIcon = UIGame.PrefabUILabelCountIcon.Instance();
+                    var image = resourceCountIcon.GetNode<TextureRect>("Image");
+                    var amount = resourceCountIcon.GetNode<Label>("Amount");
+
+                    var resourceInfo = UIGame.ResourceInfoData[resource.Key];
+
+                    image.Texture = resourceInfo.TextureRectIcon.Texture;
+                    amount.Text = "" + (resource.Value * structuresOwned);
+
+                    uiProductionTotalList.AddChild(resourceCountIcon);
+                }
+            }
         }
     }
 }

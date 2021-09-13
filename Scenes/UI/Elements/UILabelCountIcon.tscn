@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprites/Icons/wood.png" type="Texture" id=3]
 
-[node name="HBoxContainer" type="HBoxContainer"]
+[node name="UILabelCountIcon" type="HBoxContainer"]
 margin_left = 487.0
 margin_right = 537.0
 margin_bottom = 32.0

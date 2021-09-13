@@ -7,14 +7,16 @@ namespace KRU.Networking
     public class RPacketPurchaseItem : IReadable
     {
         public PurchaseItemResponseOpcode PurchaseItemResponseOpcode { get; set; }
-        public ushort ItemId { get; set; }
+        public ushort StructureId { get; set; }
+        public uint StructureAmount { get; set; }
         public Dictionary<ushort, uint> Resources { get; set; }
         public byte ResourcesLength { get; set; }
 
         public void Read(PacketReader reader)
         {
             PurchaseItemResponseOpcode = (PurchaseItemResponseOpcode)reader.ReadByte();
-            ItemId = reader.ReadUInt16();
+            StructureId = reader.ReadUInt16();
+            StructureAmount = reader.ReadUInt32();
 
             Resources = new Dictionary<ushort, uint>();
 

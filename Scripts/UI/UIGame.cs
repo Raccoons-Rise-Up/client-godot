@@ -9,6 +9,7 @@ namespace KRU.UI
     {
         // Prefabs
         public static PackedScene PrefabButton = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIButton.tscn");
+        public static PackedScene PrefabUILabelCountIcon = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCountIcon.tscn");
 
         // Title
 #pragma warning disable CS0649 // Values are assigned in the editor
@@ -16,13 +17,25 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
         private static Label labelTitle;
 
-        public static Dictionary<ushort, UILabelCount> Resources { get; set; }
+        public static Dictionary<ushort, UILabelCount> ResourceCountLabels { get; set; }
+        public static Dictionary<ushort, UILabelCount> StructureCountLabels { get; set; }
         public static Dictionary<ushort, ResourceInfo> ResourceInfoData { get; set; }
         public static Dictionary<ushort, StructureInfo> StructureInfoData { get; set; }
 
         public override void _Ready()
         {
             labelTitle = GetNode<Label>(nodePathTitle); // Title
+        }
+
+        public static void UpdateResourceLabels(Dictionary<ushort, uint> resources)
+        {
+            foreach (var resource in resources)
+                ResourceCountLabels[resource.Key].SetAmount(resource.Value);
+        }
+
+        public static void UpdateStructureLabel(ushort structureId, uint amount)
+        {
+            StructureCountLabels[structureId].AddAmount(amount);
         }
 
         public static void InitGame() 
@@ -32,7 +45,8 @@ namespace KRU.UI
             UIStore.ClearButtons();
             UITerminal.ClearMessages();
 
-            Resources = new Dictionary<ushort, UILabelCount>();
+            ResourceCountLabels = new Dictionary<ushort, UILabelCount>();
+            StructureCountLabels = new Dictionary<ushort, UILabelCount>();
             ResourceInfoData = new Dictionary<ushort, ResourceInfo>();
             StructureInfoData = new Dictionary<ushort, StructureInfo>();
 
@@ -41,9 +55,27 @@ namespace KRU.UI
             ShowGameSection("Resources");
         }
 
+        public static void InitResourceLabels(Dictionary<ushort, uint> resourceCounts)
+        {
+            foreach (var resource in resourceCounts) 
+            {
+                var resourceName = ResourceInfoData[resource.Key].Name;
+                ResourceCountLabels.Add(resource.Key, new UILabelCount(UIResources.ResourceList, resourceName, resource.Value));
+            }
+        }
+
+        public static void InitStructureLabels(Dictionary<ushort, uint> structureCounts) 
+        {
+            foreach (var structure in structureCounts) 
+            {
+                var structureName = StructureInfoData[structure.Key].Name;
+                StructureCountLabels.Add(structure.Key, new UILabelCount(UIStructures.StructureList, structureName, structure.Value));
+            }
+        }
+
         public static void InitStore()
         {
-            UIStructureInfo.PopulateDetails(0);
+            UIStructureInfo.UpdateDetails(0);
 
             foreach (var structure in StructureInfoData)
                 UIStore.AddStructure(structure.Value.Name, structure.Key);

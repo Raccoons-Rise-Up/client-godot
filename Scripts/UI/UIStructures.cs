@@ -12,11 +12,6 @@ namespace KRU.UI
 
         public override void _Ready() => StructureList = GetNode<VBoxContainer>(nodePathStructureList);
 
-        public static void AddLabelCount(ushort structureId, uint value = 0)
-        {
-            new UILabelCount(StructureList, UIGame.StructureInfoData[structureId].Name, value);
-        }
-
         public static void ClearLabelCounts()
         {
             foreach (Node label in StructureList.GetChildren())

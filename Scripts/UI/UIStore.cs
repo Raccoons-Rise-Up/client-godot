@@ -38,7 +38,7 @@ namespace KRU.UI
 
         private void _on_Btn_pressed(ushort id)
         {
-            UIStructureInfo.PopulateDetails(id);
+            UIStructureInfo.UpdateDetails(id);
         }
     }
 }

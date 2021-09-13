@@ -25,7 +25,7 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
             {
-                var structure = UIGame.StructureInfoData[data.ItemId];
+                var structure = UIGame.StructureInfoData[data.StructureId];
                 var message = $"Could not afford 1 x {structure.Name} ({ConvertCostToString(data.Resources)} is needed)";
 
                 UITerminal.Log(message);
@@ -33,13 +33,14 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.Purchased)
             {
-                var structure = UIGame.StructureInfoData[data.ItemId];
+                var structure = UIGame.StructureInfoData[data.StructureId];
                 var message = $"Bought 1 x {structure.Name} for {ConvertCostToString(structure.Cost)}.";
 
                 UITerminal.Log(message);
 
-                foreach (var resource in data.Resources)
-                    UIGame.Resources[resource.Key].Set(resource.Value);
+                UIGame.UpdateResourceLabels(data.Resources);
+                UIGame.UpdateStructureLabel(data.StructureId, data.StructureAmount);
+                UIStructureInfo.UpdateDetails(data.StructureId);
             }
         }
 

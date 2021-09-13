@@ -34,17 +34,16 @@ namespace KRU.Networking
                 UILogin.UpdateResponse(message);
             }
 
+            // TODO: Add another opcode right after login success defining whether or not this is a new player or returning player
+            // This will help reduce duplication of code
             if (opcode == LoginResponseOpcode.LoginSuccessReturningPlayer)
             {
                 UIGame.InitGame();
                 UIGame.ResourceInfoData = data.ResourceInfoData;
                 UIGame.StructureInfoData = data.StructureInfoData;
 
-                foreach (var resource in data.ResourceCounts) 
-                    UIResources.AddLabelCount(resource.Key, resource.Value);
-
-                foreach (var structure in data.StructureCounts)
-                    UIStructures.AddLabelCount(structure.Key, structure.Value);
+                UIGame.InitResourceLabels(data.ResourceCounts);
+                UIGame.InitStructureLabels(data.StructureCounts);
 
                 UIGame.InitStore();
 
@@ -57,6 +56,9 @@ namespace KRU.Networking
                 UIGame.InitGame();
                 UIGame.ResourceInfoData = data.ResourceInfoData;
                 UIGame.StructureInfoData = data.StructureInfoData;
+
+                UIGame.InitResourceLabels(data.ResourceCounts);
+                UIGame.InitStructureLabels(data.StructureCounts);
 
                 UIGame.InitStore();
 

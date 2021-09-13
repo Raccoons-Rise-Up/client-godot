@@ -8,26 +8,41 @@ namespace KRU.UI
         private Node Node { get; set; }
         private Label LabelName { get; set; }
         private Label LabelValue { get; set; }
+        private uint Amount { get; set; }
 
-        public UILabelCount(Node resourceList, string resourceType, uint value)
+        public UILabelCount(Node list, string name, uint amount)
         {
-            this.Node = PrefabLabelCount.Instance();
+            Node = PrefabLabelCount.Instance();
 
             LabelName = Node.GetNode<Label>("Name");
-            LabelName.Text = resourceType;
+            LabelName.Text = name;
+
+            Amount = amount;
 
             LabelValue = Node.GetNode<Label>("Value");
-            LabelValue.Text = "" + value;
+            LabelValue.Text = "" + amount;
 
-            resourceList.AddChild(Node);
+            list.AddChild(Node);
         }
 
-        public void Reset() => LabelValue.Text = "";
+        public void ResetAmount() 
+        {
+            Amount = 0;
+            LabelValue.Text = "" + 0;
+        }
 
-        public void Set(uint amount) => LabelValue.Text = "" + amount;
+        public void SetAmount(uint amount)
+        {
+            Amount = amount;
+            LabelValue.Text = "" + amount;
+        }
 
-        public void Add(uint amount) => LabelValue.Text = "" + uint.Parse(LabelValue.Text) + amount;
+        public void AddAmount(uint amount)
+        {
+            Amount += amount;
+            LabelValue.Text = "" + Amount;
+        }
 
-        public uint Get() => uint.Parse(LabelValue.Text);
+        public uint GetAmount() => Amount;
     }
 }

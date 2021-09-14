@@ -4,19 +4,25 @@ namespace KRU.UI
 {
     public class UIMap : Control
     {
-        // Declare member variables here. Examples:
-        // private int a = 2;
-        // private string b = "text";
+#pragma warning disable CS0649 // Values are assigned in the editor
+        [Export] private readonly NodePath nodePathPanel;
+#pragma warning restore CS0649 // Values are assigned in the editor
 
-        // Called when the node enters the scene tree for the first time.
+        private static PanelContainer nodePanel;
+
         public override void _Ready()
         {
+            nodePanel = GetNode<PanelContainer>(nodePathPanel);
         }
 
-        //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-        //  public override void _Process(float delta)
-        //  {
-        //
-        //  }
+        public static void HideMap()
+        {
+            nodePanel.Visible = true;
+        }
+
+        public static void ShowMap()
+        {
+            nodePanel.Visible = false;
+        }
     }
 }

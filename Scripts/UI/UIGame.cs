@@ -81,17 +81,41 @@ namespace KRU.UI
                 UIStore.AddStructure(structure.Value.Name, structure.Key);
         }
 
-        private void _on_Btn_Resources_pressed() => ShowGameSection("Resources");
+        private void _on_Btn_Resources_pressed() 
+        {
+            ShowGameSection("Resources");
+            UIMap.HideMap();
+        }
 
-        private void _on_Btn_Structures_pressed() => ShowGameSection("Structures");
+        private void _on_Btn_Structures_pressed() 
+        {
+            ShowGameSection("Structures");
+            UIMap.HideMap();
+        }
 
-        private void _on_Btn_Kittens_pressed() => ShowGameSection("Kittens");
+        private void _on_Btn_Kittens_pressed() 
+        {
+            ShowGameSection("Kittens");
+            UIMap.HideMap();
+        }
 
-        private void _on_Btn_Store_pressed() => ShowGameSection("Store");
+        private void _on_Btn_Store_pressed() 
+        {
+            ShowGameSection("Store");
+            UIMap.HideMap();
+        }
 
-        private void _on_Btn_Research_pressed() => ShowGameSection("Research");
+        private void _on_Btn_Research_pressed() 
+        {
+            ShowGameSection("Research");
+            UIMap.HideMap();
+        }
 
-        private void _on_Btn_Map_pressed() => ShowGameSection("Map");
+        private void _on_Btn_Map_pressed() 
+        {
+            UIMap.ShowMap();
+            ShowGameSection("Map");
+        }
 
         private static void ShowGameSection(string name)
         {

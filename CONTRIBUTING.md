@@ -1,4 +1,7 @@
 # Contributing
+## New Changes that need to be merged into contributing document eventually
+- Common.dll was merged into client / server code
+
 ## Table of Contents
 1. [Debugging](#debugging)
     - [VSCode Setup](#vscode-setup)

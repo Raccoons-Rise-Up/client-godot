@@ -1,5 +1,13 @@
 # Kittens Rise Up Game Client
 
+## Table of Contents
+1. [About](#about)
+2. [Setup](#setup)
+3. [Issues](#issues)
+4. [Contributing](#contributing)
+
+## About
+
 ![image](https://user-images.githubusercontent.com/6277739/132770788-9de196ea-548b-4ae7-8e95-4e2a7bbdfa50.png)
 
 Here's a quick rundown of what's been done for the client.
@@ -16,10 +24,7 @@ Things that eventually need to be done
 - Research Section: Add lines between tech, add code to handle tech tree stuff
 - Map Section: This is where the player will be able to interact with other players
 
-## Table of Contents
-1. [Setup](#setup)
-2. [Issues](#issues)
-3. [Contributing](#contributing)
+[Kittens Rise Up Roadmap](https://trello.com/b/XkhJxR2x/kittens-rise-up)
 
 ## Setup
 Note: The [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) need to be running so the client can connect to the game server properly.

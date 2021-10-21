@@ -1,4 +1,5 @@
 using Common.Networking.IO;
+using Common.Game;
 using ENet;
 using System.Linq;
 using Godot;
@@ -44,6 +45,6 @@ namespace KRU.Networking
             }
         }
 
-        private string ConvertCostToString(Dictionary<ushort, uint> resourceListCost) => string.Join(" ", resourceListCost.Select(x => $"{x.Value} :{x.Key}:"));
+        private string ConvertCostToString(Dictionary<ResourceType, uint> resourceListCost) => string.Join(" ", resourceListCost.Select(x => $"{x.Value} :{x.Key}:"));
     }
 }

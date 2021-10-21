@@ -1,7 +1,9 @@
 using Godot;
-using KRU.Game;
 using KRU.Networking;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Common.Game;
 
 namespace KRU.UI
 {
@@ -17,23 +19,42 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
         private static Label labelTitle;
 
-        public static Dictionary<ushort, UILabelCount> ResourceCountLabels { get; set; }
-        public static Dictionary<ushort, UILabelCount> StructureCountLabels { get; set; }
-        public static Dictionary<ushort, ResourceInfo> ResourceInfoData { get; set; }
-        public static Dictionary<ushort, StructureInfo> StructureInfoData { get; set; }
+        public static Dictionary<ResourceType, UILabelCount> ResourceCountLabels { get; set; }
+        public static Dictionary<StructureType, UILabelCount> StructureCountLabels { get; set; }
+        public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
+        public static Dictionary<ResourceType, TextureRect> ResourceIconData { get; set; }
+        public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
 
         public override void _Ready()
         {
             labelTitle = GetNode<Label>(nodePathTitle); // Title
+
+            ResourceInfoData = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
+                .ToDictionary(x => (ResourceType)Enum.Parse(typeof(ResourceType), x.GetType().Name.Replace(typeof(ResourceInfo).Name, "")), x => x);
+
+            ResourceIconData = new Dictionary<ResourceType, TextureRect>();
+            foreach (var resourceType in ResourceInfoData.Keys)
+                ResourceIconData.Add(resourceType, GetResourceImage(resourceType));
+
+            StructureInfoData = typeof(StructureInfo).Assembly.GetTypes().Where(x => typeof(StructureInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<StructureInfo>()
+                .ToDictionary(x => (StructureType)Enum.Parse(typeof(StructureType), x.GetType().Name.Replace(typeof(StructureInfo).Name, "")), x => x);
         }
 
-        public static void UpdateResourceLabels(Dictionary<ushort, uint> resources)
+        private static TextureRect GetResourceImage(ResourceType type)
+        {
+            return new TextureRect
+            {
+                Texture = ResourceLoader.Load<StreamTexture>($"res://Sprites/Icons/{Enum.GetName(typeof(ResourceType), type).ToLower()}.png")
+            };
+        }
+
+        public static void UpdateResourceLabels(Dictionary<ResourceType, uint> resources)
         {
             foreach (var resource in resources)
                 ResourceCountLabels[resource.Key].SetAmount(resource.Value);
         }
 
-        public static void UpdateStructureLabel(ushort structureId, uint amount)
+        public static void UpdateStructureLabel(StructureType structureId, uint amount)
         {
             StructureCountLabels[structureId].AddAmount(amount);
         }
@@ -45,17 +66,15 @@ namespace KRU.UI
             UIStore.ClearButtons();
             UITerminal.ClearMessages();
 
-            ResourceCountLabels = new Dictionary<ushort, UILabelCount>();
-            StructureCountLabels = new Dictionary<ushort, UILabelCount>();
-            ResourceInfoData = new Dictionary<ushort, ResourceInfo>();
-            StructureInfoData = new Dictionary<ushort, StructureInfo>();
+            ResourceCountLabels = new Dictionary<ResourceType, UILabelCount>();
+            StructureCountLabels = new Dictionary<StructureType, UILabelCount>();
 
             UITerminal.Log("Welcome");
 
             ShowGameSection("Resources");
         }
 
-        public static void InitResourceLabels(Dictionary<ushort, uint> resourceCounts)
+        public static void InitResourceLabels(Dictionary<ResourceType, uint> resourceCounts)
         {
             foreach (var resource in resourceCounts) 
             {
@@ -64,7 +83,7 @@ namespace KRU.UI
             }
         }
 
-        public static void InitStructureLabels(Dictionary<ushort, uint> structureCounts) 
+        public static void InitStructureLabels(Dictionary<StructureType, uint> structureCounts) 
         {
             foreach (var structure in structureCounts) 
             {

@@ -1,4 +1,5 @@
 using Godot;
+using Common.Game;
 using KRU.Networking;
 
 namespace KRU.UI
@@ -25,7 +26,7 @@ namespace KRU.UI
         private static GridContainer uiTechRequiredList;
 
         // Logic
-        private static ushort activeStructureId;
+        private static StructureType activeStructureId;
 
         public override void _Ready()
         {
@@ -49,7 +50,7 @@ namespace KRU.UI
             // TODO: Not implemented yet
         }
 
-        public static void UpdateDetails(ushort id)
+        public static void UpdateDetails(StructureType id)
         {
             activeStructureId = id;
 
@@ -74,7 +75,8 @@ namespace KRU.UI
 
                 var resourceInfo = UIGame.ResourceInfoData[resource.Key];
 
-                image.Texture = resourceInfo.TextureRectIcon.Texture;
+                // TODO
+                //image.Texture = resourceInfo.TextureRectIcon.Texture;
                 amount.Text = "" + resource.Value;
 
                 uiCostList.AddChild(resourceCountIcon);
@@ -87,8 +89,10 @@ namespace KRU.UI
 
             if (production.Count == 0)
             {
-                var label = new Label();
-                label.Text = "Does not produce anything";
+                var label = new Label
+                {
+                    Text = "Does not produce anything"
+                };
                 uiProductionList.AddChild(label);
             } 
             else 
@@ -101,7 +105,7 @@ namespace KRU.UI
 
                     var resourceInfo = UIGame.ResourceInfoData[resource.Key];
 
-                    image.Texture = resourceInfo.TextureRectIcon.Texture;
+                    image.Texture = UIGame.ResourceIconData[resource.Key].Texture;
                     amount.Text = "" + resource.Value;
 
                     uiProductionList.AddChild(resourceCountIcon);
@@ -113,8 +117,10 @@ namespace KRU.UI
 
             if (production.Count == 0)
             {
-                var label = new Label();
-                label.Text = "Does not produce anything";
+                var label = new Label
+                {
+                    Text = "Does not produce anything"
+                };
                 uiProductionTotalList.AddChild(label);
             } 
             else 
@@ -127,7 +133,7 @@ namespace KRU.UI
 
                     var resourceInfo = UIGame.ResourceInfoData[resource.Key];
 
-                    image.Texture = resourceInfo.TextureRectIcon.Texture;
+                    image.Texture = UIGame.ResourceIconData[resource.Key].Texture;
                     amount.Text = "" + (resource.Value * structuresOwned);
 
                     uiProductionTotalList.AddChild(resourceCountIcon);

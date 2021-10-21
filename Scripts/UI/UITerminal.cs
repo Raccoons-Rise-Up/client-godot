@@ -33,7 +33,7 @@ namespace KRU.UI
 
                 if (resourceIndex != -1) 
                 {
-                    var resourceIcon = resource.Value.TextureRectIcon;
+                    var resourceIcon = UIGame.ResourceIconData[resource.Key];
                     var messageLength = resourceIndex - messageIndexStart;
 
                     var textLabel = new Label

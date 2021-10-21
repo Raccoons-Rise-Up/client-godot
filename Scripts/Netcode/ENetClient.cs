@@ -21,6 +21,7 @@
 
 using Common.Networking.IO;
 using Common.Networking.Packet;
+using Common.Game;
 using ENet;
 using Godot;
 using KRU.UI;
@@ -136,8 +137,8 @@ namespace KRU.Networking
         private static void FreeUpNodes()
         {
             if (UIGame.ResourceInfoData != null)
-                foreach (var resource in UIGame.ResourceInfoData.Values)
-                    resource.TextureRectIcon.Free();
+                foreach (var icon in UIGame.ResourceIconData.Values)
+                    icon.Free();
         }
 
         public static void Connect()
@@ -217,6 +218,7 @@ namespace KRU.Networking
                         netEvent.Packet.CopyTo(readBuffer);
 
                         var opcode = (ServerPacketOpcode)packetReader.ReadByte();
+                        GD.Print(opcode);
 
                         HandlePacket[opcode].Handle(netEvent, packetReader);
 
@@ -342,9 +344,9 @@ namespace KRU.Networking
             }
         }
 
-        public static void PurchaseItem(ushort itemId)
+        public static void PurchaseItem(StructureType itemId)
         {
-            var data = new WPacketPurchaseItem { StructureID = itemId };
+            var data = new WPacketPurchaseItem { StructureID = (ushort)itemId };
             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.PurchaseItem, data);
 
             Outgoing.Enqueue(clientPacket);

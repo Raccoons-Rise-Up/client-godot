@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using Common.Game;
 
 namespace KRU.UI
 {
@@ -21,7 +22,7 @@ namespace KRU.UI
             ResourceList = GetNode<GridContainer>(nodePathStructureList);
         }
 
-        public static void AddStructure(string name, ushort id)
+        public static void AddStructure(string name, StructureType id)
         {
             var button = (Button)UIGame.PrefabButton.Instance();
             button.Text = name;
@@ -36,7 +37,7 @@ namespace KRU.UI
                 label.QueueFree();
         }
 
-        private void _on_Btn_pressed(ushort id)
+        private void _on_Btn_pressed(StructureType id)
         {
             UIStructureInfo.UpdateDetails(id);
         }

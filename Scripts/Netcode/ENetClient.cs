@@ -135,8 +135,9 @@ namespace KRU.Networking
 
         private static void FreeUpNodes()
         {
-            foreach (var resource in UIGame.ResourceInfoData.Values)
-                resource.TextureRectIcon.Free();
+            if (UIGame.ResourceInfoData != null)
+                foreach (var resource in UIGame.ResourceInfoData.Values)
+                    resource.TextureRectIcon.Free();
         }
 
         public static void Connect()

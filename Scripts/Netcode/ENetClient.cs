@@ -60,6 +60,11 @@ namespace KRU.Networking
         private static bool RunningNetCode { get; set; }
         private static SceneTree SceneTree { get; set; }
 
+        // Purchasing Items
+        public static ushort PurchaseId { get; set; }
+        public static uint PurchaseAmount = 1;
+        public static bool ProcessingPurchaseRequest { get; set; }
+
         public override void _Ready()
         {
             SceneTree = GetTree();
@@ -346,6 +351,13 @@ namespace KRU.Networking
 
         public static void PurchaseItem(StructureType itemId)
         {
+            // Client is in the middle of a purchase request
+            if (ProcessingPurchaseRequest)
+                return;
+
+            ProcessingPurchaseRequest = true;
+            PurchaseId = (ushort)itemId;
+
             var data = new WPacketPurchaseItem { StructureID = (ushort)itemId };
             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.PurchaseItem, data);
 

@@ -26,23 +26,31 @@ namespace KRU.Networking
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
             {
-                var structure = UIGame.StructureInfoData[data.StructureId];
-                var message = $"Could not afford 1 x {structure.Name} ({ConvertCostToString(data.Resources)} is needed)";
+                var structure = UIGame.StructureInfoData[(StructureType)ENetClient.PurchaseId];
+                var lackingResources = UIGame.GetLackingResources(structure);
+
+                var message = $"Could not afford 1 x {structure.Name} ({ConvertCostToString(lackingResources)} is needed)";
 
                 UITerminal.Log(message);
             }
 
             if (itemResponseOpcode == PurchaseItemResponseOpcode.Purchased)
             {
-                var structure = UIGame.StructureInfoData[data.StructureId];
+                var structureId = (StructureType)ENetClient.PurchaseId;
+                var structure = UIGame.StructureInfoData[structureId];
                 var message = $"Bought 1 x {structure.Name} for {ConvertCostToString(structure.Cost)}.";
 
                 UITerminal.Log(message);
 
+                foreach (var resource in data.Resources)
+                    GD.Print(System.Enum.GetName(typeof(ResourceType), resource.Key) + " " + resource.Value);
+
                 UIGame.UpdateResourceLabels(data.Resources);
-                UIGame.UpdateStructureLabel(data.StructureId, data.StructureAmount);
-                UIStructureInfo.UpdateDetails(data.StructureId);
+                UIGame.UpdateStructureLabel(structureId, ENetClient.PurchaseAmount);
+                UIStructureInfo.UpdateDetails(structureId);
             }
+
+            ENetClient.ProcessingPurchaseRequest = false;
         }
 
         private string ConvertCostToString(Dictionary<ResourceType, uint> resourceListCost) => string.Join(" ", resourceListCost.Select(x => $"{x.Value} :{x.Key}:"));

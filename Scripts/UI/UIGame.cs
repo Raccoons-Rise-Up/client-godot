@@ -48,6 +48,26 @@ namespace KRU.UI
             };
         }
 
+        public static Dictionary<ResourceType, uint> GetLackingResources(StructureInfo structure)
+        {
+            var lackingResources = new Dictionary<ResourceType, uint>();
+            foreach (var resource in ResourceCountLabels)
+            {
+                var playerResourceKey = resource.Key;
+                var playerResourceAmount = resource.Value.GetAmount();
+
+                if (structure.Cost.TryGetValue(playerResourceKey, out uint structureResourceValue)) 
+                {
+                    if (playerResourceAmount < structureResourceValue)
+                    {
+                        lackingResources.Add(playerResourceKey, structureResourceValue - playerResourceAmount);
+                    }
+                }
+            }
+
+            return lackingResources;
+        }
+
         public static void UpdateResourceLabels(Dictionary<ResourceType, uint> resources)
         {
             foreach (var resource in resources)

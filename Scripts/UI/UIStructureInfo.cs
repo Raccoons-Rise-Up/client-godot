@@ -75,8 +75,7 @@ namespace KRU.UI
 
                 var resourceInfo = UIGame.ResourceInfoData[resource.Key];
 
-                // TODO
-                //image.Texture = resourceInfo.TextureRectIcon.Texture;
+                image.Texture = UIGame.ResourceIconData[resource.Key].Texture;
                 amount.Text = "" + resource.Value;
 
                 uiCostList.AddChild(resourceCountIcon);

@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace KRU.UI
 {
@@ -8,7 +9,7 @@ namespace KRU.UI
         private Node Node { get; set; }
         private Label LabelName { get; set; }
         private Label LabelValue { get; set; }
-        private uint Amount { get; set; }
+        private float Amount { get; set; }
 
         public UILabelCount(Node list, string name, uint amount)
         {
@@ -31,18 +32,18 @@ namespace KRU.UI
             LabelValue.Text = "" + 0;
         }
 
-        public void SetAmount(uint amount)
+        public void SetAmount(float amount)
         {
             Amount = amount;
             LabelValue.Text = "" + amount;
         }
 
-        public void AddAmount(uint amount)
+        public void AddAmount(float amount)
         {
             Amount += amount;
             LabelValue.Text = "" + Amount;
         }
 
-        public uint GetAmount() => Amount;
+        public float GetAmount() => Amount;
     }
 }

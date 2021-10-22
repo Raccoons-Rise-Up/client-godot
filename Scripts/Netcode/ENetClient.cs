@@ -97,6 +97,9 @@ namespace KRU.Networking
 
         public override void _Process(float delta)
         {
+            if (UIGame.InGame)
+                UIGame.AddResourcesGeneratedFromStructures();
+
             while (GodotCmds.TryDequeue(out GodotInstructions result))
             {
                 foreach (var cmd in result.Instructions)

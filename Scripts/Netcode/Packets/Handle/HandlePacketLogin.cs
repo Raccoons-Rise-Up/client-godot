@@ -1,5 +1,6 @@
 using Common.Networking.IO;
 using ENet;
+using System.Linq;
 using KRU.UI;
 
 namespace KRU.Networking
@@ -38,6 +39,9 @@ namespace KRU.Networking
             {
                 UIGame.InitGame();
 
+                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (float)x.Value);
+                UIGame.StructureCounts = data.StructureCounts;
+
                 UIGame.InitResourceLabels(data.ResourceCounts);
                 UIGame.InitStructureLabels(data.StructureCounts);
 
@@ -45,12 +49,17 @@ namespace KRU.Networking
 
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
+
+                UIGame.InGame = true;
             }
 
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
                 UIGame.InitGame();
 
+                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (float)x.Value);
+                UIGame.StructureCounts = data.StructureCounts;
+
                 UIGame.InitResourceLabels(data.ResourceCounts);
                 UIGame.InitStructureLabels(data.StructureCounts);
 
@@ -58,6 +67,8 @@ namespace KRU.Networking
 
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();
+
+                UIGame.InGame = true;
             }
         }
     }

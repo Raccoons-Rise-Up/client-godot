@@ -19,11 +19,22 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
         private static Label labelTitle;
 
+        // Labels
         public static Dictionary<ResourceType, UILabelCount> ResourceCountLabels { get; set; }
         public static Dictionary<StructureType, UILabelCount> StructureCountLabels { get; set; }
+
+        // Data
         public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
         public static Dictionary<ResourceType, TextureRect> ResourceIconData { get; set; }
         public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
+
+        // Counts
+        public static Dictionary<ResourceType, float> ResourceCounts { get; set; }
+        public static Dictionary<StructureType, uint> StructureCounts { get; set; }
+        public static DateTime StructuresLastChecked { get; set; }
+
+        // Msc
+        public static bool InGame { get; set; }
 
         public override void _Ready()
         {
@@ -54,7 +65,7 @@ namespace KRU.UI
             foreach (var resource in ResourceCountLabels)
             {
                 var playerResourceKey = resource.Key;
-                var playerResourceAmount = resource.Value.GetAmount();
+                var playerResourceAmount = (uint)resource.Value.GetAmount();
 
                 if (structure.Cost.TryGetValue(playerResourceKey, out uint structureResourceValue)) 
                 {
@@ -68,10 +79,30 @@ namespace KRU.UI
             return lackingResources;
         }
 
-        public static void UpdateResourceLabels(Dictionary<ResourceType, uint> resources)
+        public static void AddResourcesGeneratedFromStructures() 
         {
-            foreach (var resource in resources)
-                ResourceCountLabels[resource.Key].SetAmount(resource.Value);
+            for (int i = 0; i < UIGame.StructureCounts.Count; i++)
+            {
+                var structureCount = UIGame.StructureCounts.ElementAt(i);
+
+                var timeDiff = DateTime.Now - UIGame.StructuresLastChecked;
+
+                // Look up the info for the structure
+                var structureData = UIGame.StructureInfoData[structureCount.Key];
+
+                var resources = new Dictionary<ResourceType, float>();
+                
+                foreach (var prod in structureData.Production)
+                {
+                    // amountGenerated = production * structure count * time diff
+                    var amountGenerated = prod.Value * structureCount.Value * (float)timeDiff.TotalSeconds;
+                    resources.Add(prod.Key, amountGenerated);
+                }
+
+                UIGame.AddResourceCounts(resources);
+            }
+
+            UIGame.StructuresLastChecked = DateTime.Now;
         }
 
         public static void UpdateStructureLabel(StructureType structureId, uint amount)
@@ -101,6 +132,51 @@ namespace KRU.UI
                 var resourceName = ResourceInfoData[resource.Key].Name;
                 ResourceCountLabels.Add(resource.Key, new UILabelCount(UIResources.ResourceList, resourceName, resource.Value));
             }
+        }
+
+        public static void UpdateStructureCount(StructureType key, uint amount)
+        {
+            // Update structure counts
+            StructureCounts[key] = amount;
+
+            // Update display label
+            UIGame.UpdateStructureLabel(key, ENetClient.PurchaseAmount);
+        }
+
+        public static void AddResourceCounts(Dictionary<ResourceType, float> resources)
+        {
+            // DEBUG
+            foreach (var resource in resources)
+                GD.Print($"{System.Enum.GetName(typeof(ResourceType), resource.Key)}: {resource.Value}");
+
+            // Update resource counts
+            foreach (var resource in resources)
+                ResourceCounts[resource.Key] += resource.Value;
+
+            // Update display labels
+            UIGame.AddResourceLabels(resources);
+        }
+
+        public static void SetResourceCounts(Dictionary<ResourceType, float> resources)
+        {
+            // Update resource counts
+            foreach (var resource in resources)
+                ResourceCounts[resource.Key] = resource.Value;
+
+            // Update display labels
+            UIGame.SetResourceLabels(resources);
+        }
+
+        public static void SetResourceLabels(Dictionary<ResourceType, float> resources)
+        {
+            foreach (var resource in resources)
+                ResourceCountLabels[resource.Key].SetAmount(resource.Value);
+        }
+
+        public static void AddResourceLabels(Dictionary<ResourceType, float> resources)
+        {
+            foreach (var resource in resources)
+                ResourceCountLabels[resource.Key].AddAmount(resource.Value);
         }
 
         public static void InitStructureLabels(Dictionary<StructureType, uint> structureCounts) 

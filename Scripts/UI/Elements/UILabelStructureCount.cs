@@ -1,24 +1,25 @@
 using Godot;
 using System;
+using Common.Game;
 
 namespace KRU.UI
 {
-    public class UILabelCount
+    public class UILabelStructureCount
     {
         public static PackedScene PrefabLabelCount = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCount.tscn");
         private Node Node { get; set; }
         private Label LabelName { get; set; }
         private Label LabelValue { get; set; }
-        private float Amount { get; set; }
+        private StructureType StructureType { get; set; }
 
-        public UILabelCount(Node list, string name, uint amount)
+        public UILabelStructureCount(Node list, StructureType structureType, uint amount)
         {
             Node = PrefabLabelCount.Instance();
 
-            LabelName = Node.GetNode<Label>("Name");
-            LabelName.Text = name;
+            StructureType = structureType;
 
-            Amount = amount;
+            LabelName = Node.GetNode<Label>("Name");
+            LabelName.Text = Enum.GetName(typeof(StructureType), structureType);
 
             LabelValue = Node.GetNode<Label>("Value");
             LabelValue.Text = "" + amount;
@@ -28,22 +29,17 @@ namespace KRU.UI
 
         public void ResetAmount() 
         {
-            Amount = 0;
             LabelValue.Text = "" + 0;
         }
 
-        public void SetAmount(float amount)
+        public void SetAmount(double amount)
         {
-            Amount = amount;
             LabelValue.Text = "" + amount;
         }
 
-        public void AddAmount(float amount)
+        public void AddAmount(double amount)
         {
-            Amount += amount;
-            LabelValue.Text = "" + Amount;
+            LabelValue.Text = "" + (UIGame.StructureCounts[StructureType] + amount);
         }
-
-        public float GetAmount() => Amount;
     }
 }

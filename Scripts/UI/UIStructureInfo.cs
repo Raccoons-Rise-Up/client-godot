@@ -58,7 +58,7 @@ namespace KRU.UI
             uiTitle.Text = structure.Name;
             uiDescription.Text = structure.Description;
 
-            var structuresOwned = UIGame.StructureCountLabels[id].GetAmount();
+            var structuresOwned = UIGame.StructureCounts[id];
 
             uiStructuresOwned.Text = "" + structuresOwned;
 

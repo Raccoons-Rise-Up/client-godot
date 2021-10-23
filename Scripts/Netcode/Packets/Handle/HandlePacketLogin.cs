@@ -39,7 +39,7 @@ namespace KRU.Networking
             {
                 UIGame.InitGame();
 
-                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (float)x.Value);
+                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (double)x.Value);
                 UIGame.StructureCounts = data.StructureCounts;
 
                 UIGame.InitResourceLabels(data.ResourceCounts);
@@ -57,7 +57,7 @@ namespace KRU.Networking
             {
                 UIGame.InitGame();
 
-                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (float)x.Value);
+                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (double)x.Value);
                 UIGame.StructureCounts = data.StructureCounts;
 
                 UIGame.InitResourceLabels(data.ResourceCounts);

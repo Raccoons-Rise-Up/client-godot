@@ -29,7 +29,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Thread = System.Threading.Thread;
+using Timer = System.Timers.Timer;
 
 namespace KRU.Networking
 {
@@ -65,6 +67,9 @@ namespace KRU.Networking
         public static uint PurchaseAmount = 1;
         public static bool ProcessingPurchaseRequest { get; set; }
 
+        // Game Loop
+        private static Timer GameLoopTimer { get; set; }
+
         public override void _Ready()
         {
             SceneTree = GetTree();
@@ -93,13 +98,23 @@ namespace KRU.Networking
             if (Outgoing != null) while (Outgoing.TryDequeue(out _)) ;
             if (GodotCmds != null) while (GodotCmds.TryDequeue(out _)) ;
             if (ENetCmds != null) while (ENetCmds.TryDequeue(out _)) ;
+
+            // Loop method every 1 seconds
+            GameLoopTimer = new Timer();
+            GameLoopTimer.Elapsed += new ElapsedEventHandler(GameUpdateLoop);
+            GameLoopTimer.Interval = 1000; // 1000ms
+        }
+
+        public static void DisableGameLoop() => GameLoopTimer.Enabled = false;
+        public static void EnableGameLoop() => GameLoopTimer.Enabled = true;
+
+        private void GameUpdateLoop(object source, ElapsedEventArgs e)
+        {
+            UIGame.AddResourcesGeneratedFromStructures();
         }
 
         public override void _Process(float delta)
         {
-            if (UIGame.InGame)
-                UIGame.AddResourcesGeneratedFromStructures();
-
             while (GodotCmds.TryDequeue(out GodotInstructions result))
             {
                 foreach (var cmd in result.Instructions)
@@ -196,13 +211,7 @@ namespace KRU.Networking
                             GD.Print("Disconnected");
                             Peer.Disconnect(0);
                             RunningNetCode = false;
-                            break;
-                        }
-
-                        if (result == ENetInstructionOpcode.CancelConnection)
-                        {
-                            GD.Print("Cancel connection");
-                            RunningNetCode = false;
+                            DisableGameLoop();
                             break;
                         }
 
@@ -291,6 +300,8 @@ namespace KRU.Networking
                             // Keep track of networking logic
                             TryingToConnect = false;
                             ConnectedToServer = true;
+
+                            EnableGameLoop();
                         }
 
                         if (eventType == EventType.Disconnect)

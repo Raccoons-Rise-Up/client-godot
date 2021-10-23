@@ -20,8 +20,8 @@ namespace KRU.UI
         private static Label labelTitle;
 
         // Labels
-        public static Dictionary<ResourceType, UILabelCount> ResourceCountLabels { get; set; }
-        public static Dictionary<StructureType, UILabelCount> StructureCountLabels { get; set; }
+        public static Dictionary<ResourceType, UILabelResourceCount> ResourceCountLabels { get; set; }
+        public static Dictionary<StructureType, UILabelStructureCount> StructureCountLabels { get; set; }
 
         // Data
         public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
@@ -29,7 +29,7 @@ namespace KRU.UI
         public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
 
         // Counts
-        public static Dictionary<ResourceType, float> ResourceCounts { get; set; }
+        public static Dictionary<ResourceType, double> ResourceCounts { get; set; }
         public static Dictionary<StructureType, uint> StructureCounts { get; set; }
         public static DateTime StructuresLastChecked { get; set; }
 
@@ -38,6 +38,7 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            StructuresLastChecked = DateTime.Now; // TODO: Sync with game server!
             labelTitle = GetNode<Label>(nodePathTitle); // Title
 
             ResourceInfoData = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
@@ -65,7 +66,7 @@ namespace KRU.UI
             foreach (var resource in ResourceCountLabels)
             {
                 var playerResourceKey = resource.Key;
-                var playerResourceAmount = (uint)resource.Value.GetAmount();
+                var playerResourceAmount = (uint)ResourceCounts[resource.Key];
 
                 if (structure.Cost.TryGetValue(playerResourceKey, out uint structureResourceValue)) 
                 {
@@ -90,12 +91,12 @@ namespace KRU.UI
                 // Look up the info for the structure
                 var structureData = UIGame.StructureInfoData[structureCount.Key];
 
-                var resources = new Dictionary<ResourceType, float>();
+                var resources = new Dictionary<ResourceType, double>();
                 
                 foreach (var prod in structureData.Production)
                 {
                     // amountGenerated = production * structure count * time diff
-                    var amountGenerated = prod.Value * structureCount.Value * (float)timeDiff.TotalSeconds;
+                    var amountGenerated = prod.Value * structureCount.Value * (double)timeDiff.TotalSeconds;
                     resources.Add(prod.Key, amountGenerated);
                 }
 
@@ -117,8 +118,8 @@ namespace KRU.UI
             UIStore.ClearButtons();
             UITerminal.ClearMessages();
 
-            ResourceCountLabels = new Dictionary<ResourceType, UILabelCount>();
-            StructureCountLabels = new Dictionary<StructureType, UILabelCount>();
+            ResourceCountLabels = new Dictionary<ResourceType, UILabelResourceCount>();
+            StructureCountLabels = new Dictionary<StructureType, UILabelStructureCount>();
 
             UITerminal.Log("Welcome");
 
@@ -129,8 +130,7 @@ namespace KRU.UI
         {
             foreach (var resource in resourceCounts) 
             {
-                var resourceName = ResourceInfoData[resource.Key].Name;
-                ResourceCountLabels.Add(resource.Key, new UILabelCount(UIResources.ResourceList, resourceName, resource.Value));
+                ResourceCountLabels.Add(resource.Key, new UILabelResourceCount(UIResources.ResourceList, resource.Key, resource.Value));
             }
         }
 
@@ -143,7 +143,7 @@ namespace KRU.UI
             UIGame.UpdateStructureLabel(key, ENetClient.PurchaseAmount);
         }
 
-        public static void AddResourceCounts(Dictionary<ResourceType, float> resources)
+        public static void AddResourceCounts(Dictionary<ResourceType, double> resources)
         {
             // DEBUG
             foreach (var resource in resources)
@@ -157,7 +157,7 @@ namespace KRU.UI
             UIGame.AddResourceLabels(resources);
         }
 
-        public static void SetResourceCounts(Dictionary<ResourceType, float> resources)
+        public static void SetResourceCounts(Dictionary<ResourceType, double> resources)
         {
             // Update resource counts
             foreach (var resource in resources)
@@ -167,13 +167,13 @@ namespace KRU.UI
             UIGame.SetResourceLabels(resources);
         }
 
-        public static void SetResourceLabels(Dictionary<ResourceType, float> resources)
+        public static void SetResourceLabels(Dictionary<ResourceType, double> resources)
         {
             foreach (var resource in resources)
                 ResourceCountLabels[resource.Key].SetAmount(resource.Value);
         }
 
-        public static void AddResourceLabels(Dictionary<ResourceType, float> resources)
+        public static void AddResourceLabels(Dictionary<ResourceType, double> resources)
         {
             foreach (var resource in resources)
                 ResourceCountLabels[resource.Key].AddAmount(resource.Value);
@@ -183,8 +183,7 @@ namespace KRU.UI
         {
             foreach (var structure in structureCounts) 
             {
-                var structureName = StructureInfoData[structure.Key].Name;
-                StructureCountLabels.Add(structure.Key, new UILabelCount(UIStructures.StructureList, structureName, structure.Value));
+                StructureCountLabels.Add(structure.Key, new UILabelStructureCount(UIStructures.StructureList, structure.Key, structure.Value));
             }
         }
 
@@ -196,6 +195,22 @@ namespace KRU.UI
                 UIStore.AddStructure(structure.Value.Name, structure.Key);
         }
 
+        private static void ShowGameSection(string name)
+        {
+            HideAllGameSections();
+
+            var section = UIGameSections.ControlSections[name];
+            section.Visible = true;
+            labelTitle.Text = section.Name;
+        }
+
+        private static void HideAllGameSections()
+        {
+            foreach (var section in UIGameSections.ControlSections.Values)
+                section.Visible = false;
+        }
+
+#region Buttons
         private void _on_Btn_Resources_pressed() 
         {
             ShowGameSection("Resources");
@@ -231,20 +246,6 @@ namespace KRU.UI
             UIMap.ShowMap();
             ShowGameSection("Map");
         }
-
-        private static void ShowGameSection(string name)
-        {
-            HideAllGameSections();
-
-            var section = UIGameSections.ControlSections[name];
-            section.Visible = true;
-            labelTitle.Text = section.Name;
-        }
-
-        private static void HideAllGameSections()
-        {
-            foreach (var section in UIGameSections.ControlSections.Values)
-                section.Visible = false;
-        }
+#endregion
     }
 }

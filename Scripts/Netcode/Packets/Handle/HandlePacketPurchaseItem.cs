@@ -46,8 +46,8 @@ namespace KRU.Networking
                     GD.Print(System.Enum.GetName(typeof(ResourceType), resource.Key) + " " + resource.Value);
 
                 // Reminder: This does not set all the resources
-                UIGame.SetResourceCounts(data.Resources.ToDictionary(x => x.Key, x => (float)x.Value));
-                UIGame.UpdateStructureCount(structureId, ENetClient.PurchaseAmount);
+                UIGame.SetResourceCounts(data.Resources.ToDictionary(x => x.Key, x => (double)x.Value));
+                UIGame.UpdateStructureCount(structureId, UIGame.StructureCounts[structureId] + ENetClient.PurchaseAmount);
                 
                 UIStructureInfo.UpdateDetails(structureId);
             }

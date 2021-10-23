@@ -57,13 +57,10 @@ namespace KRU.Networking
             {
                 UIGame.InitGame();
 
-                UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (double)x.Value);
-                UIGame.StructureCounts = data.StructureCounts;
-
-                UIGame.InitResourceLabels(data.ResourceCounts);
-                UIGame.InitStructureLabels(data.StructureCounts);
-
                 UIGame.InitStore();
+
+                UIGame.InitResourceLabels(UIGame.ResourceCounts.ToDictionary(x => x.Key, x => (uint)x.Value));
+                UIGame.InitStructureLabels(UIGame.StructureCounts.ToDictionary(x => x.Key, x => (uint)x.Value));
 
                 UILogin.UpdateResponse("Login success!");
                 UILogin.LoadGameScene();

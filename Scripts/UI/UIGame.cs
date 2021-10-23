@@ -43,7 +43,12 @@ namespace KRU.UI
 
         public override void _Ready()
         {
-            StructuresLastChecked = DateTime.Now; // TODO: Sync with game server!
+            ResourceCounts = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
+                .ToDictionary(x => (ResourceType)Enum.Parse(typeof(ResourceType), x.GetType().Name.Replace(typeof(ResourceInfo).Name, "")), x => 0d);
+            StructureCounts = typeof(StructureInfo).Assembly.GetTypes().Where(x => typeof(StructureInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<StructureInfo>()
+                .ToDictionary(x => (StructureType)Enum.Parse(typeof(StructureType), x.GetType().Name.Replace(typeof(StructureInfo).Name, "")), x => (uint)0);
+
+            StructuresLastChecked = DateTime.Now;
             labelTitle = GetNode<Label>(nodePathTitle); // Title
 
             ResourceInfoData = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
@@ -64,7 +69,7 @@ namespace KRU.UI
         private void GameUpdateLoop(object source, ElapsedEventArgs e)
         {
             UIGame.AddResourcesGeneratedFromStructures();
-            UIStructureInfo.UpdateCurrentAmounts();
+            //UIStructureInfo.UpdateCurrentAmounts();
         }
 
         private static TextureRect GetResourceImage(ResourceType type)

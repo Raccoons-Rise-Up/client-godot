@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Utils;
-using KRU.UI;
-using Godot;
 
 namespace Common.Game
 {
@@ -61,10 +59,28 @@ namespace Common.Game
         }
     }
 
+    public class StructureInfoLumberYard : StructureInfo 
+    {
+        public StructureInfoLumberYard() 
+        {
+            Description = "For chopping trees.";
+            Cost = new Dictionary<ResourceType, uint> 
+            {
+                { ResourceType.Wood, 100 }
+            };
+
+            Production = new Dictionary<ResourceType, uint> 
+            {
+                { ResourceType.Wood, 1 }
+            };
+        }
+    }
+
     public enum StructureType
     {
         Hut,
-        WheatFarm
+        WheatFarm,
+        LumberYard
     }
 
     public enum TechType

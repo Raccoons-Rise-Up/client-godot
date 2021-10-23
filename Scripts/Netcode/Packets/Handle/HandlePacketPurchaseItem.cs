@@ -42,14 +42,12 @@ namespace KRU.Networking
 
                 UITerminal.Log(message);
 
-                foreach (var resource in data.Resources)
-                    GD.Print(System.Enum.GetName(typeof(ResourceType), resource.Key) + " " + resource.Value);
-
                 // Reminder: This does not set all the resources
                 UIGame.SetResourceCounts(data.Resources.ToDictionary(x => x.Key, x => (double)x.Value));
                 UIGame.UpdateStructureCount(structureId, UIGame.StructureCounts[structureId] + ENetClient.PurchaseAmount);
                 
-                UIStructureInfo.UpdateDetails(structureId);
+                UIStructureInfo.SwitchActiveStructure(structureId);
+                UIStructureInfo.UpdateDetails();
             }
 
             ENetClient.ProcessingPurchaseRequest = false;

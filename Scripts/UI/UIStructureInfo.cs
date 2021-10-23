@@ -1,5 +1,6 @@
 using Godot;
 using Common.Game;
+using System.Collections.Generic;
 using KRU.Networking;
 
 namespace KRU.UI
@@ -12,7 +13,7 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathStructuresOwned;
         [Export] private readonly NodePath nodePathCostList;
         [Export] private readonly NodePath nodePathProductionList;
-        [Export] private readonly NodePath nodePathProductionTotalList;
+        [Export] private readonly NodePath nodePathCurrentList;
         [Export] private readonly NodePath nodePathTechRequiredList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
@@ -22,11 +23,12 @@ namespace KRU.UI
         private static Label uiStructuresOwned;
         private static HBoxContainer uiCostList;
         private static HBoxContainer uiProductionList;
-        private static HBoxContainer uiProductionTotalList;
+        private static HBoxContainer uiCurrentList;
         private static GridContainer uiTechRequiredList;
 
         // Logic
         private static StructureType activeStructureId;
+        private static Dictionary<ResourceType, Label> labelCurrentAmount;
 
         public override void _Ready()
         {
@@ -35,13 +37,14 @@ namespace KRU.UI
             uiStructuresOwned = GetNode<Label>(nodePathStructuresOwned);
             uiCostList = GetNode<HBoxContainer>(nodePathCostList);
             uiProductionList = GetNode<HBoxContainer>(nodePathProductionList);
-            uiProductionTotalList = GetNode<HBoxContainer>(nodePathProductionTotalList);
+            uiCurrentList = GetNode<HBoxContainer>(nodePathCurrentList);
             uiTechRequiredList = GetNode<GridContainer>(nodePathTechRequiredList);
+
+            labelCurrentAmount = new Dictionary<ResourceType, Label>();
         }
 
         private void _on_Btn_Buy_pressed()
         {
-            GD.Print("Active Structure ID: " + activeStructureId);
             ENetClient.PurchaseItem(activeStructureId);
         }
 
@@ -50,15 +53,23 @@ namespace KRU.UI
             // TODO: Not implemented yet
         }
 
-        public static void UpdateDetails(StructureType id)
-        {
-            activeStructureId = id;
+        public static void SwitchActiveStructure(StructureType id) => activeStructureId = id;
 
-            var structure = UIGame.StructureInfoData[id];
+        public static void UpdateCurrentAmounts()
+        {
+            foreach (var keyValuePair in labelCurrentAmount)
+            {
+                keyValuePair.Value.Text = "" + (uint)UIGame.ResourceCounts[keyValuePair.Key];
+            }
+        }
+
+        public static void UpdateDetails()
+        {
+            var structure = UIGame.StructureInfoData[activeStructureId];
             uiTitle.Text = structure.Name;
             uiDescription.Text = structure.Description;
 
-            var structuresOwned = UIGame.StructureCounts[id];
+            var structuresOwned = UIGame.StructureCounts[activeStructureId];
 
             uiStructuresOwned.Text = "" + structuresOwned;
 
@@ -67,6 +78,7 @@ namespace KRU.UI
 
             var cost = structure.Cost;
 
+            // COST
             foreach (var resource in cost)
             {
                 var resourceCountIcon = UIGame.PrefabUILabelCountIcon.Instance();
@@ -86,6 +98,7 @@ namespace KRU.UI
 
             var production = structure.Production;
 
+            // PRODUCTION
             if (production.Count == 0)
             {
                 var label = new Label
@@ -111,31 +124,38 @@ namespace KRU.UI
                 }
             }
 
-            foreach (Node child in uiProductionTotalList.GetChildren())
+            foreach (Node child in uiCurrentList.GetChildren())
                 child.QueueFree();
 
+            // CURRENT
             if (production.Count == 0)
             {
                 var label = new Label
                 {
                     Text = "Does not produce anything"
                 };
-                uiProductionTotalList.AddChild(label);
+                uiCurrentList.AddChild(label);
             } 
             else 
             {
+                // Remove old labels that were being kept track of
+                labelCurrentAmount.Clear();
+
                 foreach (var resource in production)
                 {
                     var resourceCountIcon = UIGame.PrefabUILabelCountIcon.Instance();
                     var image = resourceCountIcon.GetNode<TextureRect>("Image");
                     var amount = resourceCountIcon.GetNode<Label>("Amount");
 
+                    // Keep track of current values so we do not have to reupdate everything just to update these values
+                    labelCurrentAmount.Add(resource.Key, amount);
+
                     var resourceInfo = UIGame.ResourceInfoData[resource.Key];
 
                     image.Texture = UIGame.ResourceIconData[resource.Key].Texture;
-                    amount.Text = "" + (resource.Value * structuresOwned);
+                    amount.Text = "" + (uint)UIGame.ResourceCounts[resource.Key];
 
-                    uiProductionTotalList.AddChild(resourceCountIcon);
+                    uiCurrentList.AddChild(resourceCountIcon);
                 }
             }
         }

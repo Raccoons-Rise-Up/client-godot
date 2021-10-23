@@ -29,9 +29,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 using Thread = System.Threading.Thread;
-using Timer = System.Timers.Timer;
 
 namespace KRU.Networking
 {
@@ -67,9 +65,6 @@ namespace KRU.Networking
         public static uint PurchaseAmount = 1;
         public static bool ProcessingPurchaseRequest { get; set; }
 
-        // Game Loop
-        private static Timer GameLoopTimer { get; set; }
-
         public override void _Ready()
         {
             SceneTree = GetTree();
@@ -98,19 +93,6 @@ namespace KRU.Networking
             if (Outgoing != null) while (Outgoing.TryDequeue(out _)) ;
             if (GodotCmds != null) while (GodotCmds.TryDequeue(out _)) ;
             if (ENetCmds != null) while (ENetCmds.TryDequeue(out _)) ;
-
-            // Loop method every 1 seconds
-            GameLoopTimer = new Timer();
-            GameLoopTimer.Elapsed += new ElapsedEventHandler(GameUpdateLoop);
-            GameLoopTimer.Interval = 1000; // 1000ms
-        }
-
-        public static void DisableGameLoop() => GameLoopTimer.Enabled = false;
-        public static void EnableGameLoop() => GameLoopTimer.Enabled = true;
-
-        private void GameUpdateLoop(object source, ElapsedEventArgs e)
-        {
-            UIGame.AddResourcesGeneratedFromStructures();
         }
 
         public override void _Process(float delta)
@@ -211,7 +193,7 @@ namespace KRU.Networking
                             GD.Print("Disconnected");
                             Peer.Disconnect(0);
                             RunningNetCode = false;
-                            DisableGameLoop();
+                            UIGame.DisableGameLoop();
                             break;
                         }
 
@@ -248,14 +230,14 @@ namespace KRU.Networking
                         switch ((ClientPacketOpcode)clientPacket.Opcode)
                         {
                             case ClientPacketOpcode.Login:
-                                GD.Print("Sending login request to game server..");
+                                //GD.Print("Sending login request to game server..");
 
                                 Send(clientPacket, PacketFlags.Reliable);
 
                                 break;
 
                             case ClientPacketOpcode.PurchaseItem:
-                                GD.Print("Sending purchase item request to game server..");
+                                //GD.Print("Sending purchase item request to game server..");
 
                                 Send(clientPacket, PacketFlags.Reliable);
 
@@ -301,7 +283,7 @@ namespace KRU.Networking
                             TryingToConnect = false;
                             ConnectedToServer = true;
 
-                            EnableGameLoop();
+                            UIGame.EnableGameLoop();
                         }
 
                         if (eventType == EventType.Disconnect)

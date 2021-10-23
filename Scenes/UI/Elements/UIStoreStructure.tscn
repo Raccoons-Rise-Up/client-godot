@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=2]
@@ -9,29 +9,34 @@
 [ext_resource path="res://Scripts/UI/UIStructureInfo.cs" type="Script" id=7]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Light.ttf" type="DynamicFontData" id=8]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=8]
 size = 15
 use_filter = true
 font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 18
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=10]
+default_font = SubResource( 9 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 32
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=12]
+default_font = SubResource( 9 )
+
+[sub_resource type="Theme" id=13]
+default_font = SubResource( 9 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 18
 use_filter = true
 font_data = ExtResource( 2 )
-
-[sub_resource type="Theme" id=3]
-default_font = SubResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 32
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=5]
-default_font = SubResource( 2 )
-
-[sub_resource type="Theme" id=6]
-default_font = SubResource( 2 )
 
 [sub_resource type="Theme" id=7]
 default_font = SubResource( 2 )
@@ -51,7 +56,7 @@ nodePathDescription = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContai
 nodePathStructuresOwned = NodePath("Panel/ScrollContainer/MarginContainer/Owned/PanelContainer/Panel/Label")
 nodePathCostList = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Cost Elements/List Cost")
 nodePathProductionList = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements/List Production")
-nodePathProductionTotalList = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements Total/List Production Total")
+nodePathCurrentList = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Current Elements/List Current")
 nodePathTechRequiredList = NodePath("Panel/ScrollContainer/MarginContainer/VBoxContainer/Tech/List Tech")
 
 [node name="Panel" type="Panel" parent="."]
@@ -103,7 +108,7 @@ margin_right = 43.0
 margin_bottom = 43.0
 
 [node name="Label" parent="Panel/ScrollContainer/MarginContainer/Owned/PanelContainer/Panel" instance=ExtResource( 6 )]
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 8 )
 text = "0"
 
 [node name="Description" type="Label" parent="Panel/ScrollContainer/MarginContainer/Owned"]
@@ -111,7 +116,7 @@ margin_top = 54.0
 margin_right = 59.0
 margin_bottom = 77.0
 size_flags_vertical = 1
-theme = SubResource( 3 )
+theme = SubResource( 10 )
 text = "Owned"
 align = 1
 valign = 1
@@ -127,14 +132,14 @@ margin_bottom = 336.0
 mouse_filter = 2
 
 [node name="Center Content" type="CenterContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer"]
-margin_left = 83.0
-margin_right = 343.0
+margin_left = 92.0
+margin_right = 334.0
 margin_bottom = 209.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content"]
-margin_right = 260.0
+margin_right = 242.0
 margin_bottom = 209.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -143,9 +148,9 @@ __meta__ = {
 }
 
 [node name="Name" type="Label" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
-margin_right = 260.0
+margin_right = 242.0
 margin_bottom = 40.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 11 )
 text = "Wheat Farm"
 align = 1
 valign = 1
@@ -155,9 +160,9 @@ __meta__ = {
 
 [node name="Description" type="Label" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
 margin_top = 44.0
-margin_right = 260.0
+margin_right = 242.0
 margin_bottom = 67.0
-theme = SubResource( 3 )
+theme = SubResource( 10 )
 text = "A farm that generates wheat."
 align = 1
 valign = 1
@@ -167,7 +172,7 @@ __meta__ = {
 
 [node name="Control" type="Control" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
 margin_top = 71.0
-margin_right = 260.0
+margin_right = 242.0
 margin_bottom = 101.0
 rect_min_size = Vector2( 0, 30 )
 
@@ -182,7 +187,7 @@ size_flags_vertical = 4
 margin_top = 4.0
 margin_right = 37.0
 margin_bottom = 27.0
-theme = SubResource( 5 )
+theme = SubResource( 12 )
 text = "Cost"
 align = 1
 valign = 1
@@ -216,7 +221,7 @@ size_flags_vertical = 4
 margin_top = 4.0
 margin_right = 90.0
 margin_bottom = 27.0
-theme = SubResource( 6 )
+theme = SubResource( 13 )
 text = "Production"
 align = 1
 valign = 1
@@ -239,37 +244,37 @@ margin_right = 50.0
 margin_left = 54.0
 margin_right = 104.0
 
-[node name="Production Elements Total" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
+[node name="Current Elements" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
 margin_top = 177.0
-margin_right = 260.0
+margin_right = 170.0
 margin_bottom = 209.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="Production Total" type="Label" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements Total"]
+[node name="Current" type="Label" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Current Elements"]
 margin_top = 4.0
-margin_right = 152.0
+margin_right = 62.0
 margin_bottom = 27.0
-theme = SubResource( 6 )
-text = "Production (Total)"
+theme = SubResource( 13 )
+text = "Current"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="List Production Total" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements Total"]
-margin_left = 156.0
-margin_right = 260.0
+[node name="List Current" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Current Elements"]
+margin_left = 66.0
+margin_right = 170.0
 margin_bottom = 32.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements Total/List Production Total" instance=ExtResource( 4 )]
+[node name="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Current Elements/List Current" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_right = 50.0
 
-[node name="HBoxContainer2" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Production Elements Total/List Production Total" instance=ExtResource( 4 )]
+[node name="HBoxContainer2" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer/Current Elements/List Current" instance=ExtResource( 4 )]
 margin_left = 54.0
 margin_right = 104.0
 

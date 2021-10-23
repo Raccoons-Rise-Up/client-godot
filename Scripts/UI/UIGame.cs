@@ -3,7 +3,9 @@ using KRU.Networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Common.Game;
+using Timer = System.Timers.Timer;
 
 namespace KRU.UI
 {
@@ -33,6 +35,9 @@ namespace KRU.UI
         public static Dictionary<StructureType, uint> StructureCounts { get; set; }
         public static DateTime StructuresLastChecked { get; set; }
 
+        // Game Loop
+        private static Timer GameLoopTimer { get; set; }
+
         // Msc
         public static bool InGame { get; set; }
 
@@ -50,6 +55,16 @@ namespace KRU.UI
 
             StructureInfoData = typeof(StructureInfo).Assembly.GetTypes().Where(x => typeof(StructureInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<StructureInfo>()
                 .ToDictionary(x => (StructureType)Enum.Parse(typeof(StructureType), x.GetType().Name.Replace(typeof(StructureInfo).Name, "")), x => x);
+
+            GameLoopTimer = new Timer();
+            GameLoopTimer.Elapsed += new ElapsedEventHandler(GameUpdateLoop);
+            GameLoopTimer.Interval = 1000; // 1000ms
+        }
+
+        private void GameUpdateLoop(object source, ElapsedEventArgs e)
+        {
+            UIGame.AddResourcesGeneratedFromStructures();
+            UIStructureInfo.UpdateCurrentAmounts();
         }
 
         private static TextureRect GetResourceImage(ResourceType type)
@@ -111,6 +126,9 @@ namespace KRU.UI
             StructureCountLabels[structureId].AddAmount(amount);
         }
 
+        public static void DisableGameLoop() => GameLoopTimer.Enabled = false;
+        public static void EnableGameLoop() => GameLoopTimer.Enabled = true;
+
         public static void InitGame() 
         {
             UIResources.ClearLabelCounts();
@@ -145,10 +163,6 @@ namespace KRU.UI
 
         public static void AddResourceCounts(Dictionary<ResourceType, double> resources)
         {
-            // DEBUG
-            foreach (var resource in resources)
-                GD.Print($"{System.Enum.GetName(typeof(ResourceType), resource.Key)}: {resource.Value}");
-
             // Update resource counts
             foreach (var resource in resources)
                 ResourceCounts[resource.Key] += resource.Value;
@@ -189,7 +203,8 @@ namespace KRU.UI
 
         public static void InitStore()
         {
-            UIStructureInfo.UpdateDetails(0);
+            UIStructureInfo.SwitchActiveStructure(0);
+            UIStructureInfo.UpdateDetails();
 
             foreach (var structure in StructureInfoData)
                 UIStore.AddStructure(structure.Value.Name, structure.Key);

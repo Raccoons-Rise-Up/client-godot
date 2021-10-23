@@ -39,7 +39,8 @@ namespace KRU.UI
 
         private void _on_Btn_pressed(StructureType id)
         {
-            UIStructureInfo.UpdateDetails(id);
+            UIStructureInfo.SwitchActiveStructure(id);
+            UIStructureInfo.UpdateDetails();
         }
     }
 }

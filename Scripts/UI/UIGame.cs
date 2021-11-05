@@ -186,10 +186,26 @@ namespace KRU.UI
             UIGame.SetResourceLabels(resources);
         }
 
+        public static void SetStructureCounts(Dictionary<StructureType, uint> structures)
+        {
+            // Update resource counts
+            foreach (var structure in structures)
+                StructureCounts[structure.Key] = structure.Value;
+
+            // Update display labels
+            UIGame.SetStructureLabels(structures);
+        }
+
         public static void SetResourceLabels(Dictionary<ResourceType, double> resources)
         {
             foreach (var resource in resources)
                 ResourceCountLabels[resource.Key].SetAmount(resource.Value);
+        }
+
+        public static void SetStructureLabels(Dictionary<StructureType, uint> structures)
+        {
+            foreach (var structure in structures)
+                StructureCountLabels[structure.Key].SetAmount(structure.Value);
         }
 
         public static void AddResourceLabels(Dictionary<ResourceType, double> resources)

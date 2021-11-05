@@ -1,4 +1,4 @@
-namespace KRU.Networking
+namespace Common.Networking.Packet
 {
     public enum ClientPacketOpcode
     {

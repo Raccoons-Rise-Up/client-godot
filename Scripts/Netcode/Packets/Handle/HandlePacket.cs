@@ -1,4 +1,5 @@
 using Common.Networking.IO;
+using Common.Networking.Packet;
 using ENet;
 
 namespace KRU.Networking

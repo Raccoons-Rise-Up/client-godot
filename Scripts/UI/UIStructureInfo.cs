@@ -69,6 +69,12 @@ namespace KRU.UI
             uiTitle.Text = structure.Name;
             uiDescription.Text = structure.Description;
 
+            if (!UIGame.StructureCounts.ContainsKey(activeStructureId))
+            {
+                GD.PrintErr($"Could not find ID '{activeStructureId}' for structure count data, perhaps you forgot to update the structure counts?");
+                return;
+            }
+
             var structuresOwned = UIGame.StructureCounts[activeStructureId];
 
             uiStructuresOwned.Text = "" + structuresOwned;

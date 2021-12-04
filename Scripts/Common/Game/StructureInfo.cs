@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +60,38 @@ namespace Common.Game
         }
     }
 
+    public class StructureInfoStoneMine : StructureInfo 
+    {
+        public StructureInfoStoneMine()
+        {
+            Cost = new Dictionary<ResourceType, uint>
+            {
+                { ResourceType.Wood, 100 }
+            };
+
+            Production = new Dictionary<ResourceType, uint> 
+            {
+                { ResourceType.Stone, 1 }
+            };
+        }
+    }
+
+    public class StructureInfoGoldMine : StructureInfo
+    {
+        public StructureInfoGoldMine()
+        {
+            Cost = new Dictionary<ResourceType, uint>
+            {
+                { ResourceType.Wood, 100 }
+            };
+
+            Production = new Dictionary<ResourceType, uint>
+            {
+                { ResourceType.Gold, 1 }
+            };
+        }
+    }
+
     public class StructureInfoLumberYard : StructureInfo 
     {
         public StructureInfoLumberYard() 
@@ -80,7 +113,9 @@ namespace Common.Game
     {
         Hut,
         WheatFarm,
-        LumberYard
+        LumberYard,
+        StoneMine,
+        GoldMine
     }
 
     public enum TechType

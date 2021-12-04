@@ -1,5 +1,6 @@
-namespace Common.Networking.Packet
+﻿namespace Common.Networking.Packet
 {
+    // Received from Game Client
     public enum ClientPacketOpcode
     {
         Disconnect,
@@ -8,6 +9,7 @@ namespace Common.Networking.Packet
         Login
     }
 
+    // Sent to Game Client
     public enum ServerPacketOpcode
     {
         ClientDisconnected,

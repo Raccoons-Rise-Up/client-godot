@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Common.Game;
+using Common.Utils;
 
 namespace KRU.UI
 {
@@ -19,7 +20,7 @@ namespace KRU.UI
             ResourceType = resourceType;
 
             LabelName = Node.GetNode<Label>("Name");
-            LabelName.Text = Enum.GetName(typeof(ResourceType), resourceType);
+            LabelName.Text = SharedUtils.AddSpaceBeforeEachCapital(Enum.GetName(typeof(ResourceType), resourceType));
 
             LabelValue = Node.GetNode<Label>("Value");
             LabelValue.Text = "" + amount;

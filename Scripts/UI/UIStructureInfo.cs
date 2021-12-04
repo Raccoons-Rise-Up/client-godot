@@ -71,6 +71,7 @@ namespace KRU.UI
 
             if (!UIGame.StructureCounts.ContainsKey(activeStructureId))
             {
+                // Although this should not happen anymore as the server updates the old player config data when new structures are defined
                 GD.PrintErr($"Could not find ID '{activeStructureId}' for structure count data, perhaps you forgot to update the structure counts?");
                 return;
             }

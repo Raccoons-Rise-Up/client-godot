@@ -25,7 +25,7 @@ namespace KRU.Networking
 
             var itemResponseOpcode = data.PurchaseItemResponseOpcode;
 
-            if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughGold)
+            if (itemResponseOpcode == PurchaseItemResponseOpcode.NotEnoughResources)
             {
                 var structure = UIGame.StructureInfoData[(StructureType)ENetClient.PurchaseId];
                 var lackingResources = UIGame.GetLackingResources(structure);

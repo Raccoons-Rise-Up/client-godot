@@ -22,7 +22,7 @@
     public enum PurchaseItemResponseOpcode
     {
         Purchased,
-        NotEnoughGold
+        NotEnoughResources
     }
 
     public enum LoginResponseOpcode

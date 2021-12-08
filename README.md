@@ -1,4 +1,4 @@
-# Kittens Rise Up Game Client
+# Raccoons Rise Up Game Client
 
 ## Table of Contents
 1. [About](#about)
@@ -10,7 +10,7 @@
 
 ![image](https://user-images.githubusercontent.com/6277739/132770788-9de196ea-548b-4ae7-8e95-4e2a7bbdfa50.png)
 
-[Kittens Rise Up Roadmap](https://trello.com/b/XkhJxR2x/kittens-rise-up)
+[Raccoons Rise Up Roadmap](https://trello.com/b/XkhJxR2x/raccoons-rise-up)
 
 ## Setup
 Note: The [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) need to be running so the client can connect to the game server properly.

@@ -1,4 +1,4 @@
-# Kittens Rise Up Game Client
+# Raccoons Rise Up Game Client
 
 ## Table of Contents
 1. [About](#about)
@@ -10,7 +10,7 @@
 
 ![image](https://user-images.githubusercontent.com/6277739/132770788-9de196ea-548b-4ae7-8e95-4e2a7bbdfa50.png)
 
-[Kittens Rise Up Roadmap](https://trello.com/b/XkhJxR2x/kittens-rise-up)
+[Raccoons Rise Up Roadmap](https://trello.com/b/XkhJxR2x/raccoons-rise-up)
 
 ## Setup
 Note: The [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) need to be running so the client can connect to the game server properly.
@@ -26,4 +26,4 @@ Please see the projects [current issues](https://github.com/Kittens-Rise-Up/clie
 ## Contributing
 Please see [CONTRIBUTING.md](https://github.com/Kittens-Rise-Up/client-godot/blob/main/CONTRIBUTING.md)
 
-Talk to `valk#9904` in the [Kittens Rise Up](https://discord.gg/cDNf8ja) discord for more info.
+Not all the things to do are listed in the [issues](https://github.com/Raccoons-Rise-Up/client-godot/issues), if you want to know more of what needs to be done please talk to `valk#9904` in the [Raccoons Rise Up](https://discord.gg/cDNf8ja) discord for more info.

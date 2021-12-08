@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
@@ -21,6 +21,8 @@
 [ext_resource path="res://Scripts/UI/UIResearch.cs" type="Script" id=19]
 [ext_resource path="res://Scripts/UI/UIMap.cs" type="Script" id=20]
 [ext_resource path="res://Scenes/UI/Elements/UIStoreStructure.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/UI/Elements/Friends.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scripts/UI/UISocial.cs" type="Script" id=23]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -468,6 +470,47 @@ margin_bottom = 128.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Social" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -224.0
+margin_right = 250.0
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+nodePathBtnFriends = NodePath("HBoxContainer/Btn Friends")
+
+[node name="Friends" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social" instance=ExtResource( 22 )]
+margin_right = 250.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
+margin_top = 204.0
+margin_right = 250.0
+margin_bottom = 224.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Friends" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 60, 0 )
+text = "Friends"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn General" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer"]
+margin_left = 64.0
+margin_right = 126.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 60, 0 )
+text = "General"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Scene Game/Game UI"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -655,6 +698,7 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Nav/CenterContainer/VBoxContainer/Btn Quit" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections" method="_on_Btn_Quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Login" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login" method="_on_Btn_Login_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/Scene Main Menu/PanelContainer/Panel/Sections/Login" method="_on_Btn_Logout_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer/Btn Friends" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social" method="_on_Btn_Friends_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Structures" to="CanvasLayer/Scene Game" method="_on_Btn_Structures_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Kittens" to="CanvasLayer/Scene Game" method="_on_Btn_Kittens_pressed"]

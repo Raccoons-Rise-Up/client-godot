@@ -92,6 +92,7 @@ bg_color = Color( 0, 0, 0, 0.509804 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Scene Main Menu" type="Control" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 27 )
@@ -344,7 +345,6 @@ __meta__ = {
 [node name="Credits" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Credits" instance=ExtResource( 4 )]
 
 [node name="Scene Game" type="Control" parent="CanvasLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 27 )
@@ -1096,10 +1096,10 @@ __meta__ = {
 }
 
 [node name="Nav" type="MarginContainer" parent="CanvasLayer/Scene Game/Game UI/MarginContainer"]
-margin_left = 318.0
-margin_top = 17.0
-margin_right = 706.0
-margin_bottom = 42.0
+margin_left = 62.0
+margin_top = 22.0
+margin_right = 962.0
+margin_bottom = 47.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 __meta__ = {
@@ -1107,7 +1107,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav"]
-margin_right = 388.0
+margin_right = 900.0
 margin_bottom = 25.0
 custom_constants/separation = 0
 __meta__ = {
@@ -1115,9 +1115,9 @@ __meta__ = {
 }
 
 [node name="Btn Resources" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_right = 82.0
+margin_right = 150.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "Resources"
 __meta__ = {
@@ -1125,10 +1125,10 @@ __meta__ = {
 }
 
 [node name="Btn Structures" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_left = 82.0
-margin_right = 160.0
+margin_left = 150.0
+margin_right = 300.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "Structures"
 __meta__ = {
@@ -1136,10 +1136,10 @@ __meta__ = {
 }
 
 [node name="Btn Kittens" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_left = 160.0
-margin_right = 214.0
+margin_left = 300.0
+margin_right = 450.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "Kittens"
 __meta__ = {
@@ -1147,10 +1147,10 @@ __meta__ = {
 }
 
 [node name="Btn Store" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_left = 214.0
-margin_right = 264.0
+margin_left = 450.0
+margin_right = 600.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "Store"
 __meta__ = {
@@ -1158,10 +1158,10 @@ __meta__ = {
 }
 
 [node name="Btn Research" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_left = 264.0
-margin_right = 338.0
+margin_left = 600.0
+margin_right = 750.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "Research"
 __meta__ = {
@@ -1169,10 +1169,10 @@ __meta__ = {
 }
 
 [node name="Btn Map" type="Button" parent="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer"]
-margin_left = 338.0
-margin_right = 388.0
+margin_left = 750.0
+margin_right = 900.0
 margin_bottom = 25.0
-rect_min_size = Vector2( 50, 25 )
+rect_min_size = Vector2( 150, 25 )
 theme = SubResource( 1 )
 text = "World"
 __meta__ = {
@@ -1180,6 +1180,7 @@ __meta__ = {
 }
 
 [node name="Game Menu" type="Control" parent="CanvasLayer/Scene Game"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 14 )

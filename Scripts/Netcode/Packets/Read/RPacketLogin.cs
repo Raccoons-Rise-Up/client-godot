@@ -17,6 +17,7 @@ namespace KRU.Networking
         public byte VersionPatch { get; set; }
         public Dictionary<ResourceType, uint> ResourceCounts { get; set; }
         public Dictionary<StructureType, uint> StructureCounts { get; set; }
+        public string PlayerName { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -30,7 +31,13 @@ namespace KRU.Networking
                     VersionPatch = reader.ReadByte();
                     break;
 
+                case LoginResponseOpcode.LoginSuccessNewPlayer:
+                    PlayerName = reader.ReadString();
+                    break;
+
                 case LoginResponseOpcode.LoginSuccessReturningPlayer:
+                    PlayerName = reader.ReadString();
+
                     // Resource counts
                     ResourceCounts = new Dictionary<ResourceType, uint>();
                     StructureCounts = new Dictionary<StructureType, uint>();

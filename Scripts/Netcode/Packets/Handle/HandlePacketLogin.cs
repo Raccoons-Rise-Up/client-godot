@@ -40,6 +40,8 @@ namespace KRU.Networking
             {
                 UIGame.InitGame();
 
+                UIGame.ClientPlayerName = data.PlayerName;
+
                 UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (double)x.Value);
                 UIGame.StructureCounts = data.StructureCounts;
 
@@ -57,6 +59,8 @@ namespace KRU.Networking
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
                 UIGame.InitGame();
+
+                UIGame.ClientPlayerName = data.PlayerName;
 
                 UIGame.InitStore();
 

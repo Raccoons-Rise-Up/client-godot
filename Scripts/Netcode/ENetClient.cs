@@ -49,7 +49,7 @@ namespace KRU.Networking
 
         public static ConcurrentQueue<GodotInstructions> GodotCmds { get; set; }
         public static ConcurrentQueue<ENetInstructionOpcode> ENetCmds { get; set; }
-        private static ConcurrentQueue<ClientPacket> Outgoing { get; set; }
+        public static ConcurrentQueue<ClientPacket> Outgoing { get; set; }
         private static ConcurrentBag<Event> Incoming { get; set; }
 
         public static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket { get; private set; }
@@ -227,22 +227,7 @@ namespace KRU.Networking
                     // Outgoing
                     while (Outgoing.TryDequeue(out ClientPacket clientPacket))
                     {
-                        switch ((ClientPacketOpcode)clientPacket.Opcode)
-                        {
-                            case ClientPacketOpcode.Login:
-                                //GD.Print("Sending login request to game server..");
-
-                                Send(clientPacket, PacketFlags.Reliable);
-
-                                break;
-
-                            case ClientPacketOpcode.PurchaseItem:
-                                //GD.Print("Sending purchase item request to game server..");
-
-                                Send(clientPacket, PacketFlags.Reliable);
-
-                                break;
-                        }
+                        Send(clientPacket);
                     }
 
                     // Receiving Data
@@ -360,11 +345,11 @@ namespace KRU.Networking
             Outgoing.Enqueue(clientPacket);
         }
 
-        private static void Send(GamePacket gamePacket, PacketFlags packetFlags)
+        private static void Send(GamePacket gamePacket)
         {
             byte channelID = 0; // The channel all networking traffic will be going through
             var packet = default(Packet);
-            packet.Create(gamePacket.Data, packetFlags);
+            packet.Create(gamePacket.Data, gamePacket.PacketFlags);
             Peer.Send(channelID, ref packet);
         }
     }

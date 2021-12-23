@@ -26,9 +26,11 @@ namespace KRU.UI
         public static Dictionary<StructureType, UILabelStructureCount> StructureCountLabels { get; set; }
 
         // Data
+        public static Dictionary<uint, string> Players { get; set; }
         public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
         public static Dictionary<ResourceType, TextureRect> ResourceIconData { get; set; }
         public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
+        public static string ClientPlayerName { get; set; } // the player username of this client
 
         // Counts
         public static Dictionary<ResourceType, double> ResourceCounts { get; set; }
@@ -43,6 +45,8 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            Players = new Dictionary<uint, string>();
+
             ResourceCounts = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
                 .ToDictionary(x => (ResourceType)Enum.Parse(typeof(ResourceType), x.GetType().Name.Replace(typeof(ResourceInfo).Name, "")), x => 0d);
             StructureCounts = typeof(StructureInfo).Assembly.GetTypes().Where(x => typeof(StructureInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<StructureInfo>()

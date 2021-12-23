@@ -2,44 +2,45 @@
 
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Scenes/UI/Elements/UIButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/UI/Elements/UILabelCountIcon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/UI/Elements/TechRequired.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/UI/Elements/UILabel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/UI/UIStructureInfo.cs" type="Script" id=7]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Light.ttf" type="DynamicFontData" id=8]
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=16]
 size = 15
 use_filter = true
 font_data = ExtResource( 8 )
-
-[sub_resource type="DynamicFont" id=9]
-size = 18
-use_filter = true
-font_data = ExtResource( 2 )
-
-[sub_resource type="Theme" id=10]
-default_font = SubResource( 9 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 32
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=12]
-default_font = SubResource( 9 )
-
-[sub_resource type="Theme" id=13]
-default_font = SubResource( 9 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 18
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="Theme" id=7]
+[sub_resource type="Theme" id=3]
 default_font = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=5]
+default_font = SubResource( 2 )
+
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 18
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=8]
+default_font = SubResource( 7 )
+
+[sub_resource type="Theme" id=12]
 
 [node name="UI Store Structure" type="PanelContainer"]
 anchor_right = 1.0
@@ -108,7 +109,7 @@ margin_right = 43.0
 margin_bottom = 43.0
 
 [node name="Label" parent="Panel/ScrollContainer/MarginContainer/Owned/PanelContainer/Panel" instance=ExtResource( 6 )]
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 16 )
 text = "0"
 
 [node name="Description" type="Label" parent="Panel/ScrollContainer/MarginContainer/Owned"]
@@ -116,7 +117,7 @@ margin_top = 54.0
 margin_right = 59.0
 margin_bottom = 77.0
 size_flags_vertical = 1
-theme = SubResource( 10 )
+theme = SubResource( 3 )
 text = "Owned"
 align = 1
 valign = 1
@@ -150,7 +151,7 @@ __meta__ = {
 [node name="Name" type="Label" parent="Panel/ScrollContainer/MarginContainer/VBoxContainer/Center Content/VBoxContainer"]
 margin_right = 242.0
 margin_bottom = 40.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 4 )
 text = "Wheat Farm"
 align = 1
 valign = 1
@@ -162,7 +163,7 @@ __meta__ = {
 margin_top = 44.0
 margin_right = 242.0
 margin_bottom = 67.0
-theme = SubResource( 10 )
+theme = SubResource( 3 )
 text = "A farm that generates wheat."
 align = 1
 valign = 1
@@ -187,7 +188,7 @@ size_flags_vertical = 4
 margin_top = 4.0
 margin_right = 37.0
 margin_bottom = 27.0
-theme = SubResource( 12 )
+theme = SubResource( 5 )
 text = "Cost"
 align = 1
 valign = 1
@@ -221,7 +222,7 @@ size_flags_vertical = 4
 margin_top = 4.0
 margin_right = 90.0
 margin_bottom = 27.0
-theme = SubResource( 13 )
+theme = SubResource( 6 )
 text = "Production"
 align = 1
 valign = 1
@@ -255,7 +256,7 @@ size_flags_vertical = 4
 margin_top = 4.0
 margin_right = 62.0
 margin_bottom = 27.0
-theme = SubResource( 13 )
+theme = SubResource( 6 )
 text = "Current"
 align = 1
 valign = 1
@@ -297,7 +298,7 @@ margin_left = 92.0
 margin_right = 212.0
 margin_bottom = 23.0
 size_flags_horizontal = 8
-theme = SubResource( 7 )
+theme = SubResource( 8 )
 text = "Tech Required"
 align = 1
 valign = 1
@@ -335,36 +336,42 @@ size_flags_vertical = 0
 
 [node name="Buy Sell" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer"]
 margin_left = 20.0
-margin_top = 296.0
-margin_right = 128.0
+margin_top = 311.0
+margin_right = 124.0
 margin_bottom = 336.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
 [node name="List Buttons" type="HBoxContainer" parent="Panel/ScrollContainer/MarginContainer/Buy Sell"]
-margin_right = 108.0
-margin_bottom = 40.0
+margin_right = 104.0
+margin_bottom = 25.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Btn Buy" parent="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 54.0
-margin_bottom = 40.0
+[node name="Btn Buy" type="Button" parent="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons"]
+margin_right = 50.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 50, 25 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = SubResource( 12 )
 text = "Buy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Btn Sell" parent="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 58.0
-margin_right = 108.0
-margin_bottom = 40.0
+[node name="Btn Sell" type="Button" parent="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons"]
+margin_left = 54.0
+margin_right = 104.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 50, 25 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = SubResource( 12 )
 text = "Sell"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Buy" to="." method="_on_Btn_Buy_pressed"]
 [connection signal="pressed" from="Panel/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Sell" to="." method="_on_Btn_Sell_pressed"]

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiles_packed.png-15c7c65d1d5215dd25bb837c8c9d0e41.stex"
+path="res://.import/FriendOnline.png-cbf6ad49a734b6e965f40d3832a56894.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/tiles_packed.png"
-dest_files=[ "res://.import/tiles_packed.png-15c7c65d1d5215dd25bb837c8c9d0e41.stex" ]
+source_file="res://Sprites/FriendOnline.png"
+dest_files=[ "res://.import/FriendOnline.png-cbf6ad49a734b6e965f40d3832a56894.stex" ]
 
 [params]
 

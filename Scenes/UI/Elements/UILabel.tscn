@@ -1,11 +1,8 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Fonts/ThemeLabel.tres" type="Theme" id=1]
+[gd_scene format=2]
 
 [node name="Label" type="Label"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
 text = "Text"
 align = 1
 valign = 1

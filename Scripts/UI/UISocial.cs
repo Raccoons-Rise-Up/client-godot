@@ -3,7 +3,7 @@ using System;
 
 public class UISocial : Node
 {
-    private readonly static PackedScene prefabPanelFriends = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/Friends.tscn");
+    //private readonly static PackedScene prefabPanelFriends = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/Friends.tscn");
 
 #pragma warning disable CS0649 // Values are assigned in the editor
     [Export] private readonly NodePath nodePathBtnFriends;

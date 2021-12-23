@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/snow-expansion.png-fcf09f7ce85889f32d41b00b1b4bbcfb.stex"
+path="res://.import/FriendAway.png-cc0a4b6ec95e5c7d5e8838c2b311294d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/snow-expansion.png"
-dest_files=[ "res://.import/snow-expansion.png-fcf09f7ce85889f32d41b00b1b4bbcfb.stex" ]
+source_file="res://Sprites/FriendAway.png"
+dest_files=[ "res://.import/FriendAway.png-cc0a4b6ec95e5c7d5e8838c2b311294d.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

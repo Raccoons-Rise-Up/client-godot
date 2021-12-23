@@ -19,8 +19,8 @@ __meta__ = {
 [node name="Label" parent="CenterContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 474.0
-margin_top = 285.0
-margin_right = 550.0
-margin_bottom = 315.0
+margin_left = 489.0
+margin_top = 293.0
+margin_right = 534.0
+margin_bottom = 307.0
 text = "Credits"

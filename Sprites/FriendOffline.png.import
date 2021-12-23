@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiles.png-f3bc7c2565b3bf7da8d066ec27b780a6.stex"
+path="res://.import/FriendOffline.png-4eeccd2b365b78b55494de156881c8ca.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/tiles.png"
-dest_files=[ "res://.import/tiles.png-f3bc7c2565b3bf7da8d066ec27b780a6.stex" ]
+source_file="res://Sprites/FriendOffline.png"
+dest_files=[ "res://.import/FriendOffline.png-4eeccd2b365b78b55494de156881c8ca.stex" ]
 
 [params]
 

@@ -7,7 +7,7 @@
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.243137, 0.243137, 0.243137, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -39,7 +39,7 @@ Button/constants/hseparation = 2
 Button/fonts/font = SubResource( 1 )
 Button/styles/disabled = null
 Button/styles/focus = null
-Button/styles/hover = SubResource( 5 )
+Button/styles/hover = SubResource( 2 )
 Button/styles/normal = ExtResource( 2 )
 Button/styles/pressed = null
 Panel/styles/panel = SubResource( 3 )

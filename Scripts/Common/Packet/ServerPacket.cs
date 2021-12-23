@@ -5,8 +5,6 @@ namespace Common.Networking.Packet
 {
     public class ServerPacket : GamePacket
     {
-        public byte Opcode { get; set; }
-
         public ServerPacket(byte opcode, IWritable writable = null)
         {
             using (var writer = new PacketWriter()) 

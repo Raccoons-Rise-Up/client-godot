@@ -6,7 +6,8 @@
         Disconnect,
         PurchaseItem,
         CreateAccount,
-        Login
+        Login,
+        ChatMessage
     }
 
     // Sent to Game Client
@@ -16,7 +17,10 @@
         PurchasedItem,
         CreatedAccount,
         LoginResponse,
-        PlayerData
+        PlayerData,
+        ChatMessage,
+        PlayerJoined,
+        PlayerList
     }
 
     public enum PurchaseItemResponseOpcode

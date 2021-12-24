@@ -1,9 +1,11 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/UI/UIChat.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/Menu/UICredits.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/UI/UIFriends.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/UI/UIUsers.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/UI/Elements/UILabelCount.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/UI/Elements/Tech.tscn" type="PackedScene" id=10]
@@ -914,13 +916,16 @@ script = ExtResource( 23 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-nodePathBtnFriends = NodePath("HBoxContainer/Btn Friends")
+nodePathWindowFriends = NodePath("Friends")
+nodePathWindowUsers = NodePath("Users")
+nodePathWindowChat = NodePath("Chat")
 
 [node name="Friends" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
-visible = false
 margin_right = 250.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 125, 200 )
+script = ExtResource( 5 )
+nodePathList = NodePath("VBoxContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends"]
 margin_left = 3.0
@@ -933,36 +938,55 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Friend" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer"]
+[node name="Users" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
+visible = false
+margin_right = 250.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 125, 200 )
+script = ExtResource( 6 )
+nodePathList = NodePath("VBoxContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 247.0
+margin_bottom = 197.0
+theme = SubResource( 14 )
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Friend" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
 margin_right = 244.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
 custom_styles/panel = SubResource( 15 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend/HBoxContainer"]
+[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
 margin_right = 5.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 5, 0 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
 margin_left = 9.0
-margin_right = 86.0
+margin_right = 49.0
 margin_bottom = 20.0
-text = "Appleman"
+text = "User1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend/HBoxContainer"]
-margin_left = 90.0
-margin_right = 103.0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
+margin_left = 53.0
+margin_right = 66.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 13, 15 )
 size_flags_horizontal = 4
@@ -973,37 +997,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Friend2" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer"]
+[node name="Friend2" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
 margin_top = 22.0
 margin_right = 244.0
 margin_bottom = 42.0
 rect_min_size = Vector2( 0, 20 )
 custom_styles/panel = SubResource( 15 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend2/HBoxContainer"]
+[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
 margin_right = 5.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 5, 0 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend2/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
 margin_left = 9.0
-margin_right = 80.0
+margin_right = 52.0
 margin_bottom = 20.0
-text = "Someone"
+text = "User2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend2/HBoxContainer"]
-margin_left = 84.0
-margin_right = 97.0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
+margin_left = 56.0
+margin_right = 69.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 13, 15 )
 size_flags_horizontal = 4
@@ -1014,37 +1038,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Friend3" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer"]
+[node name="Friend3" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
 margin_top = 44.0
 margin_right = 244.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 20 )
 custom_styles/panel = SubResource( 15 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend3/HBoxContainer"]
+[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
 margin_right = 5.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 5, 0 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend3/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
 margin_left = 9.0
-margin_right = 43.0
+margin_right = 51.0
 margin_bottom = 20.0
-text = "Fred"
+text = "User3"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Friends/VBoxContainer/Friend3/HBoxContainer"]
-margin_left = 47.0
-margin_right = 60.0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
+margin_left = 55.0
+margin_right = 68.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 13, 15 )
 size_flags_horizontal = 4
@@ -1056,6 +1080,7 @@ __meta__ = {
 }
 
 [node name="Chat" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
+visible = false
 margin_right = 250.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 125, 200 )
@@ -1102,12 +1127,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Btn General" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer"]
+[node name="Btn Users" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer"]
 margin_left = 60.0
-margin_right = 122.0
+margin_right = 120.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 60, 0 )
-text = "General"
+text = "Users"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Btn Chat" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer"]
+margin_left = 120.0
+margin_right = 180.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 60, 0 )
+text = "Chat"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1322,6 +1357,8 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Sell" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Sell_pressed"]
 [connection signal="text_entered" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/VBoxContainer/LineEdit" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat" method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer/Btn Friends" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social" method="_on_Btn_Friends_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer/Btn Users" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social" method="_on_Btn_Users_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/HBoxContainer/Btn Chat" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social" method="_on_Btn_Chat_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Structures" to="CanvasLayer/Scene Game" method="_on_Btn_Structures_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Kittens" to="CanvasLayer/Scene Game" method="_on_Btn_Kittens_pressed"]

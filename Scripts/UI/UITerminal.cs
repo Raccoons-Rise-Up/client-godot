@@ -4,9 +4,6 @@ namespace KRU.UI
 {
     public class UITerminal : Control
     {
-        // Terminal Label Prefab
-        private readonly static PackedScene labelTerminalPrefab = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/TerminalLabel.tscn");
-
         // Terminal
 #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private readonly NodePath nodePathTerminal;

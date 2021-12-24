@@ -3,27 +3,45 @@ using System;
 
 public class UISocial : Node
 {
-    //private readonly static PackedScene prefabPanelFriends = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/Friends.tscn");
-
 #pragma warning disable CS0649 // Values are assigned in the editor
-    [Export] private readonly NodePath nodePathBtnFriends;
+    [Export] private readonly NodePath nodePathWindowFriends;
+    [Export] private readonly NodePath nodePathWindowUsers;
+    [Export] private readonly NodePath nodePathWindowChat;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-    private static Button btnFriends;
+    private static PanelContainer windowFriends;
+    private static PanelContainer windowUsers;
+    private static PanelContainer windowChat;
 
     public override void _Ready()
     {
-        btnFriends = GetNode<Button>(nodePathBtnFriends);
+        windowFriends = GetNode<PanelContainer>(nodePathWindowFriends);
+        windowUsers = GetNode<PanelContainer>(nodePathWindowUsers);
+        windowChat = GetNode<PanelContainer>(nodePathWindowChat);
     }
 
     private void _on_Btn_Friends_pressed()
     {
-        GD.Print("friend");
+        HideAllWindows();
+        windowFriends.Visible = true;
     }
 
-    // TODO: On click friends button spawn friends panel
+    private void _on_Btn_Users_pressed()
+    {
+        HideAllWindows();
+        windowUsers.Visible = true;
+    }
 
-    // TODO: On click general button spawn general chat panel
+    private void _on_Btn_Chat_pressed()
+    {
+        HideAllWindows();
+        windowChat.Visible = true;
+    }
 
-    // TODO: On message friend spawn new chat window
+    private void HideAllWindows()
+    {
+        windowFriends.Hide();
+        windowUsers.Hide();
+        windowChat.Hide();
+    }
 }

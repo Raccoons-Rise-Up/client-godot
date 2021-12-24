@@ -278,23 +278,27 @@ namespace KRU.Networking
                             switch (opcode)
                             {
                                 case DisconnectOpcode.Disconnected:
-                                    UILogin.UpdateResponse("Client was disconnected");
+                                    UILogin.UpdateResponse("You were disconnected");
                                     break;
 
                                 case DisconnectOpcode.Maintenance:
-                                    UILogin.UpdateResponse("Client was disconnected because the server is going down for maintenance");
+                                    UILogin.UpdateResponse("You were kicked because the server is going down for maintenance");
                                     break;
 
                                 case DisconnectOpcode.Restarting:
-                                    UILogin.UpdateResponse("Client was disconnected because the server is restarting");
+                                    UILogin.UpdateResponse("You were kicked because the server is restarting");
                                     break;
 
                                 case DisconnectOpcode.Kicked:
-                                    UILogin.UpdateResponse("Client was kicked");
+                                    UILogin.UpdateResponse("You were kicked");
                                     break;
 
                                 case DisconnectOpcode.Banned:
-                                    UILogin.UpdateResponse("Client was banned");
+                                    UILogin.UpdateResponse("You were banned");
+                                    break;
+
+                                case DisconnectOpcode.PlayerWithUsernameExistsOnServerAlready:
+                                    UILogin.UpdateResponse("A player with this username is on the server already");
                                     break;
                             }
 

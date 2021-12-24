@@ -58,6 +58,7 @@ namespace KRU.UI
             ShowMenuSection("Nav");
             this.Visible = false;
             UILogin.LoadMenuScene();
+            UIChat.Clear();
         }
 
         private void ShowMenuSection(string name)

@@ -18,6 +18,9 @@ namespace KRU.Networking
             data.Read(packetReader);
 
             UIGame.Players = data.Players;
+
+            foreach (var p in UIGame.Players)
+                Godot.GD.Print($"{p.Key}: {p.Value}");
         }
     }
 }

@@ -19,7 +19,7 @@
         LoginResponse,
         PlayerData,
         ChatMessage,
-        PlayerJoined,
+        PlayerJoinLeave,
         PlayerList
     }
 
@@ -27,6 +27,12 @@
     {
         Purchased,
         NotEnoughResources
+    }
+
+    public enum JoinLeaveOpcode 
+    {
+        Join,
+        Leave
     }
 
     public enum LoginResponseOpcode
@@ -43,6 +49,7 @@
         Maintenance,
         Restarting,
         Kicked,
-        Banned
+        Banned,
+        PlayerWithUsernameExistsOnServerAlready
     }
 }

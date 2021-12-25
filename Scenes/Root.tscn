@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
@@ -21,7 +21,6 @@
 [ext_resource path="res://Scripts/UI/UIMap.cs" type="Script" id=20]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=21]
 [ext_resource path="res://Scripts/UI/UISocial.cs" type="Script" id=23]
-[ext_resource path="res://Sprites/FriendOnline.png" type="Texture" id=24]
 [ext_resource path="res://Themes/ThemeUI.tres" type="Theme" id=27]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Bold.ttf" type="DynamicFontData" id=30]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Light.ttf" type="DynamicFontData" id=31]
@@ -83,9 +82,6 @@ font_data = ExtResource( 21 )
 
 [sub_resource type="Theme" id=14]
 default_font = SubResource( 13 )
-
-[sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 0.0627451, 0.0627451, 0.0627451, 1 )
 
 [sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -355,6 +351,10 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+fieldWebServerIp = "142.161.95.252"
+fieldWebServerPort = "4000"
+fieldGameServerIp = "142.161.95.252"
+fieldGameServerPort = 25565
 nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
 
 [node name="Game UI" type="Control" parent="CanvasLayer/Scene Game"]
@@ -921,6 +921,7 @@ nodePathWindowUsers = NodePath("Users")
 nodePathWindowChat = NodePath("Chat")
 
 [node name="Friends" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
+visible = false
 margin_right = 250.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 125, 200 )
@@ -939,7 +940,6 @@ __meta__ = {
 }
 
 [node name="Users" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
-visible = false
 margin_right = 250.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 125, 200 )
@@ -953,128 +953,6 @@ margin_right = 247.0
 margin_bottom = 197.0
 theme = SubResource( 14 )
 custom_constants/separation = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Friend" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
-margin_right = 244.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 20 )
-custom_styles/panel = SubResource( 15 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
-margin_right = 5.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 5, 0 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
-margin_left = 9.0
-margin_right = 49.0
-margin_bottom = 20.0
-text = "User1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend/HBoxContainer"]
-margin_left = 53.0
-margin_right = 66.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 13, 15 )
-size_flags_horizontal = 4
-texture = ExtResource( 24 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Friend2" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
-margin_top = 22.0
-margin_right = 244.0
-margin_bottom = 42.0
-rect_min_size = Vector2( 0, 20 )
-custom_styles/panel = SubResource( 15 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
-margin_right = 5.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 5, 0 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
-margin_left = 9.0
-margin_right = 52.0
-margin_bottom = 20.0
-text = "User2"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend2/HBoxContainer"]
-margin_left = 56.0
-margin_right = 69.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 13, 15 )
-size_flags_horizontal = 4
-texture = ExtResource( 24 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Friend3" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer"]
-margin_top = 44.0
-margin_right = 244.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 0, 20 )
-custom_styles/panel = SubResource( 15 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Padding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
-margin_right = 5.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 5, 0 )
-
-[node name="Label" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
-margin_left = 9.0
-margin_right = 51.0
-margin_bottom = 20.0
-text = "User3"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Users/VBoxContainer/Friend3/HBoxContainer"]
-margin_left = 55.0
-margin_right = 68.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 13, 15 )
-size_flags_horizontal = 4
-texture = ExtResource( 24 )
-expand = true
-stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }

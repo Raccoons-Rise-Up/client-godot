@@ -3,6 +3,7 @@ using Common.Networking.Packet;
 using ENet;
 using System.Linq;
 using KRU.UI;
+using Godot;
 
 namespace KRU.Networking
 {
@@ -19,8 +20,28 @@ namespace KRU.Networking
 
             UIGame.Players = data.Players;
 
-            foreach (var p in UIGame.Players)
-                Godot.GD.Print($"{p.Key}: {p.Value}");
+            AddPlayersToUserList();
+        }
+
+        // The players that are displayed in the "Users" window
+        private static void AddPlayersToUserList()
+        {
+            foreach (var p in UIGame.Players) 
+            {
+                if (p.Key == UIGame.ClientPlayerId)
+                    continue;
+
+                if (UIUsers.uiUsers.ContainsKey(p.Key)) 
+                {
+                    GD.Print($"User ID {p.Key} exists in user list already! (Ignoring)");
+                    GD.Print("UIGame.Players");
+                    foreach (var a in UIGame.Players)
+                        GD.Print($"{a.Key}: {a.Value}");
+                    continue;
+                }
+
+                UIUsers.AddUser(p.Value, Status.Online, p.Key);
+            } 
         }
     }
 }

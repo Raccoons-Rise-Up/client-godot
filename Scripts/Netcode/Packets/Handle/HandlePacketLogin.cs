@@ -38,40 +38,37 @@ namespace KRU.Networking
 
             if (opcode == LoginResponseOpcode.LoginSuccessReturningPlayer)
             {
-                UIGame.InitGame();
-
-                UIGame.ClientPlayerName = data.PlayerName;
+                HandleLogin(data);
 
                 UIGame.ResourceCounts = data.ResourceCounts.ToDictionary(x => x.Key, x => (double)x.Value);
                 UIGame.StructureCounts = data.StructureCounts;
 
                 UIGame.InitResourceLabels(data.ResourceCounts);
                 UIGame.InitStructureLabels(data.StructureCounts);
-
-                UIGame.InitStore();
-
-                UILogin.UpdateResponse("Login success!");
-                UILogin.LoadGameScene();
-
-                UIGame.InGame = true;
             }
 
             if (opcode == LoginResponseOpcode.LoginSuccessNewPlayer)
             {
-                UIGame.InitGame();
-
-                UIGame.ClientPlayerName = data.PlayerName;
-
-                UIGame.InitStore();
-
+                HandleLogin(data);
+                
                 UIGame.InitResourceLabels(UIGame.ResourceCounts.ToDictionary(x => x.Key, x => (uint)x.Value));
                 UIGame.InitStructureLabels(UIGame.StructureCounts.ToDictionary(x => x.Key, x => (uint)x.Value));
-
-                UILogin.UpdateResponse("Login success!");
-                UILogin.LoadGameScene();
-
-                UIGame.InGame = true;
             }
+        }
+
+        private static void HandleLogin(RPacketLogin data)
+        {
+            UIGame.InitGame();
+
+            UIGame.ClientPlayerName = data.PlayerName;
+            UIGame.ClientPlayerId = data.PlayerId;
+
+            UIGame.InitStore();
+
+            UILogin.UpdateResponse("Login success!");
+            UILogin.LoadGameScene();
+
+            UIGame.InGame = true;
         }
     }
 }

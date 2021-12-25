@@ -17,7 +17,7 @@ namespace KRU.Networking
             var data = new RPacketChatMessage();
             data.Read(packetReader);
 
-            UIChat.AddMessage(UIGame.Players[data.PlayerId], data.Message);
+            UIChat.AddMessage((uint)Channel.Global, $"{UIGame.Players[data.PlayerId]}: {data.Message}");
         }
     }
 }

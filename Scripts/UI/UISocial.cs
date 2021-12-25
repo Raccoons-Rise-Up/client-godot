@@ -1,47 +1,31 @@
 using Godot;
 using System;
 
-public class UISocial : Node
+namespace KRU.UI 
 {
-#pragma warning disable CS0649 // Values are assigned in the editor
-    [Export] private readonly NodePath nodePathWindowFriends;
-    [Export] private readonly NodePath nodePathWindowUsers;
-    [Export] private readonly NodePath nodePathWindowChat;
-#pragma warning restore CS0649 // Values are assigned in the editor
-
-    private static PanelContainer windowFriends;
-    private static PanelContainer windowUsers;
-    private static PanelContainer windowChat;
-
-    public override void _Ready()
+    public class UISocial : Node
     {
-        windowFriends = GetNode<PanelContainer>(nodePathWindowFriends);
-        windowUsers = GetNode<PanelContainer>(nodePathWindowUsers);
-        windowChat = GetNode<PanelContainer>(nodePathWindowChat);
-    }
+    #pragma warning disable CS0649 // Values are assigned in the editor
+        [Export] private readonly NodePath nodePathWindowChat;
+    #pragma warning restore CS0649 // Values are assigned in the editor
 
-    private void _on_Btn_Friends_pressed()
-    {
-        HideAllWindows();
-        windowFriends.Visible = true;
-    }
+        private static VBoxContainer windowChat;
 
-    private void _on_Btn_Users_pressed()
-    {
-        HideAllWindows();
-        windowUsers.Visible = true;
-    }
+        public override void _Ready()
+        {
+            windowChat = GetNode<VBoxContainer>(nodePathWindowChat);
+        }
 
-    private void _on_Btn_Chat_pressed()
-    {
-        HideAllWindows();
-        windowChat.Visible = true;
-    }
+        private void _on_Btn_Chat_pressed()
+        {
+            if (windowChat.Visible)
+            {
+                windowChat.Visible = false;
+                return;
+            }
 
-    private void HideAllWindows()
-    {
-        windowFriends.Hide();
-        windowUsers.Hide();
-        windowChat.Hide();
+            windowChat.Hide();
+            windowChat.Visible = true;
+        }
     }
 }

@@ -4,22 +4,17 @@ using System.Collections.Generic;
 
 namespace KRU.UI 
 {
-    public class UIUsers : PanelContainer
+    public class UIUsers : VBoxContainer
     {
-#pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathList;
-#pragma warning restore CS0649 // Values are assigned in the editor
-
-        private static VBoxContainer list;
-
-        // Prefab
         private static PackedScene prefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
 
         public static Dictionary<uint, UIUser> uiUsers = new Dictionary<uint, UIUser>();
 
+        private static VBoxContainer container;
+
         public override void _Ready()
         {
-            list = GetNode<VBoxContainer>(nodePathList);
+            container = this;
         }
 
         public static void RemoveAllUsers()
@@ -39,7 +34,7 @@ namespace KRU.UI
 
             uiUsers.Add(id, user);
 
-            list.AddChild(user);
+            container.AddChild(user);
         }
 
         public static void RemoveUser(uint id)

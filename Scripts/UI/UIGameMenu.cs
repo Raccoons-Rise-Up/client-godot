@@ -54,6 +54,7 @@ namespace KRU.UI
 
         private void _on_Btn_Disconnect_pressed()
         {
+            UIUsers.RemoveAllUsers();
             ENetClient.ENetCmds.Enqueue(ENetInstructionOpcode.Disconnect);
             ShowMenuSection("Nav");
             this.Visible = false;

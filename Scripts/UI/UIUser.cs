@@ -10,22 +10,22 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathStatus;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static Label labelUsername;
-        private static TextureRect textureRectStatus;
+        private Label labelUsername;
+        public TextureRect textureRectStatus;
 
-        public override void _Ready()
+        public void Init()
         {
             labelUsername = GetNode<Label>(nodePathUsername);
             textureRectStatus = GetNode<TextureRect>(nodePathStatus);
+            GD.Print(nodePathUsername);
+            GD.Print(labelUsername.Name);
         }
 
         public void SetUsername(string username) => labelUsername.Text = username;
 
         public void SetStatus(Status status)
         {
-            textureRectStatus = new TextureRect {
-                Texture = ResourceLoader.Load<StreamTexture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png")
-            };
+            textureRectStatus.Texture = ResourceLoader.Load<Texture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png");
         }
     }
 

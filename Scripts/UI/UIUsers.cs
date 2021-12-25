@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace KRU.UI 
 {
@@ -12,17 +13,39 @@ namespace KRU.UI
         private static VBoxContainer list;
 
         // Prefab
-        private readonly static PackedScene prefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
+        private static PackedScene prefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
+
+        public static Dictionary<uint, UIUser> uiUsers = new Dictionary<uint, UIUser>();
 
         public override void _Ready()
         {
             list = GetNode<VBoxContainer>(nodePathList);
         }
 
-        public static void AddUser()
+        public static void RemoveAllUsers()
+        {
+            foreach (var user in uiUsers) 
+                user.Value.QueueFree();
+
+            uiUsers.Clear();
+        }
+
+        public static void AddUser(string name, Status status, uint id)
         {
             var user = (UIUser)prefabUIUser.Instance();
-            user.SetUsername("asd");
+            user.Init();
+            user.SetUsername(name);
+            user.SetStatus(status);
+
+            uiUsers.Add(id, user);
+
+            list.AddChild(user);
+        }
+
+        public static void RemoveUser(uint id)
+        {
+            uiUsers[id].QueueFree();
+            uiUsers.Remove(id);
         }
     }
 }

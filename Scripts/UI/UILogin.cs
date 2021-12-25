@@ -97,30 +97,9 @@ namespace KRU.UI
             HideConnectAsSection();
         }
 
-        private async void Login()
+        private async static void Login()
         {
-            Token = AppData.GetJsonWebToken()["token"];
-
-            WebPostLoginContent loginInfo;
-            if (Token == null)
-            {
-                loginInfo = new WebPostLoginContent
-                {
-                    Username = inputUsername.Text,
-                    Password = inputPassword.Text,
-                    From = "Godot-Client"
-                };
-            }
-            else
-            {
-                loginInfo = new WebPostLoginContent
-                {
-                    Token = Token,
-                    From = "Godot-Client"
-                };
-            }
-
-            var jsonStr = JsonConvert.SerializeObject(loginInfo);
+            var jsonStr = JsonConvert.SerializeObject(GetLoginInfo());
             UpdateResponse("Sending login request to web server...");
             var webResponse = await WebUtils.PostRequest("api/login", jsonStr);
 
@@ -172,10 +151,52 @@ namespace KRU.UI
                         ENetClient.JsonWebToken = res.Token;
                     }
 
+                    GD.Print("Attempting to connect to the game server...");
                     ENetClient.Connect();
                     break;
             }
         }
+
+        private static WebPostLoginContent GetLoginInfo()
+        {
+            if (!AppData.JsonWebTokenExists()) 
+            {
+                // Token does not exist, lets create a request to the web server for a new one
+                GD.Print("Token does not exist in local file system");
+                return BasicLoginInfo();
+            }
+
+            if (AppData.GetJsonWebToken() == null)
+            {
+                // Invalid JSON
+                GD.Print("Token.json is invalid");
+                return BasicLoginInfo();
+            }
+
+            Token = AppData.GetJsonWebToken()["token"];
+
+            if (Token == null)
+            {
+                // Token is null in JSON
+                GD.Print("Token in token.json is null");
+                return BasicLoginInfo();
+            }
+
+            // Token exists in local file system
+            GD.Print("Token exists in local file system");
+            return new WebPostLoginContent
+            {
+                Token = Token,
+                From = "Godot-Client"
+            };
+        }
+
+        private static WebPostLoginContent BasicLoginInfo() => new WebPostLoginContent
+        {
+            Username = inputUsername.Text,
+            Password = inputPassword.Text,
+            From = "Godot-Client"
+        };
 
         private static void HideConnectAsSection()
         {

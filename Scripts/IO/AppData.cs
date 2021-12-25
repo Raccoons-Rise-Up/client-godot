@@ -10,7 +10,7 @@ namespace KRU.IO
         public static void SaveJsonWebToken(string token, string username)
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
-            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Kittens Rise Up");
+            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
             var tokenPath = Path.Combine(appDataPath, "token.json");
 
             if (!Directory.Exists(appDataPath))
@@ -33,23 +33,38 @@ namespace KRU.IO
             File.WriteAllText(tokenPath, contents);
         }
 
+        public static bool JsonWebTokenExists()
+        {
+            var folder = System.Environment.SpecialFolder.LocalApplicationData;
+            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
+            var tokenPath = Path.Combine(appDataPath, "token.json");
+
+            if (!Directory.Exists(appDataPath))
+                return false;
+
+            if (!File.Exists(tokenPath))
+                return false;
+
+            return true;
+        }
+
         public static Godot.Collections.Dictionary<string, string> GetJsonWebToken()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
-            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Kittens Rise Up");
+            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
             var tokenPath = Path.Combine(appDataPath, "token.json");
 
             string contents;
             try
             {
                 contents = File.ReadAllText(tokenPath);
+                return JsonConvert.DeserializeObject<Godot.Collections.Dictionary<string, string>>(contents);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Godot.GD.Print($"GetJsonWebToken Error: {e.Message}");
                 return null;
             }
-
-            return JsonConvert.DeserializeObject<Godot.Collections.Dictionary<string, string>>(contents);
         }
     }
 }

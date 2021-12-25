@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Styles/StyleButtonNormal.tres" type="StyleBox" id=2]
@@ -19,16 +19,24 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
+[sub_resource type="StyleBoxFlat" id=6]
+border_width_top = 5
+border_color = Color( 0.0470588, 0.0470588, 0.0470588, 1 )
+
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.0509804, 0.0509804, 0.0509804, 1 )
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 border_color = Color( 0.184314, 0.184314, 0.184314, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+border_width_left = 5
+border_color = Color( 0.0470588, 0.0470588, 0.0470588, 1 )
 
 [resource]
 Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
@@ -42,5 +50,7 @@ Button/styles/focus = null
 Button/styles/hover = SubResource( 2 )
 Button/styles/normal = ExtResource( 2 )
 Button/styles/pressed = null
+HScrollBar/styles/scroll = SubResource( 6 )
 Panel/styles/panel = SubResource( 3 )
 PanelContainer/styles/panel = SubResource( 4 )
+VScrollBar/styles/scroll = SubResource( 5 )

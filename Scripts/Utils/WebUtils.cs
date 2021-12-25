@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using KRU.UI;
 
 namespace KRU.Utils
 {
@@ -22,7 +23,7 @@ namespace KRU.Utils
             string stringTask = "";
             try
             {
-                stringTask = await webClient.GetStringAsync("http://127.0.0.1:4000/" + path);
+                stringTask = await webClient.GetStringAsync($"http://{UIGame.webServerIp}:{UIGame.webServerPort}/" + path);
             }
             catch (Exception e)
             {
@@ -48,7 +49,7 @@ namespace KRU.Utils
             {
                 try
                 {
-                    using (var response = await webClient.PostAsync("http://127.0.0.1:4000/" + path, requestContent))
+                    using (var response = await webClient.PostAsync($"http://{UIGame.webServerIp}:{UIGame.webServerPort}/" + path, requestContent))
                     {
                         GD.Print("STATUS CODE: " + response.StatusCode);
 

@@ -35,9 +35,6 @@ namespace KRU.Networking
 {
     public class ENetClient : Node
     {
-        public static string IP = "127.0.0.1";
-        public static ushort Port = 25565;
-
         public static ClientVersion Version = new ClientVersion
         {
             Major = 0,
@@ -164,8 +161,8 @@ namespace KRU.Networking
             using (Host client = new Host())
             {
                 var address = new Address();
-                address.SetHost(IP);
-                address.Port = Port;
+                address.SetHost(UIGame.gameServerIp);
+                address.Port = UIGame.gameServerPort;
                 client.Create();
 
                 uint pingInterval = 1000; // Pings are used both to monitor the liveness of the connection and also to dynamically adjust the throttle during periods of low traffic so that the throttle has reasonable responsiveness during traffic spikes.
@@ -176,6 +173,7 @@ namespace KRU.Networking
                 Peer = client.Connect(address);
                 Peer.PingInterval(pingInterval);
                 Peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
+                GD.Print("Attempting to connect...");
                 UILogin.UpdateResponse("Attempting to connect...");
 
                 bool wantsToQuit = false;
@@ -273,6 +271,8 @@ namespace KRU.Networking
 
                         if (eventType == EventType.Disconnect)
                         {
+                            UIUsers.RemoveAllUsers();
+
                             var opcode = (DisconnectOpcode)netEvent.Data;
 
                             switch (opcode)
@@ -308,6 +308,8 @@ namespace KRU.Networking
 
                         if (eventType == EventType.Timeout)
                         {
+                            UIUsers.RemoveAllUsers();
+
                             UILogin.UpdateResponse("Client connection timeout to game server");
                             RunningNetCode = false;
                             UILogin.LoadMenuScene();

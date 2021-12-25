@@ -11,14 +11,23 @@ namespace KRU.UI
 {
     public class UIGame : Control
     {
+#pragma warning disable CS0649 // Values are assigned in the editor
+        [Export] public readonly string fieldWebServerIp;
+        [Export] public readonly string fieldWebServerPort;
+        [Export] public readonly string fieldGameServerIp;
+        [Export] public readonly ushort fieldGameServerPort;
+        [Export] private readonly NodePath nodePathTitle;
+#pragma warning restore CS0649 // Values are assigned in the editor
+
+        public static string webServerIp;
+        public static string webServerPort;
+        public static string gameServerIp;
+        public static ushort gameServerPort;
+
         // Prefabs
         public static PackedScene PrefabButton = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIButton.tscn");
         public static PackedScene PrefabUILabelCountIcon = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCountIcon.tscn");
 
-        // Title
-#pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathTitle;
-#pragma warning restore CS0649 // Values are assigned in the editor
         private static Label labelTitle;
 
         // Labels
@@ -30,7 +39,8 @@ namespace KRU.UI
         public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
         public static Dictionary<ResourceType, TextureRect> ResourceIconData { get; set; }
         public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
-        public static string ClientPlayerName { get; set; } // the player username of this client
+        public static string ClientPlayerName { get; set; }
+        public static uint ClientPlayerId { get; set; }
 
         // Counts
         public static Dictionary<ResourceType, double> ResourceCounts { get; set; }
@@ -45,6 +55,11 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            webServerIp = fieldWebServerIp;
+            webServerPort = fieldWebServerPort;
+            gameServerIp = fieldGameServerIp;
+            gameServerPort = fieldGameServerPort;
+
             Players = new Dictionary<uint, string>();
 
             ResourceCounts = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()

@@ -7,7 +7,13 @@
         PurchaseItem,
         CreateAccount,
         Login,
-        ChatMessage
+        ChatMessage,
+        CreateChannel,
+        RemoveChannel,
+        AddUserToChannel,
+        RemoveUserFromChannel,
+        AddFriend,
+        Block
     }
 
     // Sent to Game Client
@@ -20,7 +26,8 @@
         PlayerData,
         ChatMessage,
         PlayerJoinLeave,
-        PlayerList
+        PlayerList,
+        CreateChannel
     }
 
     public enum PurchaseItemResponseOpcode

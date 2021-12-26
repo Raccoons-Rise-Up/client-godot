@@ -56,6 +56,11 @@ namespace KRU.UI
         {
             textureRectStatus.Texture = ResourceLoader.Load<Texture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png");
         }
+
+        public void SetId(uint id)
+        {
+            this.userId = id;
+        }
     }
 
     public enum Status 

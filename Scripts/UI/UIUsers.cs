@@ -31,6 +31,7 @@ namespace KRU.UI
             user.Init();
             user.SetUsername(name);
             user.SetStatus(status);
+            user.SetId(id);
 
             uiUsers.Add(id, user);
 

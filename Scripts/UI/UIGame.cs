@@ -18,6 +18,7 @@ namespace KRU.UI
         [Export] public readonly ushort fieldGameServerPort;
         [Export] private readonly NodePath nodePathTitle;
         [Export] private readonly NodePath nodePathDialogPopups;
+        [Export] private readonly NodePath nodePathClientUsername;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static string webServerIp;
@@ -32,6 +33,7 @@ namespace KRU.UI
         public static PackedScene PrefabUILabelCountIcon = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCountIcon.tscn");
 
         private static Label labelTitle;
+        private static Label labelClientUsername;
 
         // Labels
         public static Dictionary<ResourceType, UILabelResourceCount> ResourceCountLabels { get; set; }
@@ -58,6 +60,7 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            labelClientUsername = GetNode<Label>(nodePathClientUsername);
             dialogPopups = GetNode<Control>(nodePathDialogPopups);
 
             webServerIp = fieldWebServerIp;
@@ -181,6 +184,10 @@ namespace KRU.UI
 
         public static void InitGame() 
         {
+            labelClientUsername.Text = ClientPlayerName;
+
+            UIChat.channels.Clear();
+
             UIResources.ClearLabelCounts();
             UIStructures.ClearLabelCounts();
             UIStore.ClearButtons();

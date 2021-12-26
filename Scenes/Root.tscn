@@ -106,10 +106,10 @@ __meta__ = {
 }
 
 [node name="Sections" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer"]
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 1021.0
-margin_bottom = 597.0
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 1023.0
+margin_bottom = 599.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -131,10 +131,10 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Nav/CenterContainer"]
-margin_left = 466.0
-margin_top = 241.0
-margin_right = 552.0
-margin_bottom = 353.0
+margin_left = 468.0
+margin_top = 243.0
+margin_right = 554.0
+margin_bottom = 355.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -183,7 +183,6 @@ __meta__ = {
 }
 
 [node name="Login" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -208,10 +207,10 @@ __meta__ = {
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login/CenterContainer"]
-margin_left = 388.0
-margin_top = 245.0
-margin_right = 629.0
-margin_bottom = 349.0
+margin_left = 390.0
+margin_top = 247.0
+margin_right = 631.0
+margin_bottom = 351.0
 alignment = 1
 
 [node name="Login As Label" type="Label" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login/CenterContainer/VBoxContainer2"]
@@ -324,6 +323,7 @@ __meta__ = {
 [node name="HTTPRequest" type="HTTPRequest" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login"]
 
 [node name="Options" type="Control" parent="CanvasLayer/Scene Main Menu/PanelContainer/Sections"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -350,12 +350,13 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fieldWebServerIp = "142.160.70.248"
+fieldWebServerIp = "204.112.20.146"
 fieldWebServerPort = "4000"
-fieldGameServerIp = "142.160.70.248"
+fieldGameServerIp = "204.112.20.146"
 fieldGameServerPort = 25565
 nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
 nodePathDialogPopups = NodePath("Game UI/PanelContainer/Panel/Dialog Popups")
+nodePathClientUsername = NodePath("Game UI/PanelContainer/Panel/Client Username")
 
 [node name="Game UI" type="Control" parent="CanvasLayer/Scene Game"]
 anchor_right = 1.0
@@ -378,6 +379,16 @@ margin_top = 5.0
 margin_right = 1019.0
 margin_bottom = 595.0
 custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Client Username" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -66.0
+margin_bottom = 14.0
+text = "Username"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -927,19 +938,10 @@ rect_min_size = Vector2( 0, 25 )
 theme = SubResource( 18 )
 
 [node name="Channels" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer"]
-margin_right = 106.0
+margin_right = 526.0
 margin_bottom = 24.0
-
-[node name="Global" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
-margin_right = 53.0
-margin_bottom = 24.0
-text = "Global"
-
-[node name="Game" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
-margin_left = 57.0
-margin_right = 106.0
-margin_bottom = 24.0
-text = "Game"
+rect_min_size = Vector2( 200, 24 )
+size_flags_horizontal = 3
 
 [node name="Chat" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat"]
 margin_top = 25.0
@@ -952,7 +954,7 @@ __meta__ = {
 }
 nodePathChatText = NodePath("VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2/RichTextLabel")
 nodePathChatInput = NodePath("VBoxContainer/HBoxContainer/Chat/LineEdit")
-nodePathGlobalChannelButton = NodePath("../ScrollContainer/Channels/Global")
+nodePathGlobalChannelButton = NodePath("")
 nodePathChannelTabs = NodePath("../ScrollContainer/Channels")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat"]
@@ -1076,7 +1078,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -512.0
 margin_right = 512.0
-margin_bottom = 60.0
+margin_bottom = 91.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
@@ -1087,9 +1089,9 @@ __meta__ = {
 
 [node name="Nav" type="MarginContainer" parent="CanvasLayer/Scene Game/Game UI/MarginContainer"]
 margin_left = 62.0
-margin_top = 17.0
+margin_top = 33.0
 margin_right = 962.0
-margin_bottom = 42.0
+margin_bottom = 58.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 __meta__ = {
@@ -1279,8 +1281,6 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login" method="_on_Btn_Logout_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Buy" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Buy_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Sell" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Sell_pressed"]
-[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels/Global" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Global_pressed"]
-[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels/Game" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Game_pressed"]
 [connection signal="text_entered" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/LineEdit" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons/HBoxContainer/Btn Chat" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons" method="_on_Btn_Chat_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]

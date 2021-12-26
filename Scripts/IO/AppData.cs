@@ -33,7 +33,7 @@ namespace KRU.IO
             File.WriteAllText(tokenPath, contents);
         }
 
-        public static bool JsonWebTokenExists()
+        public static bool JsonWebTokenFileExists()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
             var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
@@ -48,7 +48,7 @@ namespace KRU.IO
             return true;
         }
 
-        public static Godot.Collections.Dictionary<string, string> GetJsonWebToken()
+        public static Godot.Collections.Dictionary<string, string> GetStorage()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
             var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");

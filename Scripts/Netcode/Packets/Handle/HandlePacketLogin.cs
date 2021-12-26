@@ -58,11 +58,15 @@ namespace KRU.Networking
 
         private static void HandleLogin(RPacketLogin data)
         {
-            UIGame.InitGame();
-
             UIGame.ClientPlayerName = data.PlayerName;
             UIGame.ClientPlayerId = data.PlayerId;
 
+            foreach (var channel in data.Channels)
+                UIChat.channels.Add(channel.Key, channel.Value);
+
+            UIChat.SetupChannels();
+
+            UIGame.InitGame();
             UIGame.InitStore();
 
             UILogin.UpdateResponse("Login success!");

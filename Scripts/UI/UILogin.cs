@@ -73,7 +73,7 @@ namespace KRU.UI
         {
             UpdateResponse("");
 
-            var contents = AppData.GetJsonWebToken();
+            var contents = AppData.GetStorage();
             if (contents == null || contents["token"] == null)
             {
                 HideConnectAsSection();
@@ -82,7 +82,11 @@ namespace KRU.UI
             {
                 btnLogout.Visible = true;
                 loginAsSection.Visible = true;
-                loginAsSection.Text = $"Connect as {contents["username"]}";
+
+                if (inputUsername.Text != "")
+                    loginAsSection.Text = $"Connect as {inputUsername.Text}";
+                else
+                    loginAsSection.Text = $"Connect as {contents["username"]}";
 
                 loginSection.Visible = false;
             }
@@ -92,8 +96,6 @@ namespace KRU.UI
 
         private static void Logout()
         {
-            AppData.SaveJsonWebToken(null, "");
-            Token = null;
             HideConnectAsSection();
         }
 
@@ -129,6 +131,12 @@ namespace KRU.UI
                 case LoginOpcode.PasswordsDoNotMatch:
                     break;
 
+                case LoginOpcode.TokenUsernameDoesNotMatchWithProvidedUsername:
+                    // Reset token in local file system
+                    AppData.SaveJsonWebToken(null, "");
+                    Token = null;
+                    break;
+
                 case LoginOpcode.InvalidToken:
                     Logout();
 
@@ -143,6 +151,7 @@ namespace KRU.UI
                 case LoginOpcode.LoginSuccess:
                     if (Token != null)
                     {
+                        AppData.SaveJsonWebToken(Token, inputUsername.Text);
                         ENetClient.JsonWebToken = Token;
                     }
                     else
@@ -159,21 +168,27 @@ namespace KRU.UI
 
         private static WebPostLoginContent GetLoginInfo()
         {
-            if (!AppData.JsonWebTokenExists()) 
+            if (!AppData.JsonWebTokenFileExists()) 
             {
                 // Token does not exist, lets create a request to the web server for a new one
                 GD.Print("Token does not exist in local file system");
                 return BasicLoginInfo();
             }
 
-            if (AppData.GetJsonWebToken() == null)
+            if (AppData.GetStorage() == null)
             {
                 // Invalid JSON
                 GD.Print("Token.json is invalid");
                 return BasicLoginInfo();
             }
 
-            Token = AppData.GetJsonWebToken()["token"];
+            if (inputUsername.Text != AppData.GetStorage()["username"])
+            {
+                // A new username was entered that was different from the one in storage, asking for a new JWT
+                return BasicLoginInfo();
+            }
+
+            Token = AppData.GetStorage()["token"];
 
             if (Token == null)
             {
@@ -187,6 +202,7 @@ namespace KRU.UI
             return new WebPostLoginContent
             {
                 Token = Token,
+                Username = inputUsername.Text,
                 From = "Godot-Client"
             };
         }
@@ -227,6 +243,7 @@ namespace KRU.UI
         InvalidUsernameOrPassword,
         AccountDoesNotExist,
         PasswordsDoNotMatch,
-        InvalidToken
+        InvalidToken,
+        TokenUsernameDoesNotMatchWithProvidedUsername
     }
 }

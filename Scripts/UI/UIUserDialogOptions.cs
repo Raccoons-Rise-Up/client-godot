@@ -10,10 +10,18 @@ namespace KRU.UI
 
         private void _on_Whisper_pressed()
         {
-            if (UIChat.channels.ContainsKey(username))
+            GD.Print($"Whisper {id}: {username}");
+
+            if (UIChat.channels.ContainsKey(username)) 
+            {
+                GD.Print($"Channel '{username}' exists, going to this channel");
                 UIChat.GoToChannel(username);
-            else
+            }
+            else 
+            {
+                GD.Print($"Channel '{username}' does not exist, sending channel create request to server");
                 UIChat.SendCreateChannelRequest(id, username);
+            }
 
             QueueFree();
             UIUser.activeDialog = null;

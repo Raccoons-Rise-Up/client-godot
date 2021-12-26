@@ -30,6 +30,12 @@
         CreateChannel
     }
 
+    public enum ResponseChannelCreateOpcode 
+    {
+        ChannelExistsAlready,
+        Success
+    }
+
     public enum PurchaseItemResponseOpcode
     {
         Purchased,

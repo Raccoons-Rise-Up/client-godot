@@ -18,6 +18,15 @@ namespace KRU.Networking
             var data = new RPacketCreateChannel();
             data.Read(packetReader);
 
+            if (data.ResponseChannelCreateOpcode == ResponseChannelCreateOpcode.ChannelExistsAlready) 
+            {
+                // TODO: Goto channel that exists already
+                GD.Print($"Server says channel '{data.ChannelName}' exists already");
+                UIChat.GoToChannel(data.ChannelName);
+                return;
+            }
+
+            GD.Print($"Server says channel '{data.ChannelName}' was created successfully");
             UIChat.CreateChannel(data.OtherUserId, data.ChannelName);
         }
     }

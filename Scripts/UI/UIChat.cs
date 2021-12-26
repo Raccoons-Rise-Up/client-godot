@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using KRU.Networking;
 using Common.Networking;
 using Common.Networking.Packet;
+using Common.Game;
 
 namespace KRU.UI 
 {
@@ -12,14 +13,13 @@ namespace KRU.UI
     #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private readonly NodePath nodePathChatText; // where all the text gets displayed
         [Export] private readonly NodePath nodePathChatInput; // the chat field input
-        [Export] private readonly NodePath nodePathGlobalChannelButton;
         [Export] private readonly NodePath nodePathChannelTabs;
     #pragma warning restore CS0649 // Values are assigned in the editor
 
         private static RichTextLabel chatText;
-        private static Button globalChannelButton;
         private static LineEdit chatInput;
         public static Dictionary<string, UIChannel> channels;
+        public static Dictionary<string, Button> channelBtns = new Dictionary<string, Button>();
         private static string activeChannel = "Global";
         private static HBoxContainer channelTabs;
 
@@ -29,15 +29,13 @@ namespace KRU.UI
         {
             instance = this;
             channels = new Dictionary<string, UIChannel>();
-            channels.Add("Global", new UIChannel("Global"));
-            channels.Add("Game", new UIChannel("Game"));
+            channels.Add("Global", new UIChannel { Name = "Global"});
+            channels.Add("Game", new UIChannel { Name = "Game"});
 
             chatText = GetNode<RichTextLabel>(nodePathChatText);
             chatText.ScrollFollowing = true;
 
             chatInput = GetNode<LineEdit>(nodePathChatInput);
-
-            globalChannelButton = GetNode<Button>(nodePathGlobalChannelButton);
 
             channelTabs = GetNode<HBoxContainer>(nodePathChannelTabs);
         }
@@ -48,6 +46,18 @@ namespace KRU.UI
                 ChannelName = name,
                 OtherUserId = id
             }));
+        }
+
+        public static void SetupChannels()
+        {
+            foreach (var channel in channels) 
+            {
+                var btn = new Button();
+                btn.Text = channel.Value.Name;
+                btn.Connect("pressed", instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{channel.Value.Name});
+                channelTabs.AddChild(btn);
+                channelBtns.Add(channel.Value.Name, btn);
+            }
         }
 
         public static void CreateChannel(uint creatorId, string channelName)
@@ -62,9 +72,12 @@ namespace KRU.UI
             btn.Text = channelName;
             btn.Connect("pressed", instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{channelName});
             channelTabs.AddChild(btn);
+            channelBtns.Add(channelName, btn);
 
-            var channel = new UIChannel(channelName);
-            channel.AddUser(creatorId);
+            var channel = new UIChannel { 
+                Name = channelName,
+                Creator = creatorId
+            };
             channels.Add(channelName, channel);
 
             GoToChannel(channelName);
@@ -153,22 +166,18 @@ namespace KRU.UI
 
         public static void GoToChannel(string channelName)
         {
+            if (!channels.ContainsKey(channelName))
+            {
+                GD.Print($"WARNING: Channel with channel name '{channelName}' does not exist (ignoring)");
+                foreach (var channel in channels.Keys)
+                    GD.Print(channel);
+                return;
+            }
+
+            GD.Print($"Switched to channel '{channelName}'");
+
             chatText.Text = channels[channelName].Content;
             activeChannel = channelName;
-        }
-
-        // Global Channel
-        private void _on_Global_pressed()
-        {
-            chatText.Text = channels["Global"].Content;
-            activeChannel = "Global";
-        }
-
-        // Game Channel
-        private void _on_Game_pressed()
-        {
-            chatText.Text = channels["Game"].Content;
-            activeChannel = "Game";
         }
     }
 }

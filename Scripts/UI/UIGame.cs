@@ -17,12 +17,15 @@ namespace KRU.UI
         [Export] public readonly string fieldGameServerIp;
         [Export] public readonly ushort fieldGameServerPort;
         [Export] private readonly NodePath nodePathTitle;
+        [Export] private readonly NodePath nodePathDialogPopups;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static string webServerIp;
         public static string webServerPort;
         public static string gameServerIp;
         public static ushort gameServerPort;
+
+        public static Control dialogPopups;
 
         // Prefabs
         public static PackedScene PrefabButton = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIButton.tscn");
@@ -55,6 +58,8 @@ namespace KRU.UI
 
         public override void _Ready()
         {
+            dialogPopups = GetNode<Control>(nodePathDialogPopups);
+
             webServerIp = fieldWebServerIp;
             webServerPort = fieldWebServerPort;
             gameServerIp = fieldGameServerIp;
@@ -83,6 +88,24 @@ namespace KRU.UI
             GameLoopTimer = new Timer();
             GameLoopTimer.Elapsed += new ElapsedEventHandler(GameUpdateLoop);
             GameLoopTimer.Interval = 1000; // 1000ms
+        }
+
+        public override void _Input(InputEvent @event)
+        {
+            if (@event is InputEventMouseButton && @event.IsPressed() && UIUser.ActiveDialogExists())
+            {
+                // Check if user is clicking inside of the dialog
+                var dialog = dialogPopups.GetChild<Control>(0);
+
+                var dialogLocalPos = dialog.GetLocalMousePosition();
+                var dialogRectSize = dialog.GetRect().Size;
+
+                if (dialogLocalPos.x >= 0 && dialogLocalPos.y >= 0 && dialogLocalPos.x <= dialogRectSize.x && dialogLocalPos.y <= dialogRectSize.y)
+                    return;
+
+                // Remove the dialog
+                UIUser.RemoveActiveDialog();
+            }
         }
 
         private void GameUpdateLoop(object source, ElapsedEventArgs e)

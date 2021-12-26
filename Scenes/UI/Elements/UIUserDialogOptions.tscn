@@ -1,8 +1,11 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="Control" type="PanelContainer"]
+[ext_resource path="res://Scripts/UI/UIUserDialogOptions.cs" type="Script" id=1]
+
+[node name="PanelContainer" type="PanelContainer"]
 margin_right = 95.0
 margin_bottom = 82.0
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -29,3 +32,7 @@ margin_top = 48.0
 margin_right = 81.0
 margin_bottom = 68.0
 text = "Block"
+
+[connection signal="pressed" from="VBoxContainer/Whisper" to="." method="_on_Whisper_pressed"]
+[connection signal="pressed" from="VBoxContainer/AddFriend" to="." method="_on_AddFriend_pressed"]
+[connection signal="pressed" from="VBoxContainer/Block" to="." method="_on_Block_pressed"]

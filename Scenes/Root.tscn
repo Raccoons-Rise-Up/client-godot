@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
@@ -21,9 +21,7 @@
 [ext_resource path="res://Scripts/UI/UIMap.cs" type="Script" id=20]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Regular.ttf" type="DynamicFontData" id=21]
 [ext_resource path="res://Scripts/UI/UISocial.cs" type="Script" id=23]
-[ext_resource path="res://Scripts/UI/UIUser.cs" type="Script" id=24]
 [ext_resource path="res://Sprites/Icons/Chat.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/FriendOnline.png" type="Texture" id=26]
 [ext_resource path="res://Themes/ThemeUI.tres" type="Theme" id=27]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Bold.ttf" type="DynamicFontData" id=30]
 [ext_resource path="res://Fonts/Quicksand/Quicksand-Light.ttf" type="DynamicFontData" id=31]
@@ -83,17 +81,6 @@ default_font = SubResource( 11 )
 
 [sub_resource type="Theme" id=18]
 HScrollBar/styles/scroll = SubResource( 17 )
-
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.0627451, 0.0627451, 0.0627451, 1 )
-
-[sub_resource type="DynamicFont" id=20]
-size = 12
-use_filter = true
-font_data = ExtResource( 21 )
-
-[sub_resource type="Theme" id=21]
-default_font = SubResource( 20 )
 
 [sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0, 0, 0, 0.509804 )
@@ -939,16 +926,16 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 theme = SubResource( 18 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer"]
+[node name="Channels" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer"]
 margin_right = 106.0
 margin_bottom = 24.0
 
-[node name="Global" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/HBoxContainer"]
+[node name="Global" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
 margin_right = 53.0
 margin_bottom = 24.0
 text = "Global"
 
-[node name="Game" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/HBoxContainer"]
+[node name="Game" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
 margin_left = 57.0
 margin_right = 106.0
 margin_bottom = 24.0
@@ -965,7 +952,8 @@ __meta__ = {
 }
 nodePathChatText = NodePath("VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2/RichTextLabel")
 nodePathChatInput = NodePath("VBoxContainer/HBoxContainer/Chat/LineEdit")
-nodePathGlobalChannelButton = NodePath("../ScrollContainer/HBoxContainer/Global")
+nodePathGlobalChannelButton = NodePath("../ScrollContainer/Channels/Global")
+nodePathChannelTabs = NodePath("../ScrollContainer/Channels")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat"]
 margin_left = 1.0
@@ -1042,52 +1030,6 @@ rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 6 )
-
-[node name="UIUser" type="Panel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer/Users"]
-margin_right = 170.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 20 )
-custom_styles/panel = SubResource( 19 )
-script = ExtResource( 24 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-nodePathUsername = NodePath("HBoxContainer/Username")
-nodePathStatus = NodePath("HBoxContainer/Status")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer/Users/UIUser"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HPadding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer/Users/UIUser/HBoxContainer"]
-margin_bottom = 20.0
-
-[node name="Username" type="Label" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer/Users/UIUser/HBoxContainer"]
-margin_left = 4.0
-margin_top = 2.0
-margin_right = 127.0
-margin_bottom = 17.0
-theme = SubResource( 21 )
-text = "FakeUser (Not a user)"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Status" type="TextureRect" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer/Users/UIUser/HBoxContainer"]
-margin_left = 131.0
-margin_right = 144.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 13, 15 )
-size_flags_horizontal = 4
-texture = ExtResource( 26 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Social Buttons" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social"]
 margin_top = 231.0
@@ -1337,8 +1279,8 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login" method="_on_Btn_Logout_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Buy" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Buy_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Sell" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Sell_pressed"]
-[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/HBoxContainer/Global" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Global_pressed"]
-[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/HBoxContainer/Game" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Game_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels/Global" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Global_pressed"]
+[connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels/Game" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_Game_pressed"]
 [connection signal="text_entered" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/LineEdit" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons/HBoxContainer/Btn Chat" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons" method="_on_Btn_Chat_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]

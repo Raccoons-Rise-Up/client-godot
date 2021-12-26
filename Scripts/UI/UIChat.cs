@@ -13,19 +13,24 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathChatText; // where all the text gets displayed
         [Export] private readonly NodePath nodePathChatInput; // the chat field input
         [Export] private readonly NodePath nodePathGlobalChannelButton;
+        [Export] private readonly NodePath nodePathChannelTabs;
     #pragma warning restore CS0649 // Values are assigned in the editor
 
         private static RichTextLabel chatText;
         private static Button globalChannelButton;
         private static LineEdit chatInput;
-        private static Dictionary<uint, string> channelText;
-        private static uint activeChannel = (uint)Channel.Global;
+        public static Dictionary<string, UIChannel> channels;
+        private static string activeChannel = "Global";
+        private static HBoxContainer channelTabs;
+
+        public static PanelContainer instance;
 
         public override void _Ready()
         {
-            channelText = new Dictionary<uint, string>();
-            channelText.Add((uint)Channel.Global, "");
-            channelText.Add((uint)Channel.Game, "");
+            instance = this;
+            channels = new Dictionary<string, UIChannel>();
+            channels.Add("Global", new UIChannel("Global"));
+            channels.Add("Game", new UIChannel("Game"));
 
             chatText = GetNode<RichTextLabel>(nodePathChatText);
             chatText.ScrollFollowing = true;
@@ -33,22 +38,58 @@ namespace KRU.UI
             chatInput = GetNode<LineEdit>(nodePathChatInput);
 
             globalChannelButton = GetNode<Button>(nodePathGlobalChannelButton);
+
+            channelTabs = GetNode<HBoxContainer>(nodePathChannelTabs);
+        }
+        
+        public static void SendCreateChannelRequest(uint id, string name)
+        {
+            ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.CreateChannel, new WPacketCreateChannel {
+                ChannelName = name,
+                OtherUserId = id
+            }));
         }
 
-        public static void Clear() => chatText.Clear(); // Clear chat
-
-        public static void AddMessageGame(string message) => AddMessage((uint)Channel.Game, message);
-        public static void AddMessageGlobal(string message) => AddMessage((uint)Channel.Global, message);
-
-        public static void AddMessage(uint channel, string message)
+        public static void CreateChannel(uint creatorId, string channelName)
         {
-            if (channel == activeChannel) 
+            if (channels.ContainsKey(channelName)) 
+            {
+                GD.Print("WARNING: A new channel with the same key tried to be added but was ignored");
+                return;
+            }
+
+            var btn = new Button();
+            btn.Text = channelName;
+            btn.Connect("pressed", instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{channelName});
+            channelTabs.AddChild(btn);
+
+            var channel = new UIChannel(channelName);
+            channel.AddUser(creatorId);
+            channels.Add(channelName, channel);
+
+            GoToChannel(channelName);
+        }
+
+        private void _on_Channel_Tab_Btn_pressed(string name)
+        {
+            chatText.Text = channels[name].Content;
+            activeChannel = name;
+        }
+
+        public static void ClearChat() => chatText.Clear(); // Clear chat
+
+        public static void AddMessageGame(string message) => AddMessage("Game", message);
+        public static void AddMessageGlobal(string message) => AddMessage("Global", message);
+
+        public static void AddMessage(string channel, string message)
+        {
+            if (channel.Equals(activeChannel)) 
             {
                 chatText.AddText($"{message}\n");
                 chatText.ScrollToLine(chatText.GetLineCount() - 1);
             }
 
-            channelText[channel] += $"{message}\n";
+            channels[channel].Content += $"{message}\n";
         }
 
         private void _on_LineEdit_text_entered(string t) 
@@ -61,7 +102,7 @@ namespace KRU.UI
 
             chatInput.Clear();
 
-            if (activeChannel == (uint)Channel.Game) 
+            if (activeChannel.Equals("Game")) 
             {
                 HandleGameChannel(text);
                 return;
@@ -77,7 +118,8 @@ namespace KRU.UI
             }
 
             // Not sure if this is allowed with threading and all but going to try anyways!
-            ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage{
+            ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
+                ChannelId = activeChannel,
                 Message = text
             }));
         }
@@ -109,24 +151,24 @@ namespace KRU.UI
             AddMessageGame($"Unknown command: {cmd}");
         }
 
+        public static void GoToChannel(string channelName)
+        {
+            chatText.Text = channels[channelName].Content;
+            activeChannel = channelName;
+        }
+
         // Global Channel
         private void _on_Global_pressed()
         {
-            chatText.Text = channelText[(uint)Channel.Global];
-            activeChannel = (uint)Channel.Global;
+            chatText.Text = channels["Global"].Content;
+            activeChannel = "Global";
         }
 
         // Game Channel
         private void _on_Game_pressed()
         {
-            chatText.Text = channelText[(uint)Channel.Game];
-            activeChannel = (uint)Channel.Game;
+            chatText.Text = channels["Game"].Content;
+            activeChannel = "Game";
         }
-    }
-
-    public enum Channel 
-    {
-        Global,
-        Game
     }
 }

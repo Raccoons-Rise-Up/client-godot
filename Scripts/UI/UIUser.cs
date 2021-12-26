@@ -11,9 +11,10 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private static PackedScene prefabUIUserDialogOptions = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUserDialogOptions.tscn");
-        private static Control activeDialog;
+        public static UIUserDialogOptions activeDialog;
 
-        private Label labelUsername;
+        private Label userUsername;
+        private uint userId;
         public TextureRect textureRectStatus;
 
         public override void _GuiInput(InputEvent @event)
@@ -23,8 +24,11 @@ namespace KRU.UI
                 if (ActiveDialogExists())
                     return;
                 
-                activeDialog = prefabUIUserDialogOptions.Instance<Control>();
+                activeDialog = prefabUIUserDialogOptions.Instance<UIUserDialogOptions>();
                 activeDialog.SetPosition(UIGame.dialogPopups.GetLocalMousePosition());
+                activeDialog.username = userUsername.Text;
+                activeDialog.id = userId;
+
                 UIGame.dialogPopups.AddChild(activeDialog);
             } 
         }
@@ -42,13 +46,11 @@ namespace KRU.UI
 
         public void Init()
         {
-            labelUsername = GetNode<Label>(nodePathUsername);
+            userUsername = GetNode<Label>(nodePathUsername);
             textureRectStatus = GetNode<TextureRect>(nodePathStatus);
-            GD.Print(nodePathUsername);
-            GD.Print(labelUsername.Name);
         }
 
-        public void SetUsername(string username) => labelUsername.Text = username;
+        public void SetUsername(string username) => userUsername.Text = username;
 
         public void SetStatus(Status status)
         {

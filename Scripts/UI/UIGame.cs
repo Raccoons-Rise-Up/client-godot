@@ -95,6 +95,9 @@ namespace KRU.UI
             if (@event is InputEventMouseButton && @event.IsPressed() && UIUser.ActiveDialogExists())
             {
                 // Check if user is clicking inside of the dialog
+                if (dialogPopups.GetChildCount() == 0)
+                    return;
+                
                 var dialog = dialogPopups.GetChild<Control>(0);
 
                 var dialogLocalPos = dialog.GetLocalMousePosition();

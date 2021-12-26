@@ -19,14 +19,14 @@ namespace KRU.Networking
 
             if (data.JoinLeaveOpcode == JoinLeaveOpcode.Join)
             {
-                UIChat.AddMessage((uint)Channel.Global, $"Server: {data.PlayerName} joined");
+                UIChat.AddMessageGlobal($"Server: {data.PlayerName} joined");
                 UIGame.Players.Add(data.PlayerId, data.PlayerName);
                 UIUsers.AddUser(data.PlayerName, Status.Online, data.PlayerId);
             }
             
             if (data.JoinLeaveOpcode == JoinLeaveOpcode.Leave)
             {
-                UIChat.AddMessage((uint)Channel.Global, $"Server: {UIGame.Players[data.PlayerId]} left");
+                UIChat.AddMessageGlobal($"Server: {UIGame.Players[data.PlayerId]} left");
                 UIGame.Players.Remove(data.PlayerId);
                 UIUsers.RemoveUser(data.PlayerId);
             }

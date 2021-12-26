@@ -5,10 +5,12 @@ namespace KRU.Networking
 {
     public class WPacketChatMessage : IWritable
     {
+        public string ChannelId { get; set; }
         public string Message { get; set; }
 
         public void Write(PacketWriter writer)
         {
+            writer.Write(ChannelId);
             writer.Write(Message);
         }
     }

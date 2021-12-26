@@ -8,7 +8,7 @@
 
 ## About
 
-![image](https://user-images.githubusercontent.com/6277739/132770788-9de196ea-548b-4ae7-8e95-4e2a7bbdfa50.png)
+![image](https://user-images.githubusercontent.com/6277739/147399688-057c43de-7538-42a0-8703-b84c119e649d.png)
 
 [Raccoons Rise Up Roadmap](https://trello.com/b/XkhJxR2x/raccoons-rise-up)
 

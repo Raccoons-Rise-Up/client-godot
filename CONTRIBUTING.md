@@ -18,7 +18,7 @@
 
 ## Debugging
 ### VSCode Setup
-Note that Godot also supports VS, but debugger is currently NOT supported!
+Note that Godot also supports Visual Studio (VS) but the debugger for VS is currently NOT supported!
 
 I use VS to edit the code and only use VSCode when debugging. Note if you do not see the value of for e.g. a property in the VSCode debugger, you will need to add it to the VSCode debug "watch list".
 

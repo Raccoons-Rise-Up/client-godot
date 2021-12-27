@@ -22,12 +22,12 @@ namespace KRU.Networking
             {
                 // TODO: Goto channel that exists already
                 GD.Print($"Server says channel '{data.ChannelName}' exists already");
-                UIChat.GoToChannel(data.ChannelName);
+                UIChannels.GoToChannel(data.ChannelName);
                 return;
             }
 
             GD.Print($"Server says channel '{data.ChannelName}' was created successfully");
-            UIChat.CreateChannel(data.OtherUserId, data.ChannelName);
+            UIChannels.CreateChannel(data.OtherUserId, data.ChannelName);
         }
     }
 }

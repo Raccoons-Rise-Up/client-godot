@@ -12,15 +12,15 @@ namespace KRU.UI
         {
             GD.Print($"Whisper {id}: {username}");
 
-            if (UIChat.channels.ContainsKey(username)) 
+            if (UIChannels.ChannelsPrivate.Exists(x => x.Name == username)) 
             {
                 GD.Print($"Channel '{username}' exists, going to this channel");
-                UIChat.GoToChannel(username);
+                UIChannels.GoToChannel(username);
             }
             else 
             {
                 GD.Print($"Channel '{username}' does not exist, sending channel create request to server");
-                UIChat.SendCreateChannelRequest(id, username);
+                UIChannels.SendCreateChannelRequest(id, username);
             }
 
             QueueFree();

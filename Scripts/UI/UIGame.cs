@@ -186,7 +186,7 @@ namespace KRU.UI
         {
             labelClientUsername.Text = ClientPlayerName;
 
-            UIChat.channels.Clear();
+            UIChannels.RemoveAllChannels();
 
             UIResources.ClearLabelCounts();
             UIStructures.ClearLabelCounts();

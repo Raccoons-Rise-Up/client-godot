@@ -1,9 +1,10 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Scripts/UI/UILogin.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UIMainMenu.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/UI/UIChat.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/Menu/UICredits.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/UI/UIChannels.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/UI/UIUsers.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/UI/Menu/UIOptions.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Themes/ThemeChat.tres" type="Theme" id=8]
@@ -942,6 +943,20 @@ margin_right = 526.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 200, 24 )
 size_flags_horizontal = 3
+script = ExtResource( 5 )
+nodePathChannelBtnGlobal = NodePath("Global")
+nodePathChannelBtnGame = NodePath("Game")
+
+[node name="Global" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
+margin_right = 53.0
+margin_bottom = 24.0
+text = "Global"
+
+[node name="Game" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
+margin_left = 57.0
+margin_right = 106.0
+margin_bottom = 24.0
+text = "Game"
 
 [node name="Chat" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat"]
 margin_top = 25.0
@@ -954,8 +969,6 @@ __meta__ = {
 }
 nodePathChatText = NodePath("VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2/RichTextLabel")
 nodePathChatInput = NodePath("VBoxContainer/HBoxContainer/Chat/LineEdit")
-nodePathGlobalChannelButton = NodePath("")
-nodePathChannelTabs = NodePath("../ScrollContainer/Channels")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat"]
 margin_left = 1.0

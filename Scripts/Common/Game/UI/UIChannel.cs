@@ -9,6 +9,10 @@ namespace Common.Game
         public uint Creator { get; set; }
         public string Content = "";
 
+#if CLIENT
+        public Godot.Button Button { get; set; }
+#endif
+
         public void AddUser(uint id)
         {
             Users.Add(id);

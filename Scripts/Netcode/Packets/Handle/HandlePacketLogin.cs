@@ -61,10 +61,8 @@ namespace KRU.Networking
             UIGame.ClientPlayerName = data.PlayerName;
             UIGame.ClientPlayerId = data.PlayerId;
 
-            foreach (var channel in data.Channels)
-                UIChat.channels.Add(channel.Key, channel.Value);
-
-            UIChat.SetupChannels();
+            UIChannels.ChannelsPrivate.AddRange(data.ChannelsPrivate);
+            UIChannels.SetupAllChannels();
 
             UIGame.InitGame();
             UIGame.InitStore();

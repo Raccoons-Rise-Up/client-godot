@@ -97,6 +97,8 @@ while (ENetInstructions.TryDequeue(out ENetInstructionOpcode result))
 ```
 
 ### Communicating from ENet to Godot
+TL;DR **NEVER RUN GODOT COMMANDS ON A NON-GODOT THREAD**
+
 Lets say you want to display a message in the Godot UI when something happens in the ENet thread.
 
 First add the opcode `LogMessage` to the `GodotInstructionOpcode` enum

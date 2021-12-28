@@ -6,42 +6,44 @@ namespace KRU.UI
 {
     public class UIUsers : VBoxContainer
     {
-        private static PackedScene prefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
+        private static PackedScene PrefabUIUser { get; set; }
 
-        public static Dictionary<uint, UIUser> uiUsers = new Dictionary<uint, UIUser>();
+        public static Dictionary<uint, UIUser> Users { get; set; }
 
-        private static VBoxContainer container;
+        private static VBoxContainer Container { get; set; }
 
         public override void _Ready()
         {
-            container = this;
+            PrefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
+            Users = new Dictionary<uint, UIUser>();
+            Container = this;
         }
 
         public static void RemoveAllUsers()
         {
-            foreach (var user in uiUsers) 
+            foreach (var user in Users) 
                 user.Value.QueueFree();
 
-            uiUsers.Clear();
+            Users.Clear();
         }
 
         public static void AddUser(string name, Status status, uint id)
         {
-            var user = (UIUser)prefabUIUser.Instance();
+            var user = (UIUser)PrefabUIUser.Instance();
             user.Init();
             user.SetUsername(name);
             user.SetStatus(status);
             user.SetId(id);
 
-            uiUsers.Add(id, user);
+            Users.Add(id, user);
 
-            container.AddChild(user);
+            Container.AddChild(user);
         }
 
         public static void RemoveUser(uint id)
         {
-            uiUsers[id].QueueFree();
-            uiUsers.Remove(id);
+            Users[id].QueueFree();
+            Users.Remove(id);
         }
     }
 }

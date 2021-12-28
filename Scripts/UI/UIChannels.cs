@@ -10,128 +10,116 @@ namespace KRU.UI
 {
     public class UIChannels : Node
     {
-#pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathChannelTabs;
-        [Export] private readonly NodePath nodePathChannelBtnGlobal;
-        [Export] private readonly NodePath nodePathChannelBtnGame;
-#pragma warning restore CS0649 // Values are assigned in the editor
-
-        private static Button buttonChannelGlobal;
-        private static Button buttonChannelGame;
-        public static UIChannel channelGlobal;
-        public static UIChannel channelGame;
-        public static List<UIChannel> ChannelsPrivate { get; set; }
-        public static List<UIChannel> ChannelsGroup { get; set; }
-        public static string ActiveChannel { get; set; }
-        public static Node instance;
+        public static Dictionary<uint, UIChannel> Channels { get; set; }
+        public static uint ActiveChannel { get; set; }
+        public static Node Instance { get; set; }
 
         public override void _Ready()
         {
-            instance = this;
-
-            ChannelsPrivate = new List<UIChannel>();
-            ChannelsGroup = new List<UIChannel>();
-
-            buttonChannelGlobal = GetNode<Button>(nodePathChannelBtnGlobal);
-            buttonChannelGlobal.Connect("pressed", this, nameof(_on_Channel_Global_pressed));
-            channelGlobal = new UIChannel { Name = "Global", Button = buttonChannelGlobal };
-
-            buttonChannelGame = GetNode<Button>(nodePathChannelBtnGame);
-            buttonChannelGame.Connect("pressed", this, nameof(_on_Channel_Game_pressed));
-            channelGame = new UIChannel { Name = "Game", Button = buttonChannelGame};
-
-            ActiveChannel = "Global";
+            Channels = new Dictionary<uint, UIChannel>();
+            ActiveChannel = (uint)SpecialChannel.Global;
+            Instance = this;
         }
 
-        public static void SendCreateChannelRequest(uint id, string name)
+        public static void SendCreateChannelRequest(uint otherUserId)
         {
             ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.CreateChannel, new WPacketCreateChannel {
-                ChannelName = name,
-                OtherUserId = id
+                OtherUserId = otherUserId
             }));
         }
 
-        public static void SetupAllChannels()
+        // This method is called on client login
+        public static void SetupChannels(Dictionary<uint, UIChannel> channelsFromServer)
         {
-            foreach (var channel in ChannelsPrivate) 
+            SetupChannel((uint)SpecialChannel.Global , new UIChannel { ChannelName = "Global"});
+            SetupChannel((uint)SpecialChannel.Game, new UIChannel { ChannelName = "Game"});
+
+            foreach (var pair in channelsFromServer)
             {
-                var btn = new Button();
-                btn.Text = channel.Name;
-                btn.Connect("pressed", instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{channel.Name});
-                instance.AddChild(btn);
+                var channelId = pair.Key;
+                var channel = pair.Value;
+
+                SetupChannel(channelId, channel);
             }
+        }
+
+        private static void SetupChannel(uint channelId, UIChannel channel) 
+        {
+            // Create the channel tab button
+            var btn = new Button();
+            btn.Text = channel.ChannelName;
+            btn.Connect("pressed", Instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{ channelId });
+
+            // Add the button to the channel tab list in the scene
+            Instance.AddChild(btn);
+
+            // Keep track of the channel
+            Channels.Add(channelId, new UIChannel { 
+                ChannelName = channel.ChannelName,
+                CreatorId = channel.CreatorId,
+                Button = btn 
+            });
         }
 
         public static void RemoveAllChannels()
         {
-            foreach (var channel in ChannelsPrivate)
+            foreach (var channel in Channels.Values)
                 channel.Button.QueueFree();
 
-            foreach (var channel in ChannelsGroup)
-                channel.Button.QueueFree();
-            
-            ChannelsPrivate.Clear();
-            ChannelsGroup.Clear();
+            Channels.Clear();
         }
 
-        public static void CreateChannel(uint creatorId, string channelName)
+        public static void CreateChannel(RPacketCreateChannel data)
         {
-            foreach (var c in ChannelsPrivate)
+            if (!Channels.ContainsKey(data.ChannelId)) 
             {
-                if (c.Name.Equals(channelName)) 
-                {
-                    GD.Print("WARNING: A new channel with the same key tried to be added but was ignored");
-                        return;
-                }
-            }
-
-            var btn = new Button();
-            btn.Text = channelName;
-            btn.Connect("pressed", instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{channelName});
-            instance.AddChild(btn);
-
-            var channel = new UIChannel { 
-                Name = channelName,
-                Creator = creatorId
-            };
-
-            ChannelsPrivate.Add(channel);
-
-            GoToChannel(channelName);
-        }
-
-        public static void GoToChannel(string channelName)
-        {
-            if (ChannelsPrivate.Find(x => x.Name == channelName) == null)
-            {
-                GD.Print($"WARNING: Channel with channel name '{channelName}' does not exist (ignoring)");
-                foreach (var channel in ChannelsPrivate)
-                    GD.Print(channel.Name);
+                GD.Print("WARNING: A new channel with the same key tried to be added but was ignored");
                 return;
             }
 
-            GD.Print($"Switched to channel '{channelName}'");
+            SetupChannel(data.ChannelId, new UIChannel {
+                CreatorId = data.CreatorId,
+                ChannelName = data.Users[data.CreatorId],
+                Users = data.Users
+            });
+            GoToChannel(data.ChannelId);
+        }
 
-            UIChat.ChatText.Text = ChannelsPrivate.Find(x => x.Name == channelName).Content;
-            ActiveChannel = channelName;
+        public static void GoToChannel(uint channelId)
+        {
+            if (!Channels.ContainsKey(channelId))
+            {
+                GD.Print($"WARNING: Channel with channel ID '{channelId}' does not exist (ignoring)");
+                GD.Print("A list of all the channels this client can see are listed below");
+                foreach (var value in Channels.Values)
+                    GD.Print(value.ChannelName);
+                return;
+            }
+
+            var channel = Channels[channelId];
+
+            GD.Print($"Switched to channel '{channel.ChannelName}'");
+
+            UIChat.ChatText.Text = channel.Content;
+            ActiveChannel = channelId;
         }
 
         private static void _on_Channel_Global_pressed() 
         {
-            UIChat.ChatText.Text = channelGlobal.Content;
-            ActiveChannel = "Global";
+            UIChat.ChatText.Text = Channels[(uint)SpecialChannel.Global].Content;
+            ActiveChannel = (uint)SpecialChannel.Global;
         }
 
         private static void _on_Channel_Game_pressed()
         {
-            UIChat.ChatText.Text = channelGame.Content;
-            ActiveChannel = "Game";
+            UIChat.ChatText.Text = Channels[(uint)SpecialChannel.Game].Content;
+            ActiveChannel = (uint)SpecialChannel.Game;
         }
 
-        private void _on_Channel_Tab_Btn_pressed(string name)
+        private void _on_Channel_Tab_Btn_pressed(uint channelId)
         {
-            UIChat.ChatText.Text = ChannelsPrivate.Find(x => x.Name == name).Content;
-            ActiveChannel = name;
+            UIChat.ChatText.Text = Channels[channelId].Content;
+            ActiveChannel = channelId;
         }
     }
 }

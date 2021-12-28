@@ -8,14 +8,14 @@ namespace KRU.UI
 #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private readonly NodePath nodePathTerminal;
 #pragma warning restore CS0649 // Values are assigned in the editor
-        private static VBoxContainer terminal;
-        private static VScrollBar vScrollBar;
+        private static VBoxContainer Terminal { get; set; }
+        private static VScrollBar VScrollBar { get; set; }
 
         public override void _Ready()
         {
             // Terminal
-            terminal = GetNode<VBoxContainer>(nodePathTerminal);
-            vScrollBar = ((ScrollContainer)terminal.GetParent()).GetVScrollbar();
+            Terminal = GetNode<VBoxContainer>(nodePathTerminal);
+            VScrollBar = ((ScrollContainer)Terminal.GetParent()).GetVScrollbar();
         }
 
         public static async void Log(string message)
@@ -50,18 +50,18 @@ namespace KRU.UI
             };
             hbox.AddChild(lastText);
             
-            terminal.AddChild(hbox);
+            Terminal.AddChild(hbox);
 
             // Wait 1 idle frame before proceeding so scroll container can scroll to the true max value
-            await terminal.ToSignal(terminal.GetTree(), "idle_frame");
+            await Terminal.ToSignal(Terminal.GetTree(), "idle_frame");
 
             // Auto scroll to bottom
-            vScrollBar.Value = vScrollBar.MaxValue;
+            VScrollBar.Value = VScrollBar.MaxValue;
         }
 
         public static void ClearMessages()
         {
-            foreach (Node label in terminal.GetChildren())
+            foreach (Node label in Terminal.GetChildren())
             {
                 label.QueueFree();
             }

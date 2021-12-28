@@ -61,8 +61,7 @@ namespace KRU.Networking
             UIGame.ClientPlayerName = data.PlayerName;
             UIGame.ClientPlayerId = data.PlayerId;
 
-            UIChannels.ChannelsPrivate.AddRange(data.ChannelsPrivate);
-            UIChannels.SetupAllChannels();
+            UIChannels.SetupChannels(data.Channels);
 
             UIGame.InitGame();
             UIGame.InitStore();

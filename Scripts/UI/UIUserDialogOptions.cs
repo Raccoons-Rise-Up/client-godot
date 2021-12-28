@@ -5,26 +5,26 @@ namespace KRU.UI
 {
     public class UIUserDialogOptions : Control
     {
-        public string username;
-        public uint id;
+        public string Username { get; set; }
+        public uint Id { get; set; }
 
         private void _on_Whisper_pressed()
         {
-            GD.Print($"Whisper {id}: {username}");
+            GD.Print($"Whisper {Id}: {Username}");
 
-            if (UIChannels.ChannelsPrivate.Exists(x => x.Name == username)) 
+            if (UIChannels.Channels.ContainsKey(Id)) 
             {
-                GD.Print($"Channel '{username}' exists, going to this channel");
-                UIChannels.GoToChannel(username);
+                GD.Print($"Channel '{Username}' exists, going to this channel");
+                UIChannels.GoToChannel(Id);
             }
             else 
             {
-                GD.Print($"Channel '{username}' does not exist, sending channel create request to server");
-                UIChannels.SendCreateChannelRequest(id, username);
+                GD.Print($"Channel '{Username}' does not exist, sending channel create request to server");
+                UIChannels.SendCreateChannelRequest(Id);
             }
 
             QueueFree();
-            UIUser.activeDialog = null;
+            UIUser.ActiveDialog = null;
         }
 
         private void _on_AddFriend_pressed()

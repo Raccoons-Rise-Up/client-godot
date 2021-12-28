@@ -21,19 +21,19 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathClientUsername;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        public static string webServerIp;
-        public static string webServerPort;
-        public static string gameServerIp;
-        public static ushort gameServerPort;
+        public static string WebServerIp { get; set; }
+        public static string WebServerPort { get; set; }
+        public static string GameServerIp { get; set; }
+        public static ushort GameServerPort { get; set; }
 
-        public static Control dialogPopups;
+        public static Control DialogPopups { get; set; }
 
         // Prefabs
         public static PackedScene PrefabButton = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIButton.tscn");
         public static PackedScene PrefabUILabelCountIcon = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UILabelCountIcon.tscn");
 
-        private static Label labelTitle;
-        private static Label labelClientUsername;
+        private static Label LabelTitle { get; set; }
+        private static Label LabelClientUsername { get; set; }
 
         // Labels
         public static Dictionary<ResourceType, UILabelResourceCount> ResourceCountLabels { get; set; }
@@ -60,13 +60,13 @@ namespace KRU.UI
 
         public override void _Ready()
         {
-            labelClientUsername = GetNode<Label>(nodePathClientUsername);
-            dialogPopups = GetNode<Control>(nodePathDialogPopups);
+            LabelClientUsername = GetNode<Label>(nodePathClientUsername);
+            DialogPopups = GetNode<Control>(nodePathDialogPopups);
 
-            webServerIp = fieldWebServerIp;
-            webServerPort = fieldWebServerPort;
-            gameServerIp = fieldGameServerIp;
-            gameServerPort = fieldGameServerPort;
+            WebServerIp = fieldWebServerIp;
+            WebServerPort = fieldWebServerPort;
+            GameServerIp = fieldGameServerIp;
+            GameServerPort = fieldGameServerPort;
 
             Players = new Dictionary<uint, string>();
 
@@ -76,7 +76,7 @@ namespace KRU.UI
                 .ToDictionary(x => (StructureType)Enum.Parse(typeof(StructureType), x.GetType().Name.Replace(typeof(StructureInfo).Name, "")), x => (uint)0);
 
             StructuresLastChecked = DateTime.Now;
-            labelTitle = GetNode<Label>(nodePathTitle); // Title
+            LabelTitle = GetNode<Label>(nodePathTitle); // Title
 
             ResourceInfoData = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
                 .ToDictionary(x => (ResourceType)Enum.Parse(typeof(ResourceType), x.GetType().Name.Replace(typeof(ResourceInfo).Name, "")), x => x);
@@ -98,10 +98,10 @@ namespace KRU.UI
             if (@event is InputEventMouseButton && @event.IsPressed() && UIUser.ActiveDialogExists())
             {
                 // Check if user is clicking inside of the dialog
-                if (dialogPopups.GetChildCount() == 0)
+                if (DialogPopups.GetChildCount() == 0)
                     return;
                 
-                var dialog = dialogPopups.GetChild<Control>(0);
+                var dialog = DialogPopups.GetChild<Control>(0);
 
                 var dialogLocalPos = dialog.GetLocalMousePosition();
                 var dialogRectSize = dialog.GetRect().Size;
@@ -184,9 +184,7 @@ namespace KRU.UI
 
         public static void InitGame() 
         {
-            labelClientUsername.Text = ClientPlayerName;
-
-            UIChannels.RemoveAllChannels();
+            LabelClientUsername.Text = ClientPlayerName;
 
             UIResources.ClearLabelCounts();
             UIStructures.ClearLabelCounts();
@@ -289,7 +287,7 @@ namespace KRU.UI
 
             var section = UIGameSections.ControlSections[name];
             section.Visible = true;
-            labelTitle.Text = section.Name;
+            LabelTitle.Text = section.Name;
         }
 
         private static void HideAllGameSections()

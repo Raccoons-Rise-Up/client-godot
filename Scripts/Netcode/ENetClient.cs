@@ -161,8 +161,8 @@ namespace KRU.Networking
             using (Host client = new Host())
             {
                 var address = new Address();
-                address.SetHost(UIGame.gameServerIp);
-                address.Port = UIGame.gameServerPort;
+                address.SetHost(UIGame.GameServerIp);
+                address.Port = UIGame.GameServerPort;
                 client.Create();
 
                 uint pingInterval = 1000; // Pings are used both to monitor the liveness of the connection and also to dynamically adjust the throttle during periods of low traffic so that the throttle has reasonable responsiveness during traffic spikes.
@@ -271,6 +271,8 @@ namespace KRU.Networking
 
                         if (eventType == EventType.Disconnect)
                         {
+                            // Clean up / reset code for user disconnect (Basically reset the game scene)
+                            UIChannels.RemoveAllChannels();
                             UIUsers.RemoveAllUsers();
 
                             var opcode = (DisconnectOpcode)netEvent.Data;

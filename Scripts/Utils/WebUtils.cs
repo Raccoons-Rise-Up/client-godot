@@ -10,7 +10,7 @@ namespace KRU.Utils
 {
     public static class WebUtils
     {
-        private static readonly HttpClient webClient = new HttpClient();
+        private static readonly HttpClient WebClient = new HttpClient();
         private static bool SendingRequest { get; set; }
 
         public static async Task<string> GetRequest(string path)
@@ -23,7 +23,7 @@ namespace KRU.Utils
             string stringTask = "";
             try
             {
-                stringTask = await webClient.GetStringAsync($"http://{UIGame.webServerIp}:{UIGame.webServerPort}/" + path);
+                stringTask = await WebClient.GetStringAsync($"http://{UIGame.WebServerIp}:{UIGame.WebServerPort}/" + path);
             }
             catch (Exception e)
             {
@@ -49,7 +49,7 @@ namespace KRU.Utils
             {
                 try
                 {
-                    using (var response = await webClient.PostAsync($"http://{UIGame.webServerIp}:{UIGame.webServerPort}/" + path, requestContent))
+                    using (var response = await WebClient.PostAsync($"http://{UIGame.WebServerIp}:{UIGame.WebServerPort}/" + path, requestContent))
                     {
                         GD.Print("STATUS CODE: " + response.StatusCode);
 

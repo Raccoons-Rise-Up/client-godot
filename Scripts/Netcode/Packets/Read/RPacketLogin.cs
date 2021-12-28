@@ -19,7 +19,7 @@ namespace KRU.Networking
         public Dictionary<StructureType, uint> StructureCounts { get; set; }
         public uint PlayerId { get; set; }
         public string PlayerName { get; set; }
-        public List<UIChannel> ChannelsPrivate { get; set; }
+        public Dictionary<uint, UIChannel> Channels { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -43,21 +43,22 @@ namespace KRU.Networking
                     PlayerName = reader.ReadString();
 
                     // Channels
-                    ChannelsPrivate = new List<UIChannel>();
+                    Channels = new Dictionary<uint, UIChannel>();
                     for (int i = 0; i < reader.ReadUInt16(); i++)
                     {
-                        var channelName = reader.ReadString();
-                        var creator = reader.ReadUInt32();
-                        var userIdList = new List<uint>();
+                        var channelId = reader.ReadUInt32();
+                        var creatorId = reader.ReadUInt32();
+
+                        var users = new Dictionary<uint, string>();
                         for (int j = 0; j < reader.ReadUInt16(); j++)
                         {
                             var userId = reader.ReadUInt32();
-                            userIdList.Add(userId);
+                            var userUsername = reader.ReadString();
+                            users.Add(userId, userUsername);
                         }
-                        ChannelsPrivate.Add(new UIChannel { 
-                            Name = channelName, 
-                            Users = userIdList,
-                            Creator = creator
+                        Channels.Add(channelId, new UIChannel {
+                            Users = users,
+                            CreatorId = creatorId
                         });
                     }
 

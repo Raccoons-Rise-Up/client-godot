@@ -21,13 +21,16 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         // Nodes
-        private static HTTPRequest httpRequest;
+        private static HTTPRequest HttpRequest { get; set; }
 
-        private static Control controlSceneMainMenu, controlSceneGame;
-        private static Button btnLogout;
-        private static LineEdit inputUsername, inputPassword;
-        private static Label loginAsSection, labelResponse;
-        private static VBoxContainer loginSection;
+        private static Control ControlSceneMainMenu { get; set; }
+        private static Control ControlSceneGame { get; set; }
+        private static Button BtnLogout { get; set; }
+        private static LineEdit InputUsername { get; set; }
+        private static LineEdit InputPassword { get; set; }
+        private static Label LoginAsSection { get; set; }
+        private static Label LabelResponse { get; set; }
+        private static VBoxContainer LoginSection { get; set; }
 
         // Web Properties
         private static string Token { get; set; }
@@ -36,21 +39,21 @@ namespace KRU.UI
 
         public override void _Ready()
         {
-            httpRequest = GetNode<HTTPRequest>(nodePathHttp);
-            httpRequest.Connect("request_completed", this, "OnRequestCompleted");
+            HttpRequest = GetNode<HTTPRequest>(nodePathHttp);
+            HttpRequest.Connect("request_completed", this, "OnRequestCompleted");
 
-            inputUsername = GetNode<LineEdit>(nodePathInputUsername);
-            inputPassword = GetNode<LineEdit>(nodePathInputPassword);
+            InputUsername = GetNode<LineEdit>(nodePathInputUsername);
+            InputPassword = GetNode<LineEdit>(nodePathInputPassword);
 
-            loginAsSection = GetNode<Label>(nodePathLoginAsSection);
-            loginSection = GetNode<VBoxContainer>(nodePathLoginSection);
+            LoginAsSection = GetNode<Label>(nodePathLoginAsSection);
+            LoginSection = GetNode<VBoxContainer>(nodePathLoginSection);
 
-            btnLogout = GetNode<Button>(nodePathBtnLogout);
+            BtnLogout = GetNode<Button>(nodePathBtnLogout);
 
-            labelResponse = GetNode<Label>(nodePathLabelResponse);
+            LabelResponse = GetNode<Label>(nodePathLabelResponse);
 
-            controlSceneMainMenu = GetNode<Control>(nodePathSceneMainMenu);
-            controlSceneGame = GetNode<Control>(nodePathSceneGame);
+            ControlSceneMainMenu = GetNode<Control>(nodePathSceneMainMenu);
+            ControlSceneGame = GetNode<Control>(nodePathSceneGame);
         }
 
         private void _on_Btn_Login_pressed() => Login();
@@ -59,14 +62,14 @@ namespace KRU.UI
 
         public static void LoadGameScene()
         {
-            controlSceneMainMenu.Visible = false;
-            controlSceneGame.Visible = true;
+            ControlSceneMainMenu.Visible = false;
+            ControlSceneGame.Visible = true;
         }
 
         public static void LoadMenuScene()
         {
-            controlSceneMainMenu.Visible = true;
-            controlSceneGame.Visible = false;
+            ControlSceneMainMenu.Visible = true;
+            ControlSceneGame.Visible = false;
         }
 
         public static void InitLoginSection()
@@ -80,19 +83,19 @@ namespace KRU.UI
             }
             else
             {
-                btnLogout.Visible = true;
-                loginAsSection.Visible = true;
+                BtnLogout.Visible = true;
+                LoginAsSection.Visible = true;
 
-                if (inputUsername.Text != "")
-                    loginAsSection.Text = $"Connect as {inputUsername.Text}";
+                if (InputUsername.Text != "")
+                    LoginAsSection.Text = $"Connect as {InputUsername.Text}";
                 else
-                    loginAsSection.Text = $"Connect as {contents["username"]}";
+                    LoginAsSection.Text = $"Connect as {contents["username"]}";
 
-                loginSection.Visible = false;
+                LoginSection.Visible = false;
             }
         }
 
-        public static void UpdateResponse(string text) => labelResponse.Text = text;
+        public static void UpdateResponse(string text) => LabelResponse.Text = text;
 
         private static void Logout()
         {
@@ -151,12 +154,12 @@ namespace KRU.UI
                 case LoginOpcode.LoginSuccess:
                     if (Token != null)
                     {
-                        AppData.SaveJsonWebToken(Token, inputUsername.Text);
+                        AppData.SaveJsonWebToken(Token, InputUsername.Text);
                         ENetClient.JsonWebToken = Token;
                     }
                     else
                     {
-                        AppData.SaveJsonWebToken(res.Token, inputUsername.Text);
+                        AppData.SaveJsonWebToken(res.Token, InputUsername.Text);
                         ENetClient.JsonWebToken = res.Token;
                     }
 
@@ -182,7 +185,7 @@ namespace KRU.UI
                 return BasicLoginInfo();
             }
 
-            if (inputUsername.Text != AppData.GetStorage()["username"])
+            if (InputUsername.Text != AppData.GetStorage()["username"])
             {
                 // A new username was entered that was different from the one in storage, asking for a new JWT
                 return BasicLoginInfo();
@@ -202,23 +205,23 @@ namespace KRU.UI
             return new WebPostLoginContent
             {
                 Token = Token,
-                Username = inputUsername.Text,
+                Username = InputUsername.Text,
                 From = "Godot-Client"
             };
         }
 
         private static WebPostLoginContent BasicLoginInfo() => new WebPostLoginContent
         {
-            Username = inputUsername.Text,
-            Password = inputPassword.Text,
+            Username = InputUsername.Text,
+            Password = InputPassword.Text,
             From = "Godot-Client"
         };
 
         private static void HideConnectAsSection()
         {
-            loginAsSection.Visible = false;
-            loginSection.Visible = true;
-            btnLogout.Visible = false;
+            LoginAsSection.Visible = false;
+            LoginSection.Visible = true;
+            BtnLogout.Visible = false;
         }
     }
 

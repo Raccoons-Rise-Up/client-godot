@@ -9,11 +9,11 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static VBoxContainer list;
+        private static VBoxContainer List { get; set; }
 
         public override void _Ready()
         {
-            list = GetNode<VBoxContainer>(nodePathList);
+            List = GetNode<VBoxContainer>(nodePathList);
         }
     }
 }

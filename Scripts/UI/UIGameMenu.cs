@@ -9,13 +9,14 @@ namespace KRU.UI
 #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private NodePath nodePathSectionNav, nodePathSectionOptions;
 #pragma warning restore CS0649 // Values are assigned in the editor
-        private Dictionary<string, Control> controlSectionsMenu = new Dictionary<string, Control>();
+        private static Dictionary<string, Control> ControlSectionsMenu { get; set; }
 
         public override void _Ready()
         {
             // Menu Sections
-            controlSectionsMenu["Nav"] = GetNode<Control>(nodePathSectionNav);
-            controlSectionsMenu["Options"] = GetNode<Control>(nodePathSectionOptions);
+            ControlSectionsMenu = new Dictionary<string, Control>();
+            ControlSectionsMenu["Nav"] = GetNode<Control>(nodePathSectionNav);
+            ControlSectionsMenu["Options"] = GetNode<Control>(nodePathSectionOptions);
 
             // Game Menu Parent
             this.Visible = false;
@@ -29,7 +30,7 @@ namespace KRU.UI
                 if (eventKey.Pressed && eventKey.Scancode == (int)KeyList.Escape)
                 {
                     // User is in options
-                    if (controlSectionsMenu["Options"].Visible)
+                    if (ControlSectionsMenu["Options"].Visible)
                     {
                         ShowMenuSection("Nav");
                     }
@@ -67,12 +68,12 @@ namespace KRU.UI
         private void ShowMenuSection(string name)
         {
             HideAllMenuSections();
-            controlSectionsMenu[name].Visible = true;
+            ControlSectionsMenu[name].Visible = true;
         }
 
         private void HideAllMenuSections()
         {
-            foreach (var section in controlSectionsMenu.Values)
+            foreach (var section in ControlSectionsMenu.Values)
                 section.Visible = false;
         }
     }

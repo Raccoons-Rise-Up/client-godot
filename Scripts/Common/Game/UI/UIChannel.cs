@@ -4,18 +4,24 @@ namespace Common.Game
 {
     public class UIChannel
     {
-        public string Name { get; set; }
-        public List<uint> Users = new List<uint>();
-        public uint Creator { get; set; }
+        public string ChannelName { get; set; }
+        public Dictionary<uint, string> Users = new Dictionary<uint, string>();
         public string Content = "";
+        public uint CreatorId { get; set; }
 
 #if CLIENT
         public Godot.Button Button { get; set; }
 #endif
 
-        public void AddUser(uint id)
+        public void AddUser(uint id, string username)
         {
-            Users.Add(id);
+            Users.Add(id, username);
         }
+    }
+
+    public enum SpecialChannel 
+    {
+        Global,
+        Game
     }
 }

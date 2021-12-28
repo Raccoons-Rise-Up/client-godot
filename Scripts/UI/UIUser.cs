@@ -10,12 +10,17 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathStatus;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static PackedScene prefabUIUserDialogOptions = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUserDialogOptions.tscn");
-        public static UIUserDialogOptions activeDialog;
+        private static PackedScene PrefabUIUserDialogOptions { get; set; }
+        public static UIUserDialogOptions ActiveDialog { get; set; }
 
-        private Label userUsername;
-        private uint userId;
-        public TextureRect textureRectStatus;
+        private Label UserUsername { get; set; }
+        private uint UserId { get; set; }
+        public TextureRect TextureRectStatus { get; set; }
+
+        public override void _Ready()
+        {
+            PrefabUIUserDialogOptions = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUserDialogOptions.tscn");
+        }
 
         public override void _GuiInput(InputEvent @event)
         {
@@ -24,42 +29,42 @@ namespace KRU.UI
                 if (ActiveDialogExists())
                     return;
                 
-                activeDialog = prefabUIUserDialogOptions.Instance<UIUserDialogOptions>();
-                activeDialog.SetPosition(UIGame.dialogPopups.GetLocalMousePosition());
-                activeDialog.username = userUsername.Text;
-                activeDialog.id = userId;
+                ActiveDialog = PrefabUIUserDialogOptions.Instance<UIUserDialogOptions>();
+                ActiveDialog.SetPosition(UIGame.DialogPopups.GetLocalMousePosition());
+                ActiveDialog.Username = UserUsername.Text;
+                ActiveDialog.Id = UserId;
 
-                UIGame.dialogPopups.AddChild(activeDialog);
+                UIGame.DialogPopups.AddChild(ActiveDialog);
             } 
         }
 
-        public static bool ActiveDialogExists() => activeDialog != null;
+        public static bool ActiveDialogExists() => ActiveDialog != null;
 
         public static void RemoveActiveDialog()
         {
-            if (activeDialog == null)
+            if (ActiveDialog == null)
                 return;
 
-            activeDialog.QueueFree();
-            activeDialog = null;
+            ActiveDialog.QueueFree();
+            ActiveDialog = null;
         }
 
         public void Init()
         {
-            userUsername = GetNode<Label>(nodePathUsername);
-            textureRectStatus = GetNode<TextureRect>(nodePathStatus);
+            UserUsername = GetNode<Label>(nodePathUsername);
+            TextureRectStatus = GetNode<TextureRect>(nodePathStatus);
         }
 
-        public void SetUsername(string username) => userUsername.Text = username;
+        public void SetUsername(string username) => UserUsername.Text = username;
 
         public void SetStatus(Status status)
         {
-            textureRectStatus.Texture = ResourceLoader.Load<Texture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png");
+            TextureRectStatus.Texture = ResourceLoader.Load<Texture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png");
         }
 
         public void SetId(uint id)
         {
-            this.userId = id;
+            this.UserId = id;
         }
     }
 

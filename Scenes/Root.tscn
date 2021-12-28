@@ -351,9 +351,9 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fieldWebServerIp = "204.112.20.146"
+fieldWebServerIp = "localhost"
 fieldWebServerPort = "4000"
-fieldGameServerIp = "204.112.20.146"
+fieldGameServerIp = "localhost"
 fieldGameServerPort = 25565
 nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
 nodePathDialogPopups = NodePath("Game UI/PanelContainer/Panel/Dialog Popups")
@@ -500,7 +500,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 nodePathStructureList = NodePath("List/GridContainer")
-nodePathStructureInfo = NodePath("List/ScrollContainer/UI Store Structure")
 
 [node name="List" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store"]
 anchor_right = 1.0
@@ -944,19 +943,6 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 200, 24 )
 size_flags_horizontal = 3
 script = ExtResource( 5 )
-nodePathChannelBtnGlobal = NodePath("Global")
-nodePathChannelBtnGame = NodePath("Game")
-
-[node name="Global" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
-margin_right = 53.0
-margin_bottom = 24.0
-text = "Global"
-
-[node name="Game" type="Button" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/ScrollContainer/Channels"]
-margin_left = 57.0
-margin_right = 106.0
-margin_bottom = 24.0
-text = "Game"
 
 [node name="Chat" type="PanelContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat"]
 margin_top = 25.0

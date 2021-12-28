@@ -8,21 +8,21 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathPanel;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static PanelContainer nodePanel;
+        private static PanelContainer NodePanel { get; set; }
 
         public override void _Ready()
         {
-            nodePanel = GetNode<PanelContainer>(nodePathPanel);
+            NodePanel = GetNode<PanelContainer>(nodePathPanel);
         }
 
         public static void HideMap()
         {
-            nodePanel.Visible = true;
+            NodePanel.Visible = true;
         }
 
         public static void ShowMap()
         {
-            nodePanel.Visible = false;
+            NodePanel.Visible = false;
         }
     }
 }

@@ -9,23 +9,23 @@ namespace KRU.UI
         [Export] private readonly NodePath nodePathWindowChat;
     #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static VBoxContainer windowChat;
+        private static VBoxContainer WindowChat { get; set; }
 
         public override void _Ready()
         {
-            windowChat = GetNode<VBoxContainer>(nodePathWindowChat);
+            WindowChat = GetNode<VBoxContainer>(nodePathWindowChat);
         }
 
         private void _on_Btn_Chat_pressed()
         {
-            if (windowChat.Visible)
+            if (WindowChat.Visible)
             {
-                windowChat.Visible = false;
+                WindowChat.Visible = false;
                 return;
             }
 
-            windowChat.Hide();
-            windowChat.Visible = true;
+            WindowChat.Hide();
+            WindowChat.Visible = true;
         }
     }
 }

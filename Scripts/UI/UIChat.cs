@@ -16,41 +16,28 @@ namespace KRU.UI
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static RichTextLabel ChatText { get; set; }
-        private static LineEdit chatInput;
+        private static LineEdit ChatInput { get; set; }
 
         public override void _Ready()
         {
             ChatText = GetNode<RichTextLabel>(nodePathChatText);
             ChatText.ScrollFollowing = true;
 
-            chatInput = GetNode<LineEdit>(nodePathChatInput);
+            ChatInput = GetNode<LineEdit>(nodePathChatInput);
         }
 
-        public static void AddMessageGame(string message) 
-        {
-            AddText("Game", message);
-            UIChannels.channelGame.Content += $"{message}\n";
-        }
+        public static void AddMessageGlobal(string message) => AddMessage((uint)SpecialChannel.Global, message);
+        public static void AddMessageGame(string message) => AddMessage((uint)SpecialChannel.Game, message);
 
-        public static void AddMessageGlobal(string message) 
+        public static void AddMessage(uint channelId, string message)
         {
-            AddText("Global", message);
-            UIChannels.channelGlobal.Content += $"{message}\n";
-        }
-
-        public static void AddMessage(string channel, string message)
-        {
-            AddText(channel, message);
-            UIChannels.ChannelsPrivate.Find(x => x.Name == channel).Content += $"{message}\n";
-        }
-
-        private static void AddText(string channel, string text)
-        {
-            if (channel.Equals(UIChannels.ActiveChannel)) 
+            if (UIChannels.ActiveChannel == channelId) 
             {
-                ChatText.AddText($"{text}\n");
+                ChatText.AddText($"{message}\n");
                 ChatText.ScrollToLine(ChatText.GetLineCount() - 1);
             }
+
+            UIChannels.Channels[channelId].Content += $"{message}\n";
         }
 
         public static void ClearChat() => ChatText.Clear(); // Clear chat
@@ -63,7 +50,7 @@ namespace KRU.UI
             if (text == "")
                 return;
 
-            chatInput.Clear();
+            ChatInput.Clear();
 
             if (text == "/") // Avoid empty commands
                 return;
@@ -89,7 +76,7 @@ namespace KRU.UI
                 return;
             }
 
-            AddMessageGlobal($"Unknown command: {cmd}");
+            AddMessageGame($"Unknown command: {cmd}");
         }
     }
 }

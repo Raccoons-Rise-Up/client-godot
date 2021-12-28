@@ -47,13 +47,16 @@ namespace KRU.UI
         {
             // Create the channel tab button
             var btn = new Button();
-            btn.Text = channel.ChannelName;
+
+            if (channel.Users.ContainsKey(channel.CreatorId))
+                btn.Text = channel.Users[channel.CreatorId]; // e.g. User defined channels
+            else
+                btn.Text = channel.ChannelName; // e.g. Global / Game
+            
             btn.Connect("pressed", Instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{ channelId });
 
             // Add the button to the channel tab list in the scene
             Instance.AddChild(btn);
-
-            GD.PrintErr("Adding channel with ID " + channelId);
 
             // Keep track of the channel
             Channels.Add(channelId, new UIChannel { 
@@ -68,31 +71,50 @@ namespace KRU.UI
             foreach (var channel in Channels.Values)
                 channel.Button.QueueFree();
 
-            GD.PrintErr("Cleared all channels");
             Channels.Clear();
         }
 
         public static void CreateChannel(RPacketCreateChannel data)
         {
-            if (!Channels.ContainsKey(data.ChannelId)) 
+            if (Channels.ContainsKey(data.ChannelId)) 
             {
-                GD.Print("WARNING: A new channel with the same key tried to be added but was ignored");
+                GD.PrintErr("WARNING: A new channel with the same key tried to be added but was ignored");
                 return;
             }
 
-            SetupChannel(data.ChannelId, new UIChannel {
-                CreatorId = data.CreatorId,
-                ChannelName = data.Users[data.CreatorId],
-                Users = data.Users
-            });
-            GoToChannel(data.ChannelId);
+            if (data.CreatorId == UIGame.ClientPlayerId) 
+            {
+                // If this client is the creator of the channel
+
+                // Find the other user the creator opened this channel with
+                uint otherUserId = 0;
+                foreach (var user in data.Users)
+                    if (user.Key != data.CreatorId)
+                        otherUserId = user.Key;
+
+                SetupChannel(data.ChannelId, new UIChannel {
+                    CreatorId = data.CreatorId,
+                    ChannelName = data.Users[otherUserId],
+                    Users = data.Users
+                });
+                GoToChannel(data.ChannelId);
+            }
+            else
+            {
+                // If this client is the other user the channel is being opened to
+                SetupChannel(data.ChannelId, new UIChannel {
+                    CreatorId = data.CreatorId,
+                    ChannelName = data.Users[data.CreatorId],
+                    Users = data.Users
+                });
+            }
         }
 
         public static void GoToChannel(uint channelId)
         {
             if (!Channels.ContainsKey(channelId))
             {
-                GD.Print($"WARNING: Channel with channel ID '{channelId}' does not exist (ignoring)");
+                GD.PrintErr($"WARNING: Channel with channel ID '{channelId}' does not exist (ignoring)");
                 GD.Print("A list of all the channels this client can see are listed below");
                 foreach (var value in Channels.Values)
                     GD.Print(value.ChannelName);

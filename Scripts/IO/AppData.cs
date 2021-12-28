@@ -62,7 +62,7 @@ namespace KRU.IO
             }
             catch (Exception e)
             {
-                Godot.GD.Print($"GetJsonWebToken Error: {e.Message}");
+                Godot.GD.PrintErr($"GetJsonWebToken Error: {e.Message}");
                 return null;
             }
         }

@@ -155,6 +155,29 @@ Documentation for ENet-CSharp can be found [here](https://github.com/SoftwareGuy
 ### Security
 Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
 
+### Notes on Reading Packets
+Never do this, weird things happen when it's done like this.
+```cs
+public void Read(PacketReader reader)
+{
+    for (int i = 0; i < reader.ReadByte(); i++) 
+        Players.Add(reader.ReadUInt32(), reader.ReadString());
+}
+```
+Do this instead.
+```cs
+public void Read(PacketReader reader)
+{
+    var playerCount = reader.ReadByte();
+    for (int i = 0; i < playerCount; i++) 
+    {
+        var userId = reader.ReadUInt32();
+        var userUsername = reader.ReadString();
+        Players.Add(userId, userUsername);
+    }
+}
+```
+
 ### Sending a Packet from the Client to the Server
 
 1. [Creating the Writer Packet](#creating-the-writer-packet)

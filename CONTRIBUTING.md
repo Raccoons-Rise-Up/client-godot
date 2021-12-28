@@ -53,7 +53,7 @@ In VSCode, make sure your `launch.json` looks something like this under `.vscode
 }
 ```
 
-### Errors
+### Godot Errors
 Issue: Attempted to convert an unmarshallable managed type to variant  
 Cause: Add a class that does not extend from `Node` in a `Godot.Collections.Dictionary`  
 Fix: Use `System.Collections.Generic.Dictionary` or continue using Godot Dict and make sure all classes extend from `Node`  

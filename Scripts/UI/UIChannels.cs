@@ -10,7 +10,7 @@ namespace KRU.UI
 {
     public class UIChannels : Node
     {
-        public static Dictionary<uint, UIChannel> Channels { get; set; }
+        public static Dictionary<uint, UIChannel> Channels { get; set; } // Note: uint is the ID of the channel
         public static uint ActiveChannel { get; set; }
         public static Node Instance { get; set; }
 

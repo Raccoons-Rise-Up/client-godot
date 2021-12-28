@@ -37,7 +37,7 @@ namespace KRU.UI
 
             Users.Add(id, user);
 
-            Container.AddChild(user);
+            Container.CallDeferred("add_child", user); // Deputy Valk here with Thread Safety ;-; (normally you would do Container.AddChild but since this is being called on a non-Godot thread we have to use this new function)
         }
 
         public static void RemoveUser(uint id)

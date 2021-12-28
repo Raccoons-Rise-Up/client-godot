@@ -29,10 +29,11 @@ namespace KRU.UI
                 if (ActiveDialogExists())
                     return;
                 
+                // Create the popup dialog on right click UIUser
                 ActiveDialog = PrefabUIUserDialogOptions.Instance<UIUserDialogOptions>();
                 ActiveDialog.SetPosition(UIGame.DialogPopups.GetLocalMousePosition());
                 ActiveDialog.Username = UserUsername.Text;
-                ActiveDialog.Id = UserId;
+                ActiveDialog.UserId = UserId;
 
                 UIGame.DialogPopups.AddChild(ActiveDialog);
             } 

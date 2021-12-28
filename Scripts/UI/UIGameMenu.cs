@@ -20,8 +20,6 @@ namespace KRU.UI
 
             // Game Menu Parent
             this.Visible = false;
-
-            UIUsers.AddUser("Tester", Status.Online, 33);
         }
 
         public override void _UnhandledInput(InputEvent @event)

@@ -151,10 +151,6 @@ If you want to send data along with the opcode then the `ENetInstructionOpcode` 
 Documentation for ENet-CSharp can be found [here](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/DOCUMENTATION.md).
 
 ### Security
-This section is a little dry right now, more will be added in time.
-
-TODO: Talk about password hash.
-
 Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
 
 ### Sending a Packet from the Client to the Server

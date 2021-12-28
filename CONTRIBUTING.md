@@ -101,6 +101,8 @@ while (ENetInstructions.TryDequeue(out ENetInstructionOpcode result))
 ### Communicating from ENet to Godot
 TL;DR **NEVER RUN GODOT COMMANDS ON A NON-GODOT THREAD**
 
+Godot does support [call_deferred](https://docs.godotengine.org/en/stable/tutorials/threads/thread_safe_apis.html#) but this is a lazy, sloppy and most importantly a **dangerous** approach. ConcurrentQueues should be used instead.
+
 Lets say you want to display a message in the Godot UI when something happens in the ENet thread.
 
 First add the opcode `LogMessage` to the `GodotInstructionOpcode` enum

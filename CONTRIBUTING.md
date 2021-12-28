@@ -1,7 +1,4 @@
 # Contributing
-## New Changes that need to be merged into contributing document eventually
-- Common.dll was merged into client / server code
-
 ## Table of Contents
 1. [Debugging](#debugging)
     - [VSCode Setup](#vscode-setup)
@@ -56,7 +53,7 @@ In VSCode, make sure your `launch.json` looks something like this under `.vscode
 }
 ```
 
-### Errors
+### Godot Errors
 Issue: Attempted to convert an unmarshallable managed type to variant  
 Cause: Add a class that does not extend from `Node` in a `Godot.Collections.Dictionary`  
 Fix: Use `System.Collections.Generic.Dictionary` or continue using Godot Dict and make sure all classes extend from `Node`  
@@ -73,6 +70,8 @@ Fix: Use `System.Collections.Generic.Dictionary` or continue using Godot Dict an
 The networking library ENet-CSharp needs its own thread to execute on to ensure Godot thread is not clogging up the network. If you are unfamiliar with threads please read [Using threads and threading](https://docs.microsoft.com/en-us/dotnet/standard/threading/using-threads-and-threading).
 
 ### Communicating from Godot to ENet
+TL;DR **NEVER RUN ENET COMMANDS ON A NON-ENET THREAD**
+
 In `Scripts/Netcode/Packets/Opcodes.cs`, add the 'opcode' to the following enum. For example maybe you want to instruct ENet to disconnect from the server entirely, so you would add something like `CancelConnection`.
 ```cs
 public enum ENetInstructionOpcode 
@@ -100,6 +99,10 @@ while (ENetInstructions.TryDequeue(out ENetInstructionOpcode result))
 ```
 
 ### Communicating from ENet to Godot
+TL;DR **NEVER RUN GODOT COMMANDS ON A NON-GODOT THREAD**
+
+Godot does support [call_deferred](https://docs.godotengine.org/en/stable/tutorials/threads/thread_safe_apis.html#) but this is a lazy, sloppy and most importantly a **dangerous** approach. ConcurrentQueues should be used instead.
+
 Lets say you want to display a message in the Godot UI when something happens in the ENet thread.
 
 First add the opcode `LogMessage` to the `GodotInstructionOpcode` enum
@@ -150,11 +153,30 @@ If you want to send data along with the opcode then the `ENetInstructionOpcode` 
 Documentation for ENet-CSharp can be found [here](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/DOCUMENTATION.md).
 
 ### Security
-This section is a little dry right now, more will be added in time.
-
-TODO: Talk about password hash.
-
 Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
+
+### Notes on Reading Packets
+Never do this, weird things happen when it's done like this.
+```cs
+public void Read(PacketReader reader)
+{
+    for (int i = 0; i < reader.ReadByte(); i++) 
+        Players.Add(reader.ReadUInt32(), reader.ReadString());
+}
+```
+Do this instead.
+```cs
+public void Read(PacketReader reader)
+{
+    var playerCount = reader.ReadByte();
+    for (int i = 0; i < playerCount; i++) 
+    {
+        var userId = reader.ReadUInt32();
+        var userUsername = reader.ReadString();
+        Players.Add(userId, userUsername);
+    }
+}
+```
 
 ### Sending a Packet from the Client to the Server
 

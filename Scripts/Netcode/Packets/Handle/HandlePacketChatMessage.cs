@@ -12,7 +12,7 @@ namespace KRU.Networking
 
         public HandlePacketChatMessage() => Opcode = ServerPacketOpcode.ChatMessage;
 
-        public override void Handle(Event netEvent, PacketReader packetReader)
+        public override void Handle(PacketReader packetReader)
         {
             var data = new RPacketChatMessage();
             data.Read(packetReader);

@@ -14,8 +14,12 @@ namespace KRU.Networking
         public void Read(PacketReader reader)
         {
             var playerCount = reader.ReadByte();
-            for (int i = 0; i < playerCount; i++)
-                Players.Add(reader.ReadUInt32(), reader.ReadString());
+            for (int i = 0; i < playerCount; i++) 
+            {
+                var userId = reader.ReadUInt32();
+                var userUsername = reader.ReadString();
+                Players.Add(userId, userUsername);
+            }
         }
     }
 }

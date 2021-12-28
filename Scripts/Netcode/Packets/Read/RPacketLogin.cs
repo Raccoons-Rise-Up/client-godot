@@ -44,13 +44,15 @@ namespace KRU.Networking
 
                     // Channels
                     Channels = new Dictionary<uint, UIChannel>();
-                    for (int i = 0; i < reader.ReadUInt16(); i++)
+                    var channelCount = reader.ReadUInt16();
+                    for (int i = 0; i < channelCount; i++)
                     {
                         var channelId = reader.ReadUInt32();
                         var creatorId = reader.ReadUInt32();
 
                         var users = new Dictionary<uint, string>();
-                        for (int j = 0; j < reader.ReadUInt16(); j++)
+                        var userCount = reader.ReadUInt16();
+                        for (int j = 0; j < userCount; j++)
                         {
                             var userId = reader.ReadUInt32();
                             var userUsername = reader.ReadString();

@@ -12,7 +12,7 @@ namespace KRU.Networking
 
         public HandlePacketPlayerJoinLeave() => Opcode = ServerPacketOpcode.PlayerJoinLeave;
 
-        public override void Handle(Event netEvent, PacketReader packetReader)
+        public override void Handle(PacketReader packetReader)
         {
             var data = new RPacketPlayerJoinLeave();
             data.Read(packetReader);

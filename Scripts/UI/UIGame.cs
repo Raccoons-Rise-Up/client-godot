@@ -114,6 +114,15 @@ namespace KRU.UI
             }
         }
 
+        public static void ResetGame()
+        {
+            UIUsers.RemoveAllUsers();
+            UIChannels.RemoveAllChannels();
+            UIChat.ClearChat();
+            
+            UILogin.LoadMenuScene();
+        }
+
         private void GameUpdateLoop(object source, ElapsedEventArgs e)
         {
             UIGame.AddResourcesGeneratedFromStructures();

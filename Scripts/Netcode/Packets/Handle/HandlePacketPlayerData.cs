@@ -15,7 +15,7 @@ namespace KRU.Networking
             Opcode = ServerPacketOpcode.PlayerData;
         }
 
-        public override void Handle(Event netEvent, PacketReader packetReader)
+        public override void Handle(PacketReader packetReader)
         {
             var data = new RPacketPlayerData();
             data.Read(packetReader);

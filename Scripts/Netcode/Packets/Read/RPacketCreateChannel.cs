@@ -23,9 +23,12 @@ namespace KRU.Networking
                 CreatorId = reader.ReadUInt32();
 
                 Users = new Dictionary<uint, string>();
-                for (int i = 0; i < reader.ReadUInt16(); i++)
+                var userCount = reader.ReadUInt16();
+                for (int i = 0; i < userCount; i++)
                 {
-                    Users.Add(reader.ReadUInt32(), reader.ReadString());
+                    var userId = reader.ReadUInt32();
+                    var userUsername = reader.ReadString();
+                    Users.Add(userId, userUsername);
                 }
             }
         }

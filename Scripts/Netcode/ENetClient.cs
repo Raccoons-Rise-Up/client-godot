@@ -100,9 +100,64 @@ namespace KRU.Networking
                 {
                     var opcode = cmd.Key;
 
-                    if (opcode == GodotInstructionOpcode.Quit)
+                    switch (opcode)
                     {
-                        GetTree().Quit();
+                        case GodotInstructionOpcode.Quit:
+                            GetTree().Quit();
+                            break;
+                        case GodotInstructionOpcode.ENetPacket:
+                            var packetReader = (PacketReader)cmd.Value[0];
+                            var packetOpcode = (ServerPacketOpcode)packetReader.ReadByte();
+                            GD.Print($"Received New Server Packet: {packetOpcode}");
+
+                            HandlePacket[packetOpcode].Handle(packetReader);
+                            break;
+                        case GodotInstructionOpcode.DebugLog:
+                            var text = (string)cmd.Value[0];
+                            GD.Print(text);
+                            break;
+                        case GodotInstructionOpcode.DisconnectCleanup:
+                            var disconnectOpcode = (DisconnectOpcode)cmd.Value[0];
+
+                            UIGame.ResetGame();
+
+                            switch (disconnectOpcode)
+                            {
+                                case DisconnectOpcode.Disconnected:
+                                    UILogin.UpdateResponse("You were disconnected");
+                                    break;
+
+                                case DisconnectOpcode.Maintenance:
+                                    UILogin.UpdateResponse("You were kicked because the server is going down for maintenance");
+                                    break;
+
+                                case DisconnectOpcode.Restarting:
+                                    UILogin.UpdateResponse("You were kicked because the server is restarting");
+                                    break;
+
+                                case DisconnectOpcode.Kicked:
+                                    UILogin.UpdateResponse("You were kicked");
+                                    break;
+
+                                case DisconnectOpcode.Banned:
+                                    UILogin.UpdateResponse("You were banned");
+                                    break;
+
+                                case DisconnectOpcode.PlayerWithUsernameExistsOnServerAlready:
+                                    UILogin.UpdateResponse("A player with this username is on the server already");
+                                    break;
+                            }
+                            break;
+                        case GodotInstructionOpcode.TimeoutCleanup:
+                            UIGame.ResetGame();
+                            UILogin.UpdateResponse("Client connection timeout to game server");
+                            break;
+                        case GodotInstructionOpcode.DisableGameLoop:
+                            UIGame.DisableGameLoop();
+                            break;
+                        case GodotInstructionOpcode.EnableGameLoop:
+                            UIGame.EnableGameLoop();
+                            break;
                     }
                 }
             }
@@ -173,7 +228,6 @@ namespace KRU.Networking
                 Peer = client.Connect(address);
                 Peer.PingInterval(pingInterval);
                 Peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
-                GD.Print("Attempting to connect...");
                 UILogin.UpdateResponse("Attempting to connect...");
 
                 bool wantsToQuit = false;
@@ -188,10 +242,10 @@ namespace KRU.Networking
                     {
                         if (result == ENetInstructionOpcode.Disconnect)
                         {
-                            GD.Print("Disconnected");
+                            GodotLog("Disconnected");
                             Peer.Disconnect(0);
                             RunningNetCode = false;
-                            UIGame.DisableGameLoop();
+                            GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.DisableGameLoop));
                             break;
                         }
 
@@ -214,10 +268,11 @@ namespace KRU.Networking
 
                         netEvent.Packet.CopyTo(readBuffer);
 
-                        var opcode = (ServerPacketOpcode)packetReader.ReadByte();
-                        GD.Print(opcode);
-
-                        HandlePacket[opcode].Handle(netEvent, packetReader);
+                        GodotCmds.Enqueue(new GodotInstructions {
+                            Instructions = new Dictionary<GodotInstructionOpcode, List<object>>(){
+                                { GodotInstructionOpcode.ENetPacket, new List<object>() { packetReader } }
+                            }
+                        });
 
                         netEvent.Packet.Dispose();
                     }
@@ -243,13 +298,13 @@ namespace KRU.Networking
 
                         if (eventType == EventType.None)
                         {
-                            GD.Print("Nothing");
+                            GodotLog("Recieved a packet of EventType.None");
                         }
 
                         if (eventType == EventType.Connect)
                         {
                             // Successfully connected to the game server
-                            GD.Print("Client connected to game server");
+                            GodotLog("Client connected to game server");
 
                             // Send login request
                             var clientPacket = new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
@@ -266,60 +321,31 @@ namespace KRU.Networking
                             TryingToConnect = false;
                             ConnectedToServer = true;
 
-                            UIGame.EnableGameLoop();
+                            GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.EnableGameLoop));
                         }
 
                         if (eventType == EventType.Disconnect)
                         {
-                            // Clean up / reset code for user disconnect (Basically reset the game scene)
-                            UIChannels.RemoveAllChannels();
-                            UIUsers.RemoveAllUsers();
+                            var disconnectOpcode = (DisconnectOpcode)netEvent.Data;
 
-                            var opcode = (DisconnectOpcode)netEvent.Data;
-
-                            switch (opcode)
-                            {
-                                case DisconnectOpcode.Disconnected:
-                                    UILogin.UpdateResponse("You were disconnected");
-                                    break;
-
-                                case DisconnectOpcode.Maintenance:
-                                    UILogin.UpdateResponse("You were kicked because the server is going down for maintenance");
-                                    break;
-
-                                case DisconnectOpcode.Restarting:
-                                    UILogin.UpdateResponse("You were kicked because the server is restarting");
-                                    break;
-
-                                case DisconnectOpcode.Kicked:
-                                    UILogin.UpdateResponse("You were kicked");
-                                    break;
-
-                                case DisconnectOpcode.Banned:
-                                    UILogin.UpdateResponse("You were banned");
-                                    break;
-
-                                case DisconnectOpcode.PlayerWithUsernameExistsOnServerAlready:
-                                    UILogin.UpdateResponse("A player with this username is on the server already");
-                                    break;
-                            }
+                            GodotCmds.Enqueue(new GodotInstructions{
+                                Instructions = new Dictionary<GodotInstructionOpcode, List<object>>() {
+                                    { GodotInstructionOpcode.DisconnectCleanup, new List<object>() { disconnectOpcode } }
+                                }
+                            });
 
                             RunningNetCode = false;
-                            UILogin.LoadMenuScene();
                         }
 
                         if (eventType == EventType.Timeout)
                         {
-                            UIUsers.RemoveAllUsers();
-
-                            UILogin.UpdateResponse("Client connection timeout to game server");
+                            GodotCmds.Enqueue(new GodotInstructions(GodotInstructionOpcode.TimeoutCleanup));
                             RunningNetCode = false;
-                            UILogin.LoadMenuScene();
                         }
 
                         if (eventType == EventType.Receive)
                         {
-                            //GD.Print("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + packet.Length);
+                            //GodotLog("Packet received from server - Channel ID: " + netEvent.ChannelID + ", Data length: " + packet.Length);
                             Incoming.Add(netEvent);
                         }
                     }
@@ -360,6 +386,15 @@ namespace KRU.Networking
             packet.Create(gamePacket.Data, gamePacket.PacketFlags);
             Peer.Send(channelID, ref packet);
         }
+
+        private static void GodotLog(string text)
+        {
+            GodotCmds.Enqueue(new GodotInstructions {
+                Instructions = new Dictionary<GodotInstructionOpcode, List<object>>() {
+                    { GodotInstructionOpcode.DebugLog, new List<object>() { text } }
+                }
+            });
+        }
     }
 
     public struct ClientVersion
@@ -394,12 +429,17 @@ namespace KRU.Networking
 
     public enum GodotInstructionOpcode
     {
-        Quit
+        Quit,
+        ENetPacket,
+        DebugLog,
+        DisconnectCleanup,
+        TimeoutCleanup,
+        DisableGameLoop,
+        EnableGameLoop
     }
 
     public enum ENetInstructionOpcode
     {
-        CancelConnection,
         UserWantsToQuit,
         Disconnect
     }

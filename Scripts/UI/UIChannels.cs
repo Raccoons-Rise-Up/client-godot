@@ -53,6 +53,8 @@ namespace KRU.UI
             // Add the button to the channel tab list in the scene
             Instance.AddChild(btn);
 
+            GD.PrintErr("Adding channel with ID " + channelId);
+
             // Keep track of the channel
             Channels.Add(channelId, new UIChannel { 
                 ChannelName = channel.ChannelName,
@@ -66,6 +68,7 @@ namespace KRU.UI
             foreach (var channel in Channels.Values)
                 channel.Button.QueueFree();
 
+            GD.PrintErr("Cleared all channels");
             Channels.Clear();
         }
 

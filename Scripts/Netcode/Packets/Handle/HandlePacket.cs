@@ -8,6 +8,6 @@ namespace KRU.Networking
     {
         public abstract ServerPacketOpcode Opcode { get; set; }
 
-        public abstract void Handle(Event netEvent, PacketReader packetReader);
+        public abstract void Handle(PacketReader packetReader);
     }
 }

@@ -70,6 +70,8 @@ Fix: Use `System.Collections.Generic.Dictionary` or continue using Godot Dict an
 The networking library ENet-CSharp needs its own thread to execute on to ensure Godot thread is not clogging up the network. If you are unfamiliar with threads please read [Using threads and threading](https://docs.microsoft.com/en-us/dotnet/standard/threading/using-threads-and-threading).
 
 ### Communicating from Godot to ENet
+TL;DR **NEVER RUN ENET COMMANDS ON A NON-ENET THREAD**
+
 In `Scripts/Netcode/Packets/Opcodes.cs`, add the 'opcode' to the following enum. For example maybe you want to instruct ENet to disconnect from the server entirely, so you would add something like `CancelConnection`.
 ```cs
 public enum ENetInstructionOpcode 

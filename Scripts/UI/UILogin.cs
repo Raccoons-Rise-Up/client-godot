@@ -3,6 +3,7 @@ using KRU.IO;
 using KRU.Networking;
 using KRU.Utils;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace KRU.UI
 {
@@ -141,6 +142,11 @@ namespace KRU.UI
                     break;
 
                 case LoginOpcode.InvalidToken:
+                    // Reset token in local file system
+                    AppData.SaveJsonWebToken(null, "");
+                    Token = null;
+
+                    GD.Print("Invalid token, going to try relogging...");
                     Logout();
 
                     // Automatically try to login one more time
@@ -163,8 +169,14 @@ namespace KRU.UI
                         ENetClient.JsonWebToken = res.Token;
                     }
 
+                    await Task.Delay(100); // Add a small delay of 100 ms to give application a chance to keep up (after all we did just do a POST request)
+
                     GD.Print("Attempting to connect to the game server...");
+                    //GD.Print("A");
+                    //System.Console.WriteLine("A");
+
                     ENetClient.Connect();
+                    //GD.Print("C");
                     break;
             }
         }
@@ -188,6 +200,7 @@ namespace KRU.UI
             if (InputUsername.Text != AppData.GetStorage()["username"])
             {
                 // A new username was entered that was different from the one in storage, asking for a new JWT
+                GD.Print("A new username was entered that was different from the one in storage, asking for a new JWT");
                 return BasicLoginInfo();
             }
 

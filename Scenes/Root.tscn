@@ -351,9 +351,9 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fieldWebServerIp = "localhost"
+fieldWebServerIp = "207.161.51.65"
 fieldWebServerPort = "4000"
-fieldGameServerIp = "localhost"
+fieldGameServerIp = "207.161.51.65"
 fieldGameServerPort = 25565
 nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
 nodePathDialogPopups = NodePath("Game UI/PanelContainer/Panel/Dialog Popups")

@@ -1,12 +1,15 @@
 # Raccoons Rise Up Game Client
+## My First Serious Project :)
 This is my first serious project in Godot. I have learned so much from this project it is not even funny. There are so many challenges to tackle and they keep presenting themselves as I continue to add new features to the game. For example, who would have known implementing netcode for user text channels would be so much work? If you're new here I will tell you right away it will take some time to understand how everything comes together, but once you understand it all, working on it is a blast!
 
+## About
 Raccoons Rise Up will be a text based long term progressive resource management MMORPG. Players will be able to purchase structures with resources which in turn will generate more resources. Research from the tech tree will help speed up this process. Players will also be able to assign raccoons to jobs to make resource gathering slightly more interesting.
 
 A wrapper called ENet-CSharp for ENet is being used for the netcode. A web server is being used to manage the user account authentication / creation. The game client is being made in the Godot C# engine. The game server acts as both a server and minecraft like console. A game launcher will eventually be created using Electron.
 
 Currently I'm working on expanding on the "private text channel" netcode logic. Lots of bugs in this area, almost overwhelming at times.
 
+## Things That Need to be Done Eventually
 Here are a list of things that need to be done eventually in order
 1. Friend system / group text channels / chat settings
 2. Tech tree / research logic

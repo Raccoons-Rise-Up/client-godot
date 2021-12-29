@@ -3,6 +3,7 @@
 This is my first serious project in Godot. I have learned so much from this project it is not even funny. There are so many challenges to tackle and they keep presenting themselves as I continue to add new features to the game. For example, who would have known implementing netcode for user text channels would be so much work? If you're new here I will tell you right away it will take some time to understand how everything comes together, but once you understand it all, working on it is a blast!
 
 ## About
+![image](https://user-images.githubusercontent.com/6277739/147399688-057c43de-7538-42a0-8703-b84c119e649d.png)
 Raccoons Rise Up will be a text based long term progressive resource management MMORPG. Players will be able to purchase structures with resources which in turn will generate more resources. Research from the tech tree will help speed up this process. Players will also be able to assign raccoons to jobs to make resource gathering slightly more interesting.
 
 A wrapper called ENet-CSharp for ENet is being used for the netcode. A web server is being used to manage the user account authentication / creation. The game client is being made in the Godot C# engine. The game server acts as both a server and minecraft like console. A game launcher will eventually be created using Electron.
@@ -23,17 +24,7 @@ Here are a list of things that need to be done eventually in order
 
 All contributions are very much welcome, please contact me through Discord if you plan on contributing, my Discord is valk#9904. If you have any questions, I'll try my best to answer them.
 
-## Table of Contents
-1. [About](#about)
-2. [Setup](#setup)
-3. [Issues](#issues)
-4. [Contributing](#contributing)
-
-## About
-
-![image](https://user-images.githubusercontent.com/6277739/147399688-057c43de-7538-42a0-8703-b84c119e649d.png)
-
-[Raccoons Rise Up Roadmap](https://trello.com/b/XkhJxR2x/raccoons-rise-up)
+[Raccoons Rise Up Roadmap](https://trello.com/b/XkhJxR2x/raccoons-rise-up) (outdated / not managed - please talk to me through Discord to learn more about whats to come and what needs fixing)
 
 ## Setup
 Note: The [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) need to be running so the client can connect to the game server properly.

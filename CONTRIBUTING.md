@@ -1,15 +1,11 @@
 # Contributing
 ## Table of Contents
 1. [Debug Setup](#debug-setup)
-2. [Formatting Guidelines](#formatting-guidelines)
-3. [Creating a Pull Request](#creating-a-pull-request)
 4. [Threads](#threads)
-    - [Communicating from Godot to ENet](#communicating-from-godot-to-enet)
-    - [Communicating from ENet to Godot](#communicating-from-enet-to-godot)
 5. [Networking](#networking)
-    - [Security](#security)
-    - [Sending a Packet from the Client to the Server](#sending-a-packet-from-the-client-to-the-server)
 6. [Exporting](#exporting)
+7. [Formatting Guidelines](#formatting-guidelines)
+3. [Creating a Pull Request](#creating-a-pull-request)
 
 ## Debug Setup
 1. Install [VSCode](https://code.visualstudio.com)
@@ -42,14 +38,6 @@
 }
 ```
 5. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
-
-## Formatting Guidelines
-- Methods should follow PascalFormat
-- Try to use `var` where ever possible
-
-## Creating a Pull Request
-1. Always test the application to see if it works as intended with no additional bugs you may be adding!
-2. State all the changes you made in the PR, not everyone will understand what you've done!
 
 ## Threads
 The client runs on 2 threads; the Godot thread and the ENet thread. Never run Godot code in the ENet thread and likewise never run ENet code in the Godot thread. If you ever need to communicate between the threads, use the proper `ConcurrentQueue`'s in `ENetClient.cs`.
@@ -86,3 +74,11 @@ ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessag
 
 ## Exporting
 Do not forget to add [enet.dll](https://github.com/nxrighthere/ENet-CSharp/releases) beside the games executable.
+
+## Formatting Guidelines
+- Methods should follow PascalFormat
+- Try to use `var` where ever possible
+
+## Creating a Pull Request
+1. Always test the application to see if it works as intended with no additional bugs you may be adding!
+2. State all the changes you made in the PR, not everyone will understand what you've done!

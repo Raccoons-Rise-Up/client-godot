@@ -87,7 +87,6 @@ namespace KRU.UI
             if (UIChannels.ActiveChannel == (uint)SpecialChannel.Game)
                 return;
 
-            // Not sure if this is allowed with threading and all but going to try anyways!
             ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
                 ChannelId = UIChannels.ActiveChannel,
                 Message = text

@@ -41,7 +41,7 @@
 5. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
 
 ### Godot
-1. Make sure the [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) are running otherwise the client will not be able to connect properly.
+1. Make sure the [game server](https://github.com/Kittens-Rise-Up/server) and [web server](https://github.com/Kittens-Rise-Up/website) are running otherwise the client will not be able to connect properly.
 2. Fork this repository
 3. Clone your fork with [git scm](https://git-scm.com) 
 4. Install [Godot Mono 64 Bit](https://godotengine.org)

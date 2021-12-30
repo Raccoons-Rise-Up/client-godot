@@ -83,7 +83,7 @@ namespace KRU.Networking
     }
 }
 
-// Since the packet is being enqueued to a ConcurrentQueue the following code can be called from any thread
+// Since packets are being enqueued to a ConcurrentQueue they can be called from any thread
 ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
     ChannelId = UIChannels.ActiveChannel,
     Message = text

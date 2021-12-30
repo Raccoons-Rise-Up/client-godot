@@ -31,16 +31,8 @@ namespace KRU.Networking
                 if (p.Key == UIGame.ClientPlayerId)
                     continue;
 
-                if (UIUsers.Users.ContainsKey(p.Key)) 
-                {
-                    GD.PrintErr($"WARNING: User ID {p.Key} exists in user list already! (Ignoring)");
-                    GD.Print("UIGame.Players");
-                    foreach (var a in UIGame.Players)
-                        GD.Print($"{a.Key}: {a.Value}");
-                    continue;
-                }
-
-                UIUsers.AddUser(p.Value, Status.Online, p.Key);
+                
+                //UIUsers.AddUser(p.Value, Status.Online, p.Key);
             } 
         }
     }

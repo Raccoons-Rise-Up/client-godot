@@ -351,9 +351,9 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-fieldWebServerIp = "207.161.51.65"
+fieldWebServerIp = "localhost"
 fieldWebServerPort = "4000"
-fieldGameServerIp = "207.161.51.65"
+fieldGameServerIp = "localhost"
 fieldGameServerPort = 25565
 nodePathTitle = NodePath("Game UI/PanelContainer/Panel/Title")
 nodePathDialogPopups = NodePath("Game UI/PanelContainer/Panel/Dialog Popups")
@@ -953,8 +953,11 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-nodePathChatText = NodePath("VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2/RichTextLabel")
-nodePathChatInput = NodePath("VBoxContainer/HBoxContainer/Chat/LineEdit")
+nodePathChatText = NodePath("VBoxContainer/Chat and User List/Chat Area/Chat Box/HBoxContainer2/RichTextLabel")
+nodePathChatInput = NodePath("VBoxContainer/Chat and User List/Chat Area/LineEdit")
+nodePathUserListScrollContainer = NodePath("VBoxContainer/Chat and User List/User List")
+nodePathChatArea = NodePath("VBoxContainer/Chat and User List/Chat Area")
+nodePathUserList = NodePath("VBoxContainer/Chat and User List/User List/Users")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat"]
 margin_left = 1.0
@@ -962,38 +965,39 @@ margin_top = 1.0
 margin_right = 525.0
 margin_bottom = 201.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer"]
+[node name="Chat and User List" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer"]
 margin_right = 524.0
 margin_bottom = 200.0
 
-[node name="Chat" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer"]
+[node name="Chat Area" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List"]
 margin_right = 350.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 350, 200 )
+size_flags_horizontal = 3
 
-[node name="Chat Box" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat"]
+[node name="Chat Box" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area"]
 margin_right = 350.0
 margin_bottom = 172.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VPadding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/Chat Box"]
+[node name="VPadding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area/Chat Box"]
 margin_right = 350.0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/Chat Box"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area/Chat Box"]
 margin_top = 4.0
 margin_right = 350.0
 margin_bottom = 172.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HPadding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2"]
+[node name="HPadding" type="Control" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area/Chat Box/HBoxContainer2"]
 margin_right = 2.0
 margin_bottom = 168.0
 rect_min_size = Vector2( 2, 0 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/Chat Box/HBoxContainer2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area/Chat Box/HBoxContainer2"]
 margin_left = 6.0
 margin_right = 350.0
 margin_bottom = 168.0
@@ -1006,7 +1010,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat"]
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area"]
 margin_top = 176.0
 margin_right = 350.0
 margin_bottom = 200.0
@@ -1018,13 +1022,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer"]
+[node name="User List" type="ScrollContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List"]
 margin_left = 354.0
 margin_right = 524.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 170, 0 )
 
-[node name="Users" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/ScrollContainer"]
+[node name="Users" type="VBoxContainer" parent="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/User List"]
 margin_right = 170.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 150, 0 )
@@ -1280,7 +1284,7 @@ margin_bottom = 500.0
 [connection signal="pressed" from="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login/CenterContainer/VBoxContainer2/Btn Logout" to="CanvasLayer/Scene Main Menu/PanelContainer/Sections/Login" method="_on_Btn_Logout_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Buy" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Buy_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure/ScrollContainer/MarginContainer/Buy Sell/List Buttons/Btn Sell" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Content/Sections/Store/List/ScrollContainer/UI Store Structure" method="_on_Btn_Sell_pressed"]
-[connection signal="text_entered" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/HBoxContainer/Chat/LineEdit" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_LineEdit_text_entered"]
+[connection signal="text_entered" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat/VBoxContainer/Chat and User List/Chat Area/LineEdit" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Chat/Chat" method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons/HBoxContainer/Btn Chat" to="CanvasLayer/Scene Game/Game UI/PanelContainer/Panel/Social/Social Buttons" method="_on_Btn_Chat_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Resources" to="CanvasLayer/Scene Game" method="_on_Btn_Resources_pressed"]
 [connection signal="pressed" from="CanvasLayer/Scene Game/Game UI/MarginContainer/Nav/HBoxContainer/Btn Structures" to="CanvasLayer/Scene Game" method="_on_Btn_Structures_pressed"]

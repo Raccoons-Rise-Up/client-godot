@@ -3,25 +3,24 @@ using Common.Networking.Packet;
 using ENet;
 using System.Linq;
 using KRU.UI;
+using Godot;
 using Common.Game;
 
 namespace KRU.Networking
 {
-    public class HandlePacketChatMessage : HandlePacket
+    public class HandlePacketChannelList : HandlePacket
     {
         public override ServerPacketOpcode Opcode { get; set; }
 
-        public HandlePacketChatMessage() => Opcode = ServerPacketOpcode.ChatMessage;
+        public HandlePacketChannelList() => Opcode = ServerPacketOpcode.ChannelList;
 
         public override void Handle(PacketReader packetReader)
         {
-            var data = new RPacketChatMessage();
+            var data = new RPacketChannelList();
             data.Read(packetReader);
 
-            UIChat.AddMessage(data.ChannelId, new UIMessage {
-                Message = data.Message,
-                UserId = data.UserId
-            });
+            UIChannels.SetupChannels(data.Channels);
+            UIChannels.GoToChannel((uint)SpecialChannel.Global);
         }
     }
 }

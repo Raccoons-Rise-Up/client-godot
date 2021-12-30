@@ -172,11 +172,8 @@ namespace KRU.UI
                     await Task.Delay(100); // Add a small delay of 100 ms to give application a chance to keep up (after all we did just do a POST request)
 
                     GD.Print("Attempting to connect to the game server...");
-                    //GD.Print("A");
-                    //System.Console.WriteLine("A");
 
                     ENetClient.Connect();
-                    //GD.Print("C");
                     break;
             }
         }

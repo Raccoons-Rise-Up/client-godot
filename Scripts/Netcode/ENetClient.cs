@@ -200,15 +200,11 @@ namespace KRU.Networking
 
         public static void Connect()
         {
-            //GD.Print("D");
             if (TryingToConnect || ConnectedToServer)
                 return;
-            //GD.Print("E");
 
             TryingToConnect = true;
-            var thread = new Thread(WorkerThread);
-            thread.Start();
-            GodotLog($"Created new thread: \nName: {thread.Name} \nManaged Thread ID: {thread.ManagedThreadId} \nPriority: {thread.Priority}");
+            new Thread(WorkerThread).Start();
         }
 
         public bool IsConnected() => ConnectedToServer;

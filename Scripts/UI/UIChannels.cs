@@ -13,6 +13,7 @@ namespace KRU.UI
         public static Dictionary<uint, UIChannel> Channels { get; set; } // Note: uint is the ID of the channel
         public static uint ActiveChannel { get; set; }
         public static Node Instance { get; set; }
+        private static PackedScene PrefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
 
         public override void _Ready()
         {
@@ -31,8 +32,8 @@ namespace KRU.UI
         // This method is called on client login
         public static void SetupChannels(Dictionary<uint, UIChannel> channelsFromServer)
         {
-            SetupChannel((uint)SpecialChannel.Global , new UIChannel { ChannelName = "Global"});
-            SetupChannel((uint)SpecialChannel.Game, new UIChannel { ChannelName = "Game"});
+            //SetupChannel((uint)SpecialChannel.Global , new UIChannel { ChannelName = "Global"});
+            //SetupChannel((uint)SpecialChannel.Game, new UIChannel { ChannelName = "Game"});
 
             foreach (var pair in channelsFromServer)
             {
@@ -48,22 +49,42 @@ namespace KRU.UI
             // Create the channel tab button
             var btn = new Button();
 
-            if (channel.Users.ContainsKey(channel.CreatorId))
-                btn.Text = channel.Users[channel.CreatorId]; // e.g. User defined channels
-            else
-                btn.Text = channel.ChannelName; // e.g. Global / Game
-            
+            if (string.IsNullOrEmpty(channel.ChannelName)) 
+            {
+                if (channelId == (uint)SpecialChannel.Global)
+                    channel.ChannelName = "Global";
+                else if (channelId == (uint)SpecialChannel.Game)
+                    channel.ChannelName = "Game";
+                else
+                    channel.ChannelName = channel.Users[channel.CreatorId];
+            }
+                
+            btn.Text = channel.ChannelName;
             btn.Connect("pressed", Instance, nameof(_on_Channel_Tab_Btn_pressed), new Godot.Collections.Array{ channelId });
 
             // Add the button to the channel tab list in the scene
             Instance.AddChild(btn);
 
+            channel.Button = btn;
+
             // Keep track of the channel
-            Channels.Add(channelId, new UIChannel { 
-                ChannelName = channel.ChannelName,
-                CreatorId = channel.CreatorId,
-                Button = btn 
-            });
+            Channels.Add(channelId, channel);
+
+            foreach (var user in channel.Users) 
+            {
+                channel.UIUsers.Add(user.Key, CreateUIUser(user.Key, user.Value));
+            }
+        }
+
+        public static UIUser CreateUIUser(uint id, string username)
+        {
+            var uiUser = (UIUser)PrefabUIUser.Instance();
+            uiUser.Init();
+            uiUser.SetUsername(username);
+            uiUser.SetStatus(Status.Online);
+            uiUser.SetId(id);
+
+            return uiUser;
         }
 
         public static void RemoveAllChannels()
@@ -125,26 +146,40 @@ namespace KRU.UI
 
             GD.Print($"Switched to channel '{channel.ChannelName}'");
 
-            UIChat.ChatText.Text = channel.Content;
             ActiveChannel = channelId;
+
+            if (ActiveChannel == (uint)SpecialChannel.Game) 
+                UIChat.UserListScrollContainer.Visible = false;
+            else
+                UIChat.UserListScrollContainer.Visible = true;
+
+            
+            UIChat.ChatText.Text = ConvertMessagesToString(channel);
+            UIChat.ChatInput.GrabFocus();
+
+            // Empty the UI User list
+            UIChat.ClearUIUsers();
+            // Populate the UI User list
+            foreach (var user in channel.UIUsers.Values)
+                UIChat.UserList.AddChild(user);
         }
 
-        private static void _on_Channel_Global_pressed() 
+        private static string ConvertMessagesToString(UIChannel channel) 
         {
-            UIChat.ChatText.Text = Channels[(uint)SpecialChannel.Global].Content;
-            ActiveChannel = (uint)SpecialChannel.Global;
-        }
+            string content = "";
 
-        private static void _on_Channel_Game_pressed()
-        {
-            UIChat.ChatText.Text = Channels[(uint)SpecialChannel.Game].Content;
-            ActiveChannel = (uint)SpecialChannel.Game;
+            foreach (var message in channel.Messages)
+                if (ActiveChannel == (uint)SpecialChannel.Game || message.Special)
+                    content += $"{message.Message}\n";
+                else
+                    content += $"{channel.Users[message.UserId]}: {message.Message}\n";
+                    
+            return content;
         }
 
         private void _on_Channel_Tab_Btn_pressed(uint channelId)
         {
-            UIChat.ChatText.Text = Channels[channelId].Content;
-            ActiveChannel = channelId;
+            GoToChannel(channelId);
         }
     }
 }

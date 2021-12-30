@@ -19,7 +19,6 @@ namespace KRU.Networking
         public Dictionary<StructureType, uint> StructureCounts { get; set; }
         public uint PlayerId { get; set; }
         public string PlayerName { get; set; }
-        public Dictionary<uint, UIChannel> Channels { get; set; }
 
         public void Read(PacketReader reader)
         {
@@ -41,28 +40,6 @@ namespace KRU.Networking
                 case LoginResponseOpcode.LoginSuccessReturningPlayer:
                     PlayerId = reader.ReadUInt32();
                     PlayerName = reader.ReadString();
-
-                    // Channels
-                    Channels = new Dictionary<uint, UIChannel>();
-                    var channelCount = reader.ReadUInt16();
-                    for (int i = 0; i < channelCount; i++)
-                    {
-                        var channelId = reader.ReadUInt32();
-                        var creatorId = reader.ReadUInt32();
-
-                        var users = new Dictionary<uint, string>();
-                        var userCount = reader.ReadUInt16();
-                        for (int j = 0; j < userCount; j++)
-                        {
-                            var userId = reader.ReadUInt32();
-                            var userUsername = reader.ReadString();
-                            users.Add(userId, userUsername);
-                        }
-                        Channels.Add(channelId, new UIChannel {
-                            Users = users,
-                            CreatorId = creatorId
-                        });
-                    }
 
                     // Resource counts
                     ResourceCounts = new Dictionary<ResourceType, uint>();

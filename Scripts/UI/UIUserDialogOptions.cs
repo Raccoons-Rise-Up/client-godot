@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Common.Game;
 
 namespace KRU.UI 
 {
@@ -12,8 +13,16 @@ namespace KRU.UI
         {
             GD.Print($"Whisper {UserId}: {Username}");
 
+            // You cannot whisper yourself
+            if (UserId == UIGame.ClientPlayerId)
+                return;
+
             foreach (var channelPair in UIChannels.Channels)
             {
+                // Do not check the special channels
+                if (channelPair.Key == (uint)SpecialChannel.Global || channelPair.Key == (uint)SpecialChannel.Game)
+                    continue;
+
                 var users = channelPair.Value.Users;
                 if (users.ContainsKey(UIGame.ClientPlayerId) && users.ContainsKey(UserId))
                 {

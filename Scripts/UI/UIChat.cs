@@ -13,10 +13,16 @@ namespace KRU.UI
 #pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private readonly NodePath nodePathChatText; // where all the text gets displayed
         [Export] private readonly NodePath nodePathChatInput; // the chat field input
+        [Export] private readonly NodePath nodePathUserListScrollContainer;
+        [Export] private readonly NodePath nodePathChatArea;
+        [Export] private readonly NodePath nodePathUserList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static RichTextLabel ChatText { get; set; }
-        private static LineEdit ChatInput { get; set; }
+        public static LineEdit ChatInput { get; set; }
+        public static ScrollContainer UserListScrollContainer { get; set; }
+        public static Control ChatArea { get; set; }
+        public static Control UserList { get; set; }
 
         public override void _Ready()
         {
@@ -24,20 +30,37 @@ namespace KRU.UI
             ChatText.ScrollFollowing = true;
 
             ChatInput = GetNode<LineEdit>(nodePathChatInput);
+            UserListScrollContainer = GetNode<ScrollContainer>(nodePathUserListScrollContainer);
+            ChatArea = GetNode<Control>(nodePathChatArea);
+            UserList = GetNode<Control>(nodePathUserList);
         }
 
-        public static void AddMessageGlobal(string message) => AddMessage((uint)SpecialChannel.Global, message);
-        public static void AddMessageGame(string message) => AddMessage((uint)SpecialChannel.Game, message);
+        public static void ClearUIUsers()
+        {
+            foreach (Control user in UserList.GetChildren())
+                UserList.RemoveChild(user);
+        }
 
-        public static void AddMessage(uint channelId, string message)
+        public static void AddMessageGlobal(string message) => AddMessage((uint)SpecialChannel.Global, new UIMessage {
+            Message = message
+        });
+        public static void AddMessageGame(string message) => AddMessage((uint)SpecialChannel.Game, new UIMessage {
+            Message = message
+        });
+
+        public static void AddMessage(uint channelId, UIMessage message)
         {
             if (UIChannels.ActiveChannel == channelId) 
             {
-                ChatText.AddText($"{message}\n");
+                if (UIChannels.ActiveChannel == (uint)SpecialChannel.Game || message.Special)
+                    ChatText.AddText($"{message.Message}\n");
+                else
+                    ChatText.AddText($"{UIGame.Players[message.UserId]}: {message.Message}\n");
+
                 ChatText.ScrollToLine(ChatText.GetLineCount() - 1);
             }
-
-            UIChannels.Channels[channelId].Content += $"{message}\n";
+            
+            UIChannels.Channels[channelId].Messages.Add(message);
         }
 
         public static void ClearChat() => ChatText.Clear(); // Clear chat
@@ -54,12 +77,15 @@ namespace KRU.UI
 
             if (text == "/") // Avoid empty commands
                 return;
-
-            if (text[0] == '/')
+                
+            if (text[0] == '/') 
             {
-                HandleCmds(text.Split()[0].ToLower().Substring(1));
+                HandleCmds(text.Split()[0].ToLower());
                 return;
             }
+
+            if (UIChannels.ActiveChannel == (uint)SpecialChannel.Game)
+                return;
 
             // Not sure if this is allowed with threading and all but going to try anyways!
             ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
@@ -68,15 +94,22 @@ namespace KRU.UI
             }));
         }
 
-        private void HandleCmds(string cmd)
+        private void HandleCmds(string text)
         {
+            var cmd = text.Substring(1);
             if (cmd == "help")
             {
-                AddMessageGlobal("/w <user> /r");
+                AddMessage(UIChannels.ActiveChannel, new UIMessage{
+                    Message = "Usage: /w <user> /r",
+                    Special = true
+                });
                 return;
             }
 
-            AddMessageGame($"Unknown command: {cmd}");
+            AddMessage(UIChannels.ActiveChannel, new UIMessage { 
+                Message = $"Unknown command: {cmd}",
+                Special = true
+            });
         }
     }
 }

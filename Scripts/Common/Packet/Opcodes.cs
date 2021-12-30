@@ -27,7 +27,8 @@
         ChatMessage,
         PlayerJoinLeave,
         PlayerList,
-        CreateChannel
+        CreateChannel,
+        ChannelList
     }
 
     public enum ResponseChannelCreateOpcode 

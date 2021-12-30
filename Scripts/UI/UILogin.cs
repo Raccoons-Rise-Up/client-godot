@@ -122,7 +122,7 @@ namespace KRU.UI
                     break;
             }
 
-            GD.Print("Web Response: " + webResponse.Message);
+            //GD.Print("Web Response: " + webResponse.Message);
 
             var res = JsonConvert.DeserializeObject<WebPostLoginResponse>(webResponse.Message);
 

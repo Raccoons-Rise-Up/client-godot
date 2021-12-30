@@ -45,11 +45,7 @@ namespace KRU.Networking
                 var user = users[data.PlayerId];
 
                 if (user.UIUser.IsInsideTree()) 
-                {
-                    GD.Print("UIUser is inside tree, removing child");
                     UIChat.UserList.RemoveChild(user.UIUser);
-                } else
-                    GD.Print("UIUser is not inside tree");
                     
 
                 user.UIUser.QueueFree();

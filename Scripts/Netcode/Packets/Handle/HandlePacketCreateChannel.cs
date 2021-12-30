@@ -20,12 +20,12 @@ namespace KRU.Networking
 
             if (data.ResponseChannelCreateOpcode == ResponseChannelCreateOpcode.ChannelExistsAlready) 
             {
-                GD.Print($"Server says channel '{data.ChannelId}' exists already, going to existing channel");
+                //GD.Print($"Server says channel '{data.ChannelId}' exists already, going to existing channel");
                 UIChannels.GoToChannel(data.ChannelId);
                 return;
             }
 
-            GD.Print($"Server says channel '{data.ChannelId}' was created successfully");
+            //GD.Print($"Server says channel '{data.ChannelId}' was created successfully");
             UIChannels.CreateChannel(data);
         }
     }

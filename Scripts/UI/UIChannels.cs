@@ -115,9 +115,6 @@ namespace KRU.UI
             if (!Channels.ContainsKey(channelId))
             {
                 GD.PrintErr($"WARNING: Channel with channel ID '{channelId}' does not exist (ignoring)");
-                GD.Print("A list of all the channels this client can see are listed below");
-                foreach (var value in Channels.Values)
-                    GD.Print(value.ChannelName);
                 return;
             }
 
@@ -137,13 +134,6 @@ namespace KRU.UI
 
             // Empty the UI User list
             UIChat.ClearUIUsers();
-            // Populate the UI User list
-            GD.Print("POPULATING");
-            foreach (var user in channel.Users.Values) 
-            {
-                GD.Print(user.Username);
-                GD.Print(user.UIUser);
-            }
                 
             foreach (var user in channel.Users.Values)
                 UIChat.UserList.AddChild(user.UIUser);

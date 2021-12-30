@@ -108,7 +108,7 @@ namespace KRU.Networking
                         case GodotInstructionOpcode.ENetPacket:
                             var packetReader = (PacketReader)cmd.Value[0];
                             var packetOpcode = (ServerPacketOpcode)packetReader.ReadByte();
-                            GD.Print($"Received New Server Packet: {packetOpcode}");
+                            //GD.Print($"Received New Server Packet: {packetOpcode}");
 
                             HandlePacket[packetOpcode].Handle(packetReader);
                             break;

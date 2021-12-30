@@ -196,6 +196,11 @@ namespace KRU.Networking
             if (UIGame.ResourceInfoData != null)
                 foreach (var icon in UIGame.ResourceIconData.Values)
                     icon.Free();
+
+            if (UIChannels.Channels != null)
+                foreach (var channel in UIChannels.Channels)
+                    foreach (var user in channel.Value.Users.Values)
+                        user.UIUser.Free();
         }
 
         public static void Connect()

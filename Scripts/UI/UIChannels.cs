@@ -10,14 +10,13 @@ namespace KRU.UI
 {
     public class UIChannels : Node
     {
-        public static Dictionary<uint, UIChannel> Channels { get; set; } // Note: uint is the ID of the channel
+        public static Dictionary<uint, Channel> Channels { get; set; } // Note: uint is the ID of the channel
         public static uint ActiveChannel { get; set; }
         public static Node Instance { get; set; }
-        private static PackedScene PrefabUIUser = ResourceLoader.Load<PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
 
         public override void _Ready()
         {
-            Channels = new Dictionary<uint, UIChannel>();
+            Channels = new Dictionary<uint, Channel>();
             ActiveChannel = (uint)SpecialChannel.Global;
             Instance = this;
         }
@@ -29,12 +28,8 @@ namespace KRU.UI
             }));
         }
 
-        // This method is called on client login
-        public static void SetupChannels(Dictionary<uint, UIChannel> channelsFromServer)
+        public static void SetupChannels(Dictionary<uint, Channel> channelsFromServer)
         {
-            //SetupChannel((uint)SpecialChannel.Global , new UIChannel { ChannelName = "Global"});
-            //SetupChannel((uint)SpecialChannel.Game, new UIChannel { ChannelName = "Game"});
-
             foreach (var pair in channelsFromServer)
             {
                 var channelId = pair.Key;
@@ -44,7 +39,7 @@ namespace KRU.UI
             }
         }
 
-        private static void SetupChannel(uint channelId, UIChannel channel) 
+        private static void SetupChannel(uint channelId, Channel channel) 
         {
             // Create the channel tab button
             var btn = new Button();
@@ -56,7 +51,7 @@ namespace KRU.UI
                 else if (channelId == (uint)SpecialChannel.Game)
                     channel.ChannelName = "Game";
                 else
-                    channel.ChannelName = channel.Users[channel.CreatorId];
+                    channel.ChannelName = channel.Users[channel.CreatorId].Username;
             }
                 
             btn.Text = channel.ChannelName;
@@ -65,32 +60,16 @@ namespace KRU.UI
             // Add the button to the channel tab list in the scene
             Instance.AddChild(btn);
 
-            channel.Button = btn;
+            channel.TabButton = btn;
 
             // Keep track of the channel
             Channels.Add(channelId, channel);
-
-            foreach (var user in channel.Users) 
-            {
-                channel.UIUsers.Add(user.Key, CreateUIUser(user.Key, user.Value));
-            }
-        }
-
-        public static UIUser CreateUIUser(uint id, string username)
-        {
-            var uiUser = (UIUser)PrefabUIUser.Instance();
-            uiUser.Init();
-            uiUser.SetUsername(username);
-            uiUser.SetStatus(Status.Online);
-            uiUser.SetId(id);
-
-            return uiUser;
         }
 
         public static void RemoveAllChannels()
         {
             foreach (var channel in Channels.Values)
-                channel.Button.QueueFree();
+                channel.TabButton.QueueFree();
 
             Channels.Clear();
         }
@@ -113,9 +92,9 @@ namespace KRU.UI
                     if (user.Key != data.CreatorId)
                         otherUserId = user.Key;
 
-                SetupChannel(data.ChannelId, new UIChannel {
+                SetupChannel(data.ChannelId, new Channel {
                     CreatorId = data.CreatorId,
-                    ChannelName = data.Users[otherUserId],
+                    ChannelName = data.Users[otherUserId].Username,
                     Users = data.Users
                 });
                 GoToChannel(data.ChannelId);
@@ -123,9 +102,9 @@ namespace KRU.UI
             else
             {
                 // If this client is the other user the channel is being opened to
-                SetupChannel(data.ChannelId, new UIChannel {
+                SetupChannel(data.ChannelId, new Channel {
                     CreatorId = data.CreatorId,
-                    ChannelName = data.Users[data.CreatorId],
+                    ChannelName = data.Users[data.CreatorId].Username,
                     Users = data.Users
                 });
             }
@@ -153,18 +132,17 @@ namespace KRU.UI
             else
                 UIChat.UserListScrollContainer.Visible = true;
 
-            
             UIChat.ChatText.Text = ConvertMessagesToString(channel);
             UIChat.ChatInput.GrabFocus();
 
             // Empty the UI User list
             UIChat.ClearUIUsers();
             // Populate the UI User list
-            foreach (var user in channel.UIUsers.Values)
-                UIChat.UserList.AddChild(user);
+            foreach (var user in channel.Users.Values)
+                UIChat.UserList.AddChild(user.UIUser);
         }
 
-        private static string ConvertMessagesToString(UIChannel channel) 
+        private static string ConvertMessagesToString(Channel channel) 
         {
             string content = "";
 

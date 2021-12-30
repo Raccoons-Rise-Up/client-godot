@@ -26,17 +26,10 @@ namespace KRU.Networking
                 });
                 UIGame.Players.Add(data.PlayerId, data.PlayerName);
 
-                UIChannels.Channels[(uint)SpecialChannel.Global].Users.Add(data.PlayerId, data.PlayerName);
-
-                var uiUser = UIChannels.CreateUIUser(data.PlayerId, data.PlayerName);
-
-                if (UIChannels.Channels[(uint)SpecialChannel.Global].UIUsers.ContainsKey(data.PlayerId)) 
-                    Godot.GD.Print($"UIUsers for global channel already contains key {data.PlayerId}");
-                else
-                    UIChannels.Channels[(uint)SpecialChannel.Global].UIUsers.Add(data.PlayerId, uiUser);
-                UIChat.UserList.AddChild(uiUser);
-
-                //UIUsers.AddUser(data.PlayerName, Status.Online, data.PlayerId);
+                var user = new User(data.PlayerName);
+                user.CreateUIUser(data.PlayerId);
+                UIChannels.Channels[(uint)SpecialChannel.Global].Users.Add(data.PlayerId, user);
+                UIChat.UserList.AddChild(user.UIUser);
             }
             
             if (data.JoinLeaveOpcode == JoinLeaveOpcode.Leave)
@@ -47,14 +40,10 @@ namespace KRU.Networking
                 });
                 UIGame.Players.Remove(data.PlayerId);
 
-                if (UIChannels.Channels[(uint)SpecialChannel.Global].UIUsers.ContainsKey(data.PlayerId)) 
-                    UIChannels.Channels[(uint)SpecialChannel.Global].Users.Remove(data.PlayerId);
-                else
-                    Godot.GD.Print($"UIUsers for global channel does not contain key {data.PlayerId}");
-                var uiUser = UIChannels.Channels[(uint)SpecialChannel.Global].UIUsers[data.PlayerId];
-                UIChat.UserList.RemoveChild(uiUser);
-
-                //UIUsers.RemoveUser(data.PlayerId);
+                var users = UIChannels.Channels[(uint)SpecialChannel.Global].Users;
+                var user = users[data.PlayerId];
+                UIChat.UserList.RemoveChild(user.UIUser);
+                users.Remove(data.PlayerId);
             }
         }
     }

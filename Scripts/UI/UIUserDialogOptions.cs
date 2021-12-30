@@ -15,8 +15,12 @@ namespace KRU.UI
 
             // You cannot whisper yourself
             if (UserId == UIGame.ClientPlayerId)
+            {
+                QueueFree();
+                UIUser.ActiveDialog = null;
                 return;
-
+            }
+                
             foreach (var channelPair in UIChannels.Channels)
             {
                 // Do not check the special channels

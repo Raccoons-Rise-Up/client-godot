@@ -10,12 +10,12 @@ namespace KRU.Networking
 {
     public class RPacketChannelList 
     {
-        public Dictionary<uint, UIChannel> Channels { get; set; }
+        public Dictionary<uint, Channel> Channels { get; set; }
 
         public void Read(PacketReader reader)
         {
             // Channels
-            Channels = new Dictionary<uint, UIChannel>();
+            Channels = new Dictionary<uint, Channel>();
             var channelCount = reader.ReadUInt16();
             for (int i = 0; i < channelCount; i++)
             {
@@ -34,16 +34,20 @@ namespace KRU.Networking
                     });
                 }
 
-                var users = new Dictionary<uint, string>();
+                var users = new Dictionary<uint, User>();
                 var userCount = reader.ReadUInt16();
                 for (int j = 0; j < userCount; j++)
                 {
                     var userId = reader.ReadUInt32();
                     var userUsername = reader.ReadString();
-                    users.Add(userId, userUsername);
+
+                    var user = new User(userUsername);
+                    user.CreateUIUser(userId);
+
+                    users.Add(userId, user);
                 }
 
-                Channels.Add(channelId, new UIChannel {
+                Channels.Add(channelId, new Channel {
                     Users = users,
                     CreatorId = creatorId,
                     Messages = messages

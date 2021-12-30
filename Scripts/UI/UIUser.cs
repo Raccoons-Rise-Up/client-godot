@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Common.Game;
 
 namespace KRU.UI 
 {
@@ -13,8 +14,8 @@ namespace KRU.UI
         private static PackedScene PrefabUIUserDialogOptions { get; set; }
         public static UIUserDialogOptions ActiveDialog { get; set; }
 
-        private Label UserUsername { get; set; }
-        private uint UserId { get; set; }
+        public uint Id { get; set; }
+        private Label LabelUsername { get; set; }
         public TextureRect TextureRectStatus { get; set; }
 
         public override void _Ready()
@@ -32,8 +33,8 @@ namespace KRU.UI
                 // Create the popup dialog on right click UIUser
                 ActiveDialog = PrefabUIUserDialogOptions.Instance<UIUserDialogOptions>();
                 ActiveDialog.SetPosition(UIGame.DialogPopups.GetLocalMousePosition());
-                ActiveDialog.Username = UserUsername.Text;
-                ActiveDialog.UserId = UserId;
+                ActiveDialog.Username = LabelUsername.Text;
+                ActiveDialog.UserId = Id;
 
                 UIGame.DialogPopups.AddChild(ActiveDialog);
             } 
@@ -52,28 +53,16 @@ namespace KRU.UI
 
         public void Init()
         {
-            UserUsername = GetNode<Label>(nodePathUsername);
+            LabelUsername = GetNode<Label>(nodePathUsername);
             TextureRectStatus = GetNode<TextureRect>(nodePathStatus);
         }
 
-        public void SetUsername(string username) => UserUsername.Text = username;
+        public void SetUsername(string username) => LabelUsername.Text = username;
 
         public void SetStatus(Status status)
         {
             TextureRectStatus.Texture = ResourceLoader.Load<Texture>($"res://Sprites/Friend{Enum.GetName(typeof(Status), status)}.png");
         }
-
-        public void SetId(uint id)
-        {
-            this.UserId = id;
-        }
-    }
-
-    public enum Status 
-    {
-        Online,
-        Away,
-        Offline
     }
 }
 

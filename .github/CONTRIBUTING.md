@@ -1,13 +1,14 @@
 # Contributing
 ## Table of Contents
-1. [Debug Setup](#debug-setup)
-4. [Threads](#threads)
-5. [Networking](#networking)
-6. [Exporting](#exporting)
-7. [Formatting Guidelines](#formatting-guidelines)
-3. [Creating a Pull Request](#creating-a-pull-request)
+1. [Setup](#setup)
+  - [VScode](#vscode)
+  - [Godot](#godot)
+3. [Threads](#threads)
+4. [Networking](#networking)
+5. [Exporting](#exporting)
 
-## Debug Setup
+## Setup
+### VSCode
 1. Install [VSCode](https://code.visualstudio.com)
 2. Install the following extensions for VSCode
     - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
@@ -38,6 +39,14 @@
 }
 ```
 5. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
+
+### Godot
+1. Make sure the [server](https://github.com/Kittens-Rise-Up/server) and [website](https://github.com/Kittens-Rise-Up/website) are running otherwise the client will not be able to connect properly.
+2. Fork this repository
+3. Clone your fork with [git scm](https://git-scm.com) 
+4. Install [Godot Mono 64 Bit](https://godotengine.org)
+5. Install [Build Tools for Visual Studio 2019](https://visualstudio.microsoft.com/downloads/?q=build+tools)
+6. Launch Godot through VSCode
 
 ## Threads
 The client runs on 2 threads; the Godot thread and the ENet thread. Never run Godot code in the ENet thread and likewise never run ENet code in the Godot thread. If you ever need to communicate between the threads, use the proper `ConcurrentQueue`'s in `ENetClient.cs`.

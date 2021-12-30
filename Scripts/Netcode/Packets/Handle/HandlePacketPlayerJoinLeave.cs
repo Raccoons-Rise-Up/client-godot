@@ -4,6 +4,7 @@ using ENet;
 using System.Linq;
 using KRU.UI;
 using Common.Game;
+using Godot;
 
 namespace KRU.Networking
 {
@@ -42,7 +43,16 @@ namespace KRU.Networking
 
                 var users = UIChannels.Channels[(uint)SpecialChannel.Global].Users;
                 var user = users[data.PlayerId];
-                UIChat.UserList.RemoveChild(user.UIUser);
+
+                if (user.UIUser.IsInsideTree()) 
+                {
+                    GD.Print("UIUser is inside tree, removing child");
+                    UIChat.UserList.RemoveChild(user.UIUser);
+                } else
+                    GD.Print("UIUser is not inside tree");
+                    
+
+                user.UIUser.QueueFree();
                 users.Remove(data.PlayerId);
             }
         }

@@ -29,8 +29,9 @@ namespace KRU.Networking
                 {
                     var userId = reader.ReadUInt32();
                     var userUsername = reader.ReadString();
+                    var status = (Status)reader.ReadByte();
 
-                    var user = new User(userUsername);
+                    var user = new User(userUsername, status);
                     user.CreateUIUser(userId);
 
                     Users.Add(userId, user);

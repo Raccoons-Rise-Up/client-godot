@@ -29,7 +29,11 @@ namespace KRU.Networking
                 {
                     var userId = reader.ReadUInt32();
                     var userUsername = reader.ReadString();
-                    Users.Add(userId, new User(userUsername));
+
+                    var user = new User(userUsername);
+                    user.CreateUIUser(userId);
+
+                    Users.Add(userId, user);
                 }
             }
         }

@@ -138,6 +138,13 @@ namespace KRU.UI
             // Empty the UI User list
             UIChat.ClearUIUsers();
             // Populate the UI User list
+            GD.Print("POPULATING");
+            foreach (var user in channel.Users.Values) 
+            {
+                GD.Print(user.Username);
+                GD.Print(user.UIUser);
+            }
+                
             foreach (var user in channel.Users.Values)
                 UIChat.UserList.AddChild(user.UIUser);
         }

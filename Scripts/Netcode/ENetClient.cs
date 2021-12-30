@@ -199,8 +199,10 @@ namespace KRU.Networking
 
             if (UIChannels.Channels != null)
                 foreach (var channel in UIChannels.Channels)
-                    foreach (var user in channel.Value.Users.Values)
-                        user.UIUser.Free();
+                    foreach (var user in channel.Value.Users.Values) 
+                    {
+                        user.UIUser.QueueFree();
+                    }
         }
 
         public static void Connect()

@@ -6,7 +6,7 @@ namespace Common.Game
         public Status Status { get; set; }
 #if CLIENT
         public KRU.UI.UIUser UIUser { get; set; }
-        private static Godot.PackedScene PrefabUIUser = Godot.ResourceLoader.Load<Godot.PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
+        public static Godot.PackedScene PrefabUIUser = Godot.ResourceLoader.Load<Godot.PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
 #endif
 
         public User(string username, Status status = Status.Online) 

@@ -1,8 +1,8 @@
 # Contributing
 ## Table of Contents
 1. [Setup](#setup)
-  - [VScode](#vscode)
-  - [Godot](#godot)
+    - [VScode](#vscode)
+    - [Godot](#godot)
 3. [Threads](#threads)
 4. [Networking](#networking)
 5. [Exporting](#exporting)

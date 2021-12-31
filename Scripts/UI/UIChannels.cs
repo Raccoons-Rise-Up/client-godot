@@ -51,7 +51,7 @@ namespace KRU.UI
                 else if (channelId == (uint)SpecialChannel.Game)
                     channel.ChannelName = "Game";
                 else
-                    channel.ChannelName = channel.Users[channel.CreatorId].Username;
+                    channel.ChannelName = UIGame.Players[channel.CreatorId].Username;
             }
                 
             btn.Text = channel.ChannelName;
@@ -88,13 +88,13 @@ namespace KRU.UI
 
                 // Find the other user the creator opened this channel with
                 uint otherUserId = 0;
-                foreach (var user in data.Users)
-                    if (user.Key != data.CreatorId)
-                        otherUserId = user.Key;
+                foreach (var userId in data.Users)
+                    if (userId != data.CreatorId)
+                        otherUserId = userId;
 
                 SetupChannel(data.ChannelId, new Channel {
                     CreatorId = data.CreatorId,
-                    ChannelName = data.Users[otherUserId].Username,
+                    ChannelName = UIGame.Players[otherUserId].Username,
                     Users = data.Users
                 });
                 GoToChannel(data.ChannelId);
@@ -104,7 +104,7 @@ namespace KRU.UI
                 // If this client is the other user the channel is being opened to
                 SetupChannel(data.ChannelId, new Channel {
                     CreatorId = data.CreatorId,
-                    ChannelName = data.Users[data.CreatorId].Username,
+                    ChannelName = UIGame.Players[data.CreatorId].Username,
                     Users = data.Users
                 });
             }
@@ -136,8 +136,8 @@ namespace KRU.UI
             foreach (Control user in UIChat.UserList.GetChildren())
                 UIChat.UserList.RemoveChild(user);
                 
-            foreach (var user in channel.Users.Values)
-                UIChat.UserList.AddChild(user.UIUser);
+            foreach (var userId in channel.Users)
+                UIChat.UserList.AddChild(UIGame.Players[userId].UIUser);
         }
 
         private static string ConvertMessagesToString(Channel channel) 
@@ -148,7 +148,7 @@ namespace KRU.UI
                 if (ActiveChannel == (uint)SpecialChannel.Game || message.Special)
                     content += $"{message.Message}\n";
                 else
-                    content += $"{channel.Users[message.UserId]}: {message.Message}\n";
+                    content += $"{UIGame.Players[message.UserId].Username}: {message.Message}\n";
                     
             return content;
         }

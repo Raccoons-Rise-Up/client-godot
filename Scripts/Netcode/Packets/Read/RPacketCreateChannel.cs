@@ -9,7 +9,7 @@ namespace KRU.Networking
     public class RPacketCreateChannel : IReadable
     {
         public ResponseChannelCreateOpcode ResponseChannelCreateOpcode { get; set; }
-        public Dictionary<uint, User> Users { get; set; }
+        public List<uint> Users { get; set; }
         public uint ChannelId { get; set; }
         public uint CreatorId { get; set; }
 
@@ -23,7 +23,7 @@ namespace KRU.Networking
             {
                 CreatorId = reader.ReadUInt32();
 
-                Users = new Dictionary<uint, User>();
+                Users = new List<uint>();
                 var userCount = reader.ReadUInt16();
                 for (int i = 0; i < userCount; i++)
                 {
@@ -31,10 +31,7 @@ namespace KRU.Networking
                     var userUsername = reader.ReadString();
                     var status = (Status)reader.ReadByte();
 
-                    var user = new User(userUsername, status);
-                    user.CreateUIUser(userId);
-
-                    Users.Add(userId, user);
+                    Users.Add(userId);
                 }
             }
         }

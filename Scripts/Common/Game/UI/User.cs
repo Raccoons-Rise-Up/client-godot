@@ -5,20 +5,12 @@ namespace Common.Game
     public class User
     {
         public string Username { get; set; }
-        public Status Status { get; set; }
+        public Status Status = Status.Online;
         public List<uint> Channels = new List<uint>();
 #if CLIENT
         public KRU.UI.UIUser UIUser { get; set; }
-        public static Godot.PackedScene PrefabUIUser = Godot.ResourceLoader.Load<Godot.PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
-#endif
+        private static Godot.PackedScene PrefabUIUser = Godot.ResourceLoader.Load<Godot.PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");
 
-        public User(string username, Status status = Status.Online) 
-        {
-            Username = username;
-            Status = status;
-        }
-
-#if CLIENT
         public void CreateUIUser(uint id)
         {
             UIUser = (KRU.UI.UIUser)PrefabUIUser.Instance();

@@ -60,6 +60,7 @@ namespace KRU.Networking
         {
             UIGame.ClientPlayerName = data.PlayerName;
             UIGame.ClientPlayerId = data.PlayerId;
+            UIGame.Players = data.Players;
 
             UIGame.InitGame();
             UIGame.InitStore();

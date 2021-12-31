@@ -34,17 +34,14 @@ namespace KRU.Networking
                     });
                 }
 
-                var users = new Dictionary<uint, User>();
+                var users = new List<uint>();
                 var userCount = reader.ReadUInt16();
                 for (int j = 0; j < userCount; j++)
                 {
                     var userId = reader.ReadUInt32();
                     var userUsername = reader.ReadString();
 
-                    var user = new User(userUsername);
-                    user.CreateUIUser(userId);
-
-                    users.Add(userId, user);
+                    users.Add(userId);
                 }
 
                 Channels.Add(channelId, new Channel {

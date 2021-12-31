@@ -19,51 +19,67 @@ namespace KRU.Networking
         public Dictionary<StructureType, uint> StructureCounts { get; set; }
         public uint PlayerId { get; set; }
         public string PlayerName { get; set; }
+        public Dictionary<uint, User> Players { get; set; }
 
         public void Read(PacketReader reader)
         {
             LoginOpcode = (LoginResponseOpcode)reader.ReadByte();
 
-            switch (LoginOpcode)
+            if (LoginOpcode == LoginResponseOpcode.VersionMismatch) 
             {
-                case LoginResponseOpcode.VersionMismatch:
-                    VersionMajor = reader.ReadByte();
-                    VersionMinor = reader.ReadByte();
-                    VersionPatch = reader.ReadByte();
-                    break;
+                VersionMajor = reader.ReadByte();
+                VersionMinor = reader.ReadByte();
+                VersionPatch = reader.ReadByte();
+                return;
+            }
 
-                case LoginResponseOpcode.LoginSuccessNewPlayer:
-                    PlayerId = reader.ReadUInt32();
-                    PlayerName = reader.ReadString();
-                    break;
+            var playerCount = reader.ReadUInt32();
+            Players = new Dictionary<uint, User>();
+            for (int i = 0; i < playerCount; i++)
+            {
+                var playerId = reader.ReadUInt32();
+                var playerName = reader.ReadString();
 
-                case LoginResponseOpcode.LoginSuccessReturningPlayer:
-                    PlayerId = reader.ReadUInt32();
-                    PlayerName = reader.ReadString();
+                var user = new User{ Username = playerName };
+                user.CreateUIUser(playerId);
+                Players.Add(playerId, user);
+            }
 
-                    // Resource counts
-                    ResourceCounts = new Dictionary<ResourceType, uint>();
-                    StructureCounts = new Dictionary<StructureType, uint>();
+            if (LoginOpcode == LoginResponseOpcode.LoginSuccessNewPlayer) 
+            {
+                PlayerId = reader.ReadUInt32();
+                PlayerName = reader.ReadString();
+                return;
+            }
 
-                    var resourceCount = reader.ReadUInt16();
-                    for (int i = 0; i < resourceCount; i++)
-                    {
-                        var resourceKey = (ResourceType)reader.ReadUInt16();
-                        var resourceValue = reader.ReadUInt32();
+            if (LoginOpcode == LoginResponseOpcode.LoginSuccessReturningPlayer) 
+            {
+                PlayerId = reader.ReadUInt32();
+                PlayerName = reader.ReadString();
 
-                        ResourceCounts.Add(resourceKey, resourceValue);
-                    }
+                // Resource counts
+                ResourceCounts = new Dictionary<ResourceType, uint>();
+                StructureCounts = new Dictionary<StructureType, uint>();
 
-                    // Structure counts
-                    var structureCount = reader.ReadUInt16();
-                    for (int i = 0; i < structureCount; i++)
-                    {
-                        var structureKey = (StructureType)reader.ReadUInt16();
-                        var structureValue = reader.ReadUInt32();
+                var resourceCount = reader.ReadUInt16();
+                for (int i = 0; i < resourceCount; i++)
+                {
+                    var resourceKey = (ResourceType)reader.ReadUInt16();
+                    var resourceValue = reader.ReadUInt32();
 
-                        StructureCounts.Add(structureKey, structureValue);
-                    }
-                    break;
+                    ResourceCounts.Add(resourceKey, resourceValue);
+                }
+
+                // Structure counts
+                var structureCount = reader.ReadUInt16();
+                for (int i = 0; i < structureCount; i++)
+                {
+                    var structureKey = (StructureType)reader.ReadUInt16();
+                    var structureValue = reader.ReadUInt32();
+
+                    StructureCounts.Add(structureKey, structureValue);
+                }
+                return;
             }
         }
     }

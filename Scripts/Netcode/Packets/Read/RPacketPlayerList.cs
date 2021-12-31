@@ -9,7 +9,7 @@ namespace KRU.Networking
 {
     public class RPacketPlayerList : IReadable
     {
-        public Dictionary<uint, string> Players = new Dictionary<uint, string>();
+        public Dictionary<uint, User> Players = new Dictionary<uint, User>();
 
         public void Read(PacketReader reader)
         {
@@ -18,7 +18,7 @@ namespace KRU.Networking
             {
                 var userId = reader.ReadUInt32();
                 var userUsername = reader.ReadString();
-                Players.Add(userId, userUsername);
+                Players.Add(userId, new User { Username = userUsername });
             }
         }
     }

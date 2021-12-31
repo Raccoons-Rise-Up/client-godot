@@ -40,7 +40,7 @@ namespace KRU.UI
         public static Dictionary<StructureType, UILabelStructureCount> StructureCountLabels { get; set; }
 
         // Data
-        public static Dictionary<uint, string> Players { get; set; }
+        public static Dictionary<uint, User> Players { get; set; }
         public static Dictionary<ResourceType, ResourceInfo> ResourceInfoData { get; set; }
         public static Dictionary<ResourceType, TextureRect> ResourceIconData { get; set; }
         public static Dictionary<StructureType, StructureInfo> StructureInfoData { get; set; }
@@ -68,7 +68,7 @@ namespace KRU.UI
             GameServerIp = fieldGameServerIp;
             GameServerPort = fieldGameServerPort;
 
-            Players = new Dictionary<uint, string>();
+            Players = new Dictionary<uint, User>();
 
             ResourceCounts = typeof(ResourceInfo).Assembly.GetTypes().Where(x => typeof(ResourceInfo).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<ResourceInfo>()
                 .ToDictionary(x => (ResourceType)Enum.Parse(typeof(ResourceType), x.GetType().Name.Replace(typeof(ResourceInfo).Name, "")), x => 0d);
@@ -121,8 +121,8 @@ namespace KRU.UI
 
             foreach (var channel in UIChannels.Channels) 
             {
-                foreach (var user in channel.Value.Users.Values)
-                    user.UIUser.QueueFree();
+                foreach (var userId in channel.Value.Users)
+                    Players[userId].UIUser.QueueFree();
 
                 channel.Value.Users.Clear();
             }

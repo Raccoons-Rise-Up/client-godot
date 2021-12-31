@@ -5,7 +5,7 @@ namespace Common.Game
     public class Channel
     {
         public string ChannelName { get; set; }
-        public Dictionary<uint, User> Users = new Dictionary<uint, User>();
+        public List<uint> Users = new List<uint>();
         public List<UIMessage> Messages = new List<UIMessage>();
         public uint CreatorId { get; set; }
 
@@ -14,7 +14,7 @@ namespace Common.Game
 #endif
     }
 
-    public struct UIMessage 
+    public struct UIMessage
     {
         public uint UserId { get; set; }
         public string Message { get; set; }

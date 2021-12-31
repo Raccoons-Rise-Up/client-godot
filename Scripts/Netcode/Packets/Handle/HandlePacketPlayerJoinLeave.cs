@@ -29,12 +29,11 @@ namespace KRU.Networking
                 });
 
                 // Track player in UIGame
-                UIGame.Players.Add(data.PlayerId, data.PlayerName);
+                var user = new User { Username = data.PlayerName };
+                user.CreateUIUser(data.PlayerId);
+                UIGame.Players.Add(data.PlayerId, user);
 
                 // Add player to user list in global channel
-                var user = new User(data.PlayerName);
-                user.CreateUIUser(data.PlayerId);
-
                 if (UIChannels.ActiveChannel == (uint)SpecialChannel.Global)
                 {
                     UIChat.UserList.AddChild(user.UIUser);
@@ -43,15 +42,15 @@ namespace KRU.Networking
                 // Client is currently viewing a channel other than the global channel so add joining player to global
                 if (UIChannels.ActiveChannel != (uint)SpecialChannel.Global) 
                 {
-                    UIChannels.Channels[(uint)SpecialChannel.Global].Users.Add(data.PlayerId, user);
+                    UIChannels.Channels[(uint)SpecialChannel.Global].Users.Add(data.PlayerId);
                 }
 
                 // Add UIUser from active channel if joining player exists in active channels users
                 var activeChannelUsers = UIChannels.Channels[UIChannels.ActiveChannel].Users;
-                if (activeChannelUsers.ContainsKey(data.PlayerId)) 
+                if (activeChannelUsers.Contains(data.PlayerId)) 
                 {
-                    UIChat.UserList.AddChild(activeChannelUsers[data.PlayerId].UIUser);
-                    activeChannelUsers.Add(data.PlayerId, user);
+                    UIChat.UserList.AddChild(UIGame.Players[data.PlayerId].UIUser);
+                    activeChannelUsers.Add(data.PlayerId);
                 }
             }
             
@@ -69,12 +68,12 @@ namespace KRU.Networking
 
                 // Remove UIUser from active channel if joining player exists in active channels users
                 var activeChannelUsers = UIChannels.Channels[UIChannels.ActiveChannel].Users;
-                if (activeChannelUsers.ContainsKey(data.PlayerId)) 
+                if (activeChannelUsers.Contains(data.PlayerId)) 
                 {
-                    UIChat.UserList.RemoveChild(activeChannelUsers[data.PlayerId].UIUser);
+                    UIChat.UserList.RemoveChild(UIGame.Players[data.PlayerId].UIUser);
 
                     // The player has left the server so we have no more use for UIUser.Instance(), lets QueueFree() it
-                    activeChannelUsers[data.PlayerId].UIUser.QueueFree();
+                    UIGame.Players[data.PlayerId].UIUser.QueueFree();
 
                     // Client is currently viewing a channel other than the global channel so remove leaving player from global
                     if (UIChannels.ActiveChannel != (uint)SpecialChannel.Global)

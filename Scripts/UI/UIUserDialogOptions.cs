@@ -28,7 +28,7 @@ namespace KRU.UI
                     continue;
 
                 var users = channelPair.Value.Users;
-                if (users.ContainsKey(UIGame.ClientPlayerId) && users.ContainsKey(UserId))
+                if (users.Contains(UIGame.ClientPlayerId) && users.Contains(UserId))
                 {
                     //GD.Print($"Channel '{Username}' exists, going to this channel");
                     UIChannels.GoToChannel(channelPair.Key);

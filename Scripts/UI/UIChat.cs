@@ -49,7 +49,7 @@ namespace KRU.UI
                 if (UIChannels.ActiveChannel == (uint)SpecialChannel.Game || message.Special)
                     ChatText.AddText($"{message.Message}\n");
                 else
-                    ChatText.AddText($"{UIGame.Players[message.UserId]}: {message.Message}\n");
+                    ChatText.AddText($"{UIGame.Players[message.UserId].Username}: {message.Message}\n");
 
                 ChatText.ScrollToLine(ChatText.GetLineCount() - 1);
             }

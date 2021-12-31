@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+
 namespace Common.Game
 {
     public class User
     {
         public string Username { get; set; }
         public Status Status { get; set; }
+        public List<uint> Channels = new List<uint>();
 #if CLIENT
         public KRU.UI.UIUser UIUser { get; set; }
         public static Godot.PackedScene PrefabUIUser = Godot.ResourceLoader.Load<Godot.PackedScene>("res://Scenes/UI/Elements/UIUser.tscn");

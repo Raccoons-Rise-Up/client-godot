@@ -35,12 +35,6 @@ namespace KRU.UI
             UserList = GetNode<Control>(nodePathUserList);
         }
 
-        public static void ClearUIUsers()
-        {
-            foreach (Control user in UserList.GetChildren())
-                UserList.RemoveChild(user);
-        }
-
         public static void AddMessageGlobal(string message) => AddMessage((uint)SpecialChannel.Global, new UIMessage {
             Message = message
         });

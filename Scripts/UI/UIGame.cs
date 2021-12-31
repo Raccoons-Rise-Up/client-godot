@@ -116,7 +116,8 @@ namespace KRU.UI
 
         public static void ResetGame()
         {
-            UIChat.ClearUIUsers();
+            foreach (Control user in UIChat.UserList.GetChildren())
+                UIChat.UserList.RemoveChild(user);
 
             foreach (var channel in UIChannels.Channels) 
             {

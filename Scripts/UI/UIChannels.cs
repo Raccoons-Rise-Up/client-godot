@@ -133,7 +133,8 @@ namespace KRU.UI
             UIChat.ChatInput.GrabFocus();
 
             // Empty the UI User list
-            UIChat.ClearUIUsers();
+            foreach (Control user in UIChat.UserList.GetChildren())
+                UIChat.UserList.RemoveChild(user);
                 
             foreach (var user in channel.Users.Values)
                 UIChat.UserList.AddChild(user.UIUser);

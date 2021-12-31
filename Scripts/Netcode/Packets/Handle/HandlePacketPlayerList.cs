@@ -19,21 +19,6 @@ namespace KRU.Networking
             data.Read(packetReader);
 
             UIGame.Players = data.Players;
-
-            AddPlayersToUserList();
-        }
-
-        // The players that are displayed in the "Users" window
-        private static void AddPlayersToUserList()
-        {
-            foreach (var p in UIGame.Players) 
-            {
-                if (p.Key == UIGame.ClientPlayerId)
-                    continue;
-
-                
-                //UIUsers.AddUser(p.Value, Status.Online, p.Key);
-            } 
         }
     }
 }

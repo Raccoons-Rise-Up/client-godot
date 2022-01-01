@@ -10,33 +10,13 @@ config_version=4
 
 [application]
 
-config/name="client-godot"
-run/main_scene="res://Scenes/Root.tscn"
-boot_splash/image="res://Sprites/black.png"
-boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://Sprites/icon.png"
-config/windows_native_icon="res://Sprites/icon.ico"
+config/name="Client Godot V 2"
+run/main_scene="res://Scenes/Main Menu.tscn"
+config/icon="res://icon.png"
 
 [autoload]
 
 ENetClient="*res://Scripts/Netcode/ENetClient.cs"
-
-[global]
-
-debug=false
-
-[input]
-
-ui_right_click={
-"deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
- ]
-}
-
-[mono]
-
-debugger_agent/wait_for_debugger=true
-debugger_agent/wait_timeout=30000
 
 [physics]
 

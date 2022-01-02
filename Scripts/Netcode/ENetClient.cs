@@ -19,9 +19,10 @@ namespace Client.Netcode
         private static ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
         private static ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
         public static ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
-        private static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket;
-        private static bool ENetThreadRunning;
-        private static bool RunningNetCode;
+        private static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket { get; set; }
+        private static bool ENetThreadRunning { get; set; }
+        private static bool RunningNetCode { get; set; }
+        public static uint ClientId { get; set; }
 
         public override void _Ready()
         {
@@ -39,9 +40,6 @@ namespace Client.Netcode
                         var opcode = (ServerPacketOpcode)packetReader.ReadByte();
 
                         HandlePacket[opcode].Handle(packetReader);
-                        break;
-                    case GodotOpcode.UILoginResponse:
-                        UILogin.UpdateResponse((string)cmd.Data[0]);
                         break;
                     case GodotOpcode.LogMessage:
                         GD.Print((string)cmd.Data[0]);
@@ -94,7 +92,7 @@ namespace Client.Netcode
                 address.Port = port;
                 client.Create();
 
-                LoginResponse("Connecting...");
+                GDLog("Connecting...");
                 var peer = client.Connect(address);
 
                 uint pingInterval = 1000; // Pings are used both to monitor the liveness of the connection and also to dynamically adjust the throttle during periods of low traffic so that the throttle has reasonable responsiveness during traffic spikes.
@@ -144,7 +142,7 @@ namespace Client.Netcode
                                 break;
 
                             case EventType.Connect:
-                                LoginResponse("Client connected to server");
+                                GDLog("Client connected to server");
 
                                 // Send login request
                                 Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
@@ -190,8 +188,6 @@ namespace Client.Netcode
                 GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ExitApp });
         }
 
-        private static void LoginResponse(string text) => GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.UILoginResponse, Data = new List<object> { text }});
-
         private static void GDLog(string text) => GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.LogMessage, Data = new List<object> { text }});
     }
 
@@ -209,7 +205,6 @@ namespace Client.Netcode
 
     public enum GodotOpcode 
     {
-        UILoginResponse,
         ENetPacket,
         LogMessage,
         ExitApp

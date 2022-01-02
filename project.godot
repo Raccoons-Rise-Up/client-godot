@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Client Godot V 2"
-run/main_scene="res://Scenes/Main Menu.tscn"
+run/main_scene="res://Scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]

@@ -36,6 +36,7 @@ namespace Client.Netcode
             }
 
             UILogin.UpdateResponse("Logged in to game server");
+            UILogin.LoadGameScene();
         }
     }
 }

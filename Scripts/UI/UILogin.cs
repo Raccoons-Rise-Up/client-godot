@@ -31,9 +31,11 @@ namespace Client.UI
         private static LineEdit InputUsername { get; set; }
         private static LineEdit InputPassword { get; set; }
         private static Label LoginResponse { get; set; }
+        private static SceneTree Tree { get; set; }
 
         public override void _Ready()
         {
+            Tree = GetTree();
             WebServerIp = webServerIp;
             WebServerPort = webServerPort;
 
@@ -46,36 +48,62 @@ namespace Client.UI
             Init();
         }
 
+        public override void _Input(InputEvent @event)
+        {
+            if (@event.IsActionPressed("ui_cancel"))
+            {
+                if (!LoginNew.Visible)
+                    ShowLoginNew();
+                else
+                    Tree.ChangeScene("res://Scenes/MainMenu.tscn");
+            }
+        }
+
+        public static void LoadGameScene() 
+        {
+            GD.Print("Loading game scene");
+            Tree.ChangeScene("res://Scenes/Game.tscn");
+        }
+
         public static void Init()
         {
             UpdateResponse("");
 
             var contents = AppData.GetStorage();
             if (contents == null || contents["token"] == null)
-            {
-                LoginExisting.Visible = false;
-                LoginNew.Visible = true;
-            }
+                ShowLoginNew();
             else
-            {
-                LoginExisting.Visible = true;
-                LoginNew.Visible = false;
+                ShowLoginExisting(contents["username"]);
+        }
 
-                if (InputUsername.Text != "") 
-                {
-                    LoginExisting.Text = $"Connect as {InputUsername.Text}";
-                }
-                else 
-                {
-                    InputUsername.Text = contents["username"];
-                    LoginExisting.Text = $"Connect as {contents["username"]}";
-                }
+        private void _on_Login_pressed() => Login();
+
+        private static void ShowLoginNew()
+        {
+            LoginExisting.Visible = false;
+            LoginNew.Visible = true;
+        }
+
+        private static void ShowLoginExisting(string username)
+        {
+            LoginExisting.Visible = true;
+            LoginNew.Visible = false;
+
+            if (InputUsername.Text != "") 
+            {
+                LoginExisting.Text = $"Connect as {InputUsername.Text}";
+            }
+            else 
+            {
+                InputUsername.Text = username;
+                LoginExisting.Text = $"Connect as {username}";
             }
         }
 
-        private void _on_Login_pressed()
+        private static void ResetToken() 
         {
-            Login();
+            AppData.SaveJsonWebToken(null, "");
+            Token = null;
         }
 
         public static void UpdateResponse(string text) => LoginResponse.Text = text;
@@ -110,24 +138,18 @@ namespace Client.UI
                 case LoginOpcode.AccountDoesNotExist:
                 case LoginOpcode.InvalidUsernameOrPassword:
                 case LoginOpcode.PasswordsDoNotMatch:
-                    LoginExisting.Visible = false;
-                    LoginNew.Visible = true;
+                    ShowLoginNew();
                     break;
 
                 case LoginOpcode.TokenUsernameDoesNotMatchWithProvidedUsername:
-                    // Reset token in local file system
-                    AppData.SaveJsonWebToken(null, "");
-                    Token = null;
+                    ResetToken();
                     break;
 
                 case LoginOpcode.InvalidToken:
-                    // Reset token in local file system
-                    AppData.SaveJsonWebToken(null, "");
-                    Token = null;
+                    ResetToken();
 
-                    GD.Print("Invalid token, going to try relogging...");
+                    GD.Print("Invalid token, going to try relogging one more time...");
                     
-
                     // Automatically try to login one more time
                     if (!AttemptedToRenewInvalidToken)
                     {

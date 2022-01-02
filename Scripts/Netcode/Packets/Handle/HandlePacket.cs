@@ -1,5 +1,6 @@
 using Common.Netcode;
 using ENet;
+using Godot;
 
 namespace Client.Netcode
 {

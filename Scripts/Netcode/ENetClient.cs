@@ -1,20 +1,32 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using ENet;
+using Common.Netcode;
+using Client.UI;
 
-using Thread = System.Threading.Thread;
+using Thread = System.Threading.Thread; // CS0104: Ambigious reference between 'Godot.Thread' and 'System.Threading.Thread'
+using Version = Common.Netcode.Version; // CS0104: Ambiguous reference between 'Common.Netcode.Version' and 'System.Version'
 
 namespace Client.Netcode
 {
     public class ENetClient : Node
     {
+        public static Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
         private static ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
         private static ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
+        public static ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
+        private static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket;
         private static bool ENetThreadRunning;
         private static bool RunningNetCode;
+
+        public override void _Ready()
+        {
+            HandlePacket = typeof(HandlePacket).Assembly.GetTypes().Where(x => typeof(HandlePacket).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<HandlePacket>().ToDictionary(x => x.Opcode, x => x);
+        }
 
         public override void _Process(float delta)
         {
@@ -22,6 +34,15 @@ namespace Client.Netcode
             {
                 switch (cmd.Opcode)
                 {
+                    case GodotOpcode.ENetPacket:
+                        var packetReader = (PacketReader)cmd.Data[0];
+                        var opcode = (ServerPacketOpcode)packetReader.ReadByte();
+
+                        HandlePacket[opcode].Handle(packetReader);
+                        break;
+                    case GodotOpcode.UILoginResponse:
+                        UILogin.UpdateResponse((string)cmd.Data[0]);
+                        break;
                     case GodotOpcode.LogMessage:
                         GD.Print((string)cmd.Data[0]);
                         break;
@@ -48,7 +69,7 @@ namespace Client.Netcode
             }
         }
 
-        public static void Connect(string ip, ushort port) 
+        public static void Connect(string ip, ushort port, string jwt) 
         {
             if (ENetThreadRunning) 
             {
@@ -57,10 +78,10 @@ namespace Client.Netcode
             }
             
             ENetThreadRunning = true;
-            new Thread(() => ENetThreadWorker(ip, port)).Start();
+            new Thread(() => ENetThreadWorker(ip, port, jwt)).Start();
         }
 
-        private static void ENetThreadWorker(string ip, ushort port)
+        private static void ENetThreadWorker(string ip, ushort port, string jwt)
         {
             Library.Initialize();
             var wantsToExit = false;
@@ -73,7 +94,7 @@ namespace Client.Netcode
                 address.Port = port;
                 client.Create();
 
-                GDLog("Connecting...");
+                LoginResponse("Connecting...");
                 var peer = client.Connect(address);
 
                 uint pingInterval = 1000; // Pings are used both to monitor the liveness of the connection and also to dynamically adjust the throttle during periods of low traffic so that the throttle has reasonable responsiveness during traffic spikes.
@@ -83,8 +104,6 @@ namespace Client.Netcode
 
                 peer.PingInterval(pingInterval); 
                 peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
-
-                Event netEvent;
 
                 RunningNetCode = true;
                 while (RunningNetCode) {
@@ -103,8 +122,17 @@ namespace Client.Netcode
                         }
                     }
 
+                    // Outgoing
+                    while (Outgoing.TryDequeue(out ClientPacket clientPacket))
+                    {
+                        byte channelID = 0; // The channel all networking traffic will be going through
+                        var packet = default(Packet);
+                        packet.Create(clientPacket.Data, clientPacket.PacketFlags);
+                        peer.Send(channelID, ref packet);
+                    }
+
                     while (!polled) {
-                        if (client.CheckEvents(out netEvent) <= 0) {
+                        if (client.CheckEvents(out Event netEvent) <= 0) {
                             if (client.Service(15, out netEvent) <= 0)
                                 break;
 
@@ -116,20 +144,37 @@ namespace Client.Netcode
                                 break;
 
                             case EventType.Connect:
-                                Console.WriteLine("Client connected to server");
+                                LoginResponse("Client connected to server");
+
+                                // Send login request
+                                Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
+                                {
+                                    JsonWebToken = jwt,
+                                    VersionMajor = Version.Major,
+                                    VersionMinor = Version.Minor,
+                                    VersionPatch = Version.Patch
+                                }));
                                 break;
 
                             case EventType.Disconnect:
-                                Console.WriteLine("Client disconnected from server");
+                                GDLog("Client disconnected from server");
                                 break;
 
                             case EventType.Timeout:
-                                Console.WriteLine("Client connection timeout");
+                                GDLog("Client connection timeout");
                                 break;
 
                             case EventType.Receive:
-                                Console.WriteLine($"Packet received from server - Channel ID: {netEvent.ChannelID}, Data length: {netEvent.Packet.Length}");
-                                netEvent.Packet.Dispose();
+                                var packet = netEvent.Packet;
+                                
+                                if (packet.Length > GamePacket.MaxSize) 
+                                {
+                                    GDLog($"Tried to read packet from server of size {packet.Length} when max packet size is {GamePacket.MaxSize}");
+                                    packet.Dispose();
+                                    continue;
+                                }
+
+                                GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ENetPacket, Data = new List<object> { new PacketReader(packet) }});
                                 break;
                         }
                     }
@@ -144,6 +189,8 @@ namespace Client.Netcode
             if (wantsToExit)
                 GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ExitApp });
         }
+
+        private static void LoginResponse(string text) => GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.UILoginResponse, Data = new List<object> { text }});
 
         private static void GDLog(string text) => GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.LogMessage, Data = new List<object> { text }});
     }
@@ -162,6 +209,8 @@ namespace Client.Netcode
 
     public enum GodotOpcode 
     {
+        UILoginResponse,
+        ENetPacket,
         LogMessage,
         ExitApp
     }

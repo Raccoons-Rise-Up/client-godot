@@ -15,19 +15,16 @@ namespace Client.Netcode
 {
     public class ENetClient : Node
     {
-        public static Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
-        private static ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
-        private static ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
-        public static ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
-        private static Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket { get; set; }
-        private static bool ENetThreadRunning { get; set; }
-        private static bool RunningNetCode { get; set; }
-        public static uint ClientId { get; set; }
+        public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
+        public static readonly ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
+        public static readonly uint ClientId;
 
-        public override void _Ready()
-        {
-            HandlePacket = typeof(HandlePacket).Assembly.GetTypes().Where(x => typeof(HandlePacket).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<HandlePacket>().ToDictionary(x => x.Opcode, x => x);
-        }
+        private static readonly ConcurrentBag<Packet> Incoming = new ConcurrentBag<Packet>();
+        private static readonly ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
+        private static readonly ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
+        private static readonly Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket = typeof(HandlePacket).Assembly.GetTypes().Where(x => typeof(HandlePacket).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<HandlePacket>().ToDictionary(x => x.Opcode, x => x);
+        private static bool ENetThreadRunning;
+        private static bool RunningNetCode;
 
         public override void _Process(float delta)
         {
@@ -40,6 +37,7 @@ namespace Client.Netcode
                         var opcode = (ServerPacketOpcode)packetReader.ReadByte();
 
                         HandlePacket[opcode].Handle(packetReader);
+                        packetReader.Dispose();
                         break;
                     case GodotOpcode.LogMessage:
                         GD.Print((string)cmd.Data[0]);
@@ -120,6 +118,10 @@ namespace Client.Netcode
                         }
                     }
 
+                    // Incoming
+                    while (Incoming.TryTake(out Packet packet))
+                        GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ENetPacket, Data = new List<object> { new PacketReader(packet) }});
+
                     // Outgoing
                     while (Outgoing.TryDequeue(out ClientPacket clientPacket))
                     {
@@ -137,43 +139,43 @@ namespace Client.Netcode
                             polled = true;
                         }
 
-                        switch (netEvent.Type) {
-                            case EventType.None:
-                                break;
+                        var eventType = netEvent.Type;
+                        if (eventType == EventType.Receive) 
+                        {
+                            // Receive
+                            var packet = netEvent.Packet;
+                            if (packet.Length > GamePacket.MaxSize) 
+                            {
+                                GDLog($"Tried to read packet from server of size {packet.Length} when max packet size is {GamePacket.MaxSize}");
+                                packet.Dispose();
+                                continue;
+                            }
 
-                            case EventType.Connect:
-                                GDLog("Client connected to server");
+                            Incoming.Add(netEvent.Packet);
+                        }
+                        else if (eventType == EventType.Connect) 
+                        {
+                            // Connect
+                            GDLog("Client connected to server");
 
-                                // Send login request
-                                Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
-                                {
-                                    JsonWebToken = jwt,
-                                    VersionMajor = Version.Major,
-                                    VersionMinor = Version.Minor,
-                                    VersionPatch = Version.Patch
-                                }));
-                                break;
-
-                            case EventType.Disconnect:
-                                GDLog("Client disconnected from server");
-                                break;
-
-                            case EventType.Timeout:
-                                GDLog("Client connection timeout");
-                                break;
-
-                            case EventType.Receive:
-                                var packet = netEvent.Packet;
-                                
-                                if (packet.Length > GamePacket.MaxSize) 
-                                {
-                                    GDLog($"Tried to read packet from server of size {packet.Length} when max packet size is {GamePacket.MaxSize}");
-                                    packet.Dispose();
-                                    continue;
-                                }
-
-                                GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ENetPacket, Data = new List<object> { new PacketReader(packet) }});
-                                break;
+                            // Send login request
+                            Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
+                            {
+                                JsonWebToken = jwt,
+                                VersionMajor = Version.Major,
+                                VersionMinor = Version.Minor,
+                                VersionPatch = Version.Patch
+                            }));
+                        }
+                        else if (eventType == EventType.Disconnect) 
+                        {
+                            // Disconnect
+                            GDLog("Client disconnected from server");
+                        }
+                        else if (eventType == EventType.Timeout) 
+                        {
+                            // Timeout
+                            GDLog("Client connection timeout");
                         }
                     }
                 }

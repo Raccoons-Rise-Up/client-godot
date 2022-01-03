@@ -5,7 +5,7 @@ namespace Common.Netcode
 {
     public class PacketReader : BinaryReader 
     {
-        private static byte[] ReadBuffer = new byte[GamePacket.MaxSize];
+        private static readonly byte[] ReadBuffer = new byte[GamePacket.MaxSize];
 
         public PacketReader(Packet packet) : base(new MemoryStream(ReadBuffer)) 
         {

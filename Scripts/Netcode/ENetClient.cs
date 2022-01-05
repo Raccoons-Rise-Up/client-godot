@@ -17,11 +17,11 @@ namespace Client.Netcode
     {
         public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
         public static readonly ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
+        public static readonly ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
         public static readonly uint ClientId;
 
         private static readonly ConcurrentBag<Packet> Incoming = new ConcurrentBag<Packet>();
         private static readonly ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
-        private static readonly ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
         private static readonly Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket = typeof(HandlePacket).Assembly.GetTypes().Where(x => typeof(HandlePacket).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<HandlePacket>().ToDictionary(x => x.Opcode, x => x);
         private static bool ENetThreadRunning;
         private static bool RunningNetCode;
@@ -41,6 +41,10 @@ namespace Client.Netcode
                         break;
                     case GodotOpcode.LogMessage:
                         GD.Print((string)cmd.Data[0]);
+                        break;
+                    case GodotOpcode.LoadMainMenu:
+                        UIGameMenu.ClientPressedDisconnect = false;
+                        UIMainMenu.LoadMainMenu();
                         break;
                     case GodotOpcode.ExitApp:
                         GetTree().Quit();
@@ -81,6 +85,7 @@ namespace Client.Netcode
         {
             Library.Initialize();
             var wantsToExit = false;
+            var wantsToDisconnect = false;
 
             using (var client = new Host()) 
             {
@@ -90,7 +95,7 @@ namespace Client.Netcode
                 address.Port = port;
                 client.Create();
 
-                GDLog("Connecting...");
+                //GDLog("Attempting to connect to the game server...");
                 var peer = client.Connect(address);
 
                 uint pingInterval = 1000; // Pings are used both to monitor the liveness of the connection and also to dynamically adjust the throttle during periods of low traffic so that the throttle has reasonable responsiveness during traffic spikes.
@@ -114,6 +119,11 @@ namespace Client.Netcode
                                 peer.Disconnect(0);
                                 RunningNetCode = false;
                                 wantsToExit = true;
+                                break;
+                            case ENetOpcode.ClientWantsToDisconnect:
+                                peer.Disconnect(0);
+                                RunningNetCode = false;
+                                wantsToDisconnect = true;
                                 break;
                         }
                     }
@@ -186,6 +196,9 @@ namespace Client.Netcode
             Library.Deinitialize();
             ENetThreadRunning = false;
 
+            if (wantsToDisconnect)
+                GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.LoadMainMenu });
+
             if (wantsToExit)
                 GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.ExitApp });
         }
@@ -209,11 +222,13 @@ namespace Client.Netcode
     {
         ENetPacket,
         LogMessage,
+        LoadMainMenu,
         ExitApp
     }
 
     public enum ENetOpcode 
     {
-        ClientWantsToExitApp
+        ClientWantsToExitApp,
+        ClientWantsToDisconnect
     }
 }

@@ -24,7 +24,6 @@ namespace Client.UI
         public static string WebServerIp { get; set; }
         public static ushort WebServerPort { get; set; }
         private static string Token { get; set; }
-        private static bool AttemptedToRenewInvalidToken { get; set; }
 
         private static Label LoginExisting { get; set; }
         private static Control LoginNew { get; set; }
@@ -55,58 +54,22 @@ namespace Client.UI
                 if (!LoginNew.Visible)
                     ShowLoginNew();
                 else
-                    Tree.ChangeScene("res://Scenes/MainMenu.tscn");
+                    UIMainMenu.LoadMainMenu();
             }
         }
 
-        public static void LoadGameScene() 
-        {
-            GD.Print("Loading game scene");
-            Tree.ChangeScene("res://Scenes/Game.tscn");
-        }
+        private void _on_Login_pressed() => Login();
 
         public static void Init()
         {
             UpdateResponse("");
 
-            var contents = AppData.GetStorage();
+            var contents = AppData.GetLoginInfo();
             if (contents == null || contents["token"] == null)
                 ShowLoginNew();
             else
-                ShowLoginExisting(contents["username"]);
+                ShowLoginExisting(contents["username"], contents["password"]);
         }
-
-        private void _on_Login_pressed() => Login();
-
-        private static void ShowLoginNew()
-        {
-            LoginExisting.Visible = false;
-            LoginNew.Visible = true;
-        }
-
-        private static void ShowLoginExisting(string username)
-        {
-            LoginExisting.Visible = true;
-            LoginNew.Visible = false;
-
-            if (InputUsername.Text != "") 
-            {
-                LoginExisting.Text = $"Connect as {InputUsername.Text}";
-            }
-            else 
-            {
-                InputUsername.Text = username;
-                LoginExisting.Text = $"Connect as {username}";
-            }
-        }
-
-        private static void ResetToken() 
-        {
-            AppData.SaveJsonWebToken(null, "");
-            Token = null;
-        }
-
-        public static void UpdateResponse(string text) => LoginResponse.Text = text;
 
         private async void Login()
         {
@@ -142,38 +105,28 @@ namespace Client.UI
                     break;
 
                 case LoginOpcode.TokenUsernameDoesNotMatchWithProvidedUsername:
-                    ResetToken();
+                    ResetLoginInfo();
                     break;
 
                 case LoginOpcode.InvalidToken:
-                    ResetToken();
-
-                    GD.Print("Invalid token, going to try relogging one more time...");
-                    
-                    // Automatically try to login one more time
-                    if (!AttemptedToRenewInvalidToken)
-                    {
-                        AttemptedToRenewInvalidToken = true;
-                        Login();
-                    }
+                    ResetLoginInfo();
+                    //GD.Print("Invalid token");
                     break;
 
                 case LoginOpcode.LoginSuccess:
                     string token;
                     if (Token != null)
                     {
-                        AppData.SaveJsonWebToken(Token, InputUsername.Text);
+                        AppData.SaveLoginInfo(Token, InputUsername.Text, InputPassword.Text);
                         token = Token;
                     }
                     else
                     {
-                        AppData.SaveJsonWebToken(res.Token, InputUsername.Text);
+                        AppData.SaveLoginInfo(res.Token, InputUsername.Text, InputPassword.Text);
                         token = res.Token;
                     }
 
                     await Task.Delay(100); // Add a small delay of 100 ms to give application a chance to keep up (after all we did just do a POST request)
-
-                    GD.Print("Attempting to connect to the game server...");
 
                     ENetClient.Connect(gameServerIp, gameServerPort, token);
                     break;
@@ -182,38 +135,38 @@ namespace Client.UI
 
         private static WebPostLoginContent GetLoginInfo()
         {
-            if (!AppData.JsonWebTokenFileExists()) 
+            if (!AppData.LoginInfoFileExist()) 
             {
                 // Token does not exist, lets create a request to the web server for a new one
-                GD.Print("Token does not exist in local file system");
+                //GD.Print("Token does not exist in local file system");
                 return BasicLoginInfo();
             }
 
-            if (AppData.GetStorage() == null)
+            if (AppData.GetLoginInfo() == null)
             {
                 // Invalid JSON
-                GD.Print("Token.json is invalid");
+                //GD.Print("Token.json is invalid");
                 return BasicLoginInfo();
             }
 
-            if (InputUsername.Text != AppData.GetStorage()["username"])
+            if (InputUsername.Text != AppData.GetLoginInfo()["username"])
             {
                 // A new username was entered that was different from the one in storage, asking for a new JWT
-                GD.Print("A new username was entered that was different from the one in storage, asking for a new JWT");
+                //GD.Print("A new username was entered that was different from the one in storage, asking for a new JWT");
                 return BasicLoginInfo();
             }
 
-            Token = AppData.GetStorage()["token"];
+            Token = AppData.GetLoginInfo()["token"];
 
             if (Token == null)
             {
                 // Token is null in JSON
-                GD.Print("Token in token.json is null");
+                //GD.Print("Token in token.json is null");
                 return BasicLoginInfo();
             }
 
             // Token exists in local file system
-            GD.Print("Token exists in local file system");
+            //GD.Print("Token exists in local file system");
             return new WebPostLoginContent
             {
                 Token = Token,
@@ -228,6 +181,43 @@ namespace Client.UI
             Password = InputPassword.Text,
             From = "Godot-Client"
         };
+
+        public static void LoadGameScene() 
+        {
+            //GD.Print("Loading game scene");
+            Tree.ChangeScene("res://Scenes/Main/Game.tscn");
+        }
+
+        private static void ShowLoginNew()
+        {
+            LoginExisting.Visible = false;
+            LoginNew.Visible = true;
+        }
+
+        private static void ShowLoginExisting(string username, string password)
+        {
+            LoginExisting.Visible = true;
+            LoginNew.Visible = false;
+
+            if (InputUsername.Text != "") 
+                LoginExisting.Text = $"Connect as {InputUsername.Text}";
+            else 
+            {
+                InputUsername.Text = username;
+                LoginExisting.Text = $"Connect as {username}";
+            }
+
+            if (!string.IsNullOrEmpty(password))
+                InputPassword.Text = password;
+        }
+
+        private static void ResetLoginInfo() 
+        {
+            AppData.SaveLoginInfo(null, "", "");
+            Token = null;
+        }
+
+        public static void UpdateResponse(string text) => LoginResponse.Text = text;
     }
 
     public struct WebPostLoginContent

@@ -51,7 +51,7 @@ namespace Client.Utils
                 {
                     using (var response = await WebClient.PostAsync($"http://{UILogin.WebServerIp}:{UILogin.WebServerPort}/" + path, requestContent))
                     {
-                        GD.Print("STATUS CODE: " + response.StatusCode);
+                        GD.Print("Web Server Status Code: " + response.StatusCode);
 
                         switch (response.StatusCode)
                         {

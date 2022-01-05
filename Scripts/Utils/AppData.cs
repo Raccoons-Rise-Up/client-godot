@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,11 +8,11 @@ namespace Client.Utils
 {
     public static class AppData
     {
-        public static void SaveJsonWebToken(string token, string username)
+        public static void SaveLoginInfo(string token, string username, string password)
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
             var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
-            var tokenPath = Path.Combine(appDataPath, "token.json");
+            var tokenPath = Path.Combine(appDataPath, "loginInfo.json");
 
             if (!Directory.Exists(appDataPath))
                 Directory.CreateDirectory(appDataPath);
@@ -23,8 +24,9 @@ namespace Client.Utils
             }
 
             var dict = new Dictionary<string, string>{
-                { "username", username },
-                { "token", token }
+                { "username", EncryptionHelper.Encrypt(username) },
+                { "password", EncryptionHelper.Encrypt(password) },
+                { "token", EncryptionHelper.Encrypt(token) }
             };
 
             var contents = JsonConvert.SerializeObject(dict, Formatting.Indented);
@@ -32,11 +34,11 @@ namespace Client.Utils
             File.WriteAllText(tokenPath, contents);
         }
 
-        public static bool JsonWebTokenFileExists()
+        public static bool LoginInfoFileExist()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
             var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
-            var tokenPath = Path.Combine(appDataPath, "token.json");
+            var tokenPath = Path.Combine(appDataPath, "loginInfo.json");
 
             if (!Directory.Exists(appDataPath))
                 return false;
@@ -47,21 +49,21 @@ namespace Client.Utils
             return true;
         }
 
-        public static Godot.Collections.Dictionary<string, string> GetStorage()
+        public static Dictionary<string, string> GetLoginInfo()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
             var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
-            var tokenPath = Path.Combine(appDataPath, "token.json");
+            var tokenPath = Path.Combine(appDataPath, "loginInfo.json");
 
             string contents;
             try
             {
                 contents = File.ReadAllText(tokenPath);
-                return JsonConvert.DeserializeObject<Godot.Collections.Dictionary<string, string>>(contents);
+                return JsonConvert.DeserializeObject<Dictionary<string, string>>(contents).ToDictionary(x => x.Key, x => EncryptionHelper.Decrypt(x.Value));
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Godot.GD.PrintErr($"Failed to get JWT File: {e.Message}");
+                //Godot.GD.Print($"Failed to get JWT File: {e.Message}");
                 return null;
             }
         }

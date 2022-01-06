@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Sprites/Chat/FriendOnline.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture" id=2]
 
 [node name="User" type="Control"]
 anchor_right = 1.0
@@ -15,41 +15,11 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Button"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HPadding" type="Control" parent="Button/HBoxContainer"]
-margin_right = 5.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 5, 0 )
-
-[node name="Label" type="Label" parent="Button/HBoxContainer"]
-margin_left = 9.0
-margin_top = 3.0
-margin_right = 57.0
-margin_bottom = 17.0
-size_flags_horizontal = 0
+button_mask = 3
 text = "123456"
+icon = ExtResource( 2 )
+align = 0
+expand_icon = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="TextureRect" type="TextureRect" parent="Button/HBoxContainer"]
-margin_left = 61.0
-margin_top = 2.0
-margin_right = 81.0
-margin_bottom = 17.0
-rect_min_size = Vector2( 20, 15 )
-size_flags_horizontal = 0
-size_flags_vertical = 4
-texture = ExtResource( 1 )
-expand = true
-stretch_mode = 6

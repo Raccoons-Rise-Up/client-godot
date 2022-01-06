@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/FriendAway.png-2c6ec6720cb84bf1081676e632b4e3b5.stex"
+path="res://.import/Chat.png-e804acfcae2a8a7e84e84ba2d9afd401.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Chat/FriendAway.png"
-dest_files=[ "res://.import/FriendAway.png-2c6ec6720cb84bf1081676e632b4e3b5.stex" ]
+source_file="res://Sprites/UI/Buttons/Chat.png"
+dest_files=[ "res://.import/Chat.png-e804acfcae2a8a7e84e84ba2d9afd401.stex" ]
 
 [params]
 

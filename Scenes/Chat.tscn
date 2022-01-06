@@ -1,222 +1,197 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Prefabs/User.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Chat/Chat.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChat.cs" type="Script" id=3]
-
-[sub_resource type="StyleBoxFlat" id=1]
-border_width_top = 5
-border_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-border_width_left = 5
-border_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="Theme" id=3]
-HScrollBar/styles/scroll = SubResource( 1 )
-VScrollBar/styles/scroll = SubResource( 2 )
+[ext_resource path="res://Themes/Chat.tres" type="Theme" id=4]
 
 [node name="Chat" type="Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -300.0
+margin_top = -240.0
 margin_right = 500.0
-rect_min_size = Vector2( 500, 300 )
-theme = SubResource( 3 )
+theme = ExtResource( 4 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-nodePathChat = NodePath("VBoxContainer/Chat")
+nodePathChat = NodePath("VBox")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -300.0
+margin_top = -240.0
 margin_right = 500.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Chat" type="VBoxContainer" parent="VBoxContainer"]
-margin_right = 500.0
-margin_bottom = 220.0
-size_flags_horizontal = 3
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Scroll" type="ScrollContainer" parent="VBoxContainer/Chat"]
+[node name="Chat" type="VBoxContainer" parent="VBox"]
+margin_right = 500.0
+margin_bottom = 220.0
+size_flags_vertical = 10
+custom_constants/separation = 0
+
+[node name="Channels Scroll" type="ScrollContainer" parent="VBox/Chat"]
 margin_right = 500.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
 
-[node name="Channel Tabs" type="HBoxContainer" parent="VBoxContainer/Chat/Scroll"]
-margin_right = 1046.0
+[node name="Channels Tabs" type="HBoxContainer" parent="VBox/Chat/Channels Scroll"]
+margin_right = 43.0
 margin_bottom = 20.0
+size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="VBoxContainer/Chat/Scroll/Channel Tabs"]
-margin_right = 382.0
+[node name="Button" type="Button" parent="VBox/Chat/Channels Scroll/Channels Tabs"]
+margin_right = 43.0
 margin_bottom = 20.0
-text = "TestTstTestTestTestTestTestTestTestTestTestTestTestTest"
+button_mask = 3
+text = "Global"
 
-[node name="Button2" type="Button" parent="VBoxContainer/Chat/Scroll/Channel Tabs"]
-margin_left = 386.0
-margin_right = 1046.0
-margin_bottom = 20.0
-text = "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest"
-
-[node name="Panel" type="Panel" parent="VBoxContainer/Chat"]
+[node name="Panel" type="Panel" parent="VBox/Chat"]
 margin_top = 20.0
 margin_right = 500.0
 margin_bottom = 220.0
 rect_min_size = Vector2( 0, 200 )
 
-[node name="HBox" type="HBoxContainer" parent="VBoxContainer/Chat/Panel"]
+[node name="HBox" type="HBoxContainer" parent="VBox/Chat/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Chat Zone" type="VBoxContainer" parent="VBoxContainer/Chat/Panel/HBox"]
+[node name="Chat Zone" type="VBoxContainer" parent="VBox/Chat/Panel/HBox"]
 margin_right = 300.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 300, 0 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Chat/Panel/HBox/Chat Zone"]
+[node name="RichTextLabel" type="RichTextLabel" parent="VBox/Chat/Panel/HBox/Chat Zone"]
 margin_right = 300.0
 margin_bottom = 172.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Chat/Panel/HBox/Chat Zone"]
+[node name="LineEdit" type="LineEdit" parent="VBox/Chat/Panel/HBox/Chat Zone"]
 margin_top = 176.0
 margin_right = 300.0
 margin_bottom = 200.0
 
-[node name="Scroll" type="ScrollContainer" parent="VBoxContainer/Chat/Panel/HBox"]
+[node name="Scroll" type="ScrollContainer" parent="VBox/Chat/Panel/HBox"]
 margin_left = 304.0
 margin_right = 500.0
 margin_bottom = 200.0
 size_flags_horizontal = 3
 scroll_horizontal_enabled = false
 
-[node name="Channel Users" type="VBoxContainer" parent="VBoxContainer/Chat/Panel/HBox/Scroll"]
+[node name="Channel Users" type="VBoxContainer" parent="VBox/Chat/Panel/HBox/Scroll"]
 margin_right = 191.0
-margin_bottom = 356.0
+margin_bottom = 332.0
 size_flags_horizontal = 3
 
-[node name="User" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User2" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 191.0
 margin_bottom = 20.0
 
-[node name="User2" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User3" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 24.0
 margin_right = 191.0
 margin_bottom = 44.0
 
-[node name="User3" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User4" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 48.0
 margin_right = 191.0
 margin_bottom = 68.0
 
-[node name="User4" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User5" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 72.0
 margin_right = 191.0
 margin_bottom = 92.0
 
-[node name="User5" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User6" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 96.0
 margin_right = 191.0
 margin_bottom = 116.0
 
-[node name="User6" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User7" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 120.0
 margin_right = 191.0
 margin_bottom = 140.0
 
-[node name="User7" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User8" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 144.0
 margin_right = 191.0
 margin_bottom = 164.0
 
-[node name="User8" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User9" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 168.0
 margin_right = 191.0
 margin_bottom = 188.0
 
-[node name="User9" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User10" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 192.0
 margin_right = 191.0
 margin_bottom = 212.0
 
-[node name="User10" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User11" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 216.0
 margin_right = 191.0
 margin_bottom = 236.0
 
-[node name="User11" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User12" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 240.0
 margin_right = 191.0
 margin_bottom = 260.0
 
-[node name="User12" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User13" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 264.0
 margin_right = 191.0
 margin_bottom = 284.0
 
-[node name="User13" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User14" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 288.0
 margin_right = 191.0
 margin_bottom = 308.0
 
-[node name="User14" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
+[node name="User15" parent="VBox/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 312.0
 margin_right = 191.0
 margin_bottom = 332.0
 
-[node name="User15" parent="VBoxContainer/Chat/Panel/HBox/Scroll/Channel Users" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 336.0
-margin_right = 191.0
-margin_bottom = 356.0
-
-[node name="Chat Toggle" type="Button" parent="VBoxContainer"]
-margin_top = 280.0
-margin_right = 30.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 30, 0 )
+[node name="Chat Toggle" type="Button" parent="VBox"]
+margin_top = 224.0
+margin_right = 18.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 18, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 10
 icon = ExtResource( 2 )
@@ -225,4 +200,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="VBoxContainer/Chat Toggle" to="." method="_on_Chat_Toggle_pressed"]
+[connection signal="pressed" from="VBox/Chat Toggle" to="." method="_on_Chat_Toggle_pressed"]

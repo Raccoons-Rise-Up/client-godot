@@ -1,14 +1,11 @@
-# Contributing
-## Table of Contents
-1. [Setup](#setup)
-    - [VScode](#vscode)
-    - [Godot](#godot)
-3. [Threads](#threads)
-4. [Networking](#networking)
-5. [Exporting](#exporting)
+# Where do you want to go?
+## [I need help setting up the project](#setup)
+## [I want to help work on the UI](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/USER_INTERFACE.md)
+## [I want to help work on the networking code](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/NETWORKING.md)
 
 ## Setup
 ### VSCode
+**You can skip the setup for VSCode if you are not going to be adding any code to the game.**
 1. Install [VSCode](https://code.visualstudio.com)
 2. Install the following extensions for VSCode
     - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
@@ -41,6 +38,7 @@
 5. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
 
 ### Godot
+**You can skip step 1 if you are not going to work on the netcode, just note that in order to get to the game scene you will need to either connect through the game / web servers or add code to bypass this and create a dummy user login.**
 1. Make sure the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) are running otherwise the client will fail to connect
 2. Fork this repository
 3. Clone your fork with [git scm](https://git-scm.com) 
@@ -56,39 +54,6 @@ Click on `Scene Game` node in scene tree window top left.
 Make sure the IPs are set to `localhost` or your external IP.  
 
 8. Press `F5` to run the client (if you want to run multiple instances of the client you will need to [export the game](#exporting))
-
-## Threads
-The client runs on 2 threads; the Godot thread and the ENet thread. Never run Godot code in the ENet thread and likewise never run ENet code in the Godot thread. If you ever need to communicate between the threads, use the proper `ConcurrentQueue`'s in `ENetClient.cs`.
-
-## Networking
-The netcode utilizes [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/DOCUMENTATION.md), a reliable UDP networking library.
-
-Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
-
-Packets are sent like this.
-```cs
-// WPacketChatMessage.cs
-namespace KRU.Networking
-{
-    public class WPacketChatMessage : IWritable
-    {
-        public uint ChannelId { get; set; }
-        public string Message { get; set; }
-
-        public void Write(PacketWriter writer)
-        {
-            writer.Write(ChannelId);
-            writer.Write(Message);
-        }
-    }
-}
-
-// Since packets are being enqueued to a ConcurrentQueue they can be called from any thread
-ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
-    ChannelId = UIChannels.ActiveChannel,
-    Message = text
-}));
-```
 
 ## Exporting
 Export the game by going to `Project > Export...`

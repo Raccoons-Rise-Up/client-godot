@@ -1,5 +1,6 @@
 # Where do you want to go?
 ## [I need help setting up the project](#setup)
+## [I want to help by adding sprites to the game](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/SPRITES.md)
 ## [I want to help work on the UI](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/USER_INTERFACE.md)
 ## [I want to help work on the networking code](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/NETWORKING.md)
 

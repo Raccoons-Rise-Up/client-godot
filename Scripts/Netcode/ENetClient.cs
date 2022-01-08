@@ -18,7 +18,6 @@ namespace Client.Netcode
         public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
         public static readonly ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
         public static readonly ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
-        public static readonly uint ClientId;
 
         private static readonly ConcurrentBag<Packet> Incoming = new ConcurrentBag<Packet>();
         private static readonly ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();

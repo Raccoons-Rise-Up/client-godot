@@ -44,9 +44,10 @@
 2. Fork this repository
 3. Clone your fork with [git scm](https://git-scm.com) 
 4. Install [Godot Mono 64 Bit](https://godotengine.org)
-5. Install [Build Tools for Visual Studio 2019](https://visualstudio.microsoft.com/downloads/?q=build+tools)
+5. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
 6. Launch Godot through VSCode
-7. Setup IPs  
+7. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
+8. Setup IPs  
 
 ![image](https://user-images.githubusercontent.com/6277739/147781322-7aacb872-cf16-4055-b1c8-2555e7014bea.png)  
 Click on `Scene Game` node in scene tree window top left.  

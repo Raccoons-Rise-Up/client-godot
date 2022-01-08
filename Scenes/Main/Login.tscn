@@ -45,16 +45,16 @@ __meta__ = {
 [node name="Login Existing" type="Label" parent="Panel/VBoxContainer"]
 margin_left = 100.0
 margin_right = 300.0
-margin_bottom = 31.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 text = "Login as NAME"
 align = 1
 
 [node name="Login New" type="VBoxContainer" parent="Panel/VBoxContainer"]
-margin_top = 41.0
+margin_top = 18.0
 margin_right = 400.0
-margin_bottom = 215.0
+margin_bottom = 106.0
 rect_min_size = Vector2( 200, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -63,7 +63,7 @@ __meta__ = {
 [node name="Label Username" type="Label" parent="Panel/VBoxContainer/Login New"]
 margin_left = 100.0
 margin_right = 300.0
-margin_bottom = 31.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -75,17 +75,17 @@ __meta__ = {
 
 [node name="Input Username" type="LineEdit" parent="Panel/VBoxContainer/Login New"]
 margin_left = 100.0
-margin_top = 41.0
+margin_top = 18.0
 margin_right = 300.0
-margin_bottom = 82.0
+margin_bottom = 42.0
 rect_min_size = Vector2( 200, 16 )
 size_flags_horizontal = 4
 
 [node name="Label Password" type="Label" parent="Panel/VBoxContainer/Login New"]
 margin_left = 100.0
-margin_top = 92.0
+margin_top = 46.0
 margin_right = 300.0
-margin_bottom = 123.0
+margin_bottom = 60.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 1
@@ -94,9 +94,9 @@ align = 1
 
 [node name="Input Password" type="LineEdit" parent="Panel/VBoxContainer/Login New"]
 margin_left = 100.0
-margin_top = 133.0
+margin_top = 64.0
 margin_right = 300.0
-margin_bottom = 174.0
+margin_bottom = 88.0
 rect_min_size = Vector2( 200, 16 )
 size_flags_horizontal = 4
 secret = true
@@ -106,11 +106,13 @@ __meta__ = {
 
 [node name="Login" type="Button" parent="Panel/VBoxContainer"]
 margin_left = 100.0
-margin_top = 225.0
+margin_top = 110.0
 margin_right = 300.0
-margin_bottom = 256.0
+margin_bottom = 140.0
 rect_min_size = Vector2( 200, 30 )
+focus_mode = 0
 size_flags_horizontal = 4
+enabled_focus_mode = 0
 text = "Login"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -118,9 +120,9 @@ __meta__ = {
 
 [node name="Response" type="Label" parent="Panel/VBoxContainer"]
 margin_left = 100.0
-margin_top = 266.0
+margin_top = 144.0
 margin_right = 300.0
-margin_bottom = 297.0
+margin_bottom = 158.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 text = "Response"

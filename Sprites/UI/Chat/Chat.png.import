@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Chat.png-e804acfcae2a8a7e84e84ba2d9afd401.stex"
+path="res://.import/Chat.png-8efd343eb9202af0457460d2a65ae513.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Buttons/Chat.png"
-dest_files=[ "res://.import/Chat.png-e804acfcae2a8a7e84e84ba2d9afd401.stex" ]
+source_file="res://Sprites/UI/Chat/Chat.png"
+dest_files=[ "res://.import/Chat.png-8efd343eb9202af0457460d2a65ae513.stex" ]
 
 [params]
 

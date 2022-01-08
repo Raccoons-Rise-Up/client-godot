@@ -19,6 +19,7 @@ config/icon="res://Sprites/Msc/icon.png"
 [autoload]
 
 ENetClient="*res://Scripts/Netcode/ENetClient.cs"
+Game="*res://Scripts/Game/Game.cs"
 
 [physics]
 

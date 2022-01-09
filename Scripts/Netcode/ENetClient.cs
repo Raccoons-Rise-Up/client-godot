@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using ENet;
@@ -77,7 +78,7 @@ namespace Client.Netcode
             }
             
             ENetThreadRunning = true;
-            new Thread(() => ENetThreadWorker(ip, port, jwt)).Start();
+            Task.Run(() => ENetThreadWorker(ip, port, jwt));
         }
 
         private static void ENetThreadWorker(string ip, ushort port, string jwt)

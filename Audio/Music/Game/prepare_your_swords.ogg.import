@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/prepare_your_swords.ogg-8c96ad91594783a2ef69b4a9adaeba61.oggstr"
+
+[deps]
+
+source_file="res://Audio/Music/Game/prepare_your_swords.ogg"
+dest_files=[ "res://.import/prepare_your_swords.ogg-8c96ad91594783a2ef69b4a9adaeba61.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

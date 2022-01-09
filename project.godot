@@ -20,6 +20,7 @@ config/icon="res://Sprites/Msc/icon.png"
 
 ENetClient="*res://Scripts/Netcode/ENetClient.cs"
 Game="*res://Scripts/Game/Game.cs"
+Global="*res://Scenes/Global.tscn"
 
 [physics]
 

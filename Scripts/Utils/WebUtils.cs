@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.UI;
 
-namespace Client.Utils
+namespace Client.Utilities
 {
     public static class WebUtils
     {

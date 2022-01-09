@@ -2,7 +2,8 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 using Client.Netcode;
-using Client.Utils;
+using Client.Utilities;
+using Client.Game;
 using Newtonsoft.Json;
 
 namespace Client.UI 
@@ -185,7 +186,7 @@ namespace Client.UI
         public static void LoadGameScene() 
         {
             //GD.Print("Loading game scene");
-            Tree.ChangeScene("res://Scenes/Main/Game.tscn");
+            GameManager.ChangeScene("Main/Game");
         }
 
         private static void ShowLoginNew()

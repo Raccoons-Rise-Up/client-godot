@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Client.Utils
+namespace Client.Utilities
 {
     public static class AppData
     {

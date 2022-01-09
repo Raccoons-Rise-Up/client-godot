@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Client.Utils 
+namespace Client.Utilities 
 {
     public static class EncryptionHelper
     {

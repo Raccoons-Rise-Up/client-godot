@@ -10,12 +10,17 @@ namespace Client.UI
 #pragma warning disable CS0649 // Values are assigned in the editor
             [Export] private readonly NodePath nodePathChat;
             [Export] private readonly NodePath nodePathSettings;
+            [Export] private readonly NodePath nodePathSettingsButton;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static PackedScene PrefabChannel = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Channel.tscn");
 
+        // Node References
         private static TabContainer Chat;
         private static Control Settings;
+        private static Control SettingsButton;
+
+
         private static Control ActiveChannel;
         private static Dictionary<int, Control> Channels = new Dictionary<int, Control>();
         private static int ChannelId = 0;
@@ -27,6 +32,9 @@ namespace Client.UI
 
             Settings = GetNode<Control>(nodePathSettings);
             Settings.Visible = false;
+
+            SettingsButton = GetNode<Control>(nodePathSettingsButton);
+            SettingsButton.Visible = false;
 
             // Server needs to tell client about Global and Game
 
@@ -56,7 +64,12 @@ namespace Client.UI
             //Chat.CurrentTab = (int)SpecialChannel.Global;
         }
 
-        private void _on_Chat_Toggle_pressed() => Chat.Visible = !Chat.Visible;
+        private void _on_Chat_Toggle_pressed() 
+        {
+            Chat.Visible = !Chat.Visible;
+            SettingsButton.Visible = !SettingsButton.Visible;
+            Settings.Visible = false;
+        }
 
         private void _on_Button_Settings_pressed() => Settings.Visible = true;
 

@@ -29,29 +29,35 @@ public class UITest : Node
         }
         else 
         {
-            //if (Panel.RectGlobalPosition > Mask.RectGlobalPosition)
-                //Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Mask.RectGlobalPosition, 25 * delta);
+            var speed = 10;
 
-            //if (Panel.RectGlobalPosition + Panel.RectSize - Mask.RectSize < Mask.RectGlobalPosition)
-                //Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Mask.RectGlobalPosition + Mask.RectSize, 1 * delta);
-
-            // Content too far away from top right corner of mask
-            if (Panel.RectGlobalPosition.x + Panel.RectSize.x - Mask.RectSize.x < Mask.RectGlobalPosition.x)
-                if (Panel.RectGlobalPosition.y + Panel.RectSize.y - Mask.RectSize.y > Mask.RectGlobalPosition.y) 
-                    Panel.RectGlobalPosition = Mask.RectGlobalPosition - new Vector2(Panel.RectSize.x, 0) + new Vector2(Mask.RectSize.x, 0);
-
-            if (Panel.RectGlobalPosition.y + Panel.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
+            // Content too far away from top edge of mask
+            if (Panel.RectGlobalPosition.y > Mask.RectGlobalPosition.y)
             {
                 var diff = Panel.RectGlobalPosition.y - Mask.RectGlobalPosition.y;
-                GD.Print(diff);
-                Panel.RectGlobalPosition = Panel.RectGlobalPosition - new Vector2(0, diff);
-                GD.Print("true");
-            } else 
-            {
-                //GD.Print("false");
+                Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Panel.RectGlobalPosition - new Vector2(0, diff), delta * speed);
             }
-                //Panel.RectGlobalPosition = Mask.RectGlobalPosition - Panel.RectSize;
-                    
+
+            // Content too far away from left edge of mask
+            if (Panel.RectGlobalPosition.x > Mask.RectGlobalPosition.x)
+            {
+                var diff = Panel.RectGlobalPosition.x - Mask.RectGlobalPosition.x;
+                Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Panel.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
+            }
+            
+            // Content too far away from bottom edge of mask
+            if (Panel.RectGlobalPosition.y + Panel.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
+            {
+                var diff = Panel.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Panel.RectSize.y - Mask.RectSize.y;
+                Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Panel.RectGlobalPosition - new Vector2(0, diff), delta * speed);
+            }
+
+            // Content too far away from right edge of mask
+            if (Panel.RectGlobalPosition.x + Panel.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x)
+            {
+                var diff = Panel.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Panel.RectSize.x - Mask.RectSize.x;
+                Panel.RectGlobalPosition = Utils.Lerp(Panel.RectGlobalPosition, Panel.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
+            }
         }
     }
 

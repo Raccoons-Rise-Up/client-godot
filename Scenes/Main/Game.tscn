@@ -45,6 +45,7 @@ margin_top = 100.0
 margin_right = 300.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 200, 200 )
+rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

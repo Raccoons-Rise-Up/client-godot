@@ -27,6 +27,7 @@ nodePathSettingsButton = NodePath("VBoxContainer/HBoxContainer/MarginContainer/B
 margin_right = 600.0
 margin_bottom = 318.0
 rect_min_size = Vector2( 600, 318 )
+mouse_filter = 2
 custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -35,6 +36,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 600.0
 margin_bottom = 24.0
+mouse_filter = 2
 
 [node name="Channel List" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
 visible = false

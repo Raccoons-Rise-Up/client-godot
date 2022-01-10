@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using ENet;
 using Common.Netcode;
 using Client.UI;
+using Client.Utilities;
 
 using Thread = System.Threading.Thread; // CS0104: Ambigious reference between 'Godot.Thread' and 'System.Threading.Thread'
 using Version = Common.Netcode.Version; // CS0104: Ambiguous reference between 'Common.Netcode.Version' and 'System.Version'
@@ -23,7 +24,7 @@ namespace Client.Netcode
         private static readonly ConcurrentBag<Packet> Incoming = new ConcurrentBag<Packet>();
         private static readonly ConcurrentQueue<GodotCmd> GodotCmds = new ConcurrentQueue<GodotCmd>();
         private static readonly Dictionary<ServerPacketOpcode, HandlePacket> HandlePacket = typeof(HandlePacket).Assembly.GetTypes().Where(x => typeof(HandlePacket).IsAssignableFrom(x) && !x.IsAbstract).Select(Activator.CreateInstance).Cast<HandlePacket>().ToDictionary(x => x.Opcode, x => x);
-        private static bool ENetThreadRunning;
+        public static bool ENetThreadRunning;
         private static bool RunningNetCode;
 
         public override void _Process(float delta)
@@ -50,22 +51,6 @@ namespace Client.Netcode
                         GetTree().Quit();
                         break;
                 }
-            }
-        }
-
-        public override void _Notification(int what)
-        {
-            // Called when user presses top right window X button or does Alt + F4
-            if (what == MainLoop.NotificationWmQuitRequest) 
-            {
-                if (ENetThreadRunning)
-                {
-                    GetTree().SetAutoAcceptQuit(false);
-                    ENetCmds.Enqueue(new ENetCmd { Opcode = ENetOpcode.ClientWantsToExitApp });
-                    return;
-                }
-
-                GetTree().Quit();
             }
         }
 

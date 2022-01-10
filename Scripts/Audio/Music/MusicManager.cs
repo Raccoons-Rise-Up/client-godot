@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Client.Utilities;
 
-namespace Client.Options 
+namespace Client.UI 
 {
     public class MusicManager : AudioStreamPlayer
     {
@@ -14,7 +14,6 @@ namespace Client.Options
         {
             Instance = this;
             Stream = MusicMenu;
-            Playing = true;
         }
 
         public static void ChangeTrack(MusicTrack track) 
@@ -30,6 +29,8 @@ namespace Client.Options
             }
         }
 
+        public static void PlayCurrentTrack() => Instance.Playing = true;
+
         private static void PlayTrack(AudioStream stream)
         {
             if (Instance.Stream != stream) 
@@ -39,9 +40,9 @@ namespace Client.Options
             }
         }
 
-        public static void SetVolume(float volume)
+        public static void SetVolume(double volume)
         {
-            Instance.VolumeDb = volume;
+            Instance.VolumeDb = (float)volume;
 
             if (volume <= -40)
                 Instance.VolumeDb = -80; // can't go lower than this (this essentially mutes the track)

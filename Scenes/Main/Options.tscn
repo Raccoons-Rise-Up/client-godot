@@ -13,6 +13,7 @@ __meta__ = {
 }
 nodePathCheckboxFullscreen = NodePath("Panel/PanelContainer/MarginContainer/VBoxContainer/Fullscreen")
 nodePathCheckboxFullscreenBorderless = NodePath("Panel/PanelContainer/MarginContainer/VBoxContainer/Fullscreen Borderless")
+nodePathHSliderMusicVolume = NodePath("Panel/PanelContainer/MarginContainer/VBoxContainer/Music Volume Control")
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0

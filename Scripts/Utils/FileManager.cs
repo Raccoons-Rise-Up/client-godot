@@ -3,23 +3,24 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Client.Utilities
 {
-    public static class AppData
+    public static class FileManager
     {
+        private static string PathData = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "Raccoons Rise Up");
+        private static string PathLoginInfo = Path.Combine(PathData, "loginInfo.json");
+        public static string PathOptions = Path.Combine(PathData, "options.json");
+
         public static void SaveLoginInfo(string token, string username, string password)
         {
-            var folder = System.Environment.SpecialFolder.LocalApplicationData;
-            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
-            var tokenPath = Path.Combine(appDataPath, "loginInfo.json");
+            if (!Directory.Exists(PathData))
+                Directory.CreateDirectory(PathData);
 
-            if (!Directory.Exists(appDataPath))
-                Directory.CreateDirectory(appDataPath);
-
-            if (!File.Exists(tokenPath))
+            if (!File.Exists(PathLoginInfo))
             {
-                var fs = File.Create(tokenPath);
+                var fs = File.Create(PathLoginInfo);
                 fs.Close();
             }
 
@@ -31,7 +32,13 @@ namespace Client.Utilities
 
             var contents = JsonConvert.SerializeObject(dict, Formatting.Indented);
 
-            File.WriteAllText(tokenPath, contents);
+            File.WriteAllText(PathLoginInfo, contents);
+        }
+
+        public static void WriteConfig<T>(string path, T data)
+        {
+            var contents = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(path, contents);
         }
 
         public static bool LoginInfoFileExist()
@@ -51,14 +58,10 @@ namespace Client.Utilities
 
         public static Dictionary<string, string> GetLoginInfo()
         {
-            var folder = System.Environment.SpecialFolder.LocalApplicationData;
-            var appDataPath = Path.Combine(System.Environment.GetFolderPath(folder), "Raccoons Rise Up");
-            var tokenPath = Path.Combine(appDataPath, "loginInfo.json");
-
             string contents;
             try
             {
-                contents = File.ReadAllText(tokenPath);
+                contents = File.ReadAllText(PathLoginInfo);
                 return JsonConvert.DeserializeObject<Dictionary<string, string>>(contents).ToDictionary(x => x.Key, x => EncryptionHelper.Decrypt(x.Value));
             }
             catch (Exception)
@@ -67,5 +70,27 @@ namespace Client.Utilities
                 return null;
             }
         }
+
+        public static T GetConfig<T>(string path)
+        {
+            string contents;
+            try
+            {
+                contents = File.ReadAllText(path);
+                return JsonConvert.DeserializeObject<T>(contents);
+            }
+            catch (Exception e)
+            {
+                Godot.GD.Print("ERROR: Could not read config " + e.Message);
+                return default(T);
+            }
+        }
+    }
+
+    public class Options 
+    {
+        public double VolumeMusic { get; set; }
+        public bool Fullscreen { get; set; }
+        public bool FullscreenBorderless { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Client.UI
         private void _on_Multiplayer_pressed() => GameManager.ChangeScene("Main/Login");
         private void _on_Options_pressed() => GameManager.ChangeScene("Main/Options");
         private void _on_Credits_pressed() => GameManager.ChangeScene("Main/Credits");
-        private void _on_Quit_pressed() => GameManager.Tree.Quit();
+        private void _on_Quit_pressed() => GameManager.ExitCleanup();
 
         public static void LoadMainMenu() => GameManager.ChangeScene("Main/MainMenu");
     }

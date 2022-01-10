@@ -65,7 +65,7 @@ namespace Client.UI
         {
             UpdateResponse("");
 
-            var contents = AppData.GetLoginInfo();
+            var contents = FileManager.GetLoginInfo();
             if (contents == null || contents["token"] == null)
                 ShowLoginNew();
             else
@@ -118,12 +118,12 @@ namespace Client.UI
                     string token;
                     if (Token != null)
                     {
-                        AppData.SaveLoginInfo(Token, InputUsername.Text, InputPassword.Text);
+                        FileManager.SaveLoginInfo(Token, InputUsername.Text, InputPassword.Text);
                         token = Token;
                     }
                     else
                     {
-                        AppData.SaveLoginInfo(res.Token, InputUsername.Text, InputPassword.Text);
+                        FileManager.SaveLoginInfo(res.Token, InputUsername.Text, InputPassword.Text);
                         token = res.Token;
                     }
 
@@ -136,28 +136,28 @@ namespace Client.UI
 
         private static WebPostLoginContent GetLoginInfo()
         {
-            if (!AppData.LoginInfoFileExist()) 
+            if (!FileManager.LoginInfoFileExist()) 
             {
                 // Token does not exist, lets create a request to the web server for a new one
                 //GD.Print("Token does not exist in local file system");
                 return BasicLoginInfo();
             }
 
-            if (AppData.GetLoginInfo() == null)
+            if (FileManager.GetLoginInfo() == null)
             {
                 // Invalid JSON
                 //GD.Print("Token.json is invalid");
                 return BasicLoginInfo();
             }
 
-            if (InputUsername.Text != AppData.GetLoginInfo()["username"])
+            if (InputUsername.Text != FileManager.GetLoginInfo()["username"])
             {
                 // A new username was entered that was different from the one in storage, asking for a new JWT
                 //GD.Print("A new username was entered that was different from the one in storage, asking for a new JWT");
                 return BasicLoginInfo();
             }
 
-            Token = AppData.GetLoginInfo()["token"];
+            Token = FileManager.GetLoginInfo()["token"];
 
             if (Token == null)
             {
@@ -214,7 +214,7 @@ namespace Client.UI
 
         private static void ResetLoginInfo() 
         {
-            AppData.SaveLoginInfo(null, "", "");
+            FileManager.SaveLoginInfo(null, "", "");
             Token = null;
         }
 

@@ -33,10 +33,11 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 804.0
-margin_bottom = 300.0
+margin_right = 600.0
+margin_bottom = 24.0
 
 [node name="Channel List" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+visible = false
 margin_right = 600.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 600, 300 )
@@ -95,7 +96,7 @@ margin_bottom = 276.0
 size_flags_horizontal = 3
 
 [node name="User List" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Channel List/Name/HBoxContainer/ScrollContainer"]
-margin_right = 143.0
+margin_right = 148.0
 margin_bottom = 380.0
 size_flags_horizontal = 3
 
@@ -211,13 +212,13 @@ margin_right = 143.0
 margin_bottom = 380.0
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 604.0
-margin_right = 804.0
-margin_bottom = 300.0
+margin_right = 200.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 200, 0 )
 custom_constants/margin_top = 24
 
 [node name="Button Settings" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
+visible = false
 margin_top = 24.0
 margin_right = 18.0
 margin_bottom = 40.0
@@ -228,9 +229,10 @@ icon = ExtResource( 5 )
 expand_icon = true
 
 [node name="Settings" type="PanelContainer" parent="VBoxContainer/HBoxContainer/MarginContainer"]
+visible = false
 margin_top = 24.0
 margin_right = 200.0
-margin_bottom = 300.0
+margin_bottom = 24.0
 script = ExtResource( 6 )
 
 [node name="Close Settings" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer/Settings"]
@@ -245,7 +247,7 @@ expand_icon = true
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/MarginContainer/Settings"]
 margin_right = 200.0
-margin_bottom = 276.0
+margin_bottom = 146.0
 mouse_filter = 2
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -256,7 +258,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 195.0
-margin_bottom = 271.0
+margin_bottom = 141.0
 mouse_filter = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/HBoxContainer/MarginContainer/Settings/MarginContainer/VBoxContainer"]

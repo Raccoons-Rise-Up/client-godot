@@ -39,7 +39,9 @@
 5. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor`
 
 ### Godot
-**You can skip step 1 if you are not going to work on the netcode, just note that in order to get to the game scene you will need to either connect through the game / web servers or add code to bypass this and create a dummy user login.**
+Tip #1: You can skip step 1 if you are not going to work on the netcode, just note that in order to get to the game scene you will need to either connect through the game / web servers or add code to bypass this and create a dummy user login.
+
+Tip #2: You do not need to start in the main menu scene which requires user auth to get to the game scene. You can change the startup scene in `Godot > Project Settings > Application > Run > Main Scene`
 1. Make sure the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) are running otherwise the client will fail to connect
 2. Fork this repository
 3. Clone your fork with [git scm](https://git-scm.com) 

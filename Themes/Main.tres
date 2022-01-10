@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=12 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://Themes/Button_Normal.tres" type="StyleBox" id=1]
+[ext_resource path="res://Themes/Slider_Area.tres" type="StyleBox" id=2]
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.4, 0.4, 0.4, 1 )
@@ -29,7 +30,7 @@ corner_radius_bottom_left = 1
 shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 0.8, 0.8, 0.8, 1 )
+bg_color = Color( 0.203922, 0.203922, 0.203922, 1 )
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -92,6 +93,8 @@ Button/styles/hover = SubResource( 11 )
 Button/styles/normal = ExtResource( 1 )
 Button/styles/pressed = SubResource( 10 )
 HScrollBar/styles/scroll = SubResource( 1 )
+HSlider/styles/grabber_area = ExtResource( 2 )
+HSlider/styles/grabber_area_highlight = ExtResource( 2 )
 Panel/styles/panel = SubResource( 7 )
 PanelContainer/styles/panel = SubResource( 4 )
 TabContainer/styles/panel = SubResource( 5 )

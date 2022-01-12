@@ -1,12 +1,18 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <RootNamespace>ClientGodotV2</RootNamespace>
+    <RootNamespace>Client</RootNamespace>
 	<DefineConstants>CLIENT;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ENet-CSharp" Version="2.4.7" />
+    <Reference Include="ENet-CSharp">
+        <HintPath>ENet-CSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

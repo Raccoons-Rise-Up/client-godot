@@ -28,7 +28,7 @@ namespace Client.UI
 
         public override void _Draw()
         {
-            DrawLine(new Vector2(370, 510), RectGlobalPosition + RectSize, new Color(1, 1, 1), 10);
+            DrawLine(new Vector2(370, 510), new Vector2(370 + 150, 510), new Color(1, 1, 1), 10);
         }
 
         public static void AddResearch(Vector2 pos)

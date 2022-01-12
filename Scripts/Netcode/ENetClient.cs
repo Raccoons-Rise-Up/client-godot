@@ -69,6 +69,7 @@ namespace Client.Netcode
         private static void ENetThreadWorker(string ip, ushort port, string jwt)
         {
             Library.Initialize();
+            GDLog("ENet library initialized successfully");
             var wantsToExit = false;
             var wantsToDisconnect = false;
 

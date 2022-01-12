@@ -1,3 +1,5 @@
+## New Contributors Please Read!!! The dev branch is the most up-to-date branch, the main branch is old and will be eventually deleted and dev will become the new main.
+
 # Raccoons Rise Up Game Client
 ## My First Serious Project in Godot :)
 This is my first serious project in Godot. I have learned so much from this project it is not even funny. There are so many challenges to tackle and they keep presenting themselves as I continue to add new features to the game. For example, who would have known implementing netcode for user text channels would be so much work? If you're new here I will tell you right away it will take some time to understand how everything comes together, but once you understand it all, working on it is a blast!

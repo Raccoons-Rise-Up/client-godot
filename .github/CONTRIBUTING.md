@@ -47,9 +47,10 @@ Tip #2: You do not need to start in the main menu scene which requires user auth
 3. Clone your fork with [git scm](https://git-scm.com) 
 4. Install [Godot Mono 64 Bit](https://godotengine.org)
 5. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
-6. Launch Godot through VSCode
-7. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
-8. Setup IPs  
+6. You will also need [.NET Framework 4.7.2](duckduckgo.com/?q=.net+framework+4.7.2)
+7. Launch Godot through VSCode
+8. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
+9. Setup IPs  
 
 ![image](https://user-images.githubusercontent.com/6277739/147781322-7aacb872-cf16-4055-b1c8-2555e7014bea.png)  
 Click on `Scene Game` node in scene tree window top left.  

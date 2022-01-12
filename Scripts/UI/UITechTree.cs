@@ -19,11 +19,28 @@ namespace Client.UI
 
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
+        private static Dictionary<ResearchType, Research> Researches = new Dictionary<ResearchType, Research>(){
+            { ResearchType.WoodCutting, new Research {
+                Inherited = new ResearchType[] {
+                    ResearchType.SharperAxes,
+                    ResearchType.LightWeightAxes
+                }
+            }},
+            { ResearchType.SharperAxes, new Research {}},
+            { ResearchType.LightWeightAxes, new Research {}}
+        };
+
+        private static Vector2 Cursor = Vector2.Zero;
+        private static ResearchType StartingResearch = ResearchType.WoodCutting;
+
         public override void _Ready()
         {
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
-            AddResearch(new Vector2(370 + 150, 510));
+
+            Cursor = new Vector2(200, 500);
+
+            
         }
 
         public override void _Draw()
@@ -31,11 +48,12 @@ namespace Client.UI
             DrawLine(new Vector2(370, 510), new Vector2(370 + 150, 510), new Color(1, 1, 1), 10);
         }
 
-        public static void AddResearch(Vector2 pos)
+        public static void AddResearch(Vector2 startPos, ResearchType researchType)
         {
-            var researchInstance = (Control)Research.Instance();
-            researchInstance.SetPosition(pos);
-            
+            var researchInstance = Research.Instance<UIResearch>();
+            researchInstance.SetPosition(startPos);
+            researchInstance.Init("ASD");
+
             Content.AddChild(researchInstance);
         }
 
@@ -95,5 +113,17 @@ namespace Client.UI
                 }
             }
         }
+    }
+
+    public struct Research 
+    {
+        public ResearchType[] Inherited { get; set; }
+    }
+
+    public enum ResearchType 
+    {
+        WoodCutting,
+        SharperAxes,
+        LightWeightAxes
     }
 }

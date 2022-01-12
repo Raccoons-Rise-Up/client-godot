@@ -47,7 +47,7 @@ Tip #2: You do not need to start in the main menu scene which requires user auth
 3. Clone your fork with [git scm](https://git-scm.com) 
 4. Install [Godot Mono 64 Bit](https://godotengine.org)
 5. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
-6. Install [.NET Framework 4.7.2](duckduckgo.com/?q=.net+framework+4.7.2)
+6. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
 7. Launch Godot through VSCode
 8. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
 9. Setup IPs  

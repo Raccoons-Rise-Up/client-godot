@@ -15,13 +15,14 @@ namespace Client.UI
         private static Control Mask;
 
         private bool Drag { get; set; }
-        private Vector2 ClickPos = Vector2.Zero;
+        private Vector2 DragClickPos = Vector2.Zero;
+        private static Vector2 ResearchStartPos { get; set; }
 
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
-        private static Dictionary<ResearchType, Research> Researches = new Dictionary<ResearchType, Research>(){
+        private static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.WoodCutting, new Research {
-                Inherited = new ResearchType[] {
+                Children = new ResearchType[] {
                     ResearchType.SharperAxes,
                     ResearchType.LightWeightAxes
                 }
@@ -30,17 +31,43 @@ namespace Client.UI
             { ResearchType.LightWeightAxes, new Research {}}
         };
 
-        private static Vector2 Cursor = Vector2.Zero;
-        private static ResearchType StartingResearch = ResearchType.WoodCutting;
+        private static TechTree[] TechTreeData = new TechTree[] {
+            new TechTree {
+                Type = TechTreeType.Wood,
+                StartingResearchNodes = new ResearchType[] {
+                    ResearchType.WoodCutting
+                }
+            }
+        };
 
         public override void _Ready()
         {
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
 
-            Cursor = new Vector2(200, 500);
+            // This is where the first research is placed on the tech tree
+            ResearchStartPos = new Vector2(100, RectSize.y / 2);
 
-            
+            var firstTechType = TechTreeData[0].StartingResearchNodes[0];
+            ResearchData[firstTechType].Position = ResearchStartPos;
+            Test(firstTechType);
+
+            for (int i = 0; i < ResearchData[firstTechType].Children.Length; i++)
+            {
+                var horizontalColumnSpacing = 200;
+                var verticalChildrenSpacing = 200;
+                ResearchData[ResearchData[firstTechType].Children[i]].Position = ResearchData[firstTechType].Position + new Vector2(horizontalColumnSpacing, verticalChildrenSpacing * i);
+                Test(ResearchData[firstTechType].Children[i]);
+            }
+        }
+
+        public static void Test(ResearchType researchType)
+        {
+            var researchInstance = Research.Instance<UIResearch>();
+            researchInstance.SetPosition(ResearchData[researchType].Position);
+            researchInstance.Init(Enum.GetName(typeof(ResearchType), researchType));
+
+            Content.AddChild(researchInstance);
         }
 
         public override void _Draw()
@@ -48,20 +75,11 @@ namespace Client.UI
             DrawLine(new Vector2(370, 510), new Vector2(370 + 150, 510), new Color(1, 1, 1), 10);
         }
 
-        public static void AddResearch(Vector2 startPos, ResearchType researchType)
-        {
-            var researchInstance = Research.Instance<UIResearch>();
-            researchInstance.SetPosition(startPos);
-            researchInstance.Init("ASD");
-
-            Content.AddChild(researchInstance);
-        }
-
         public override void _PhysicsProcess(float delta)
         {
             if (Drag)
             {
-                Content.RectGlobalPosition = Utils.Lerp(GetViewport().GetMousePosition() - ClickPos, GetViewport().GetMousePosition() - ClickPos, 25 * delta);
+                Content.RectGlobalPosition = Utils.Lerp(GetViewport().GetMousePosition() - DragClickPos, GetViewport().GetMousePosition() - DragClickPos, 25 * delta);
             }
             else 
             {
@@ -103,7 +121,7 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
-                    ClickPos = Content.GetLocalMousePosition();
+                    DragClickPos = Content.GetLocalMousePosition();
                     Drag = true;
                 }
 
@@ -115,15 +133,28 @@ namespace Client.UI
         }
     }
 
-    public struct Research 
+    public struct TechTree
     {
-        public ResearchType[] Inherited { get; set; }
+        public TechTreeType Type { get; set; }
+        public ResearchType[] StartingResearchNodes { get; set; }
+    }
+
+    public class Research
+    {
+        public Vector2 Position { get; set; }
+        public ResearchType[] Children { get; set; }
+    }
+
+    public enum TechTreeType 
+    {
+        Wood
     }
 
     public enum ResearchType 
     {
         WoodCutting,
         SharperAxes,
-        LightWeightAxes
+        LightWeightAxes,
+        EvenSharperAxes
     }
 }

@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Client"
-run/main_scene="res://Scenes/Main/MainMenu.tscn"
+run/main_scene="res://Scenes/Main/Game.tscn"
 boot_splash/image="res://Sprites/Msc/black.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://Sprites/Msc/icon.png"

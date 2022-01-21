@@ -89,7 +89,7 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("debug"))
             {
-                GD.Print($"{RectScale}");
+                GD.Print($"{GetViewportRect()}");
             }
         }
 
@@ -107,40 +107,45 @@ namespace Client.UI
                 RectScale = RectScale + ScrollOffset;
             }
 
+            var offset = -GetViewportRect().Size / 2;
+
             if (Drag)
             {
-                var newPos = (GetViewport().GetMousePosition() - DragClickPos);
-                Content.RectGlobalPosition = Utils.Lerp(newPos, newPos, delta * 25);
+                var newPos = offset + GetViewport().GetMousePosition() - DragClickPos;
+                Content.RectGlobalPosition = newPos;
             }
             else 
             {
                 var speed = 10;
 
+                var yOffset = GetViewportRect().Size.y / 2;
+                var xOffset = GetViewportRect().Size.x / 2;
+
                 // Content too far away from top edge of mask
-                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y )
+                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y - yOffset)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + yOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from left edge of mask
-                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x)
+                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x - xOffset)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + xOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
                 
                 // Content too far away from bottom edge of mask
-                if (Content.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) < Mask.RectGlobalPosition.y + Mask.RectSize.y)
+                if (Content.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) < Mask.RectGlobalPosition.y + Mask.RectSize.y - yOffset)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) - Mask.RectSize.y;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) - Mask.RectSize.y + yOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from right edge of mask
-                if (Content.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) < Mask.RectGlobalPosition.x + Mask.RectSize.x)
+                if (Content.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) < Mask.RectGlobalPosition.x + Mask.RectSize.x - xOffset)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) - Mask.RectSize.x;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) - Mask.RectSize.x + xOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
             }

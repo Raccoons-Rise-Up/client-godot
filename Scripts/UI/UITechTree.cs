@@ -40,6 +40,11 @@ namespace Client.UI
             }
         };
 
+        private void _on_Viewport_Resize()
+        {
+            GD.Print("Resized");
+        }
+
         public override void _Ready()
         {
             Mask = GetNode<Control>(nodePathMask);
@@ -75,41 +80,55 @@ namespace Client.UI
             DrawLine(new Vector2(370, 510), new Vector2(370 + 150, 510), new Color(1, 1, 1), 10);
         }
 
+        public override void _Input(InputEvent @event)
+        {
+            if (@event.IsActionPressed("debug"))
+            {
+                GD.Print($"VRS: {-GetViewportRect().Size}");
+            }
+        }
+
         public override void _PhysicsProcess(float delta)
         {
+            var offset = -GetViewportRect().Size / 2;
+
             if (Drag)
             {
-                Content.RectGlobalPosition = Utils.Lerp(GetViewport().GetMousePosition() - DragClickPos, GetViewport().GetMousePosition() - DragClickPos, 25 * delta);
+                var newPos = offset + GetViewport().GetMousePosition() - DragClickPos;
+                Content.RectGlobalPosition = Utils.Lerp(newPos, newPos, 25 * delta);
             }
             else 
             {
                 var speed = 10;
 
+                var yOffset = GetViewportRect().Size.y / 2;
+                var xOffset = GetViewportRect().Size.x / 2;
+
                 // Content too far away from top edge of mask
-                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y)
+                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y - yOffset)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + yOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from left edge of mask
-                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x)
+                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x - xOffset)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + xOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
                 
                 // Content too far away from bottom edge of mask
-                if (Content.RectGlobalPosition.y + Content.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
+                if (Content.RectGlobalPosition.y + Content.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y - yOffset)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Content.RectSize.y - Mask.RectSize.y;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Content.RectSize.y - Mask.RectSize.y + yOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from right edge of mask
-                if (Content.RectGlobalPosition.x + Content.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x)
+                if (Content.RectGlobalPosition.x + Content.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x - xOffset)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x + xOffset;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
             }

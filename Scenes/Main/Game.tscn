@@ -53,28 +53,21 @@ margin_right = 64.0
 margin_bottom = 16.0
 text = "Tech Tree"
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Panel/VBoxContainer"]
+[node name="ViewportContainer" type="ViewportContainer" parent="Panel/VBoxContainer"]
 margin_top = 60.0
 margin_right = 1024.0
 margin_bottom = 462.0
-rect_min_size = Vector2( 0, 266 )
+size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-ratio = 2.0
 
-[node name="ViewportContainer" type="ViewportContainer" parent="Panel/VBoxContainer/AspectRatioContainer"]
-margin_left = 110.0
-margin_right = 914.0
-margin_bottom = 402.0
-
-[node name="Viewport" type="Viewport" parent="Panel/VBoxContainer/AspectRatioContainer/ViewportContainer"]
-size = Vector2( 804, 402 )
+[node name="Viewport" type="Viewport" parent="Panel/VBoxContainer/ViewportContainer"]
+size = Vector2( 1024, 402 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Control" parent="Panel/VBoxContainer/AspectRatioContainer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
+[node name="Tech Tree Content" parent="Panel/VBoxContainer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
 
-[node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/AspectRatioContainer/ViewportContainer/Viewport"]
+[node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/ViewportContainer/Viewport"]
 current = true
 
 [node name="Panel" type="Panel" parent="Panel/VBoxContainer"]

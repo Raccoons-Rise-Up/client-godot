@@ -21,21 +21,23 @@ namespace Client.UI
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
         private static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
-            { ResearchType.WoodCutting, new Research {
+            { ResearchType.A, new Research {
                 Children = new ResearchType[] {
-                    ResearchType.SharperAxes,
-                    ResearchType.LightWeightAxes
+                    ResearchType.B,
+                    ResearchType.C,
+                    ResearchType.D
                 }
             }},
-            { ResearchType.SharperAxes, new Research {}},
-            { ResearchType.LightWeightAxes, new Research {}}
+            { ResearchType.B, new Research {}},
+            { ResearchType.C, new Research {}},
+            { ResearchType.D, new Research {}}
         };
 
         private static TechTree[] TechTreeData = new TechTree[] {
             new TechTree {
                 Type = TechTreeType.Wood,
                 StartingResearchNodes = new ResearchType[] {
-                    ResearchType.WoodCutting
+                    ResearchType.A
                 }
             }
         };
@@ -87,16 +89,28 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("debug"))
             {
-                GD.Print($"VRS: {-GetViewportRect().Size}");
+                GD.Print($"{RectScale}");
             }
         }
 
         public override void _PhysicsProcess(float delta)
         {
+            if (ScrollDown)
+            {
+                ScrollDown = false;
+                RectScale = RectScale - ScrollOffset;
+            }
+
+            if (ScrollUp)
+            {
+                ScrollUp = false;
+                RectScale = RectScale + ScrollOffset;
+            }
 
             if (Drag)
             {
-                Content.RectGlobalPosition = Utils.Lerp(GetViewport().GetMousePosition() - DragClickPos, GetViewport().GetMousePosition() - DragClickPos, 25 * delta);
+                var newPos = (GetViewport().GetMousePosition() - DragClickPos);
+                Content.RectGlobalPosition = Utils.Lerp(newPos, newPos, delta * 25);
             }
             else 
             {
@@ -117,20 +131,23 @@ namespace Client.UI
                 }
                 
                 // Content too far away from bottom edge of mask
-                if (Content.RectGlobalPosition.y + Content.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
+                if (Content.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) < Mask.RectGlobalPosition.y + Mask.RectSize.y)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Content.RectSize.y - Mask.RectSize.y;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) - Mask.RectSize.y;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from right edge of mask
-                if (Content.RectGlobalPosition.x + Content.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x)
+                if (Content.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) < Mask.RectGlobalPosition.x + Mask.RectSize.x)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) - Mask.RectSize.x;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
             }
         }
+
+        private Vector2 ScrollOffset = new Vector2(0.1f, 0.1f);
+        private bool ScrollDown, ScrollUp;
 
         private void _on_Content_gui_input(InputEvent @event)
         {
@@ -138,13 +155,29 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
-                    DragClickPos = Content.GetLocalMousePosition();
+                    DragClickPos = Content.GetLocalMousePosition() * RectScale;
                     Drag = true;
                 }
 
                 if (Input.IsActionJustReleased("left_click"))
                 {
                     Drag = false;
+                }
+
+                if (Input.IsActionPressed("ui_scroll_down"))
+                {
+                    // Zooming out
+                    ScrollDown = true;
+                    
+                    //RectScale = RectScale - ScrollOffset;
+                }
+
+                if (Input.IsActionPressed("ui_scroll_up"))
+                {
+                    // Zooming in
+                    ScrollUp = true;
+                    
+                    //RectScale = RectScale + ScrollOffset;
                 }
             }
         }
@@ -169,9 +202,14 @@ namespace Client.UI
 
     public enum ResearchType 
     {
-        WoodCutting,
-        SharperAxes,
-        LightWeightAxes,
-        EvenSharperAxes
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I
     }
 }

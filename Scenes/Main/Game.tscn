@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/GameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
 [ext_resource path="res://Scenes/temp.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Chat.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.203922, 0.580392, 0.262745, 1 )
@@ -74,11 +75,13 @@ size = Vector2( 1024, 200 )
 handle_input_locally = false
 usage = 0
 render_target_update_mode = 3
+script = ExtResource( 5 )
+nodePathCamera2D = NodePath("Camera2D")
 
 [node name="Mask" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
 
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
-offset = Vector2( 960, 100 )
+offset = Vector2( 512, 100 )
 current = true
 
 [node name="Panel" type="Panel" parent="Panel/VBoxContainer"]
@@ -98,3 +101,5 @@ margin_bottom = 600.0
 
 [node name="Chat" parent="Panel" instance=ExtResource( 4 )]
 mouse_filter = 2
+
+[connection signal="size_changed" from="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" to="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_Viewport_size_changed"]

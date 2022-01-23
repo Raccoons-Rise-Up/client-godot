@@ -7,9 +7,9 @@ namespace Client.UI
 {
     public class UITechTree : Control
     {
-    #pragma warning disable CS0649 // Values are assigned in the editor
+#pragma warning disable CS0649 // Values are assigned in the editor
         [Export] private readonly NodePath nodePathMask;
-    #pragma warning restore CS0649 // Values are assigned in the editor
+#pragma warning restore CS0649 // Values are assigned in the editor
 
         private static Control Content;
         private static Control Mask;
@@ -42,21 +42,20 @@ namespace Client.UI
             }
         };
 
-        private void _on_Viewport_Resize()
+        public async override void _Ready()
         {
-            GD.Print("Resized");
-        }
+            await ToSignal(GetTree(), "idle_frame"); // Needed or Mask.RectSize will show up as (0, 0)
 
-        public override void _Ready()
-        {
+            UITechViewport.ViewportSizeChanged += OnViewportSizeChanged;
+
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
 
             // Center tech tree panel content
-            RectPosition = new Vector2(-RectSize.x / 4, -Mask.RectGlobalPosition.y - (RectSize.y / 4) - (Mask.RectSize.y));
+            Content.RectPosition = new Vector2(-Content.RectSize.x / 4, -(Content.RectSize.y - Mask.RectSize.y) / 2);
 
             // This is where the first research is placed on the tech tree
-            ResearchStartPos = new Vector2(RectSize.x / 2 - 50, RectSize.y / 2 - 50);
+            ResearchStartPos = new Vector2(Content.RectSize.x / 2 - 50, Content.RectSize.y / 2 - 50);
 
             var firstTechType = TechTreeData[0].StartingResearchNodes[0];
             ResearchData[firstTechType].Position = ResearchStartPos;
@@ -93,65 +92,60 @@ namespace Client.UI
             }
         }
 
-        public override void _PhysicsProcess(float delta)
+        public async override void _PhysicsProcess(float delta)
         {
+            await ToSignal(GetTree(), "idle_frame"); // Since _Ready() waits 1 frame, lets wait 1 frame here otherwise weird physics will occur
+
             if (ScrollDown)
             {
                 ScrollDown = false;
-                RectScale = RectScale - ScrollOffset;
             }
 
             if (ScrollUp)
             {
                 ScrollUp = false;
-                RectScale = RectScale + ScrollOffset;
             }
 
-            var offset = -GetViewportRect().Size / 2;
 
             if (Drag)
             {
-                var newPos = offset + GetViewport().GetMousePosition() - DragClickPos;
+                var newPos = GetViewport().GetMousePosition() - DragClickPos;
                 Content.RectGlobalPosition = newPos;
             }
             else 
             {
                 var speed = 10;
 
-                var yOffset = GetViewportRect().Size.y / 2;
-                var xOffset = GetViewportRect().Size.x / 2;
-
                 // Content too far away from top edge of mask
-                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y - yOffset)
+                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + yOffset;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from left edge of mask
-                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x - xOffset)
+                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + xOffset;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
                 
                 // Content too far away from bottom edge of mask
-                if (Content.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) < Mask.RectGlobalPosition.y + Mask.RectSize.y - yOffset)
+                if (Content.RectGlobalPosition.y + Content.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
                 {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + (Content.RectSize.y * RectScale.y) - Mask.RectSize.y + yOffset;
+                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Content.RectSize.y - Mask.RectSize.y;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
                 }
 
                 // Content too far away from right edge of mask
-                if (Content.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) < Mask.RectGlobalPosition.x + Mask.RectSize.x - xOffset)
+                if (Content.RectGlobalPosition.x + Content.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x)
                 {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + (Content.RectSize.x * RectScale.x) - Mask.RectSize.x + xOffset;
+                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
                 }
             }
         }
 
-        private Vector2 ScrollOffset = new Vector2(0.1f, 0.1f);
         private bool ScrollDown, ScrollUp;
 
         private void _on_Content_gui_input(InputEvent @event)
@@ -160,7 +154,7 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
-                    DragClickPos = Content.GetLocalMousePosition() * RectScale;
+                    DragClickPos = Content.GetLocalMousePosition();
                     Drag = true;
                 }
 
@@ -172,20 +166,20 @@ namespace Client.UI
                 if (Input.IsActionPressed("ui_scroll_down"))
                 {
                     // Zooming out
+                    UITechViewport.Camera2D.Zoom += new Vector2(0.3f, 0.3f);
                     ScrollDown = true;
-                    
-                    //RectScale = RectScale - ScrollOffset;
                 }
 
                 if (Input.IsActionPressed("ui_scroll_up"))
                 {
                     // Zooming in
+                    UITechViewport.Camera2D.Zoom -= new Vector2(0.3f, 0.3f);
                     ScrollUp = true;
-                    
-                    //RectScale = RectScale + ScrollOffset;
                 }
             }
         }
+
+        public void OnViewportSizeChanged(object source, EventArgs e) => UITechViewport.Camera2D.Offset = new Vector2(GetViewportRect().Size / 2);
     }
 
     public struct TechTree

@@ -151,9 +151,8 @@ namespace Client.UI
                 //Content.RectGlobalPosition = newPos; // This is how we drag the panel around
 
                 GD.Print("Before: " + UITechViewport.Camera2D.GlobalPosition);
-                UITechViewport.Camera2D.GlobalPosition = GetViewport().GetMousePosition();
+                UITechViewport.Camera2D.GlobalPosition = GetGlobalMousePosition() - DragClickPos;
                 GD.Print("After: " + UITechViewport.Camera2D.GlobalPosition);
-                GD.Print("Mouse: " + GetViewport().GetMousePosition());
 
                 //RectGlobalPosition = DragClickPos;
             }
@@ -199,9 +198,7 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
-                    //GD.Print("Content GUI Input Glick at: " + Content.GetLocalMousePosition());
-                    DragClickPos = Content.GetLocalMousePosition();
-                    //GD.Print($"Global MPos: {GetGlobalMousePosition()}");
+                    DragClickPos = GetViewport().GetMousePosition();
                     Drag = true;
                 }
 

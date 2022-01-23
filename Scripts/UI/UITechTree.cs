@@ -86,6 +86,19 @@ namespace Client.UI
 
         public override void _Input(InputEvent @event)
         {
+            // Mouse in viewport coordinates.
+            if (@event is InputEventMouseButton eventMouseButton) 
+            {
+                if (@event.IsActionPressed("left_click"))
+                {
+                    //GD.Print("left click");
+                    //GD.Print("Viewport Mouse Click/Unclick at: ", eventMouseButton.Position);
+
+                    //DragClickPos = eventMouseButton.Position;
+                    //Drag = true;
+                }
+            }
+
             if (@event.IsActionPressed("debug"))
             {
                 GD.Print($"{GetViewportRect()}");
@@ -94,6 +107,25 @@ namespace Client.UI
 
         public async override void _PhysicsProcess(float delta)
         {
+            var viewportMoveSpeed = 2;
+
+            // Top Left Corner: (-500, -900)
+            // Center: (0, 0)
+
+            //UITechViewport.Camera2D.Position = GetViewport().GetMousePosition();
+
+            if (Input.IsActionPressed("ui_left"))
+                UITechViewport.Camera2D.Position -= new Vector2(viewportMoveSpeed, 0);
+            
+            if (Input.IsActionPressed("ui_right"))
+                UITechViewport.Camera2D.Position += new Vector2(viewportMoveSpeed, 0);
+
+            if (Input.IsActionPressed("ui_up"))
+                UITechViewport.Camera2D.Position -= new Vector2(0, viewportMoveSpeed);
+
+            if (Input.IsActionPressed("ui_down"))
+                UITechViewport.Camera2D.Position += new Vector2(0, viewportMoveSpeed);
+
             await ToSignal(GetTree(), "idle_frame"); // Since _Ready() waits 1 frame, lets wait 1 frame here otherwise weird physics will occur
 
             if (ScrollDown)
@@ -109,12 +141,25 @@ namespace Client.UI
 
             if (Drag)
             {
+                //GD.Print($"MPos Relative to Viewport: {GetViewport().GetMousePosition()}, MPos Click on Content: {DragClickPos}");
+
+                var zoomScale = UITechViewport.Camera2D.Zoom;
+
+                // GetViewport().GetMousePosition() gets the mouse position relative to the viewport
+                // DragClickPos is where we clicked and is relative to the panel in the world
                 var newPos = GetViewport().GetMousePosition() - DragClickPos;
-                Content.RectGlobalPosition = newPos;
+                //Content.RectGlobalPosition = newPos; // This is how we drag the panel around
+
+                GD.Print("Before: " + UITechViewport.Camera2D.GlobalPosition);
+                UITechViewport.Camera2D.GlobalPosition = GetViewport().GetMousePosition();
+                GD.Print("After: " + UITechViewport.Camera2D.GlobalPosition);
+                GD.Print("Mouse: " + GetViewport().GetMousePosition());
+
+                //RectGlobalPosition = DragClickPos;
             }
             else 
             {
-                var speed = 10;
+                /*var speed = 10;
 
                 // Content too far away from top edge of mask
                 if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y)
@@ -142,7 +187,7 @@ namespace Client.UI
                 {
                     var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x;
                     Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
-                }
+                }*/
             }
         }
 
@@ -154,7 +199,9 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
+                    //GD.Print("Content GUI Input Glick at: " + Content.GetLocalMousePosition());
                     DragClickPos = Content.GetLocalMousePosition();
+                    //GD.Print($"Global MPos: {GetGlobalMousePosition()}");
                     Drag = true;
                 }
 
@@ -176,10 +223,14 @@ namespace Client.UI
                     UITechViewport.Camera2D.Zoom -= new Vector2(0.3f, 0.3f);
                     ScrollUp = true;
                 }
+                    
             }
         }
 
-        public void OnViewportSizeChanged(object source, EventArgs e) => UITechViewport.Camera2D.Offset = new Vector2(GetViewportRect().Size / 2);
+        public void OnViewportSizeChanged(object source, EventArgs e) 
+        {
+            UITechViewport.Camera2D.Offset = new Vector2(GetViewportRect().Size / 2);
+        }
     }
 
     public struct TechTree

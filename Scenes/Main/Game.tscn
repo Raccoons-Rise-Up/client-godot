@@ -79,6 +79,7 @@ script = ExtResource( 5 )
 nodePathCamera2D = NodePath("Camera2D")
 
 [node name="Mask" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
+rect_clip_content = false
 
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
 offset = Vector2( 512, 100 )

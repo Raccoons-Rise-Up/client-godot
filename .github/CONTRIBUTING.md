@@ -1,8 +1,9 @@
 # Where do you want to go?
-## [I need help setting up the project](#setup)
-## [I want to help by adding sprites to the game](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/SPRITES.md)
-## [I want to help work on the UI](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/USER_INTERFACE.md)
-## [I want to help work on the networking code](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/NETWORKING.md)
+## [Project Setup](#setup)
+## [Sprites](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/SPRITES.md)
+## [User Interface](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/USER_INTERFACE.md)
+## [Netcode](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/NETWORKING.md)
+## [Useful Godot Tips](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/GODOT_TIPS.md)
 
 ## Setup
 ### VSCode

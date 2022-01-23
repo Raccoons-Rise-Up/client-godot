@@ -15,7 +15,8 @@ namespace Client.UI
         private static Control Mask;
 
         private bool Drag { get; set; }
-        private Vector2 DragClickPos = Vector2.Zero;
+        private Vector2 MouseStartPos = Vector2.Zero;
+        private Vector2 ScreenStartPos = Vector2.Zero;
         private static Vector2 ResearchStartPos { get; set; }
 
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
@@ -147,12 +148,10 @@ namespace Client.UI
 
                 // GetViewport().GetMousePosition() gets the mouse position relative to the viewport
                 // DragClickPos is where we clicked and is relative to the panel in the world
-                var newPos = GetViewport().GetMousePosition() - DragClickPos;
+                var newPos = GetViewport().GetMousePosition() - MouseStartPos;
                 //Content.RectGlobalPosition = newPos; // This is how we drag the panel around
 
-                GD.Print("Before: " + UITechViewport.Camera2D.GlobalPosition);
-                UITechViewport.Camera2D.GlobalPosition = GetGlobalMousePosition() - DragClickPos;
-                GD.Print("After: " + UITechViewport.Camera2D.GlobalPosition);
+                UITechViewport.Camera2D.Position = (MouseStartPos - GetLocalMousePosition()) + ScreenStartPos;
 
                 //RectGlobalPosition = DragClickPos;
             }
@@ -198,7 +197,8 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
-                    DragClickPos = GetViewport().GetMousePosition();
+                    MouseStartPos = GetLocalMousePosition();
+                    ScreenStartPos = GetViewport().GetMousePosition();
                     Drag = true;
                 }
 

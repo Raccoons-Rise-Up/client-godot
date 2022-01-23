@@ -1,4 +1,6 @@
-## New Contributors Please Read!!! The dev branch is the most up-to-date branch, the main branch is old and will be eventually deleted and dev will become the new main.
+# New Contributors Please Read!!! The dev branch is the most up-to-date branch, the main branch is old and will be eventually deleted and dev will become the new main.
+
+# New Contributors Please Read!!! The dev branch is the most up-to-date branch, the main branch is old and will be eventually deleted and dev will become the new main.
 
 # Raccoons Rise Up Game Client
 ## My First Serious Project in Godot :)

@@ -23,14 +23,11 @@ __meta__ = {
 }
 
 [node name="Content" type="Panel" parent="."]
-anchor_left = 0.000976563
 anchor_top = -1.16167
-anchor_right = 0.000976563
-anchor_bottom = -1.16167
 margin_left = -1.0
-margin_top = 697.0
+margin_top = 697.002
 margin_right = 1999.0
-margin_bottom = 2697.0
+margin_bottom = 2000.0
 rect_min_size = Vector2( 2000, 2000 )
 size_flags_horizontal = 3
 size_flags_vertical = 3

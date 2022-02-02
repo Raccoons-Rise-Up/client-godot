@@ -29,9 +29,9 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Panel/MarginContainer"]
 margin_left = 292.0
-margin_top = 182.0
+margin_top = 148.0
 margin_right = 731.0
-margin_bottom = 417.0
+margin_bottom = 451.0
 size_flags_horizontal = 4
 text = "Project Lead
 
@@ -46,7 +46,11 @@ ChrissprayCode
 Music
 
 Menu Music \"Unsolicited trailer music loop edit\" by Emma_MA (CC0)
-Game Music \"Prepare Your Swords\" by Bojidar Marinov (CC0)"
+Game Music \"Prepare Your Swords\" by Bojidar Marinov (CC0)
+
+Special Thanks
+
+the31"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

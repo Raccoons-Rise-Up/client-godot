@@ -17,6 +17,8 @@ namespace Client.UI
         private bool Drag { get; set; }
         private Vector2 MouseStartPos = Vector2.Zero;
         private Vector2 ScreenStartPos = Vector2.Zero;
+        private Vector2 PrevCameraPos = Vector2.Zero;
+
         private static Vector2 ResearchStartPos { get; set; }
 
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
@@ -142,50 +144,16 @@ namespace Client.UI
 
             if (Drag)
             {
-                //GD.Print($"MPos Relative to Viewport: {GetViewport().GetMousePosition()}, MPos Click on Content: {DragClickPos}");
-
                 var zoomScale = UITechViewport.Camera2D.Zoom;
 
-                // GetViewport().GetMousePosition() gets the mouse position relative to the viewport
-                // DragClickPos is where we clicked and is relative to the panel in the world
-                var newPos = GetViewport().GetMousePosition() - MouseStartPos;
-                //Content.RectGlobalPosition = newPos; // This is how we drag the panel around
+                var newPos = PrevCameraPos + GetViewport().GetMousePosition() - MouseStartPos;
 
-                UITechViewport.Camera2D.Position = (MouseStartPos - GetLocalMousePosition()) + ScreenStartPos;
-
-                //RectGlobalPosition = DragClickPos;
+                UITechViewport.Camera2D.Position = PrevCameraPos + ScreenStartPos - GetViewport().GetMousePosition();
+                GD.Print(UITechViewport.Camera2D.Position);
             }
             else 
             {
-                /*var speed = 10;
-
-                // Content too far away from top edge of mask
-                if (Content.RectGlobalPosition.y > Mask.RectGlobalPosition.y)
-                {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y;
-                    Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
-                }
-
-                // Content too far away from left edge of mask
-                if (Content.RectGlobalPosition.x > Mask.RectGlobalPosition.x)
-                {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x;
-                    Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
-                }
                 
-                // Content too far away from bottom edge of mask
-                if (Content.RectGlobalPosition.y + Content.RectSize.y < Mask.RectGlobalPosition.y + Mask.RectSize.y)
-                {
-                    var diff = Content.RectGlobalPosition.y - Mask.RectGlobalPosition.y + Content.RectSize.y - Mask.RectSize.y;
-                    Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(0, diff), delta * speed);
-                }
-
-                // Content too far away from right edge of mask
-                if (Content.RectGlobalPosition.x + Content.RectSize.x < Mask.RectGlobalPosition.x + Mask.RectSize.x)
-                {
-                    var diff = Content.RectGlobalPosition.x - Mask.RectGlobalPosition.x + Content.RectSize.x - Mask.RectSize.x;
-                    Content.RectGlobalPosition = Utils.Lerp(Content.RectGlobalPosition, Content.RectGlobalPosition - new Vector2(diff, 0), delta * speed);
-                }*/
             }
         }
 
@@ -197,6 +165,7 @@ namespace Client.UI
             {
                 if (Input.IsActionJustPressed("left_click"))
                 {
+                    PrevCameraPos = UITechViewport.Camera2D.Position;
                     MouseStartPos = GetLocalMousePosition();
                     ScreenStartPos = GetViewport().GetMousePosition();
                     Drag = true;

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/GameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
 [ext_resource path="res://Scenes/TechTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Chat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/GameViewport.cs" type="Script" id=6]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.203922, 0.580392, 0.262745, 1 )
@@ -13,6 +14,7 @@ bg_color = Color( 0.203922, 0.580392, 0.262745, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,8 +59,8 @@ text = "Tech Tree"
 [node name="CanvasLayer" type="ReferenceRect" parent="Panel/VBoxContainer"]
 margin_top = 60.0
 margin_right = 1024.0
-margin_bottom = 260.0
-rect_min_size = Vector2( 0, 200 )
+margin_bottom = 560.0
+rect_min_size = Vector2( 0, 500 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="Panel/VBoxContainer/CanvasLayer"]
 anchor_right = 1.0
@@ -71,30 +73,30 @@ __meta__ = {
 }
 
 [node name="Viewport" type="Viewport" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer"]
-size = Vector2( 1024, 200 )
+size = Vector2( 1024, 500 )
 handle_input_locally = false
 usage = 0
 render_target_update_mode = 3
 script = ExtResource( 5 )
 nodePathCamera2D = NodePath("Camera2D")
+nodePathCanvasLayer = NodePath("../..")
 
 [node name="Mask" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
 rect_clip_content = false
 
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
-offset = Vector2( 512, 100 )
 current = true
-limit_left = -512
-limit_top = 365
-limit_right = 1486
-limit_bottom = 2364
+limit_left = 0
+limit_top = 116
+limit_right = 2000
+limit_bottom = 2116
 smoothing_enabled = true
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Panel" type="Panel" parent="Panel/VBoxContainer"]
-margin_top = 264.0
+margin_top = 564.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
@@ -111,4 +113,5 @@ margin_bottom = 600.0
 [node name="Chat" parent="Panel" instance=ExtResource( 4 )]
 mouse_filter = 2
 
+[connection signal="resized" from="." to="." method="_on_Game_resized"]
 [connection signal="size_changed" from="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" to="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_Viewport_size_changed"]

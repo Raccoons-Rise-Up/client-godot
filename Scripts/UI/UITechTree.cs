@@ -15,7 +15,6 @@ namespace Client.UI
         private static Control Mask;
 
         private bool Drag { get; set; }
-        private Vector2 MouseStartPos = Vector2.Zero;
         private Vector2 ScreenStartPos = Vector2.Zero;
         private Vector2 PrevCameraPos = Vector2.Zero;
 
@@ -49,15 +48,14 @@ namespace Client.UI
         {
             await ToSignal(GetTree(), "idle_frame"); // Needed or Mask.RectSize will show up as (0, 0)
 
-            UITechViewport.ViewportSizeChanged += OnViewportSizeChanged;
+            GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
 
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
             SetCameraBounds();
 
             // Center tech tree panel content
-            UITechViewport.Camera2D.Position = Content.RectPosition + Content.RectSize / 2 - GetViewportRect().Size / 2;
-            GD.Print(UITechViewport.Camera2D.Position);
+            UITechViewport.Camera2D.Position = Content.RectPosition + Content.RectSize / 2;
 
             // This is where the first research is placed on the tech tree
             ResearchStartPos = new Vector2(Content.RectSize.x / 2 - 50, Content.RectSize.y / 2 - 50);
@@ -89,35 +87,9 @@ namespace Client.UI
             DrawLine(new Vector2(370, 510), new Vector2(370 + 150, 510), new Color(1, 1, 1), 10);
         }
 
-        public override void _Input(InputEvent @event)
-        {
-            // Mouse in viewport coordinates.
-            if (@event is InputEventMouseButton eventMouseButton) 
-            {
-                if (@event.IsActionPressed("left_click"))
-                {
-                    //GD.Print("left click");
-                    //GD.Print("Viewport Mouse Click/Unclick at: ", eventMouseButton.Position);
-
-                    //DragClickPos = eventMouseButton.Position;
-                    //Drag = true;
-                }
-            }
-
-            if (@event.IsActionPressed("debug"))
-            {
-                GD.Print($"{GetViewportRect()}");
-            }
-        }
-
         public async override void _PhysicsProcess(float delta)
         {
             var viewportMoveSpeed = 2;
-
-            // Top Left Corner: (-500, -900)
-            // Center: (0, 0)
-
-            //UITechViewport.Camera2D.Position = GetViewport().GetMousePosition();
 
             if (Input.IsActionPressed("ui_left"))
                 UITechViewport.Camera2D.Position -= new Vector2(viewportMoveSpeed, 0);
@@ -163,7 +135,6 @@ namespace Client.UI
                 if (Input.IsActionJustPressed("left_click"))
                 {
                     PrevCameraPos = UITechViewport.Camera2D.Position;
-                    MouseStartPos = GetLocalMousePosition();
                     ScreenStartPos = GetViewport().GetMousePosition();
                     Drag = true;
                 }
@@ -190,19 +161,18 @@ namespace Client.UI
             }
         }
 
-        public void OnViewportSizeChanged(object source, EventArgs e) 
-        {
-            UITechViewport.Camera2D.Offset = new Vector2(GetViewportRect().Size / 2);
-            SetCameraBounds();
-        }
+        public void OnViewportSizeChanged(object source, EventArgs e) => SetCameraBounds();
 
         private void SetCameraBounds()
         {
             var cam = UITechViewport.Camera2D;
-            cam.LimitLeft = (int)(-GetViewportRect().Size.x / 2);
-            cam.LimitRight = (int)(-GetViewportRect().Size.x / 2 + Content.RectSize.x);
-            cam.LimitTop = (int)(Content.RectPosition.y - GetViewportRect().Size.y / 2);
-            cam.LimitBottom = (int)(Content.RectPosition.y - GetViewportRect().Size.y / 2 + Content.RectSize.y);
+            cam.LimitLeft = (int)(Content.RectPosition.x);
+            cam.LimitRight = (int)(Content.RectPosition.x + Content.RectSize.x);
+            cam.LimitTop = (int)(Content.RectPosition.y);
+
+            // Offset needs to be accounted for when window height is smaller than viewport height
+            var windowViewportOffset = Mathf.Min(0, OS.WindowSize.y - GetViewportRect().Size.y - UITechViewport.CanvasLayer.RectGlobalPosition.y);
+            cam.LimitBottom = (int)(Content.RectPosition.y + Content.RectSize.y - windowViewportOffset);
         }
     }
 

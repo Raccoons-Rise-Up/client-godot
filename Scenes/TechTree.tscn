@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/UI/UITechTree.cs" type="Script" id=1]
 [ext_resource path="res://Themes/Debug.tres" type="Theme" id=2]
+[ext_resource path="res://Sprites/Msc/uv texture.png" type="Texture" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 border_width_left = 5
@@ -37,6 +38,15 @@ __meta__ = {
 }
 nodePathMask = NodePath("..")
 
+[node name="TextureRect" type="TextureRect" parent="Content"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CenterContainer" type="CenterContainer" parent="Content"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -68,8 +78,8 @@ __meta__ = {
 [node name="Label2" type="Label" parent="Content"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -20.0
-margin_right = 20.0
+margin_left = -130.0
+margin_right = 130.0
 margin_bottom = 64.0
 text = "Center Top"
 __meta__ = {
@@ -92,9 +102,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -20.0
+margin_left = -175.5
 margin_top = -64.0
-margin_right = 20.0
+margin_right = 175.5
 text = "Center Bottom"
 __meta__ = {
 "_edit_use_anchors_": false

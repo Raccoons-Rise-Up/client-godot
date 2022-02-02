@@ -53,9 +53,11 @@ namespace Client.UI
 
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
+            SetCameraBounds();
 
             // Center tech tree panel content
-            Content.RectPosition = new Vector2(-Content.RectSize.x / 4, -(Content.RectSize.y - Mask.RectSize.y) / 2);
+            UITechViewport.Camera2D.Position = Content.RectPosition + Content.RectSize / 2 - GetViewportRect().Size / 2;
+            GD.Print(UITechViewport.Camera2D.Position);
 
             // This is where the first research is placed on the tech tree
             ResearchStartPos = new Vector2(Content.RectSize.x / 2 - 50, Content.RectSize.y / 2 - 50);
@@ -144,12 +146,7 @@ namespace Client.UI
 
             if (Drag)
             {
-                var zoomScale = UITechViewport.Camera2D.Zoom;
-
-                var newPos = PrevCameraPos + GetViewport().GetMousePosition() - MouseStartPos;
-
                 UITechViewport.Camera2D.Position = PrevCameraPos + ScreenStartPos - GetViewport().GetMousePosition();
-                GD.Print(UITechViewport.Camera2D.Position);
             }
             else 
             {
@@ -196,6 +193,16 @@ namespace Client.UI
         public void OnViewportSizeChanged(object source, EventArgs e) 
         {
             UITechViewport.Camera2D.Offset = new Vector2(GetViewportRect().Size / 2);
+            SetCameraBounds();
+        }
+
+        private void SetCameraBounds()
+        {
+            var cam = UITechViewport.Camera2D;
+            cam.LimitLeft = (int)(-GetViewportRect().Size.x / 2);
+            cam.LimitRight = (int)(-GetViewportRect().Size.x / 2 + Content.RectSize.x);
+            cam.LimitTop = (int)(Content.RectPosition.y - GetViewportRect().Size.y / 2);
+            cam.LimitBottom = (int)(Content.RectPosition.y - GetViewportRect().Size.y / 2 + Content.RectSize.y);
         }
     }
 

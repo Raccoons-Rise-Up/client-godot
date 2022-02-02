@@ -84,11 +84,14 @@ rect_clip_content = false
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
 offset = Vector2( 512, 100 )
 current = true
-limit_left = -1012
-limit_top = -1000
-limit_right = 988
-limit_bottom = 1000
+limit_left = -512
+limit_top = 365
+limit_right = 1486
+limit_bottom = 2364
 smoothing_enabled = true
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Panel" type="Panel" parent="Panel/VBoxContainer"]
 margin_top = 264.0

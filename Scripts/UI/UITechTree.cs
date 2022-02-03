@@ -17,6 +17,8 @@ namespace Client.UI
         private bool Drag { get; set; }
         private Vector2 ScreenStartPos = Vector2.Zero;
         private Vector2 PrevCameraPos = Vector2.Zero;
+        private Vector2 ContentCenterPos = Vector2.Zero;
+        private Vector2 ViewportStartSize = Vector2.Zero;
 
         private static Vector2 ResearchStartPos { get; set; }
 
@@ -52,6 +54,8 @@ namespace Client.UI
 
             Mask = GetNode<Control>(nodePathMask);
             Content = this;
+            ContentCenterPos = Content.RectPosition + Content.RectSize / 2;
+            ViewportStartSize = GetViewportRect().Size;
             SetCameraBounds();
 
             // Center tech tree panel content
@@ -115,15 +119,29 @@ namespace Client.UI
                 ScrollUp = false;
             }
 
+            var cam = UITechViewport.Camera2D;
+                
+            var windowOffsetX = Mathf.Min(0, OS.WindowSize.x - 900);
+            var windowOffsetY = Mathf.Min(0, OS.WindowSize.y - GetViewportRect().Size.y - UITechViewport.CanvasLayer.RectGlobalPosition.y);
+            
+            var boundsLeft = ContentCenterPos.x - Content.RectSize.x / 4 + windowOffsetX;
+            var boundsRight = ContentCenterPos.x + Content.RectSize.x / 4 - windowOffsetX;
+            var boundsTop = ContentCenterPos.y - Content.RectSize.y / 4 - GetViewportRect().Size.y / 2;
+            var boundsBottom = ContentCenterPos.y + Content.RectSize.y / 4 + GetViewportRect().Size.y / 2 - windowOffsetY;
 
             if (Drag)
             {
-                UITechViewport.Camera2D.Position = PrevCameraPos + ScreenStartPos - GetViewport().GetMousePosition();
+                cam.Position = PrevCameraPos + ScreenStartPos - GetViewport().GetMousePosition();
             }
-            else 
-            {
-                
-            }
+
+            if (cam.Position.x < boundsLeft) 
+                cam.Position = new Vector2(boundsLeft, cam.Position.y);
+            if (cam.Position.x > boundsRight)
+                cam.Position = new Vector2(boundsRight, cam.Position.y);
+            if (cam.Position.y < boundsTop)
+                cam.Position = new Vector2(cam.Position.x, boundsTop);
+            if (cam.Position.y > boundsBottom)
+                cam.Position = new Vector2(cam.Position.x, boundsBottom);
         }
 
         private bool ScrollDown, ScrollUp;
@@ -165,14 +183,14 @@ namespace Client.UI
 
         private void SetCameraBounds()
         {
-            var cam = UITechViewport.Camera2D;
-            cam.LimitLeft = (int)(Content.RectPosition.x);
-            cam.LimitRight = (int)(Content.RectPosition.x + Content.RectSize.x);
-            cam.LimitTop = (int)(Content.RectPosition.y);
+            //var cam = UITechViewport.Camera2D;
+            //cam.LimitLeft = (int)(Content.RectPosition.x);
+            //cam.LimitRight = (int)(Content.RectPosition.x + Content.RectSize.x);
+            //cam.LimitTop = (int)(Content.RectPosition.y);
 
             // Offset needs to be accounted for when window height is smaller than viewport height
-            var windowViewportOffset = Mathf.Min(0, OS.WindowSize.y - GetViewportRect().Size.y - UITechViewport.CanvasLayer.RectGlobalPosition.y);
-            cam.LimitBottom = (int)(Content.RectPosition.y + Content.RectSize.y - windowViewportOffset);
+            //var windowViewportOffset = Mathf.Min(0, OS.WindowSize.y - GetViewportRect().Size.y - UITechViewport.CanvasLayer.RectGlobalPosition.y);
+            //cam.LimitBottom = (int)(Content.RectPosition.y + Content.RectSize.y - windowViewportOffset);
         }
     }
 

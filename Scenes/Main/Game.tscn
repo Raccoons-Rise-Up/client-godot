@@ -65,7 +65,6 @@ rect_min_size = Vector2( 0, 500 )
 [node name="ViewportContainer" type="ViewportContainer" parent="Panel/VBoxContainer/CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 __meta__ = {
@@ -82,13 +81,10 @@ nodePathCamera2D = NodePath("Camera2D")
 nodePathCanvasLayer = NodePath("../..")
 
 [node name="Mask" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
-rect_clip_content = false
+size_flags_horizontal = 1
 
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
 current = true
-limit_left = 0
-limit_right = 2000
-limit_bottom = 2116
 smoothing_enabled = true
 __meta__ = {
 "_editor_description_": ""

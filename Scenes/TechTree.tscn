@@ -28,7 +28,6 @@ margin_top = 697.002
 margin_right = 2000.0
 margin_bottom = 2000.0
 rect_min_size = Vector2( 2000, 2000 )
-size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
@@ -38,6 +37,7 @@ __meta__ = {
 nodePathMask = NodePath("..")
 
 [node name="TextureRect" type="TextureRect" parent="Content"]
+modulate = Color( 1, 1, 1, 0.0705882 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 3 )

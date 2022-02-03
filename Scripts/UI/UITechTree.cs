@@ -35,19 +35,15 @@ namespace Client.UI
         {
             var viewportMoveSpeed = 2;
 
-            UITechTreeMoveControls.HandleArrowKeys(viewportMoveSpeed);
-
             if (ScrollDown)
-            {
                 ScrollDown = false;
-            }
 
             if (ScrollUp)
-            {
                 ScrollUp = false;
-            }
 
+            UITechTreeMoveControls.HandleArrowKeys(viewportMoveSpeed);
             UITechTreeMoveControls.HandleMouseDrag(this, PrevCameraPos, ScreenStartPos, Drag);
+            UITechTreeMoveControls.HandleCameraBounds(this);
         }
 
         private bool ScrollDown, ScrollUp;

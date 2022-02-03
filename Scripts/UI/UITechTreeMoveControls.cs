@@ -8,19 +8,25 @@ namespace Client.UI
         public static void HandleMouseDrag(Control control, Vector2 prevCameraPos, Vector2 screenStartPos, bool drag)
         {
             var cam = UITechViewport.Camera2D;
+            
+            if (drag)
+                cam.Position = prevCameraPos + screenStartPos - control.GetViewport().GetMousePosition();
+        }
+
+        public static void HandleCameraBounds(Control control)
+        {
+            var cam = UITechViewport.Camera2D;
+
             var viewportSize = control.GetViewportRect().Size;
             var rectPos = control.RectPosition;
             var rectSize = control.RectSize;
-                
-            var windowOffsetY = Mathf.Min(0, OS.WindowSize.y - viewportSize.y - UITechViewport.CanvasLayer.RectGlobalPosition.y);
-            
-            var boundsLeft = rectPos.x + viewportSize.x / 2;
-            var boundsRight = rectPos.x + rectSize.x - viewportSize.x / 2;
-            var boundsTop = rectPos.y + viewportSize.y / 2;
-            var boundsBottom = rectPos.y + rectSize.y - viewportSize.y / 2 - windowOffsetY;
 
-            if (drag)
-                cam.Position = prevCameraPos + screenStartPos - control.GetViewport().GetMousePosition();
+            var windowOffsetY = Mathf.Min(0, (OS.WindowSize.y - viewportSize.y - UITechViewport.CanvasLayer.RectGlobalPosition.y) * cam.Zoom.y);
+            
+            var boundsLeft = rectPos.x + (viewportSize.x * cam.Zoom.x) / 2;
+            var boundsRight = rectPos.x + rectSize.x - (viewportSize.x * cam.Zoom.x) / 2;
+            var boundsTop = rectPos.y + (viewportSize.y * cam.Zoom.y) / 2;
+            var boundsBottom = rectPos.y + rectSize.y - (viewportSize.y * cam.Zoom.y) / 2 - windowOffsetY;
 
             if (cam.Position.x < boundsLeft) 
                 cam.Position = new Vector2(boundsLeft, cam.Position.y);

@@ -35,12 +35,6 @@ namespace Client.UI
 
         public override void _PhysicsProcess(float delta)
         {
-            if (ScrollDown)
-                ScrollDown = false;
-
-            if (ScrollUp)
-                ScrollUp = false;
-
             var cam = UITechViewport.Camera2D;
 
             UITechTreeMoveControls.HandleCameraMovementSpeed(cam);
@@ -49,8 +43,6 @@ namespace Client.UI
             UITechTreeMoveControls.HandleMouseDrag(cam, this, PrevCameraPos, ScreenStartPos, Drag);
             UITechTreeMoveControls.HandleCameraBounds(cam, this);
         }
-
-        private bool ScrollDown, ScrollUp;
 
         private void _on_Content_gui_input(InputEvent @event)
         {
@@ -73,7 +65,6 @@ namespace Client.UI
                     // Zooming out
                     UITechTreeMoveControls.ScrollSpeed += new Vector2(scrollSpeed, scrollSpeed);
                     UITechTreeMoveControls.ScrollingUp = false;
-                    ScrollDown = true;
                 }
 
                 if (Input.IsActionPressed("ui_scroll_up"))
@@ -81,7 +72,6 @@ namespace Client.UI
                     // Zooming in
                     UITechTreeMoveControls.ScrollSpeed -= new Vector2(scrollSpeed, scrollSpeed);
                     UITechTreeMoveControls.ScrollingUp = true;
-                    ScrollUp = true;
                 }
                     
             }

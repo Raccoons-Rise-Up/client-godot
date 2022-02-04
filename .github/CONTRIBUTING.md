@@ -4,6 +4,10 @@
 ## [I want to help work on the UI](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/USER_INTERFACE.md)
 ## [I want to help work on the networking code](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/NETWORKING.md)
 
+## Godot Bugs
+Issue: Memory Leak for all `_Input` Related Functions  
+Solution: Dispose of `@event` when no longer needed.
+
 ## Setup
 ### VSCode
 **You can skip the setup for VSCode if you are not going to be adding any code to the game.**

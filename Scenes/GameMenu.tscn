@@ -47,7 +47,7 @@ __meta__ = {
 
 [node name="Disconnect" type="Button" parent="Panel/VBoxContainer"]
 margin_right = 150.0
-margin_bottom = 31.0
+margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 text = "Disconnect"
 

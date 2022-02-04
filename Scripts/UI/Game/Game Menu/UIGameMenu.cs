@@ -14,6 +14,8 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("ui_cancel"))
                 Visible = !Visible;
+            
+            @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
 
         private void _on_Disconnect_pressed()

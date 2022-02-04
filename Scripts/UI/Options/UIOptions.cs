@@ -36,6 +36,8 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("ui_cancel"))
                 UIMainMenu.LoadMainMenu();
+
+            @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
 
         private void _on_Music_Volume_Control_value_changed(float value)

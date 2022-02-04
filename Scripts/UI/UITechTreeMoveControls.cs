@@ -25,7 +25,7 @@ namespace Client.UI
 
         public static void HandleScrollZoom(Camera2D cam, Control control)
         {
-            var minZoom = new Vector2(0.5f, 0.5f);
+            var minZoom = new Vector2(1f, 1f);
 
             cam.Zoom += ScrollSpeed; // Constantly add to camera zoom based on ScrollSpeed
 

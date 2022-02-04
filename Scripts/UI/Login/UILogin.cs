@@ -57,6 +57,8 @@ namespace Client.UI
                 else
                     UIMainMenu.LoadMainMenu();
             }
+
+            @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
 
         private void _on_Login_pressed() => Login();

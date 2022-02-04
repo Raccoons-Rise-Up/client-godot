@@ -8,13 +8,14 @@ namespace Client.UI
     public class UITechTree : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathMask;
+        //[Export] private readonly NodePath nodePathMask;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private bool Drag { get; set; }
         private Vector2 ScreenStartPos = Vector2.Zero;
         private Vector2 PrevCameraPos = Vector2.Zero;
         private bool Draw;
+        private Camera2D Camera;
 
         public async override void _Ready()
         {
@@ -22,9 +23,11 @@ namespace Client.UI
 
             //GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
 
+            Camera = UITechViewport.Camera2D;
+
             // Center camera
-            UITechViewport.Camera2D.ResetSmoothing(); // otherwise you will see camera move to center
-            UITechViewport.Camera2D.Position = RectPosition + RectSize / 2;
+            Camera.ResetSmoothing(); // otherwise you will see camera move to center
+            Camera.Position = RectPosition + RectSize / 2;
 
             UITechTreeResearch.Content = this;
             UITechTreeResearch.Init();
@@ -45,6 +48,8 @@ namespace Client.UI
             DrawLinesForChildren(firstNodeInTechCategory);
         }
 
+        private float LineThickness = 5.0f;
+
         private void DrawLinesForChildren(ResearchType type)
         {
             var researchData = UITechTreeResearch.ResearchData;
@@ -56,30 +61,35 @@ namespace Client.UI
             if (children == null)
                 return;
 
-            var centerMiddle = researchData[children[0]].CenterPosition - new Vector2(100, 0);
-            //DrawLine(node.CenterPosition, centerMiddle); // red line
+            var nodeSize = UITechTreeResearch.ResearchNodeSize;
+
+            // horizontal line from parent
+            DrawLine(node.CenterPosition, node.CenterPosition + new Vector2(nodeSize.x, 0));
 
             for (int i = 0; i < children.Length; i++)
             {
-                //DrawLine(centerMiddle + new Vector2(0, i * 125), researchData[children[i]].CenterPosition); // green lines
+                // horizontal lines
+                DrawLine(researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0), researchData[children[i]].CenterPosition);
 
+                // vertical lines
+                if (i != children.Length - 1)
+                    DrawLine(researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
-                DrawLine(node.CenterPosition, researchData[children[i]].CenterPosition);
                 DrawLinesForChildren(children[i]);
             }
         }
 
-        private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, 5, true);
+        private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);
 
-        public override void _PhysicsProcess(float delta)
+        public async override void _PhysicsProcess(float delta)
         {
-            var cam = UITechViewport.Camera2D;
+            await ToSignal(GetTree(), "idle_frame"); // Wait for Camera to be initialized in _Ready()
 
-            UITechTreeMoveControls.HandleCameraMovementSpeed(cam);
-            UITechTreeMoveControls.HandleScrollZoom(cam, this);
+            UITechTreeMoveControls.HandleCameraMovementSpeed(Camera);
+            UITechTreeMoveControls.HandleScrollZoom(Camera, this);
             UITechTreeMoveControls.HandleArrowKeys();
-            UITechTreeMoveControls.HandleMouseDrag(cam, this, PrevCameraPos, ScreenStartPos, Drag);
-            UITechTreeMoveControls.HandleCameraBounds(cam, this);
+            UITechTreeMoveControls.HandleMouseDrag(Camera, this, PrevCameraPos, ScreenStartPos, Drag);
+            UITechTreeMoveControls.HandleCameraBounds(Camera, this);
         }
 
         private void _on_Content_gui_input(InputEvent @event)
@@ -111,8 +121,9 @@ namespace Client.UI
                     UITechTreeMoveControls.ScrollSpeed -= new Vector2(scrollSpeed, scrollSpeed);
                     UITechTreeMoveControls.ScrollingUp = true;
                 }
-                    
             }
+
+            @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
 
         //public void OnViewportSizeChanged(object source, EventArgs e) => SetCameraBounds();

@@ -21,7 +21,7 @@ namespace Client.UI
         private static Control SettingsButton;
 
 
-        private static Control ActiveChannel;
+        //private static Control ActiveChannel;
         private static Dictionary<int, Control> Channels = new Dictionary<int, Control>();
         private static int ChannelId = 0;
 

@@ -42,13 +42,16 @@ namespace Client.UI
         private static int ChildSpacingHorizontal = 200;
         private static int ChildSpacingVertical = 125;
         public static Control Content;
-        public static int ResearchNodeWidth = 100;
-        public static int ResearchNodeHeight = 100;
+        public static Vector2 ResearchNodeSize;
 
         public static void Init() 
         {
+            var researchInstance = Research.Instance<UIResearch>();
+            ResearchNodeSize = researchInstance.RectSize;
+            researchInstance.QueueFree();
+
             // This is where the first research is placed on the tech tree
-            ResearchStartPos = new Vector2(Content.RectSize.x / 2 - ResearchNodeWidth / 2, Content.RectSize.y / 2 - ResearchNodeHeight / 2);
+            ResearchStartPos = new Vector2(Content.RectSize.x / 2 - ResearchNodeSize.x / 2, Content.RectSize.y / 2 - ResearchNodeSize.y / 2);
 
             var firstNodeInTechCategory = TechTreeData[0].StartingResearchNodes[0];
             var firstNode = ResearchData[firstNodeInTechCategory];
@@ -102,7 +105,7 @@ namespace Client.UI
     {
         public Vector2 Position { get; set; }
         public ResearchType[] Children { get; set; }
-        public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeWidth / 2, UITechTreeResearch.ResearchNodeHeight / 2);
+        public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeSize.x / 2, UITechTreeResearch.ResearchNodeSize.y / 2);
     }
 
     public enum TechTreeType 

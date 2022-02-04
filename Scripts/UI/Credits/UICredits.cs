@@ -9,6 +9,8 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("ui_cancel"))
                 UIMainMenu.LoadMainMenu();
+
+            @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
     }
 }

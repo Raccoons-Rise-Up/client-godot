@@ -14,6 +14,7 @@ namespace Client.UI
         private bool Drag { get; set; }
         private Vector2 ScreenStartPos = Vector2.Zero;
         private Vector2 PrevCameraPos = Vector2.Zero;
+        private bool Draw;
 
         public async override void _Ready()
         {
@@ -25,13 +26,50 @@ namespace Client.UI
             UITechViewport.Camera2D.ResetSmoothing(); // otherwise you will see camera move to center
             UITechViewport.Camera2D.Position = RectPosition + RectSize / 2;
 
-            UITechTreeResearch.Init(this);
+            UITechTreeResearch.Content = this;
+            UITechTreeResearch.Init();
+
+            Draw = true;
+            Update();
         }
 
         public override void _Draw()
         {
+            if (!Draw)
+                return;
+
             // UITechTree lines between nodes will be drawn here
+            var firstNodeInTechCategory = UITechTreeResearch.TechTreeData[0].StartingResearchNodes[0];
+            var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
+
+            DrawLinesForChildren(firstNodeInTechCategory);
         }
+
+        private void DrawLinesForChildren(ResearchType type)
+        {
+            var researchData = UITechTreeResearch.ResearchData;
+
+            var node = researchData[type];
+
+            var children = node.Children;
+
+            if (children == null)
+                return;
+
+            var centerMiddle = researchData[children[0]].CenterPosition - new Vector2(100, 0);
+            //DrawLine(node.CenterPosition, centerMiddle); // red line
+
+            for (int i = 0; i < children.Length; i++)
+            {
+                //DrawLine(centerMiddle + new Vector2(0, i * 125), researchData[children[i]].CenterPosition); // green lines
+
+
+                DrawLine(node.CenterPosition, researchData[children[i]].CenterPosition);
+                DrawLinesForChildren(children[i]);
+            }
+        }
+
+        private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, 5, true);
 
         public override void _PhysicsProcess(float delta)
         {

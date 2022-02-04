@@ -10,7 +10,7 @@ namespace Client.UI
 
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
-        private static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
+        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
                 Children = new ResearchType[] {
                     ResearchType.B,
@@ -18,12 +18,19 @@ namespace Client.UI
                     ResearchType.D
                 }
             }},
-            { ResearchType.B, new Research {}},
+            { ResearchType.B, new Research {
+                Children = new ResearchType[] {
+                    ResearchType.E,
+                    ResearchType.F
+                }
+            }},
             { ResearchType.C, new Research {}},
-            { ResearchType.D, new Research {}}
+            { ResearchType.D, new Research {}},
+            { ResearchType.E, new Research {}},
+            { ResearchType.F, new Research {}}
         };
 
-        private static TechTree[] TechTreeData = new TechTree[] {
+        public static TechTree[] TechTreeData = new TechTree[] {
             new TechTree {
                 Type = TechTreeType.Wood,
                 StartingResearchNodes = new ResearchType[] {
@@ -32,31 +39,56 @@ namespace Client.UI
             }
         };
 
-        public static void Init(Control content) 
+        private static int ChildSpacingHorizontal = 200;
+        private static int ChildSpacingVertical = 125;
+        public static Control Content;
+        public static int ResearchNodeWidth = 100;
+        public static int ResearchNodeHeight = 100;
+
+        public static void Init() 
         {
             // This is where the first research is placed on the tech tree
-            ResearchStartPos = new Vector2(content.RectSize.x / 2 - 50, content.RectSize.y / 2 - 50);
+            ResearchStartPos = new Vector2(Content.RectSize.x / 2 - ResearchNodeWidth / 2, Content.RectSize.y / 2 - ResearchNodeHeight / 2);
 
-            var firstTechType = TechTreeData[0].StartingResearchNodes[0];
-            ResearchData[firstTechType].Position = ResearchStartPos;
-            AddNode(content, firstTechType);
+            var firstNodeInTechCategory = TechTreeData[0].StartingResearchNodes[0];
+            var firstNode = ResearchData[firstNodeInTechCategory];
 
-            for (int i = 0; i < ResearchData[firstTechType].Children.Length; i++)
+            firstNode.Position = ResearchStartPos;
+            AddNode(firstNodeInTechCategory);
+
+            AddChildrenNodes(firstNodeInTechCategory);
+        }
+
+        public static void AddChildrenNodes(ResearchType type)
+        {
+            var children = ResearchData[type].Children; // parent children
+            var position = ResearchData[type].Position; // parent position
+            
+            if (children == null) // if parent has no children do nothing
+                return;
+
+            // calculate vertical center offset
+            var verticalCenterOffset = ((ChildSpacingVertical * children.Length) / 2) - ChildSpacingVertical / 2;
+
+            // add each child
+            for (int i = 0; i < children.Length; i++)
             {
-                var horizontalColumnSpacing = 200;
-                var verticalChildrenSpacing = 200;
-                ResearchData[ResearchData[firstTechType].Children[i]].Position = ResearchData[firstTechType].Position + new Vector2(horizontalColumnSpacing, verticalChildrenSpacing * i);
-                AddNode(content, ResearchData[firstTechType].Children[i]);
+                var childPos = new Vector2(ChildSpacingHorizontal, (ChildSpacingVertical * i) - verticalCenterOffset);
+
+                ResearchData[children[i]].Position = position + childPos;
+                AddNode(children[i]);
+
+                AddChildrenNodes(children[i]);
             }
         }
 
-        public static void AddNode(Control content, ResearchType researchType)
+        public static void AddNode(ResearchType researchType)
         {
             var researchInstance = Research.Instance<UIResearch>();
             researchInstance.SetPosition(ResearchData[researchType].Position);
             researchInstance.Init(Enum.GetName(typeof(ResearchType), researchType));
 
-            content.AddChild(researchInstance);
+            Content.AddChild(researchInstance);
         }
     }
 
@@ -70,6 +102,7 @@ namespace Client.UI
     {
         public Vector2 Position { get; set; }
         public ResearchType[] Children { get; set; }
+        public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeWidth / 2, UITechTreeResearch.ResearchNodeHeight / 2);
     }
 
     public enum TechTreeType 

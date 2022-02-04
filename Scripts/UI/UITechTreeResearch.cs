@@ -24,10 +24,17 @@ namespace Client.UI
                     ResearchType.F
                 }
             }},
-            { ResearchType.C, new Research {}},
+            { ResearchType.C, new Research {
+                Children = new ResearchType[] {
+                    ResearchType.G,
+                    ResearchType.H
+                }
+            }},
             { ResearchType.D, new Research {}},
             { ResearchType.E, new Research {}},
-            { ResearchType.F, new Research {}}
+            { ResearchType.F, new Research {}},
+            { ResearchType.G, new Research {}},
+            { ResearchType.H, new Research {}}
         };
 
         public static TechTree[] TechTreeData = new TechTree[] {
@@ -78,7 +85,18 @@ namespace Client.UI
             {
                 var childPos = new Vector2(ChildSpacingHorizontal, (ChildSpacingVertical * i) - verticalCenterOffset);
 
+                var childChildren = ResearchData[children[i]].Children;
+
+                if (childChildren != null)
+                {
+                    childPos -= new Vector2(0, ChildSpacingVertical * childChildren.Length);
+                }
+
                 ResearchData[children[i]].Position = position + childPos;
+            }
+
+            for (int i = 0; i < children.Length; i++)
+            {
                 AddNode(children[i]);
 
                 AddChildrenNodes(children[i]);

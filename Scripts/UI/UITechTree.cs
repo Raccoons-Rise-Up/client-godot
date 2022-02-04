@@ -21,8 +21,10 @@ namespace Client.UI
 
             //GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
 
-            // Center tech tree panel content
+            // Center camera
+            UITechViewport.Camera2D.ResetSmoothing(); // otherwise you will see camera move to center
             UITechViewport.Camera2D.Position = RectPosition + RectSize / 2;
+
             UITechTreeResearch.Init(this);
         }
 
@@ -33,17 +35,19 @@ namespace Client.UI
 
         public override void _PhysicsProcess(float delta)
         {
-            var viewportMoveSpeed = 2;
-
             if (ScrollDown)
                 ScrollDown = false;
 
             if (ScrollUp)
                 ScrollUp = false;
 
-            UITechTreeMoveControls.HandleArrowKeys(viewportMoveSpeed);
-            UITechTreeMoveControls.HandleMouseDrag(this, PrevCameraPos, ScreenStartPos, Drag);
-            UITechTreeMoveControls.HandleCameraBounds(this);
+            var cam = UITechViewport.Camera2D;
+
+            UITechTreeMoveControls.HandleCameraMovementSpeed(cam);
+            UITechTreeMoveControls.HandleScrollZoom(cam, this);
+            UITechTreeMoveControls.HandleArrowKeys();
+            UITechTreeMoveControls.HandleMouseDrag(cam, this, PrevCameraPos, ScreenStartPos, Drag);
+            UITechTreeMoveControls.HandleCameraBounds(cam, this);
         }
 
         private bool ScrollDown, ScrollUp;
@@ -62,17 +66,21 @@ namespace Client.UI
                 if (Input.IsActionJustReleased("left_click"))
                     Drag = false;
 
+                var scrollSpeed = 0.05f;
+
                 if (Input.IsActionPressed("ui_scroll_down"))
                 {
                     // Zooming out
-                    UITechViewport.Camera2D.Zoom += new Vector2(0.3f, 0.3f);
+                    UITechTreeMoveControls.ScrollSpeed += new Vector2(scrollSpeed, scrollSpeed);
+                    UITechTreeMoveControls.ScrollingUp = false;
                     ScrollDown = true;
                 }
 
                 if (Input.IsActionPressed("ui_scroll_up"))
                 {
                     // Zooming in
-                    UITechViewport.Camera2D.Zoom -= new Vector2(0.3f, 0.3f);
+                    UITechTreeMoveControls.ScrollSpeed -= new Vector2(scrollSpeed, scrollSpeed);
+                    UITechTreeMoveControls.ScrollingUp = true;
                     ScrollUp = true;
                 }
                     

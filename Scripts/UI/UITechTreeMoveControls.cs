@@ -1,22 +1,63 @@
 using Godot;
 using System;
+using Client.Utilities;
 
 namespace Client.UI 
 {
     public class UITechTreeMoveControls
     {
-        public static void HandleMouseDrag(Control control, Vector2 prevCameraPos, Vector2 screenStartPos, bool drag)
+        public static Vector2 ScrollSpeed = Vector2.Zero;
+        public static bool ScrollingUp;
+
+        public static void HandleCameraMovementSpeed(Camera2D cam)
         {
-            var cam = UITechViewport.Camera2D;
-            
+            var baseSpeed = 5.0f;
+            cam.SmoothingSpeed = baseSpeed * cam.Zoom.Length();
+        }
+
+        public static void HandleMouseDrag(Camera2D cam, Control control, Vector2 prevCameraPos, Vector2 screenStartPos, bool drag)
+        {
             if (drag)
                 cam.Position = prevCameraPos + screenStartPos - control.GetViewport().GetMousePosition();
         }
 
-        public static void HandleCameraBounds(Control control)
-        {
-            var cam = UITechViewport.Camera2D;
+        private static Vector2 PrevCamZoom = Vector2.Zero;
 
+        public static void HandleScrollZoom(Camera2D cam, Control control)
+        {
+            var minZoom = new Vector2(0.5f, 0.5f);
+
+            cam.Zoom += ScrollSpeed; // Constantly add to camera zoom based on ScrollSpeed
+
+            if (cam.Zoom < minZoom) 
+            {
+                ScrollSpeed = Vector2.Zero;
+                cam.Zoom = minZoom;
+            }
+
+            var viewportSize = control.GetViewportRect().Size * cam.Zoom;
+            var contentSize = control.RectSize;
+
+            if (viewportSize > contentSize)
+            {
+                ScrollSpeed = Vector2.Zero;
+                cam.Zoom = PrevCamZoom;
+            }
+
+            PrevCamZoom = cam.Zoom;
+
+            var deaccelerationSpeed = new Vector2(0.01f, 0.01f);
+
+            if (ScrollSpeed > Vector2.Zero && !ScrollingUp) 
+                ScrollSpeed -= deaccelerationSpeed;
+            else if (ScrollSpeed < Vector2.Zero && ScrollingUp)
+                ScrollSpeed += deaccelerationSpeed;
+            else
+                ScrollSpeed = Vector2.Zero;
+        }
+
+        public static void HandleCameraBounds(Camera2D cam, Control control)
+        {
             var viewportSize = control.GetViewportRect().Size;
             var rectPos = control.RectPosition;
             var rectSize = control.RectSize;
@@ -38,19 +79,21 @@ namespace Client.UI
                 cam.Position = new Vector2(cam.Position.x, boundsBottom);
         }
 
-        public static void HandleArrowKeys(int viewportMoveSpeed)
+        public static void HandleArrowKeys()
         {
+            var arrowSpeed = 10.0f;
+
             if (Input.IsActionPressed("ui_left"))
-                UITechViewport.Camera2D.Position -= new Vector2(viewportMoveSpeed, 0);
+                UITechViewport.Camera2D.Position -= new Vector2(arrowSpeed, 0);
             
             if (Input.IsActionPressed("ui_right"))
-                UITechViewport.Camera2D.Position += new Vector2(viewportMoveSpeed, 0);
+                UITechViewport.Camera2D.Position += new Vector2(arrowSpeed, 0);
 
             if (Input.IsActionPressed("ui_up"))
-                UITechViewport.Camera2D.Position -= new Vector2(0, viewportMoveSpeed);
+                UITechViewport.Camera2D.Position -= new Vector2(0, arrowSpeed);
 
             if (Input.IsActionPressed("ui_down"))
-                UITechViewport.Camera2D.Position += new Vector2(0, viewportMoveSpeed);
+                UITechViewport.Camera2D.Position += new Vector2(0, arrowSpeed);
         }
     }
 }

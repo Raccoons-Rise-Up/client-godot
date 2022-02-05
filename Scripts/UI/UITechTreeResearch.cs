@@ -161,6 +161,12 @@ namespace Client.UI
         }
     }
 
+    public struct Column 
+    {
+        public VBoxContainer VBoxColumn { get; set; }
+        public VBoxContainer[] Groups { get; set; }
+    }
+
     public struct TechTree
     {
         public TechTreeType Type { get; set; }
@@ -172,6 +178,7 @@ namespace Client.UI
         public Vector2 Position { get; set; }
         public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeSize.x / 2, UITechTreeResearch.ResearchNodeSize.y / 2);
         public ResearchType[] Children { get; set; }
+        public int Group { get; set; }
         public int Depth { get; set; }
     }
 

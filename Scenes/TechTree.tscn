@@ -34,6 +34,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
+nodePathHBoxTechTree = NodePath("HBoxContainer")
 
 [node name="TextureRect" type="TextureRect" parent="Content"]
 modulate = Color( 1, 1, 1, 0.0705882 )

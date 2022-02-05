@@ -12,11 +12,11 @@ font_data = ExtResource( 2 )
 [node name="Research" type="Control"]
 margin_right = 100.0
 margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-nodePathTextureRect = NodePath("PanelContainer/VBoxContainer/TextureRect")
 nodePathLabel = NodePath("PanelContainer/VBoxContainer/Label")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

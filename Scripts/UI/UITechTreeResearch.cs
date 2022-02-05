@@ -12,6 +12,7 @@ namespace Client.UI
 
         public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
+                Depth = 1,
                 Children = new ResearchType[] {
                     ResearchType.B,
                     ResearchType.C,
@@ -30,11 +31,16 @@ namespace Client.UI
                     ResearchType.H
                 }
             }},
-            { ResearchType.D, new Research {}},
-            { ResearchType.E, new Research {}},
-            { ResearchType.F, new Research {}},
-            { ResearchType.G, new Research {}},
-            { ResearchType.H, new Research {}}
+            { ResearchType.D, new Research {
+            }},
+            { ResearchType.E, new Research {
+            }},
+            { ResearchType.F, new Research {
+            }},
+            { ResearchType.G, new Research {
+            }},
+            { ResearchType.H, new Research {
+            }}
         };
 
         public static TechTree[] TechTreeData = new TechTree[] {
@@ -46,10 +52,16 @@ namespace Client.UI
             }
         };
 
+        public static Dictionary<int, VBoxContainer> Columns = new Dictionary<int, VBoxContainer>();
+
+        public static Dictionary<ResearchType, UIResearch> Nodes = new Dictionary<ResearchType, UIResearch>();
+
         private static int ChildSpacingHorizontal = 200;
         private static int ChildSpacingVertical = 125;
         public static Control Content;
+        public static HBoxContainer HBox;
         public static Vector2 ResearchNodeSize;
+        private static int MaxDepth;
 
         public static void Init() 
         {
@@ -64,52 +76,88 @@ namespace Client.UI
             var firstNode = ResearchData[firstNodeInTechCategory];
 
             firstNode.Position = ResearchStartPos;
-            AddNode(firstNodeInTechCategory);
+            
+            RecursivelyCalculateDepth(ResearchType.A); // Calculate depth for all nodes and calculate MaxDepth
+            CreateColumns(); // Create columns based on MaxDepth
 
-            AddChildrenNodes(firstNodeInTechCategory);
+            var group = CreateGroup();
+            group.AddChild(CreateNode(ResearchType.A));
+            Columns[1].AddChild(group);
+
+            RecursivelyAddChildren(ResearchType.A); // Add children for each node
         }
 
-        public static void AddChildrenNodes(ResearchType type)
+        private static void CreateColumns()
+        {
+            for (int i = 1; i <= MaxDepth; i++)
+                CreateColumn(i);
+        }
+
+        private static void CreateColumn(int index)
+        {
+            var column = new VBoxContainer();
+
+            var horizontalPadding = new Control();
+            horizontalPadding.RectMinSize = new Vector2(100, 0);
+            horizontalPadding.MouseFilter = Control.MouseFilterEnum.Ignore;
+
+            HBox.AddChild(column);
+            HBox.AddChild(horizontalPadding);
+
+            Columns.Add(index, column); // keep track of columns
+        }
+
+        private static void RecursivelyAddChildren(ResearchType type)
         {
             var children = ResearchData[type].Children; // parent children
-            var position = ResearchData[type].Position; // parent position
             
             if (children == null) // if parent has no children do nothing
                 return;
 
-            // calculate vertical center offset
-            var verticalCenterOffset = ((ChildSpacingVertical * children.Length) / 2) - ChildSpacingVertical / 2;
-
-            // add each child
-            for (int i = 0; i < children.Length; i++)
-            {
-                var childPos = new Vector2(ChildSpacingHorizontal, (ChildSpacingVertical * i) - verticalCenterOffset);
-
-                var childChildren = ResearchData[children[i]].Children;
-
-                if (childChildren != null)
-                {
-                    childPos -= new Vector2(0, ChildSpacingVertical * childChildren.Length);
-                }
-
-                ResearchData[children[i]].Position = position + childPos;
-            }
+            var group = CreateGroup();
 
             for (int i = 0; i < children.Length; i++)
             {
-                AddNode(children[i]);
+                group.AddChild(CreateNode(children[i]));
 
-                AddChildrenNodes(children[i]);
+                RecursivelyAddChildren(children[i]);
             }
+
+            Columns[ResearchData[children[0]].Depth].AddChild(group);
         }
 
-        public static void AddNode(ResearchType researchType)
+        private static VBoxContainer CreateGroup()
+        {
+            var group = new VBoxContainer();
+            group.Alignment = BoxContainer.AlignMode.Center;
+            group.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
+            return group;
+        }
+
+        public static UIResearch CreateNode(ResearchType researchType)
         {
             var researchInstance = Research.Instance<UIResearch>();
-            researchInstance.SetPosition(ResearchData[researchType].Position);
             researchInstance.Init(Enum.GetName(typeof(ResearchType), researchType));
+            Nodes[researchType] = researchInstance;
+            return researchInstance;
+        }
 
-            Content.AddChild(researchInstance);
+        private static void RecursivelyCalculateDepth(ResearchType type)
+        {
+            var children = ResearchData[type].Children; // parent children
+            
+            if (children == null) // if parent has no children do nothing
+                return;
+
+            foreach (var child in children)
+            {
+                ResearchData[child].Depth = ResearchData[type].Depth + 1;
+
+                if (ResearchData[child].Depth > MaxDepth)
+                    MaxDepth = ResearchData[child].Depth;
+                
+                RecursivelyCalculateDepth(child);
+            }
         }
     }
 
@@ -122,8 +170,9 @@ namespace Client.UI
     public class Research
     {
         public Vector2 Position { get; set; }
-        public ResearchType[] Children { get; set; }
         public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeSize.x / 2, UITechTreeResearch.ResearchNodeSize.y / 2);
+        public ResearchType[] Children { get; set; }
+        public int Depth { get; set; }
     }
 
     public enum TechTreeType 

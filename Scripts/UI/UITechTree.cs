@@ -8,7 +8,7 @@ namespace Client.UI
     public class UITechTree : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        //[Export] private readonly NodePath nodePathMask;
+        [Export] private readonly NodePath nodePathHBoxTechTree;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private bool Drag { get; set; }
@@ -30,7 +30,13 @@ namespace Client.UI
             Camera.Position = RectPosition + RectSize / 2;
 
             UITechTreeResearch.Content = this;
+            UITechTreeResearch.HBox = GetNode<HBoxContainer>(nodePathHBoxTechTree);
             UITechTreeResearch.Init();
+
+            await ToSignal(GetTree(), "idle_frame");
+
+            foreach (var pair in UITechTreeResearch.Nodes)
+                UITechTreeResearch.ResearchData[pair.Key].Position = pair.Value.RectPosition;
 
             Draw = true;
             Update();
@@ -63,17 +69,31 @@ namespace Client.UI
 
             var nodeSize = UITechTreeResearch.ResearchNodeSize;
 
+            var columns = UITechTreeResearch.Columns;
+
+            var columnPositionParent = columns[researchData[type].Depth].RectPosition;
+
             // horizontal line from parent
-            DrawLine(node.CenterPosition, node.CenterPosition + new Vector2(nodeSize.x, 0));
+            DrawLine(columnPositionParent + node.CenterPosition, columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
+
+            // draw long vertical line
+            DrawCircle(columnPositionParent + node.CenterPosition  + new Vector2(nodeSize.x, 0), 10, Colors.Gold);
+            DrawLine(columns[researchData[children[0]].Depth].RectPosition + researchData[children[0]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
+
+            if (type == ResearchType.C)
+                GD.Print("YES");
 
             for (int i = 0; i < children.Length; i++)
             {
+                var columnPositionChild = columns[researchData[children[i]].Depth].RectPosition;
                 // horizontal lines
-                DrawLine(researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0), researchData[children[i]].CenterPosition);
+                var pos = columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0);
+                DrawCircle(pos, 60, Colors.Purple);
+                DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0), columnPositionChild + researchData[children[i]].CenterPosition);
 
                 // vertical lines
                 if (i != children.Length - 1)
-                    DrawLine(researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
+                    DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionChild + researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
             }

@@ -10,7 +10,7 @@ Never give the client any authority, the server always has the final say in ever
 Packets are sent like this (the way packets are read has a very similar setup)
 ```cs
 // WPacketChatMessage.cs
-namespace KRU.Networking
+namespace Client.Netcode
 {
     public class WPacketPlayerData : IWritable
     {

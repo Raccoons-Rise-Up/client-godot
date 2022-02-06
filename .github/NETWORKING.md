@@ -12,22 +12,25 @@ Packets are sent like this.
 // WPacketChatMessage.cs
 namespace KRU.Networking
 {
-    public class WPacketChatMessage : IWritable
+    public class WPacketPlayerData : IWritable
     {
-        public uint ChannelId { get; set; }
-        public string Message { get; set; }
+        public uint PlayerId { get; set; }
+        public uint PlayerHealth { get; set; }
+        public string PlayerName { get; set; }
 
         public void Write(PacketWriter writer)
         {
-            writer.Write(ChannelId);
-            writer.Write(Message);
+            writer.Write(PlayerId);
+            writer.Write(PlayerHealth);
+            writer.Write(PlayerName);
         }
     }
 }
 
 // Since packets are being enqueued to a ConcurrentQueue they can be called from any thread
-ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
-    ChannelId = UIChannels.ActiveChannel,
-    Message = text
+ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.PlayerData, new WPacketPlayerData {
+    PlayerId = 0,
+    PlayerHealth = 100,
+    PlayerName = "Steve"
 }));
 ```

@@ -7,7 +7,7 @@ The netcode utilizes [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp/bl
 
 Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
 
-Packets are sent like this.
+Packets are sent like this (the way packets are read has a very similar setup)
 ```cs
 // WPacketChatMessage.cs
 namespace KRU.Networking

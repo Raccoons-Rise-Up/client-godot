@@ -77,11 +77,12 @@ namespace Client.UI
 
             firstNode.Position = ResearchStartPos;
             
-            RecursivelyCalculateDepth(ResearchType.A); // Calculate depth for all nodes and calculate MaxDepth
-            CreateColumns(); // Create columns based on MaxDepth
+            //RecursivelyCalculateDepth(ResearchType.A); // Calculate depth for all nodes and calculate MaxDepth
+            //CreateColumns(); // Create columns based on MaxDepth
 
             var group = CreateGroup();
             group.AddChild(CreateNode(ResearchType.A));
+            CreateColumn(1);
             Columns[1].AddChild(group);
 
             RecursivelyAddChildren(ResearchType.A); // Add children for each node
@@ -114,16 +115,29 @@ namespace Client.UI
             if (children == null) // if parent has no children do nothing
                 return;
 
-            var group = CreateGroup();
+            var group = CreateGroup(); // create a group to be added to the column
 
-            for (int i = 0; i < children.Length; i++)
+            int columnIndex = 0; // determine the column this group should be added to
+
+            foreach (var child in children) // add children to this group
             {
-                group.AddChild(CreateNode(children[i]));
+                ResearchData[child].Depth = ResearchData[type].Depth + 1;
 
-                RecursivelyAddChildren(children[i]);
+                columnIndex = ResearchData[child].Depth;
+
+                GD.Print($"{child} {ResearchData[child].Depth}");
+
+                group.AddChild(CreateNode(child));
+
+                RecursivelyAddChildren(child);
             }
 
-            Columns[ResearchData[children[0]].Depth].AddChild(group);
+            if (!Columns.ContainsKey(columnIndex))
+                CreateColumn(columnIndex);
+
+            GD.Print($"Ind: {columnIndex} Col: {Columns[columnIndex].RectPosition}");
+
+            Columns[columnIndex].AddChild(group);
         }
 
         private static VBoxContainer CreateGroup()

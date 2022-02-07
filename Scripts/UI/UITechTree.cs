@@ -58,7 +58,7 @@ namespace Client.UI
 
         private void DrawLinesForChildren(ResearchType type)
         {
-            var researchData = UITechTreeResearch.ResearchData;
+            /*var researchData = UITechTreeResearch.ResearchData;
 
             var node = researchData[type];
 
@@ -108,7 +108,7 @@ namespace Client.UI
                     DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionChild + researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
-            }
+            }*/
         }
 
         private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);

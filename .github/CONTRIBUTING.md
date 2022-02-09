@@ -14,7 +14,7 @@
     - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
-3. (This step assumes you have Godot setup) In Godot `Project Settings > Mono > Debugger Agent` make sure `Wait for Debugger` is enabled and `Port` is set to `23685`. 
+3. (This step assumes you have [Godot](#godot) setup) In Godot `Project Settings > Mono > Debugger Agent` make sure `Wait for Debugger` is enabled and `Port` is set to `23685`. 
 4. In VSCode, make sure your `launch.json` looks like this under `.vscode/`
 ```json
 {

@@ -11,25 +11,13 @@ namespace Client.UI
         [Export] private readonly NodePath nodePathHBoxTechTree;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private bool Drag { get; set; }
-        private Vector2 ScreenStartPos = Vector2.Zero;
-        private Vector2 PrevCameraPos = Vector2.Zero;
+        
         private bool Draw;
-        private Camera2D Camera;
+        public static Control Instance;
 
         public async override void _Ready()
         {
-            await ToSignal(GetTree(), "idle_frame"); // Wait for UITechViewport.cs to initialize
-
-            UITechViewport.Instance.HandleInputLocally = true;
-
-            //GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
-
-            Camera = UITechViewport.Camera2D;
-
-            // Center camera
-            Camera.ResetSmoothing(); // otherwise you will see camera move to center
-            Camera.Position = RectPosition + RectSize / 2;
+            Instance = this;
 
             UITechTreeResearch.Content = this;
             UITechTreeResearch.HBox = GetNode<HBoxContainer>(nodePathHBoxTechTree);
@@ -106,55 +94,5 @@ namespace Client.UI
         }
 
         private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);
-
-        public async override void _PhysicsProcess(float delta)
-        {
-            // the await will be called every frame, this is not ideal!
-            await ToSignal(GetTree(), "idle_frame"); // Wait for Camera to be initialized in _Ready()
-
-            GD.Print(UITechViewport.Instance.HandleInputLocally);
-
-            UITechTreeMoveControls.HandleCameraMovementSpeed(Camera);
-            UITechTreeMoveControls.HandleScrollZoom(Camera, this);
-            UITechTreeMoveControls.HandleArrowKeys();
-            UITechTreeMoveControls.HandleMouseDrag(Camera, this, PrevCameraPos, ScreenStartPos, Drag);
-            UITechTreeMoveControls.HandleCameraBounds(Camera, this);
-        }
-
-        public override void _Input(InputEvent @event)
-        {
-            if (@event is InputEventMouse eventMouse)
-            {
-                if (Input.IsActionJustPressed("left_click"))
-                {
-                    PrevCameraPos = UITechViewport.Camera2D.Position;
-                    ScreenStartPos = GetViewport().GetMousePosition();
-                    Drag = true;
-                }
-
-                if (Input.IsActionJustReleased("left_click"))
-                    Drag = false;
-
-                var scrollSpeed = 0.05f;
-
-                if (Input.IsActionPressed("ui_scroll_down"))
-                {
-                    // Zooming out
-                    UITechTreeMoveControls.ScrollSpeed += new Vector2(scrollSpeed, scrollSpeed);
-                    UITechTreeMoveControls.ScrollingUp = false;
-                }
-
-                if (Input.IsActionPressed("ui_scroll_up"))
-                {
-                    // Zooming in
-                    UITechTreeMoveControls.ScrollSpeed -= new Vector2(scrollSpeed, scrollSpeed);
-                    UITechTreeMoveControls.ScrollingUp = true;
-                }
-            }
-
-            @event.Dispose(); // Godot Bug: Input Events are not reference counted
-        }
-
-        //public void OnViewportSizeChanged(object source, EventArgs e) => SetCameraBounds();
     }
 }

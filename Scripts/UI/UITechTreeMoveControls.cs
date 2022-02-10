@@ -38,10 +38,21 @@ namespace Client.UI
             var viewportSize = control.GetViewportRect().Size * cam.Zoom;
             var contentSize = control.RectSize;
 
+            //GD.Print(viewportSize > contentSize);
+
+            var test = 2;
+            if (cam.Zoom.x > test)
+                cam.Zoom = new Vector2(test, test);
+
+            //GD.Print(contentSize.x - 1024);
+            //GD.Print((contentSize.x - viewportSize.x) / (contentSize.x - 1024));
+
             if (viewportSize > contentSize)
             {
+                
                 ScrollSpeed = Vector2.Zero;
-                cam.Zoom = PrevCamZoom;
+                //cam.Zoom = PrevCamZoom;
+                cam.Zoom -= new Vector2(0.02f, 0.02f);
             }
 
             PrevCamZoom = cam.Zoom;

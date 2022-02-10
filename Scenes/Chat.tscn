@@ -249,7 +249,7 @@ expand_icon = true
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/MarginContainer/Settings"]
 margin_right = 200.0
-margin_bottom = 146.0
+margin_bottom = 276.0
 mouse_filter = 2
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
@@ -260,7 +260,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 195.0
-margin_bottom = 141.0
+margin_bottom = 271.0
 mouse_filter = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/HBoxContainer/MarginContainer/Settings/MarginContainer/VBoxContainer"]

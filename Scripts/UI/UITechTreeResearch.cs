@@ -6,10 +6,10 @@ namespace Client.UI
 {
     public class UITechTreeResearch
     {
-        private static Vector2 ResearchStartPos { get; set; }
-
+        // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
+        // Tech tree data
         public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
                 Depth = 1,
@@ -43,6 +43,7 @@ namespace Client.UI
             }}
         };
 
+        // There will be multiple tech trees
         public static TechTree[] TechTreeData = new TechTree[] {
             new TechTree {
                 Type = TechTreeType.Wood,
@@ -53,39 +54,44 @@ namespace Client.UI
         };
 
         public static Dictionary<int, VBoxContainer> Columns = new Dictionary<int, VBoxContainer>();
-
         public static Dictionary<ResearchType, UIResearch> Nodes = new Dictionary<ResearchType, UIResearch>();
 
-        private static int ChildSpacingHorizontal = 200;
-        private static int ChildSpacingVertical = 125;
-        public static Control Content;
-        public static HBoxContainer HBox;
+        private const int COLUMN_SPACING = 100;
         public static Vector2 ResearchNodeSize;
         private static int MaxDepth;
 
+        // UITechTree.cs Variables
+        public static Control Content;
+        public static HBoxContainer HBox;
+
         public static void Init() 
         {
+            // Create an instance of the prefab to get some information from it
             var researchInstance = Research.Instance<UIResearch>();
             ResearchNodeSize = researchInstance.RectSize;
-            researchInstance.QueueFree();
+            researchInstance.QueueFree(); // Free the child from the tree as we no longer have a use for it
 
             // This is where the first research is placed on the tech tree
-            ResearchStartPos = new Vector2(Content.RectSize.x / 2 - ResearchNodeSize.x / 2, Content.RectSize.y / 2 - ResearchNodeSize.y / 2);
+            var researchStartPos = new Vector2(Content.RectSize.x / 2 - ResearchNodeSize.x / 2, Content.RectSize.y / 2 - ResearchNodeSize.y / 2);
 
             var firstNodeInTechCategory = TechTreeData[0].StartingResearchNodes[0];
             var firstNode = ResearchData[firstNodeInTechCategory];
 
-            firstNode.Position = ResearchStartPos;
-            
-            //RecursivelyCalculateDepth(ResearchType.A); // Calculate depth for all nodes and calculate MaxDepth
-            //CreateColumns(); // Create columns based on MaxDepth
+            firstNode.Position = researchStartPos;
 
+            // Calculate depth for all nodes and calculate MaxDepth
+            RecursivelyCalculateDepth(ResearchType.A); 
+
+            // Create columns based on MaxDepth
+            CreateColumns(); 
+
+            // Create the first group for column 1
             var group = CreateGroup();
             group.AddChild(CreateNode(ResearchType.A));
-            CreateColumn(1);
             Columns[1].AddChild(group);
 
-            RecursivelyAddChildren(ResearchType.A); // Add children for each node
+            // Add children for each node starting from first node
+            RecursivelyAddChildren(ResearchType.A); 
         }
 
         private static void CreateColumns()
@@ -97,9 +103,10 @@ namespace Client.UI
         private static void CreateColumn(int index)
         {
             var column = new VBoxContainer();
+            column.Name = "Column " + index;
 
             var horizontalPadding = new Control();
-            horizontalPadding.RectMinSize = new Vector2(100, 0);
+            horizontalPadding.RectMinSize = new Vector2(COLUMN_SPACING, 0);
             horizontalPadding.MouseFilter = Control.MouseFilterEnum.Ignore;
 
             HBox.AddChild(column);
@@ -117,27 +124,14 @@ namespace Client.UI
 
             var group = CreateGroup(); // create a group to be added to the column
 
-            int columnIndex = 0; // determine the column this group should be added to
-
             foreach (var child in children) // add children to this group
             {
-                ResearchData[child].Depth = ResearchData[type].Depth + 1;
-
-                columnIndex = ResearchData[child].Depth;
-
-                GD.Print($"{child} {ResearchData[child].Depth}");
-
                 group.AddChild(CreateNode(child));
 
                 RecursivelyAddChildren(child);
             }
 
-            if (!Columns.ContainsKey(columnIndex))
-                CreateColumn(columnIndex);
-
-            GD.Print($"Ind: {columnIndex} Col: {Columns[columnIndex].RectPosition}");
-
-            Columns[columnIndex].AddChild(group);
+            Columns[ResearchData[children[0]].Depth].AddChild(group);
         }
 
         private static VBoxContainer CreateGroup()

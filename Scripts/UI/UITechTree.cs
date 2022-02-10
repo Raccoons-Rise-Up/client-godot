@@ -58,7 +58,7 @@ namespace Client.UI
 
         private void DrawLinesForChildren(ResearchType type)
         {
-            /*var researchData = UITechTreeResearch.ResearchData;
+            var researchData = UITechTreeResearch.ResearchData;
 
             var node = researchData[type];
 
@@ -77,7 +77,6 @@ namespace Client.UI
             DrawLine(columnPositionParent + node.CenterPosition, columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
 
             // draw long vertical line
-            DrawCircle(columnPositionParent + node.CenterPosition  + new Vector2(nodeSize.x, 0), 10, Colors.Gold);
             DrawLine(columns[researchData[children[0]].Depth].RectPosition + researchData[children[0]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
 
             for (int i = 0; i < children.Length; i++)
@@ -87,20 +86,13 @@ namespace Client.UI
 
                 if (type == ResearchType.C)
                 {
-                    GD.Print(column.RectPosition);
                     groupPos = ((Control)column.GetChild(1)).RectPosition;
-                    GD.Print(groupPos);
                 }
 
                 var columnPositionChild = column.RectPosition + groupPos;
                 // horizontal lines
                 var pos = columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0);
-                DrawCircle(pos, 60, Colors.Purple);
 
-                if (type == ResearchType.C)
-                    DrawCircle(pos, 50, Colors.Blue);
-
-                GD.Print($"{children[i]} {pos}");
                 DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0), columnPositionChild + researchData[children[i]].CenterPosition);
 
                 // vertical lines
@@ -108,7 +100,7 @@ namespace Client.UI
                     DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionChild + researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
-            }*/
+            }
         }
 
         private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);

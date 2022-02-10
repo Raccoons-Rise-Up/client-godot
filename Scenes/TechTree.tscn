@@ -28,6 +28,7 @@ margin_top = 697.002
 margin_right = 2000.0
 margin_bottom = 2000.0
 rect_min_size = Vector2( 2000, 2000 )
+mouse_filter = 2
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
@@ -40,6 +41,7 @@ nodePathHBoxTechTree = NodePath("HBoxContainer")
 modulate = Color( 1, 1, 1, 0.0705882 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
 __meta__ = {
@@ -112,8 +114,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Content"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[connection signal="gui_input" from="Content" to="Content" method="_on_Content_gui_input"]

@@ -116,7 +116,7 @@ namespace Client.UI
             UITechTreeMoveControls.HandleCameraBounds(Camera, this);
         }
 
-        private void _on_Content_gui_input(InputEvent @event)
+        public override void _Input(InputEvent @event)
         {
             if (@event is InputEventMouse eventMouse)
             {

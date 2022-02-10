@@ -104,6 +104,7 @@ namespace Client.UI
         {
             var column = new VBoxContainer();
             column.Name = "Column " + index;
+            column.MouseFilter = Control.MouseFilterEnum.Ignore;
 
             var horizontalPadding = new Control();
             horizontalPadding.RectMinSize = new Vector2(COLUMN_SPACING, 0);
@@ -137,6 +138,7 @@ namespace Client.UI
         private static VBoxContainer CreateGroup()
         {
             var group = new VBoxContainer();
+            group.MouseFilter = Control.MouseFilterEnum.Ignore;
             group.Alignment = BoxContainer.AlignMode.Center;
             group.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
             return group;

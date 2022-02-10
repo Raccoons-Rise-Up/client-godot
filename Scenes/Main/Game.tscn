@@ -78,7 +78,6 @@ __meta__ = {
 
 [node name="Viewport" type="Viewport" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer"]
 size = Vector2( 1024, 500 )
-handle_input_locally = false
 usage = 0
 render_target_update_mode = 3
 script = ExtResource( 5 )

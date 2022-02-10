@@ -13,6 +13,7 @@ namespace Client.UI
         // Node Paths
         public static Camera2D Camera2D;
         public static Control CanvasLayer;
+        public static Viewport Instance;
 
         public delegate void ViewportSizeChangedEventHandler(object source, EventArgs args);
 
@@ -20,6 +21,7 @@ namespace Client.UI
 
         public override void _Ready()
         {
+            Instance = this;
             Camera2D = GetNode<Camera2D>(nodePathCamera2D);
             CanvasLayer = GetNode<Control>(nodePathCanvasLayer);
         }

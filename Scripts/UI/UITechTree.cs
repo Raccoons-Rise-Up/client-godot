@@ -21,6 +21,8 @@ namespace Client.UI
         {
             await ToSignal(GetTree(), "idle_frame"); // Wait for UITechViewport.cs to initialize
 
+            UITechViewport.Instance.HandleInputLocally = true;
+
             //GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
 
             Camera = UITechViewport.Camera2D;
@@ -107,7 +109,10 @@ namespace Client.UI
 
         public async override void _PhysicsProcess(float delta)
         {
+            // the await will be called every frame, this is not ideal!
             await ToSignal(GetTree(), "idle_frame"); // Wait for Camera to be initialized in _Ready()
+
+            GD.Print(UITechViewport.Instance.HandleInputLocally);
 
             UITechTreeMoveControls.HandleCameraMovementSpeed(Camera);
             UITechTreeMoveControls.HandleScrollZoom(Camera, this);

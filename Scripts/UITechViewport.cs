@@ -102,7 +102,7 @@ namespace Client.UI
         {
             var minZoom = new Vector2(1f, 1f);
 
-            Camera2D.Zoom += ScrollSpeed; // Constantly add to camera zoom based on ScrollSpeed
+            Camera2D.Zoom = Utilities.Utils.Lerp(Camera2D.Zoom, Camera2D.Zoom + ScrollSpeed, 0.3f);
 
             if (Camera2D.Zoom < minZoom) 
             {

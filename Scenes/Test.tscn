@@ -10,6 +10,7 @@ __meta__ = {
 }
 
 [node name="Tech Tree Sample 2" type="HBoxContainer" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 527.0
@@ -196,3 +197,556 @@ alignment = 1
 margin_top = 768.0
 margin_bottom = 843.0
 rect_min_size = Vector2( 100, 75 )
+
+[node name="Tech Tree Sample 3" type="HBoxContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 2443.0
+margin_bottom = 3250.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="Tech Tree Sample 3"]
+margin_top = 704.0
+margin_right = 724.0
+margin_bottom = 3146.0
+size_flags_vertical = 4
+custom_constants/separation = 200
+
+[node name="HBox" type="HBoxContainer" parent="Tech Tree Sample 3/VBox"]
+margin_right = 724.0
+margin_bottom = 944.0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.63
+alignment = 1
+
+[node name="Group1" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_top = 395.0
+margin_right = 100.0
+margin_bottom = 549.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox/Group1" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox/Group1" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding1" type="Control" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 944.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group2" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 208.0
+margin_top = 355.0
+margin_right = 308.0
+margin_bottom = 588.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox/Group2" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox/Group2" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox/Group2" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding2" type="Control" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 312.0
+margin_right = 412.0
+margin_bottom = 944.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group3" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 416.0
+margin_right = 516.0
+margin_bottom = 944.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research4" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 237.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research5" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 316.0
+margin_bottom = 391.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research6" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 395.0
+margin_bottom = 470.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research7" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 474.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research8" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 553.0
+margin_bottom = 628.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research9" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 632.0
+margin_bottom = 707.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research10" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 711.0
+margin_bottom = 786.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research11" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 790.0
+margin_bottom = 865.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research12" parent="Tech Tree Sample 3/VBox/HBox/Group3" instance=ExtResource( 1 )]
+margin_top = 869.0
+margin_bottom = 944.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding3" type="Control" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 520.0
+margin_right = 620.0
+margin_bottom = 944.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group4" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox"]
+margin_left = 624.0
+margin_top = 355.0
+margin_right = 724.0
+margin_bottom = 588.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox/Group4" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox/Group4" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox/Group4" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HBox2" type="HBoxContainer" parent="Tech Tree Sample 3/VBox"]
+margin_top = 1144.0
+margin_right = 724.0
+margin_bottom = 1693.0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.37
+alignment = 1
+
+[node name="Group1" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_top = 197.0
+margin_right = 100.0
+margin_bottom = 351.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox2/Group1" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox2/Group1" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding1" type="Control" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group2" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 208.0
+margin_top = 158.0
+margin_right = 308.0
+margin_bottom = 391.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox2/Group2" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox2/Group2" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox2/Group2" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding2" type="Control" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 312.0
+margin_right = 412.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group3" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 416.0
+margin_right = 516.0
+margin_bottom = 549.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research4" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 237.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research5" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 316.0
+margin_bottom = 391.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research6" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 395.0
+margin_bottom = 470.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research7" parent="Tech Tree Sample 3/VBox/HBox2/Group3" instance=ExtResource( 1 )]
+margin_top = 474.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding3" type="Control" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 520.0
+margin_right = 620.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group4" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox2"]
+margin_left = 624.0
+margin_top = 158.0
+margin_right = 724.0
+margin_bottom = 391.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox2/Group4" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox2/Group4" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox2/Group4" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HBox3" type="HBoxContainer" parent="Tech Tree Sample 3/VBox"]
+margin_top = 1893.0
+margin_right = 724.0
+margin_bottom = 2442.0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.37
+alignment = 1
+
+[node name="Group1" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_top = 197.0
+margin_right = 100.0
+margin_bottom = 351.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox3/Group1" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox3/Group1" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding1" type="Control" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group2" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 208.0
+margin_top = 158.0
+margin_right = 308.0
+margin_bottom = 391.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox3/Group2" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox3/Group2" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox3/Group2" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding2" type="Control" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 312.0
+margin_right = 412.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group3" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 416.0
+margin_right = 516.0
+margin_bottom = 549.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research4" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 237.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research5" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 316.0
+margin_bottom = 391.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research6" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 395.0
+margin_bottom = 470.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research7" parent="Tech Tree Sample 3/VBox/HBox3/Group3" instance=ExtResource( 1 )]
+margin_top = 474.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding3" type="Control" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 520.0
+margin_right = 620.0
+margin_bottom = 549.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Group4" type="VBoxContainer" parent="Tech Tree Sample 3/VBox/HBox3"]
+margin_left = 624.0
+margin_top = 158.0
+margin_right = 724.0
+margin_bottom = 391.0
+size_flags_vertical = 6
+
+[node name="Research" parent="Tech Tree Sample 3/VBox/HBox3/Group4" instance=ExtResource( 1 )]
+margin_bottom = 75.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research2" parent="Tech Tree Sample 3/VBox/HBox3/Group4" instance=ExtResource( 1 )]
+margin_top = 79.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Research3" parent="Tech Tree Sample 3/VBox/HBox3/Group4" instance=ExtResource( 1 )]
+margin_top = 158.0
+margin_bottom = 233.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="Tech Tree Sample 4" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Research" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 5.0
+margin_top = 96.0
+margin_right = 105.0
+margin_bottom = 171.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research2" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 5.0
+margin_top = 175.0
+margin_right = 105.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research4" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 15.0
+margin_top = 493.0
+margin_right = 115.0
+margin_bottom = 568.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research5" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 175.0
+margin_top = 538.0
+margin_right = 275.0
+margin_bottom = 613.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research6" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 173.0
+margin_top = 454.0
+margin_right = 273.0
+margin_bottom = 529.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research8" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 165.0
+margin_top = 147.0
+margin_right = 265.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research9" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 307.0
+margin_top = 104.0
+margin_right = 407.0
+margin_bottom = 179.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research10" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 307.0
+margin_top = 183.0
+margin_right = 407.0
+margin_bottom = 258.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research12" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 309.0
+margin_top = 490.0
+margin_right = 409.0
+margin_bottom = 565.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research13" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 469.0
+margin_top = 535.0
+margin_right = 569.0
+margin_bottom = 610.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research14" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 467.0
+margin_top = 451.0
+margin_right = 567.0
+margin_bottom = 526.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research15" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 478.0
+margin_top = 306.0
+margin_right = 578.0
+margin_bottom = 381.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research16" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 476.0
+margin_top = 222.0
+margin_right = 576.0
+margin_bottom = 297.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research17" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 475.0
+margin_top = 141.0
+margin_right = 575.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research18" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 473.0
+margin_top = 57.0
+margin_right = 573.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0

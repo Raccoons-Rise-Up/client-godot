@@ -18,11 +18,13 @@ namespace Client.UI
         private bool Drag { get; set; }
         private Vector2 ScreenStartPos = Vector2.Zero;
         private Vector2 PrevCameraPos = Vector2.Zero;
+        private Vector2 ViewportStartingSize;
 
         public async override void _Ready()
         {
             ViewportContent = UITechTree.Instance;
             Instance = this;
+            ViewportStartingSize = Size;
             Camera2D = GetNode<Camera2D>(nodePathCamera2D);
             CanvasLayer = GetNode<Control>(nodePathCanvasLayer);
 
@@ -38,7 +40,7 @@ namespace Client.UI
         public override void _PhysicsProcess(float delta)
         {
             UITechTreeMoveControls.HandleCameraMovementSpeed(Camera2D);
-            UITechTreeMoveControls.HandleScrollZoom(Camera2D, ViewportContent);
+            UITechTreeMoveControls.HandleScrollZoom(Camera2D, ViewportContent, ViewportStartingSize, PrevCameraPos, ScreenStartPos);
             UITechTreeMoveControls.HandleArrowKeys();
             UITechTreeMoveControls.HandleMouseDrag(Camera2D, ViewportContent, PrevCameraPos, ScreenStartPos, Drag);
             UITechTreeMoveControls.HandleCameraBounds(Camera2D, ViewportContent);
@@ -77,5 +79,9 @@ namespace Client.UI
 
             @event.Dispose(); // Godot Bug: Input Events are not reference counted
         }
+
+        // Disable input if mouse not inside viewport
+        private void _on_ViewportContainer_mouse_entered() => GuiDisableInput = false;
+        private void _on_ViewportContainer_mouse_exited() => GuiDisableInput = true;
     }
 }

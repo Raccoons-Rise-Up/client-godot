@@ -451,6 +451,8 @@ margin_bottom = 600.0
 mouse_filter = 2
 
 [connection signal="resized" from="." to="." method="_on_Game_resized"]
+[connection signal="mouse_entered" from="Panel/VBoxContainer/CanvasLayer/ViewportContainer" to="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/VBoxContainer/CanvasLayer/ViewportContainer" to="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_exited"]
 [connection signal="pressed" from="Panel/Chat/VBoxContainer/HBoxContainer/MarginContainer/Button Settings" to="Panel/Chat" method="_on_Button_Settings_pressed"]
 [connection signal="pressed" from="Panel/Chat/VBoxContainer/HBoxContainer/MarginContainer/Settings/Close Settings" to="Panel/Chat/VBoxContainer/HBoxContainer/MarginContainer/Settings" method="_on_Close_Settings_pressed"]
 [connection signal="value_changed" from="Panel/Chat/VBoxContainer/HBoxContainer/MarginContainer/Settings/MarginContainer/VBoxContainer/HSlider" to="Panel/Chat/VBoxContainer/HBoxContainer/MarginContainer/Settings" method="_on_HSlider_value_changed"]

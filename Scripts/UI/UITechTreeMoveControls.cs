@@ -21,9 +21,7 @@ namespace Client.UI
                 cam.Position = prevCameraPos + screenStartPos - control.GetViewport().GetMousePosition();
         }
 
-        private static Vector2 PrevCamZoom = Vector2.Zero;
-
-        public static void HandleScrollZoom(Camera2D cam, Control control)
+        public static void HandleScrollZoom(Camera2D cam, Control control, Vector2 viewportStartingSize, Vector2 prevCameraPos, Vector2 screenStartPos)
         {
             var minZoom = new Vector2(1f, 1f);
 
@@ -38,31 +36,26 @@ namespace Client.UI
             var viewportSize = control.GetViewportRect().Size * cam.Zoom;
             var contentSize = control.RectSize;
 
-            //GD.Print(viewportSize > contentSize);
+            var maxZoom = contentSize / viewportStartingSize.x;
 
-            var test = 2;
-            if (cam.Zoom.x > test)
-                cam.Zoom = new Vector2(test, test);
-
-            //GD.Print(contentSize.x - 1024);
-            //GD.Print((contentSize.x - viewportSize.x) / (contentSize.x - 1024));
-
-            if (viewportSize > contentSize)
+            if (cam.Zoom > maxZoom) 
             {
-                
+                cam.Zoom = maxZoom;
                 ScrollSpeed = Vector2.Zero;
-                //cam.Zoom = PrevCamZoom;
-                cam.Zoom -= new Vector2(0.02f, 0.02f);
             }
-
-            PrevCamZoom = cam.Zoom;
 
             var deaccelerationSpeed = new Vector2(0.01f, 0.01f);
 
             if (ScrollSpeed > Vector2.Zero && !ScrollingUp) 
+            {
                 ScrollSpeed -= deaccelerationSpeed;
-            else if (ScrollSpeed < Vector2.Zero && ScrollingUp)
+            }
+            else if (ScrollSpeed < Vector2.Zero && ScrollingUp) 
+            {
                 ScrollSpeed += deaccelerationSpeed;
+                
+                cam.Position += cam.GetLocalMousePosition() * 0.1f;
+            }
             else
                 ScrollSpeed = Vector2.Zero;
         }

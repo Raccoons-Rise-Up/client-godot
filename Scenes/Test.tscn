@@ -671,19 +671,19 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research9" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 307.0
-margin_top = 104.0
-margin_right = 407.0
-margin_bottom = 179.0
+margin_left = 308.0
+margin_top = 69.0
+margin_right = 408.0
+margin_bottom = 144.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research10" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 307.0
-margin_top = 183.0
-margin_right = 407.0
-margin_bottom = 258.0
+margin_left = 308.0
+margin_top = 148.0
+margin_right = 408.0
+margin_bottom = 223.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -716,37 +716,46 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research15" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 478.0
-margin_top = 306.0
-margin_right = 578.0
-margin_bottom = 381.0
+margin_left = 479.0
+margin_top = 271.0
+margin_right = 579.0
+margin_bottom = 346.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research16" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 476.0
-margin_top = 222.0
-margin_right = 576.0
-margin_bottom = 297.0
+margin_left = 477.0
+margin_top = 187.0
+margin_right = 577.0
+margin_bottom = 262.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research17" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 475.0
-margin_top = 141.0
-margin_right = 575.0
-margin_bottom = 216.0
+margin_left = 476.0
+margin_top = 106.0
+margin_right = 576.0
+margin_bottom = 181.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="Research18" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
-margin_left = 473.0
-margin_top = 57.0
-margin_right = 573.0
-margin_bottom = 132.0
+margin_left = 474.0
+margin_top = 22.0
+margin_right = 574.0
+margin_bottom = 97.0
+rect_min_size = Vector2( 100, 75 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Research11" parent="Tech Tree Sample 4" instance=ExtResource( 1 )]
+margin_left = 308.0
+margin_top = 231.0
+margin_right = 408.0
+margin_bottom = 306.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 0
 size_flags_vertical = 0

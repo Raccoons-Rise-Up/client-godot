@@ -7,9 +7,6 @@ namespace Client.UI
 {
     public class UITechTree : Control
     {
-#pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathHBoxTechTree;
-#pragma warning restore CS0649 // Values are assigned in the editor
 
         
         private bool Draw;
@@ -19,17 +16,15 @@ namespace Client.UI
         {
             Instance = this;
 
-            UITechTreeResearch.Content = this;
-            UITechTreeResearch.HBox = GetNode<HBoxContainer>(nodePathHBoxTechTree);
             UITechTreeResearch.Init();
 
             await ToSignal(GetTree(), "idle_frame");
 
-            foreach (var pair in UITechTreeResearch.Nodes) 
+            /*foreach (var pair in UITechTreeResearch.Nodes) 
             {
                 var node = pair.Value;
                 UITechTreeResearch.ResearchData[pair.Key].Position = node.Column.RectPosition + node.Group.RectPosition + node.RectPosition;
-            }
+            }*/
 
             Draw = true;
             Update();
@@ -41,17 +36,17 @@ namespace Client.UI
                 return;
 
             // UITechTree lines between nodes will be drawn here
-            var firstNodeInTechCategory = UITechTreeResearch.TechTreeData[0].StartingResearchNodes[0];
-            var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
+            //var firstNodeInTechCategory = UITechTreeResearch.TechTreeData[0].StartingResearchNodes[0];
+            //var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
 
-            DrawLinesForChildren(firstNodeInTechCategory);
+            //DrawLinesForChildren(firstNodeInTechCategory);
         }
 
         private float LineThickness = 5.0f;
 
         private void DrawLinesForChildren(ResearchType type)
         {
-            var researchData = UITechTreeResearch.ResearchData;
+            /*var researchData = UITechTreeResearch.ResearchData;
             var node = researchData[type];
             var children = node.Children;
 
@@ -83,7 +78,7 @@ namespace Client.UI
                     DrawLine(childCenterPos - new Vector2(nodeSize.x, LineThickness / 2), researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
-            }
+            }*/
         }
 
         private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);

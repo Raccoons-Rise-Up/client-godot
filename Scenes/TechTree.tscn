@@ -35,7 +35,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-nodePathHBoxTechTree = NodePath("HBoxContainer")
 
 [node name="TextureRect" type="TextureRect" parent="Content"]
 modulate = Color( 1, 1, 1, 0.0705882 )
@@ -107,15 +106,6 @@ margin_left = -175.5
 margin_top = -64.0
 margin_right = 175.5
 text = "Center Bottom"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Content"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -28,7 +28,10 @@ namespace Client.UI
             { ResearchType.C, new Research {
                 Children = new ResearchType[] {
                     ResearchType.G,
-                    ResearchType.H
+                    ResearchType.H,
+                    ResearchType.I,
+                    ResearchType.J,
+                    ResearchType.K
                 }
             }},
             { ResearchType.D, new Research {
@@ -40,6 +43,33 @@ namespace Client.UI
             { ResearchType.G, new Research {
             }},
             { ResearchType.H, new Research {
+            }},
+            { ResearchType.I, new Research {
+                Children = new ResearchType[] {
+                    ResearchType.L,
+                    ResearchType.M
+                }
+            }},
+            { ResearchType.J, new Research {
+            }},
+            { ResearchType.K, new Research {
+            }},
+            { ResearchType.L, new Research {
+            }},
+            { ResearchType.M, new Research {
+                Children = new ResearchType[] {
+                    ResearchType.N,
+                    ResearchType.O,
+                    ResearchType.P
+                }
+            }},
+            { ResearchType.N, new Research {
+            }},
+            { ResearchType.O, new Research {
+            }},
+            { ResearchType.P, new Research {
+            }},
+            { ResearchType.Q, new Research {
             }}
         };
 
@@ -87,7 +117,10 @@ namespace Client.UI
 
             // Create the first group for column 1
             var group = CreateGroup();
-            group.AddChild(CreateNode(ResearchType.A));
+            var node = CreateNode(ResearchType.A);
+            node.Column = Columns[1];
+            node.Group = group;
+            group.AddChild(node);
             Columns[1].AddChild(group);
 
             // Add children for each node starting from first node
@@ -127,7 +160,10 @@ namespace Client.UI
 
             foreach (var child in children) // add children to this group
             {
-                group.AddChild(CreateNode(child));
+                var node = CreateNode(child);
+                node.Column = Columns[ResearchData[child].Depth];
+                node.Group = group;
+                group.AddChild(node);
 
                 RecursivelyAddChildren(child);
             }
@@ -171,12 +207,6 @@ namespace Client.UI
         }
     }
 
-    public struct Column 
-    {
-        public VBoxContainer VBoxColumn { get; set; }
-        public VBoxContainer[] Groups { get; set; }
-    }
-
     public struct TechTree
     {
         public TechTreeType Type { get; set; }
@@ -207,6 +237,23 @@ namespace Client.UI
         F,
         G,
         H,
-        I
+        I,
+        J,
+        K,
+        L,
+        M,
+        N,
+        O,
+        P,
+        Q,
+        R,
+        S,
+        T,
+        U,
+        V,
+        W,
+        X,
+        Y,
+        Z
     }
 }

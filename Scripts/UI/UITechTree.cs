@@ -25,8 +25,11 @@ namespace Client.UI
 
             await ToSignal(GetTree(), "idle_frame");
 
-            foreach (var pair in UITechTreeResearch.Nodes)
-                UITechTreeResearch.ResearchData[pair.Key].Position = pair.Value.RectPosition;
+            foreach (var pair in UITechTreeResearch.Nodes) 
+            {
+                var node = pair.Value;
+                UITechTreeResearch.ResearchData[pair.Key].Position = node.Column.RectPosition + node.Group.RectPosition + node.RectPosition;
+            }
 
             Draw = true;
             Update();
@@ -49,9 +52,7 @@ namespace Client.UI
         private void DrawLinesForChildren(ResearchType type)
         {
             var researchData = UITechTreeResearch.ResearchData;
-
             var node = researchData[type];
-
             var children = node.Children;
 
             if (children == null)
@@ -59,35 +60,27 @@ namespace Client.UI
 
             var nodeSize = UITechTreeResearch.ResearchNodeSize;
 
-            var columns = UITechTreeResearch.Columns;
-
-            var columnPositionParent = columns[researchData[type].Depth].RectPosition;
-
             // horizontal line from parent
-            DrawLine(columnPositionParent + node.CenterPosition, columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
+            DrawLine(node.CenterPosition, node.CenterPosition + new Vector2(nodeSize.x, 0));
 
             // draw long vertical line
-            DrawLine(columns[researchData[children[0]].Depth].RectPosition + researchData[children[0]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionParent + node.CenterPosition + new Vector2(nodeSize.x, 0));
+            DrawLine(researchData[children[0]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), node.CenterPosition + new Vector2(nodeSize.x, LineThickness / 2));
+
+            // very un-optimal temporary solution
+            DrawLine(researchData[children[0]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), node.CenterPosition + new Vector2(nodeSize.x, -LineThickness / 2));
 
             for (int i = 0; i < children.Length; i++)
             {
-                var column = columns[researchData[children[i]].Depth];
-                var groupPos = ((Control)column.GetChild(0)).RectPosition;
+                var childCenterPos = researchData[children[i]].CenterPosition;
 
-                if (type == ResearchType.C)
-                {
-                    groupPos = ((Control)column.GetChild(1)).RectPosition;
-                }
-
-                var columnPositionChild = column.RectPosition + groupPos;
                 // horizontal lines
-                var pos = columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0);
+                var pos = childCenterPos - new Vector2(nodeSize.x, 0);
 
-                DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, 0), columnPositionChild + researchData[children[i]].CenterPosition);
+                DrawLine(childCenterPos - new Vector2(nodeSize.x, 0), childCenterPos);
 
                 // vertical lines
                 if (i != children.Length - 1)
-                    DrawLine(columnPositionChild + researchData[children[i]].CenterPosition - new Vector2(nodeSize.x, LineThickness / 2), columnPositionChild + researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
+                    DrawLine(childCenterPos - new Vector2(nodeSize.x, LineThickness / 2), researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
             }

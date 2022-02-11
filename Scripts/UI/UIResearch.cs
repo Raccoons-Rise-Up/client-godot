@@ -10,12 +10,12 @@ namespace Client.UI
         [Export] private readonly NodePath nodePathLabel;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
-        private static Label Label { get; set; }
+        public Control Column { get; set; }
+        public Control Group { get; set; }
 
         public void Init(string name)
         {
-            Label = GetNode<Label>(nodePathLabel);
-            Label.Text = name;
+            GetNode<Label>(nodePathLabel).Text = name;
         }
     }
 }

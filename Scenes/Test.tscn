@@ -14,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 527.0
 margin_bottom = 1012.0
+custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -34,14 +35,14 @@ margin_bottom = 843.0
 rect_min_size = Vector2( 100, 75 )
 
 [node name="HPadding1" type="Control" parent="Tech Tree Sample 2"]
-margin_left = 104.0
-margin_right = 204.0
+margin_left = 100.0
+margin_right = 200.0
 margin_bottom = 1612.0
 rect_min_size = Vector2( 100, 0 )
 
 [node name="Column2" type="VBoxContainer" parent="Tech Tree Sample 2"]
-margin_left = 208.0
-margin_right = 308.0
+margin_left = 200.0
+margin_right = 300.0
 margin_bottom = 1612.0
 
 [node name="Group1" type="VBoxContainer" parent="Tech Tree Sample 2/Column2"]
@@ -80,14 +81,14 @@ margin_bottom = 300.0
 rect_min_size = Vector2( 100, 75 )
 
 [node name="HPadding2" type="Control" parent="Tech Tree Sample 2"]
-margin_left = 312.0
-margin_right = 412.0
+margin_left = 300.0
+margin_right = 400.0
 margin_bottom = 1612.0
 rect_min_size = Vector2( 100, 0 )
 
 [node name="Column3" type="VBoxContainer" parent="Tech Tree Sample 2"]
-margin_left = 416.0
-margin_right = 516.0
+margin_left = 400.0
+margin_right = 500.0
 margin_bottom = 1612.0
 
 [node name="Group1" type="VBoxContainer" parent="Tech Tree Sample 2/Column3"]
@@ -171,4 +172,27 @@ alignment = 1
 [node name="Research" parent="Tech Tree Sample 2/Column3/Group2" instance=ExtResource( 1 )]
 margin_top = 146.0
 margin_bottom = 221.0
+rect_min_size = Vector2( 100, 75 )
+
+[node name="HPadding3" type="Control" parent="Tech Tree Sample 2"]
+margin_left = 500.0
+margin_right = 600.0
+margin_bottom = 1612.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Column4" type="VBoxContainer" parent="Tech Tree Sample 2"]
+margin_left = 600.0
+margin_right = 700.0
+margin_bottom = 1612.0
+
+[node name="Group2" type="VBoxContainer" parent="Tech Tree Sample 2/Column4"]
+margin_right = 100.0
+margin_bottom = 1612.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.27
+alignment = 1
+
+[node name="Research" parent="Tech Tree Sample 2/Column4/Group2" instance=ExtResource( 1 )]
+margin_top = 768.0
+margin_bottom = 843.0
 rect_min_size = Vector2( 100, 75 )

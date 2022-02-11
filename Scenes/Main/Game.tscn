@@ -90,7 +90,6 @@ size_flags_horizontal = 1
 
 [node name="Camera2D" type="Camera2D" parent="Panel/VBoxContainer/CanvasLayer/ViewportContainer/Viewport"]
 current = true
-smoothing_enabled = true
 __meta__ = {
 "_editor_description_": ""
 }

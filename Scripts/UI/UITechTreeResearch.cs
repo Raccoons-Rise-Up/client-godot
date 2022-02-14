@@ -5,33 +5,55 @@ using System.Collections.Generic;
 
 namespace Client.UI
 {
+    // The word 'Node' is used a lot here to refer to 'Tech Research Nodes' placed in the tech tree, please do not confuse this with Godots nodes.
     public class UITechTreeResearch
     {
         // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
         // Tech tree data
-        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
-            { ResearchType.M, new Research {
-                Requirements = new ResearchType[] {
-                    ResearchType.O
+        public static Dictionary<ResearchType?, Research> ResearchData = new Dictionary<ResearchType?, Research>(){
+            { ResearchType.A, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.B,
+                    ResearchType.I,
+                    ResearchType.J
                 }
             }},
-            { ResearchType.N, new Research {
-            }},
-            { ResearchType.O, new Research {
-            }},
-            { ResearchType.P, new Research {
-                Requirements = new ResearchType[] {
-                    ResearchType.N,
-                    ResearchType.O
+            { ResearchType.B, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.C,
+                    ResearchType.D,
+                    ResearchType.E,
+                    ResearchType.F
                 }
             }},
-            { ResearchType.Q, new Research {
-                Requirements = new ResearchType[] {
-                    ResearchType.P
+            { ResearchType.C, new Research {
+            }},
+            { ResearchType.D, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.G,
+                    ResearchType.H
                 }
+            }},
+            { ResearchType.E, new Research {
+            }},
+            { ResearchType.F, new Research {
+            }},
+            { ResearchType.G, new Research {
+            }},
+            { ResearchType.H, new Research {
+            }},
+            { ResearchType.I, new Research {
+            }},
+            { ResearchType.J, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.K
+                }
+            }},
+            { ResearchType.K, new Research {
             }}
+            
         };
 
         // There will be multiple tech trees
@@ -44,10 +66,8 @@ namespace Client.UI
             }
         };
 
-        private static List<ResearchType> AddedNodes = new List<ResearchType>();
-
-        private const int SPACING_HORIZONTAL = 200;
-        private const int SPACING_VERTICAL = 150;
+        private const int SPACING_HORIZONTAL = 150;
+        private const int SPACING_VERTICAL = 100;
         public static Vector2 ResearchNodeSize;
 
         public static void Init() 
@@ -58,94 +78,92 @@ namespace Client.UI
             researchInstance.QueueFree(); // Free the child from the tree as we no longer have a use for it
 
             // This is where the first research is placed on the tech tree
-            var researchStartPos = new Vector2(UITechTree.Instance.RectSize.x / 2 - ResearchNodeSize.x / 2, UITechTree.Instance.RectSize.y / 2 - ResearchNodeSize.y / 2);
-
-            //var firstNodeInTechCategory = TechTreeData[0].StartingResearchNodes[0];
-            //var firstNode = ResearchData[firstNodeInTechCategory];
-
-            //firstNode.Position = researchStartPos;
+            //var researchStartPos = new Vector2(UITechTree.Instance.RectSize.x / 2 - ResearchNodeSize.x / 2, UITechTree.Instance.RectSize.y / 2 - ResearchNodeSize.y / 2);
 
             // Calculate depth for all nodes and calculate MaxDepth
-            foreach (var node in ResearchData)
-                ResearchData[node.Key].Depth = RecursivelyCalculateDepth(node.Key, null);
+            SetupNode(ResearchType.A, null, new Vector2(200, 1000));
+
+            AddNodes(ResearchType.A);
 
             foreach (var node in ResearchData)
-                GD.Print($"{node.Key} {node.Value.Depth} Children: {string.Join(" ", node.Value.Children.Select(x => Enum.GetName(typeof(ResearchType), x)))}");
-
-            foreach (var node in ResearchData)
-                RecursivelyAddRequirements(node.Key);
-
-            //RecursivelyAddRequirements(ResearchType.M);
+            {
+                GD.Print($"{node.Key}");
+            }
         }
 
 
-        private static void RecursivelyAddRequirements(ResearchType type, int index = 0, int length = 1)
+        private static void AddNodes(ResearchType type, int index = 0, int length = 1)
         {
             CreateNode(type, index, length);
 
-            var requirements = ResearchData[type].Requirements;
+            var unlocks = ResearchData[type].Unlocks;
 
-            if (requirements == null)
+            if (unlocks == null)
                 return;
 
-            for (int i = 0; i < requirements.Length; i++)
-            {
-                RecursivelyAddRequirements(requirements[i], i, requirements.Length);
-            }
+            for (int i = 0; i < unlocks.Length; i++)
+                AddNodes(unlocks[i], i, unlocks.Length);
         }
 
-        public static void CreateNode(ResearchType researchType, int i, int length)
-        {
-            if (AddedNodes.Contains(researchType))
-                return;
+        private static int verticalCenter = 1000;
 
+        public static void CreateNode(ResearchType type, int i, int length)
+        {
             var researchInstance = Research.Instance<UIResearch>();
 
-            var name = Enum.GetName(typeof(ResearchType), researchType);
+            var name = Enum.GetName(typeof(ResearchType), type);
             researchInstance.Init(name);
 
-            var data = ResearchData[researchType];
+            var data = ResearchData[type];
 
-            // Positioning
-            var verticalCenter = 1000;
-
-            var x = data.Depth * SPACING_HORIZONTAL;
-            var y = verticalCenter + i * SPACING_VERTICAL - ((length * SPACING_VERTICAL) / 2) + (data.Children.Count() * SPACING_VERTICAL);
-
-            researchInstance.RectPosition = new Vector2(x, y);
+            researchInstance.RectPosition = data.Position;
             UITechTree.Instance.AddChild(researchInstance);
-            AddedNodes.Add(researchType);
         }
 
-        private static int RecursivelyCalculateDepth(ResearchType type, ResearchType? prev, int depth = 1)
+        private static void SetupNode(ResearchType type, ResearchType? parent, Vector2 position, int depth = 1)
         {
+            var data = ResearchData[type];
 
-            var requirements = ResearchData[type].Requirements;
+            data.Position = position;
+            data.Depth = depth;
 
-            if (prev != null)
-                if (!ResearchData[type].Children.Contains(prev))
-                    ResearchData[type].Children.Add(prev);
-            
-            // Return depth if there are no requirements
-            if (requirements == null)
-                return depth;
+            if (parent != null)
+                data.Requirements.Add(parent);
 
-            // There is at least one requirement, increase depth by 1
-            depth++;
+            var unlocks = data.Unlocks;
 
-            // Attempt to find any more requirements
-            foreach (var requirement in requirements)
+            if (unlocks == null) 
+                return;
+
+            var childLengths = new List<int>();
+
+            for (int i = 0; i < unlocks.Length; i++) 
             {
-                RecursivelyCalculateDepth(requirement, type, depth);
+                var x = SPACING_HORIZONTAL;
+                int y;
 
-                if (ResearchData[requirement].Requirements == null)
-                    continue;
+                var childUnlocks = ResearchData[unlocks[i]].Unlocks;
+                int branchOffset = 0;
+                if (type == ResearchType.A && childUnlocks != null && childUnlocks[0] == ResearchType.C)
+                    if (i != 0)
+                        for (int j = 0; j < childLengths.Count; j++)
+                            branchOffset += childLengths[j];
 
-                // There is at least one requirement, increase depth by 1
-                depth++;
+                branchOffset /= 2;
+
+                childLengths.Add(childUnlocks == null ? 0 : childUnlocks.Length);
+                if (childUnlocks != null)
+                    GD.Print($"{type} {string.Join(" ", childUnlocks.Select(a => Enum.GetName(typeof(ResearchType), a)))}");
+
+                if (unlocks.Length % 2 == 0)
+                    y = branchOffset * SPACING_VERTICAL + ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
+                else
+                    y = branchOffset * SPACING_VERTICAL + ((i - unlocks.Length / 2) * SPACING_VERTICAL);
+
+                var newPos = new Vector2(x, y);
+
+                SetupNode(unlocks[i], type, position + newPos, depth + 1);
             }
-                
-            return depth;
         }
     }
 
@@ -159,8 +177,8 @@ namespace Client.UI
     {
         public Vector2 Position { get; set; }
         public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeSize.x / 2, UITechTreeResearch.ResearchNodeSize.y / 2);
-        public ResearchType[] Requirements { get; set; }
-        public List<ResearchType?> Children = new List<ResearchType?>();
+        public List<ResearchType?> Requirements = new List<ResearchType?>();
+        public ResearchType[] Unlocks { get; set; }
         public int Depth { get; set; }
     }
 

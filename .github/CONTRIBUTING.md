@@ -6,7 +6,7 @@
 ## [Useful Godot Tips](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/GODOT_TIPS.md)
 
 ## Setup
-### Godot
+### Godot Mono (C#)
 Tip #1: You can skip step 1 if you are not going to work on the netcode, just note that in order to get to the game scene you will need to either connect through the game / web servers or add code to bypass this and create a dummy user login. (or just change the startup scene to be other than that of the login scene)
 
 Tip #2: You do not need to start in the main menu scene which requires user auth to get to the game scene. You can change the startup scene in `Godot > Project Settings > Application > Run > Main Scene`

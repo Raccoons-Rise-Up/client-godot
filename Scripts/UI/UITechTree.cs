@@ -36,19 +36,19 @@ namespace Client.UI
                 return;
 
             // UITechTree lines between nodes will be drawn here
-            //var firstNodeInTechCategory = UITechTreeResearch.TechTreeData[0].StartingResearchNodes[0];
-            //var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
+            var firstNodeInTechCategory = UITechTreeResearch.TechTreeData[0].StartingResearchNodes[0];
+            var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
 
-            //DrawLinesForChildren(firstNodeInTechCategory);
+            DrawLinesForChildren(firstNodeInTechCategory);
         }
 
         private float LineThickness = 5.0f;
 
         private void DrawLinesForChildren(ResearchType type)
         {
-            /*var researchData = UITechTreeResearch.ResearchData;
+            var researchData = UITechTreeResearch.ResearchData;
             var node = researchData[type];
-            var children = node.Children;
+            var children = node.Unlocks;
 
             if (children == null)
                 return;
@@ -78,7 +78,7 @@ namespace Client.UI
                     DrawLine(childCenterPos - new Vector2(nodeSize.x, LineThickness / 2), researchData[children[i + 1]].CenterPosition - new Vector2(nodeSize.x, -LineThickness / 2));
 
                 DrawLinesForChildren(children[i]);
-            }*/
+            }
         }
 
         private void DrawLine(Vector2 from, Vector2 to) => DrawLine(from, to, Colors.White, LineThickness, false);

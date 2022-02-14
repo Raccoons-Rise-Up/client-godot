@@ -17,7 +17,9 @@ namespace Client.UI
                 Unlocks = new ResearchType[] {
                     ResearchType.B,
                     ResearchType.I,
-                    ResearchType.J
+                    ResearchType.J,
+                    ResearchType.L,
+                    ResearchType.M
                 }
             }},
             { ResearchType.B, new Research {
@@ -33,12 +35,18 @@ namespace Client.UI
             { ResearchType.D, new Research {
                 Unlocks = new ResearchType[] {
                     ResearchType.G,
-                    ResearchType.H
+                    ResearchType.H,
+                    ResearchType.P,
+                    ResearchType.Q
                 }
             }},
             { ResearchType.E, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.R
+                }
             }},
             { ResearchType.F, new Research {
+                
             }},
             { ResearchType.G, new Research {
             }},
@@ -52,6 +60,24 @@ namespace Client.UI
                 }
             }},
             { ResearchType.K, new Research {
+            }},
+            { ResearchType.L, new Research {
+            }},
+            { ResearchType.M, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.N,
+                    ResearchType.O
+                }
+            }},
+            { ResearchType.N, new Research {
+            }},
+            { ResearchType.O, new Research {
+            }},
+            { ResearchType.P, new Research {
+            }},
+            { ResearchType.Q, new Research {
+            }},
+            { ResearchType.R, new Research {
             }}
             
         };
@@ -66,7 +92,7 @@ namespace Client.UI
             }
         };
 
-        private const int SPACING_HORIZONTAL = 150;
+        private const int SPACING_HORIZONTAL = 200;
         private const int SPACING_VERTICAL = 100;
         public static Vector2 ResearchNodeSize;
 
@@ -84,11 +110,6 @@ namespace Client.UI
             SetupNode(ResearchType.A, null, new Vector2(200, 1000));
 
             AddNodes(ResearchType.A);
-
-            foreach (var node in ResearchData)
-            {
-                GD.Print($"{node.Key}");
-            }
         }
 
 
@@ -135,34 +156,49 @@ namespace Client.UI
             if (unlocks == null) 
                 return;
 
-            var childLengths = new List<int>();
+            int leftSide = 0;
+            int rightSide = 0;
+            int branchOffset = 0;
+            bool prevNodeHasNoUnlocks = false;
+            int previousChildUnlockGroups = 0;
 
-            for (int i = 0; i < unlocks.Length; i++) 
+            for (int i = 0; i < unlocks.Length; i++)
             {
-                var x = SPACING_HORIZONTAL;
-                int y;
-
                 var childUnlocks = ResearchData[unlocks[i]].Unlocks;
-                int branchOffset = 0;
-                if (type == ResearchType.A && childUnlocks != null && childUnlocks[0] == ResearchType.C)
-                    if (i != 0)
-                        for (int j = 0; j < childLengths.Count; j++)
-                            branchOffset += childLengths[j];
 
-                branchOffset /= 2;
+                // Do not add offset if only 1 child group is present
+                for (int j = 0; j < i; j++)
+                    if (ResearchData[unlocks[j]].Unlocks != null)
+                        previousChildUnlockGroups++;
 
-                childLengths.Add(childUnlocks == null ? 0 : childUnlocks.Length);
+                leftSide += 1;
                 if (childUnlocks != null)
-                    GD.Print($"{type} {string.Join(" ", childUnlocks.Select(a => Enum.GetName(typeof(ResearchType), a)))}");
+                    rightSide += childUnlocks.Length;
+
+                if (unlocks[i] == ResearchType.E)
+                    GD.Print("yes");
+
+                if (rightSide > leftSide && i != 0 && prevNodeHasNoUnlocks && previousChildUnlockGroups >= 1) 
+                {
+                    prevNodeHasNoUnlocks = false;
+                    GD.Print($"{unlocks[i]} {leftSide} {rightSide}");
+                    branchOffset += ((rightSide - leftSide) * SPACING_VERTICAL);
+                }
+
+                if (childUnlocks == null)
+                    prevNodeHasNoUnlocks = true;
+
+                var xShift = SPACING_HORIZONTAL;
+                int yShift;
 
                 if (unlocks.Length % 2 == 0)
-                    y = branchOffset * SPACING_VERTICAL + ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
+                    yShift = branchOffset + ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
                 else
-                    y = branchOffset * SPACING_VERTICAL + ((i - unlocks.Length / 2) * SPACING_VERTICAL);
+                    yShift = branchOffset + ((i - unlocks.Length / 2) * SPACING_VERTICAL);
 
-                var newPos = new Vector2(x, y);
+                var shift = new Vector2(xShift, yShift);
 
-                SetupNode(unlocks[i], type, position + newPos, depth + 1);
+                SetupNode(unlocks[i], type, position + shift, depth + 1);
             }
         }
     }

@@ -153,8 +153,7 @@ namespace Client.UI
             if (data.Unlocks == null)
                 return;
 
-            bool first = true;
-            Vector2 posLastChild = Vector2.Zero;
+            var posLastChild = Vector2.Zero;
 
             for (int i = 0; i < data.Unlocks.Length; i++)
             {
@@ -162,24 +161,20 @@ namespace Client.UI
 
                 if (i != 0 && childUnlocks != null)
                 {
-                    if (!first)
-                    {
-                        var yOffsetChild = posLastChild.y - GetFirstChildPos(data.Unlocks[i]).y;
+                    var yOffsetChild = posLastChild.y - GetFirstChildPos(data.Unlocks[i]).y;
 
-                        if (yOffsetChild > 0)
+                    if (yOffsetChild > 0)
+                    {
+                        // Apply offset to all remaining nodes in column
+                        for (int j = i; j < data.Unlocks.Length; j++)
                         {
-                            // Apply offset to all remaining nodes in column
-                            for (int j = i; j < data.Unlocks.Length; j++)
-                            {
-                                var pos = new Vector2(0, yOffsetChild + ResearchNodeSize.y);
-                                ApplyPosition(data.Unlocks[j], pos);
-                                GD.Print($"{type} {data.Unlocks[j]} {yOffsetChild} {GetFirstChildPos(data.Unlocks[j])}");
-                            }
+                            var pos = new Vector2(0, yOffsetChild + ResearchNodeSize.y);
+                            ApplyPosition(data.Unlocks[j], pos);
+                            GD.Print($"{type} {data.Unlocks[j]} {yOffsetChild} {GetFirstChildPos(data.Unlocks[j])}");
                         }
                     }
 
                     posLastChild = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
-                    first = false;
                 }
 
                 PositionNode(data.Unlocks[i]);

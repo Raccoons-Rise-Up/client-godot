@@ -161,8 +161,9 @@ namespace Client.UI
 
                 if (i != 0 && childUnlocks != null)
                 {
-                    var yOffsetChild = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y;
-                    GD.Print($"{type} {data.Unlocks[i]} {prevChildPos.y} {GetFirstChildPos(data.Unlocks[i]).y}");
+                    var yOffsetChild = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y; // Mathf.Abs?
+
+                    GD.Print($"{type} {data.Unlocks[i]} (LEFT) FirstChildPosY: {GetFirstChildPos(data.Unlocks[i]).y} (RIGHT) PrevChildPosY: {prevChildPos.y}");
 
                     if (yOffsetChild > 0)
                     {

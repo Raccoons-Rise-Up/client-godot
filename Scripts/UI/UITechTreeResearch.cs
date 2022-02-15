@@ -138,11 +138,11 @@ namespace Client.UI
             var researchInstance = Research.Instance<UIResearch>();
 
             var name = Enum.GetName(typeof(ResearchType), type);
+            var data = ResearchData[type];
+            researchInstance.RectPosition = data.Position;
             researchInstance.Init(name);
 
-            var data = ResearchData[type];
 
-            researchInstance.RectPosition = data.Position;
             UITechTree.Instance.AddChild(researchInstance);
         }
 
@@ -153,7 +153,7 @@ namespace Client.UI
             if (data.Unlocks == null)
                 return;
 
-            var posLastChild = Vector2.Zero;
+            var prevChildPos = Vector2.Zero;
 
             for (int i = 0; i < data.Unlocks.Length; i++)
             {
@@ -161,7 +161,8 @@ namespace Client.UI
 
                 if (i != 0 && childUnlocks != null)
                 {
-                    var yOffsetChild = posLastChild.y - GetFirstChildPos(data.Unlocks[i]).y;
+                    var yOffsetChild = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y;
+                    GD.Print($"{type} {data.Unlocks[i]} {prevChildPos.y} {GetFirstChildPos(data.Unlocks[i]).y}");
 
                     if (yOffsetChild > 0)
                     {
@@ -170,18 +171,18 @@ namespace Client.UI
                         {
                             var pos = new Vector2(0, yOffsetChild + ResearchNodeSize.y);
                             ApplyPosition(data.Unlocks[j], pos);
-                            GD.Print($"{type} {data.Unlocks[j]} {yOffsetChild} {GetFirstChildPos(data.Unlocks[j])}");
                         }
                     }
 
-                    posLastChild = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
+                    // the last child nested in the children
+                    prevChildPos = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
                 }
 
                 PositionNode(data.Unlocks[i]);
             }
         }
 
-        // Gets the first child in the nested children
+        // Gets the first child nested in the children
         private static Vector2 GetFirstChildPos(ResearchType type)
         {
             var data = ResearchData[type];

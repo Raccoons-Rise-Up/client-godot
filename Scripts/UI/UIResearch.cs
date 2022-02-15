@@ -8,6 +8,7 @@ namespace Client.UI
 #pragma warning disable CS0649 // Values are assigned in the editor
         //[Export] private readonly NodePath nodePathTextureRect;
         [Export] private readonly NodePath nodePathLabel;
+        [Export] private readonly NodePath nodePathLabelPos;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public Control Column { get; set; }
@@ -16,6 +17,7 @@ namespace Client.UI
         public void Init(string name)
         {
             GetNode<Label>(nodePathLabel).Text = name;
+            GetNode<Label>(nodePathLabelPos).Text = RectPosition.ToString();
         }
     }
 }

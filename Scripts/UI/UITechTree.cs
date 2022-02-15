@@ -41,11 +41,10 @@ namespace Client.UI
 
             DrawLinesForChildren(firstNodeInTechCategory);
 
-            //B E 50 (800, 950)
-            //B F 50 (600, 1100)
+            //B F (800, 950) (800, 900)
 
-            //DrawCircle(new Vector2(800, 950), 20, Colors.Brown);
-            //DrawCircle(new Vector2(600, 1100), 20, Colors.Blue);
+            //DrawCircle(new Vector2(800, 950), 20, Colors.Brown); // first
+            //DrawCircle(new Vector2(800, 900), 20, Colors.Blue); // last
         }
 
         private float LineThickness = 5.0f;

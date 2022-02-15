@@ -31,6 +31,7 @@ namespace Client.UI
                 }
             }},
             { ResearchType.C, new Research {
+                
             }},
             { ResearchType.D, new Research {
                 Unlocks = new ResearchType[] {
@@ -42,32 +43,31 @@ namespace Client.UI
             }},
             { ResearchType.E, new Research {
                 Unlocks = new ResearchType[] {
-                    ResearchType.R
+                    ResearchType.R,
+                    ResearchType.S
                 }
             }},
             { ResearchType.F, new Research {
-                
+                Unlocks = new ResearchType[] {
+                    ResearchType.T
+                }
             }},
             { ResearchType.G, new Research {
             }},
             { ResearchType.H, new Research {
             }},
             { ResearchType.I, new Research {
+                
             }},
             { ResearchType.J, new Research {
-                Unlocks = new ResearchType[] {
-                    ResearchType.K
-                }
+                
             }},
             { ResearchType.K, new Research {
             }},
             { ResearchType.L, new Research {
             }},
             { ResearchType.M, new Research {
-                Unlocks = new ResearchType[] {
-                    ResearchType.N,
-                    ResearchType.O
-                }
+                
             }},
             { ResearchType.N, new Research {
             }},
@@ -78,6 +78,10 @@ namespace Client.UI
             { ResearchType.Q, new Research {
             }},
             { ResearchType.R, new Research {
+            }},
+            { ResearchType.S, new Research {
+            }},
+            { ResearchType.T, new Research {
             }}
             
         };
@@ -108,6 +112,7 @@ namespace Client.UI
 
             // Calculate depth for all nodes and calculate MaxDepth
             SetupNode(ResearchType.A, null, new Vector2(200, 1000));
+            PositionNode(ResearchType.A);
 
             AddNodes(ResearchType.A);
         }
@@ -141,6 +146,73 @@ namespace Client.UI
             UITechTree.Instance.AddChild(researchInstance);
         }
 
+        private static void PositionNode(ResearchType type) 
+        {
+            var data = ResearchData[type];
+
+            if (data.Unlocks == null)
+                return;
+
+            bool first = true;
+            Vector2 posLastChild = Vector2.Zero;
+
+            for (int i = 0; i < data.Unlocks.Length; i++)
+            {
+                var childUnlocks = ResearchData[data.Unlocks[i]].Unlocks;
+
+                if (i != 0 && childUnlocks != null)
+                {
+                    if (!first)
+                    {
+                        var yOffsetChild = posLastChild.y - GetFirstChildPos(data.Unlocks[i]).y;
+
+                        if (yOffsetChild > 0)
+                        {
+                            // Apply offset to all remaining nodes in column
+                            for (int j = i; j < data.Unlocks.Length; j++)
+                            {
+                                var pos = new Vector2(0, yOffsetChild + ResearchNodeSize.y);
+                                ApplyPosition(data.Unlocks[j], pos);
+                                GD.Print($"{type} {data.Unlocks[j]} {yOffsetChild} {GetFirstChildPos(data.Unlocks[j])}");
+                            }
+                        }
+                    }
+
+                    posLastChild = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
+                    first = false;
+                }
+
+                PositionNode(data.Unlocks[i]);
+            }
+        }
+
+        // Gets the first child in the nested children
+        private static Vector2 GetFirstChildPos(ResearchType type)
+        {
+            var data = ResearchData[type];
+
+            if (data.Unlocks == null)
+                return data.Position;
+
+            foreach (var unlock in data.Unlocks)
+                GetFirstChildPos(unlock);
+
+            return ResearchData[data.Unlocks[0]].Position;
+        }
+
+        private static void ApplyPosition(ResearchType type, Vector2 position)
+        {
+            var data = ResearchData[type];
+
+            data.Position += position;
+
+            if (data.Unlocks == null)
+                return;
+
+            foreach (var unlock in data.Unlocks)
+                ApplyPosition(unlock, position);
+        }
+
         private static void SetupNode(ResearchType type, ResearchType? parent, Vector2 position, int depth = 1)
         {
             var data = ResearchData[type];
@@ -156,45 +228,15 @@ namespace Client.UI
             if (unlocks == null) 
                 return;
 
-            int leftSide = 0;
-            int rightSide = 0;
-            int branchOffset = 0;
-            bool prevNodeHasNoUnlocks = false;
-            int previousChildUnlockGroups = 0;
-
             for (int i = 0; i < unlocks.Length; i++)
             {
-                var childUnlocks = ResearchData[unlocks[i]].Unlocks;
-
-                // Do not add offset if only 1 child group is present
-                for (int j = 0; j < i; j++)
-                    if (ResearchData[unlocks[j]].Unlocks != null)
-                        previousChildUnlockGroups++;
-
-                leftSide += 1;
-                if (childUnlocks != null)
-                    rightSide += childUnlocks.Length;
-
-                if (unlocks[i] == ResearchType.E)
-                    GD.Print("yes");
-
-                if (rightSide > leftSide && i != 0 && prevNodeHasNoUnlocks && previousChildUnlockGroups >= 1) 
-                {
-                    prevNodeHasNoUnlocks = false;
-                    GD.Print($"{unlocks[i]} {leftSide} {rightSide}");
-                    branchOffset += ((rightSide - leftSide) * SPACING_VERTICAL);
-                }
-
-                if (childUnlocks == null)
-                    prevNodeHasNoUnlocks = true;
-
                 var xShift = SPACING_HORIZONTAL;
                 int yShift;
 
                 if (unlocks.Length % 2 == 0)
-                    yShift = branchOffset + ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
+                    yShift = ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
                 else
-                    yShift = branchOffset + ((i - unlocks.Length / 2) * SPACING_VERTICAL);
+                    yShift = ((i - unlocks.Length / 2) * SPACING_VERTICAL);
 
                 var shift = new Vector2(xShift, yShift);
 

@@ -40,6 +40,12 @@ namespace Client.UI
             var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
 
             DrawLinesForChildren(firstNodeInTechCategory);
+
+            //B E 50 (800, 950)
+            //B F 50 (600, 1100)
+
+            //DrawCircle(new Vector2(800, 950), 20, Colors.Brown);
+            //DrawCircle(new Vector2(600, 1100), 20, Colors.Blue);
         }
 
         private float LineThickness = 5.0f;
@@ -50,7 +56,7 @@ namespace Client.UI
             var node = researchData[type];
             var children = node.Unlocks;
 
-            if (children == null)
+            if (children == null || children.Length == 0)
                 return;
 
             var nodeSize = UITechTreeResearch.ResearchNodeSize;

@@ -12,7 +12,7 @@ namespace Client.UI
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
         // Tech tree data
-        public static Dictionary<ResearchType?, Research> ResearchData = new Dictionary<ResearchType?, Research>(){
+        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
                 Unlocks = new ResearchType[] {
                     ResearchType.B,
@@ -25,13 +25,16 @@ namespace Client.UI
             { ResearchType.B, new Research {
                 Unlocks = new ResearchType[] {
                     ResearchType.C,
+                    ResearchType.W,
                     ResearchType.D,
                     ResearchType.E,
                     ResearchType.F
                 }
             }},
             { ResearchType.C, new Research {
-                
+                Unlocks = new ResearchType[] {
+                    ResearchType.U
+                }
             }},
             { ResearchType.D, new Research {
                 Unlocks = new ResearchType[] {
@@ -53,11 +56,16 @@ namespace Client.UI
                 }
             }},
             { ResearchType.G, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.AA
+                }
             }},
             { ResearchType.H, new Research {
             }},
             { ResearchType.I, new Research {
-                
+                Unlocks = new ResearchType[] {
+                    ResearchType.V
+                }
             }},
             { ResearchType.J, new Research {
                 
@@ -82,6 +90,27 @@ namespace Client.UI
             { ResearchType.S, new Research {
             }},
             { ResearchType.T, new Research {
+            }},
+            { ResearchType.U, new Research {
+            }},
+            { ResearchType.V, new Research {
+            }},
+            { ResearchType.W, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.X
+                }
+            }},
+            { ResearchType.X, new Research {
+                Unlocks = new ResearchType[] {
+                    ResearchType.Y,
+                    ResearchType.Z
+                }
+            }},
+            { ResearchType.Y, new Research {
+            }},
+            { ResearchType.Z, new Research {
+            }},
+            { ResearchType.AA, new Research {
             }}
             
         };
@@ -98,7 +127,8 @@ namespace Client.UI
 
         private const int SPACING_HORIZONTAL = 200;
         private const int SPACING_VERTICAL = 100;
-        public static Vector2 ResearchNodeSize;
+        private static int MaxDepth { get; set; }
+        public static Vector2 ResearchNodeSize { get; set; }
 
         public static void Init() 
         {
@@ -112,7 +142,9 @@ namespace Client.UI
 
             // Calculate depth for all nodes and calculate MaxDepth
             SetupNode(ResearchType.A, null, new Vector2(200, 1000));
-            PositionNode(ResearchType.A);
+
+            for (int i = 0; i < MaxDepth - 1; i++)
+                PositionNode(ResearchType.A);
 
             AddNodes(ResearchType.A);
         }
@@ -142,7 +174,6 @@ namespace Client.UI
             researchInstance.RectPosition = data.Position;
             researchInstance.Init(name);
 
-
             UITechTree.Instance.AddChild(researchInstance);
         }
 
@@ -154,18 +185,19 @@ namespace Client.UI
                 return;
 
             var prevChildPos = Vector2.Zero;
+            var first = true;
 
             for (int i = 0; i < data.Unlocks.Length; i++)
             {
                 var childUnlocks = ResearchData[data.Unlocks[i]].Unlocks;
 
-                if (i != 0 && childUnlocks != null)
+                if (childUnlocks != null)
                 {
                     var yOffsetChild = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y; // Mathf.Abs?
 
-                    GD.Print($"{type} {data.Unlocks[i]} (LEFT) FirstChildPosY: {GetFirstChildPos(data.Unlocks[i]).y} (RIGHT) PrevChildPosY: {prevChildPos.y}");
+                    GD.Print($"{data.Unlocks[i]}");
 
-                    if (yOffsetChild > 0)
+                    if (!first)
                     {
                         // Apply offset to all remaining nodes in column
                         for (int j = i; j < data.Unlocks.Length; j++)
@@ -177,6 +209,7 @@ namespace Client.UI
 
                     // the last child nested in the children
                     prevChildPos = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
+                    first = false;
                 }
 
                 PositionNode(data.Unlocks[i]);
@@ -223,7 +256,11 @@ namespace Client.UI
             var unlocks = data.Unlocks;
 
             if (unlocks == null) 
+            {
+                if (depth > MaxDepth)
+                    MaxDepth = depth;
                 return;
+            }
 
             for (int i = 0; i < unlocks.Length; i++)
             {
@@ -289,6 +326,14 @@ namespace Client.UI
         W,
         X,
         Y,
-        Z
+        Z,
+        AA,
+        AB,
+        AC,
+        AD,
+        AE,
+        AF,
+        AG,
+        AH
     }
 }

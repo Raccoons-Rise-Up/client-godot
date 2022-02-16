@@ -1,0 +1,7 @@
+{
+	"Godot Print": {
+		"prefix": ["gdprint"],
+		"body": ["GD.Print(${1:x});"],
+		"description": "Godot Print"
+	}
+}

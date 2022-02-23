@@ -18,7 +18,6 @@ config/icon="res://Sprites/Msc/icon.png"
 
 [autoload]
 
-Game="*res://Scripts/Game/Game.cs"
 Global="*res://Scenes/Global.tscn"
 
 [input]

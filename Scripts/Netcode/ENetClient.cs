@@ -26,8 +26,10 @@ namespace Client.Netcode
         public static bool ENetThreadRunning;
         private static bool RunningNetCode;
 
+        public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
+
         public virtual void ProcessGodotCommands(GodotCmd cmd) {}
-        public virtual void Connect(Event netEvent, string jwt) {}
+        public virtual void Connect(Event netEvent) {}
         public virtual void Disconnect(Event netEvent) {}
         public virtual void Timeout(Event netEvent) {}
 
@@ -140,7 +142,16 @@ namespace Client.Netcode
                         switch (netEvent.Type)
                         {
                             case EventType.Connect:
-                                Connect(netEvent, jwt);
+                                // Send login request
+                                Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
+                                {
+                                    JsonWebToken = jwt,
+                                    VersionMajor = Version.Major,
+                                    VersionMinor = Version.Minor,
+                                    VersionPatch = Version.Patch
+                                }));
+
+                                Connect(netEvent);
                                 break;
                             case EventType.Receive:
                                 // Receive

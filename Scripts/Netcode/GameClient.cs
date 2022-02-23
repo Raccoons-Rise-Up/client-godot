@@ -17,8 +17,6 @@ namespace Client.Netcode
 {
     public class GameClient : ENetClient 
     {
-        public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
-
         public override void ProcessGodotCommands(GodotCmd cmd)
         {
             switch (cmd.Opcode)
@@ -30,30 +28,18 @@ namespace Client.Netcode
             }
         }
 
-        public override void Connect(Event netEvent, string jwt)
+        public override void Connect(Event netEvent)
         {
-            // Connect
             GDLog("Client connected to server");
-
-            // Send login request
-            Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.Login, new WPacketLogin
-            {
-                JsonWebToken = jwt,
-                VersionMajor = Version.Major,
-                VersionMinor = Version.Minor,
-                VersionPatch = Version.Patch
-            }));
         }
 
         public override void Timeout(Event netEvent)
         {
-            // Timeout
             GDLog("Client connection timeout");
         }
 
         public override void Disconnect(Event netEvent)
         {
-            // Disconnect
             GDLog("Client disconnected from server");
         }
     }

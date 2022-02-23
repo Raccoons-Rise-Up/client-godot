@@ -193,16 +193,20 @@ namespace Client.UI
 
                 if (childUnlocks != null)
                 {
-                    var yOffsetChild = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y; // Mathf.Abs?
+                    var yOffsetChild1 = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y;
+                    //var yOffsetChild2 = prevChildPos.y - GetLastChildPos(data.Unlocks[i]).y;
 
-                    GD.Print($"{data.Unlocks[i]}");
-
+                    //if (data.Unlocks[i] == ResearchType.G)
+                    //{
+                    //    GD.Print($"{data.Unlocks[i]} F: {yOffsetChild1} L: {yOffsetChild2}");
+                    //}
+                    
                     if (!first)
                     {
                         // Apply offset to all remaining nodes in column
                         for (int j = i; j < data.Unlocks.Length; j++)
                         {
-                            var pos = new Vector2(0, yOffsetChild + ResearchNodeSize.y);
+                            var pos = new Vector2(0, yOffsetChild1 + ResearchNodeSize.y);
                             ApplyPosition(data.Unlocks[j], pos);
                         }
                     }
@@ -221,13 +225,20 @@ namespace Client.UI
         {
             var data = ResearchData[type];
 
-            if (data.Unlocks == null)
-                return data.Position;
+            if (data.Unlocks != null)
+                return GetFirstChildPos(data.Unlocks[0]);
 
-            foreach (var unlock in data.Unlocks)
-                GetFirstChildPos(unlock);
+            return ResearchData[type].Position;
+        }
 
-            return ResearchData[data.Unlocks[0]].Position;
+        private static Vector2 GetLastChildPos(ResearchType type)
+        {
+            var data = ResearchData[type];
+
+            if (data.Unlocks != null)
+                return GetLastChildPos(data.Unlocks[data.Unlocks.Length - 1]);
+
+            return ResearchData[type].Position;
         }
 
         private static void ApplyPosition(ResearchType type, Vector2 position)

@@ -10,10 +10,14 @@ namespace Client.Game
 {
     public class GameManager : Node
     {
+        public static GameClient Client { get; set; }
         public static SceneTree Tree { get; set; }
 
         public override void _Ready()
         {
+            Client = new GameClient();
+            AddChild(Client);
+            
             UIOptions.Options = FileManager.GetConfig<Options>(FileManager.PathOptions);
             UIOptions.Init();
             Tree = GetTree();

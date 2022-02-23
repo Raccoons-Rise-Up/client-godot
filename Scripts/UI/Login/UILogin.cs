@@ -131,7 +131,7 @@ namespace Client.UI
 
                     await Task.Delay(100); // Add a small delay of 100 ms to give application a chance to keep up (after all we did just do a POST request)
 
-                    ENetClient.Connect(gameServerIp, gameServerPort, token);
+                    GameManager.Client.Connect(gameServerIp, gameServerPort, token);
                     break;
             }
         }

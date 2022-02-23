@@ -28,7 +28,7 @@ namespace Client.Netcode
             if (opcode == LoginResponseOpcode.VersionMismatch)
             {
                 var serverVersion = $"{data.Version.Major}.{data.Version.Minor}.{data.Version.Patch}";
-                var clientVersion = $"{ENetClient.Version.Major}.{ENetClient.Version.Minor}.{ENetClient.Version.Patch}";
+                var clientVersion = $"{GameClient.Version.Major}.{GameClient.Version.Minor}.{GameClient.Version.Patch}";
                 var message = $"Version mismatch. Server ver. {serverVersion} Client ver. {clientVersion}";
 
                 UILogin.UpdateResponse("Version mismatch");

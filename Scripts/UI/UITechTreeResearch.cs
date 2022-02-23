@@ -194,12 +194,12 @@ namespace Client.UI
                 if (childUnlocks != null)
                 {
                     var yOffsetChild1 = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y;
-                    //var yOffsetChild2 = prevChildPos.y - GetLastChildPos(data.Unlocks[i]).y;
+                    var yOffsetChild2 = prevChildPos.y - GetLastChildPos(data.Unlocks[i]).y;
 
-                    //if (data.Unlocks[i] == ResearchType.G)
-                    //{
-                    //    GD.Print($"{data.Unlocks[i]} F: {yOffsetChild1} L: {yOffsetChild2}");
-                    //}
+                    if (data.Unlocks[i] == ResearchType.W)
+                    {
+                        //GD.Print($"{data.Unlocks[i]} F: {GetFirstChildPos(data.Unlocks[i])} L: {GetLastChildPos(data.Unlocks[i])}");
+                    }
                     
                     if (!first)
                     {

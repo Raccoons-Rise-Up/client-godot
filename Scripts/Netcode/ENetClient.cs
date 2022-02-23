@@ -35,14 +35,21 @@ namespace Client.Netcode
         {
             while (GodotCmds.TryDequeue(out GodotCmd cmd)) 
             {
-                if (cmd.Opcode == GodotOpcode.ENetPacket)
+                switch (cmd.Opcode) 
                 {
-                    var packetReader = (PacketReader)cmd.Data[0];
-                    var opcode = (ServerPacketOpcode)packetReader.ReadByte();
+                    case GodotOpcode.ENetPacket:
+                        var packetReader = (PacketReader)cmd.Data[0];
+                        var opcode = (ServerPacketOpcode)packetReader.ReadByte();
 
-                    HandlePacket[opcode].Handle(packetReader);
-                    packetReader.Dispose();
-                    return;
+                        HandlePacket[opcode].Handle(packetReader);
+                        packetReader.Dispose();
+                        return;
+                    case GodotOpcode.LogMessage:
+                        GD.Print((string)cmd.Data[0]);
+                        return;
+                    case GodotOpcode.ExitApp:
+                        GetTree().Quit();
+                        return;
                 }
                 
                 ProcessGodotCommands(cmd);

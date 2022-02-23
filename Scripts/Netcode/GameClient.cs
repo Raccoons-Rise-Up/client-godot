@@ -23,15 +23,9 @@ namespace Client.Netcode
         {
             switch (cmd.Opcode)
             {
-                case GodotOpcode.LogMessage:
-                    GD.Print((string)cmd.Data[0]);
-                    break;
                 case GodotOpcode.LoadMainMenu:
                     UIGameMenu.ClientPressedDisconnect = false;
                     UIMainMenu.LoadMainMenu();
-                    break;
-                case GodotOpcode.ExitApp:
-                    GetTree().Quit();
                     break;
             }
         }

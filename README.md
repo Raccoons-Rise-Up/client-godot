@@ -1,1 +1,1 @@
-# New Contributors Please Read!!! The [dev branch](https://github.com/Raccoons-Rise-Up/client-godot/tree/dev) is the most up-to-date branch, the main branch is old and will be eventually deleted and dev will become the new main. Main still exists as a reference to how some of the netcode was developed.
+# Please go here --> [dev branch](https://github.com/Raccoons-Rise-Up/client-godot/tree/dev) for the README.md (in other words, do not contribute to the main branch but rather the dev branch)

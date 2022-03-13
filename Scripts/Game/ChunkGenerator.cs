@@ -9,7 +9,7 @@ public class ChunkGenerator : Node
         {
             for (int z = 0; z < 2; z++)
             {
-                AddChild(new Chunk(new Vector3(x * 20, 0, z * 20)));
+                AddChild(new Chunk(new Vector3(x * 10, 0, z * 10)));
             }
         }
     }

@@ -3,6 +3,7 @@ using System;
 
 public class Chunk : MeshInstance
 {
+    private Material Material = ResourceLoader.Load<Material>("res://Materials/Grass.tres");
     private static MeshInstance MeshInstance;
     private Vector3 Position;
 
@@ -20,6 +21,7 @@ public class Chunk : MeshInstance
     {
         MeshInstance = this;
         Translate(Position);
+        MaterialOverride = Material;
 
         Generate(4);
     }
@@ -30,18 +32,6 @@ public class Chunk : MeshInstance
 
         var size = 10;
 
-        var mesh = new PlaneMesh();
-        mesh.Size = new Vector2(size, size);
-        mesh.SubdivideDepth = 50;
-        mesh.SubdivideWidth = 50;
-
-        var surfaceTool = new SurfaceTool();
-        surfaceTool.CreateFrom(mesh, 0);
-
-        var meshDataTool = new MeshDataTool();
-        var arrayMesh = surfaceTool.Commit();
-        meshDataTool.CreateFromSurface(arrayMesh, 0);
-
         var strength = 3f;
         var simplexNoise = new OpenSimplexNoise();
         simplexNoise.Seed = 1234;
@@ -49,18 +39,40 @@ public class Chunk : MeshInstance
         simplexNoise.Persistence = 1f;
         simplexNoise.Period = period;
 
-        for (int i = 0; i < meshDataTool.GetVertexCount(); i++)
+        var surfaceTool = new SurfaceTool();
+        surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
+
+        int vertexIndex = 0;
+
+        for (int x = 0; x < 10; x++)
         {
-            var vertex = meshDataTool.GetVertex(i);
-            vertex += new Vector3(vertex.x, vertex.y + simplexNoise.GetNoise2d(vertex.x, vertex.z) * strength, vertex.z);
-            meshDataTool.SetVertexNormal(i, new Vector3(0, 1, 0));
-            meshDataTool.SetVertex(i, vertex);
+            for (int z = 0; z < 10; z++)
+            {
+                var noise1 = simplexNoise.GetNoise2d(x, z);
+                var noise2 = simplexNoise.GetNoise2d(x + 1, z);
+                var noise3 = simplexNoise.GetNoise2d(x, z + 1);
+                var noise4 = simplexNoise.GetNoise2d(x + 1, z + 1);
+                var pos = new Vector3(x, 0, z);
+
+                surfaceTool.AddVertex(pos + new Vector3(0, noise1, 0));
+                surfaceTool.AddVertex(pos + new Vector3(1, noise2, 0));
+                surfaceTool.AddVertex(pos + new Vector3(0, noise3, 1));
+                surfaceTool.AddVertex(pos + new Vector3(1, noise4, 1));
+
+                surfaceTool.AddIndex(vertexIndex);
+                surfaceTool.AddIndex(vertexIndex + 1);
+                surfaceTool.AddIndex(vertexIndex + 2);
+
+                surfaceTool.AddIndex(vertexIndex + 2);
+                surfaceTool.AddIndex(vertexIndex + 1);
+                surfaceTool.AddIndex(vertexIndex + 3);
+
+                vertexIndex += 4;
+            }
         }
 
-        arrayMesh.SurfaceRemove(0);
+        surfaceTool.GenerateNormals();
 
-        meshDataTool.CommitToSurface(arrayMesh);
-
-        MeshInstance.Mesh = arrayMesh;
+        MeshInstance.Mesh = surfaceTool.Commit();
     }
 }

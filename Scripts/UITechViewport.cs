@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace Client.UI 
 {
@@ -23,6 +24,7 @@ namespace Client.UI
 
         public async override void _Ready()
         {
+            GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
             ViewportContent = UITechTree.Instance;
             Instance = this;
             Camera2D = GetNode<Camera2D>(nodePathCamera2D);
@@ -113,11 +115,12 @@ namespace Client.UI
             var viewportSize = ViewportContent.GetViewportRect().Size * Camera2D.Zoom;
             var contentSize = ViewportContent.RectSize;
 
-            var maxZoom = (contentSize) / (viewportSize.x / Camera2D.Zoom.x);
+            // This calculates the absolute maximum zoom, the x and y values will most likely not be the same value
+            var maxZoom = (contentSize) / (viewportSize / Camera2D.Zoom);
 
             if (Camera2D.Zoom > maxZoom) 
             {
-                Camera2D.Zoom = maxZoom;
+                Camera2D.Zoom = new Vector2(maxZoom.x, maxZoom.x); // if the x and y are different then the content will get distorted
                 ScrollSpeed = Vector2.Zero;
             }
 
@@ -176,6 +179,12 @@ namespace Client.UI
 
             if (Godot.Input.IsActionPressed("ui_down"))
                 UITechViewport.Camera2D.Position += new Vector2(0, arrowSpeed);
+        }
+
+        // Keeping this code here for future reference on how to make and handle delegates / events
+        public void OnViewportSizeChanged(object source, EventArgs args)
+        {
+            //GD.Print(OS.WindowSize);
         }
     }
 }

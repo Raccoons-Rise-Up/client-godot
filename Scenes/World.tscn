@@ -1,9 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[sub_resource type="PlaneMesh" id=1]
+[ext_resource path="res://Scripts/Game/ChunkGenerator.cs" type="Script" id=2]
 
 [node name="Spatial" type="Spatial"]
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = null
+script = ExtResource( 2 )

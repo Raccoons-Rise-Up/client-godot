@@ -5,22 +5,22 @@ public class Chunk : MeshInstance
 {
     private Material Material = ResourceLoader.Load<Material>("res://Materials/Grass.tres");
     private static MeshInstance MeshInstance;
-    private Vector3 Position;
+    private static Vector3 ChunkOffset;
 
     public Chunk()
     {
         // Godot needs this
     }
 
-    public Chunk(Vector3 position)
+    public Chunk(Vector3 pos)
     {
-        Position = position;
+        ChunkOffset = pos;
     }
 
     public override void _Ready()
     {
         MeshInstance = this;
-        Translate(Position);
+        Translate(ChunkOffset);
         MaterialOverride = Material;
 
         Generate(4);
@@ -63,7 +63,7 @@ public class Chunk : MeshInstance
 
         for (int i = 0; i < vertices.Length; i++)
         {
-            vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(vertices[i].x, vertices[i].z) * strength, 0);
+            vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(ChunkOffset.x + vertices[i].x, ChunkOffset.z + vertices[i].z) * strength, 0);
             surfaceTool.AddVertex(vertices[i]);
         }
 

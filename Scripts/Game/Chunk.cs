@@ -41,36 +41,33 @@ public class Chunk : MeshInstance
 
         var surfaceTool = new SurfaceTool();
         surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
+        surfaceTool.AddSmoothGroup(true);
 
-        int vertexIndex = 0;
-
-        for (int x = 0; x < 10; x++)
+        var vertices = new Vector3[size * size * 6];
+        var v = 0;
+        for (int x = 0; x < size; x++)
         {
-            for (int z = 0; z < 10; z++)
+            for (int z = 0; z < size; z++)
             {
-                var noise1 = simplexNoise.GetNoise2d(x, z);
-                var noise2 = simplexNoise.GetNoise2d(x + 1, z);
-                var noise3 = simplexNoise.GetNoise2d(x, z + 1);
-                var noise4 = simplexNoise.GetNoise2d(x + 1, z + 1);
                 var pos = new Vector3(x, 0, z);
+                vertices[v] = pos + new Vector3(0, 0, 0);
+                vertices[v + 1] = pos + new Vector3(1, 0, 0);
+                vertices[v + 2] = pos + new Vector3(0, 0, 1);
+                vertices[v + 3] = pos + new Vector3(0, 0, 1);
+                vertices[v + 4] = pos + new Vector3(1, 0, 0);
+                vertices[v + 5] = pos + new Vector3(1, 0, 1);
 
-                surfaceTool.AddVertex(pos + new Vector3(0, noise1, 0));
-                surfaceTool.AddVertex(pos + new Vector3(1, noise2, 0));
-                surfaceTool.AddVertex(pos + new Vector3(0, noise3, 1));
-                surfaceTool.AddVertex(pos + new Vector3(1, noise4, 1));
-
-                surfaceTool.AddIndex(vertexIndex);
-                surfaceTool.AddIndex(vertexIndex + 1);
-                surfaceTool.AddIndex(vertexIndex + 2);
-
-                surfaceTool.AddIndex(vertexIndex + 2);
-                surfaceTool.AddIndex(vertexIndex + 1);
-                surfaceTool.AddIndex(vertexIndex + 3);
-
-                vertexIndex += 4;
+                v += 6;
             }
         }
 
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(vertices[i].x, vertices[i].z) * strength, 0);
+            surfaceTool.AddVertex(vertices[i]);
+        }
+
+        surfaceTool.Index();
         surfaceTool.GenerateNormals();
 
         MeshInstance.Mesh = surfaceTool.Commit();

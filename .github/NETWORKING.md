@@ -7,27 +7,30 @@ The netcode utilizes [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp/bl
 
 Never give the client any authority, the server always has the final say in everything. This should always be thought of when sending new packets.
 
-Packets are sent like this.
+Packets are sent like this (the way packets are read has a very similar setup)
 ```cs
 // WPacketChatMessage.cs
-namespace KRU.Networking
+namespace Client.Netcode
 {
-    public class WPacketChatMessage : IWritable
+    public class WPacketPlayerData : IWritable
     {
-        public uint ChannelId { get; set; }
-        public string Message { get; set; }
+        public uint PlayerId { get; set; }
+        public uint PlayerHealth { get; set; }
+        public string PlayerName { get; set; }
 
         public void Write(PacketWriter writer)
         {
-            writer.Write(ChannelId);
-            writer.Write(Message);
+            writer.Write(PlayerId);
+            writer.Write(PlayerHealth);
+            writer.Write(PlayerName);
         }
     }
 }
 
 // Since packets are being enqueued to a ConcurrentQueue they can be called from any thread
-ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
-    ChannelId = UIChannels.ActiveChannel,
-    Message = text
+ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.PlayerData, new WPacketPlayerData {
+    PlayerId = 0,
+    PlayerHealth = 100,
+    PlayerName = "Steve"
 }));
 ```

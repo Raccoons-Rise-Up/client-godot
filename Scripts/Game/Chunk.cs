@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Chunk : MeshInstance
 {
@@ -38,6 +39,8 @@ public class Chunk : MeshInstance
         simplexNoise.Octaves = 1;
         simplexNoise.Persistence = 1f;
         simplexNoise.Period = period;
+
+        
 
         var surfaceTool = new SurfaceTool();
         surfaceTool.Begin(Mesh.PrimitiveType.Triangles);

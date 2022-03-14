@@ -23,6 +23,7 @@ public class WorldDebugGUI : Node
 
     private void _on_Btn_Regenerate_pressed() 
     {
-        Chunk.Generate(Period);
+        //var chunk = new Chunk();
+        //chunk.Generate(Period);
     }
 }

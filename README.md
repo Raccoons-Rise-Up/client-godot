@@ -2,7 +2,8 @@
 ## Raccoons Rise Up
 Raccoons Rise Up is a mostly text based progressive resource management MMORPG. Players will be able to purchase structures with resources which in turn will generate more resources. Research from the tech tree will help speed up this process. Players will also be able to assign raccoons to jobs to make resource gathering slightly more interesting.
 
-A wrapper called ENet-CSharp for ENet is being used for the netcode. A web server is being used to manage the user account authentication / creation. The game client is being made in the Godot C# engine. The game server acts as both a server and minecraft like console. A game launcher will eventually be created using Electron.
+## Gameplay
+Please refer to the [Game Dev Document](https://docs.google.com/document/d/1xRS9OLtn-FpSyFYY8vTu6ZNnA41VQQ8h74NBkDnywNc/edit?usp=sharing)
 
 ## Contributing
 Please see [CONTRIBUTING.md](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/CONTRIBUTING.md)

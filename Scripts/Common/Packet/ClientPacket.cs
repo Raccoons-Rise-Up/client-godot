@@ -1,7 +1,4 @@
-using Common.Networking.Message;
-using Common.Networking.IO;
-
-namespace Common.Networking.Packet 
+namespace Common.Netcode
 {
     public class ClientPacket : GamePacket
     {

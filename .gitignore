@@ -1,5 +1,7 @@
 # User Additions
-.vscode/
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
 .vs/
 
 # Godot-specific ignores

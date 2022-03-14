@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture" id=2]
+
+[node name="User" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1024.0
+margin_bottom = -600.0
+rect_min_size = Vector2( 100, 20 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+button_mask = 3
+text = "123456"
+icon = ExtResource( 2 )
+align = 0
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

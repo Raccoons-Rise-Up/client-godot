@@ -1,8 +1,8 @@
-using Common.Networking.IO;
-using Common.Networking.Packet;
+using Common.Netcode;
 using ENet;
+using Godot;
 
-namespace KRU.Networking
+namespace Client.Netcode
 {
     public abstract class HandlePacket
     {

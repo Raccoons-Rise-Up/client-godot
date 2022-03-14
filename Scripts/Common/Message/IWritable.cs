@@ -1,6 +1,4 @@
-using Common.Networking.IO;
-
-namespace Common.Networking.Message 
+namespace Common.Netcode
 {
     public interface IWritable 
     {

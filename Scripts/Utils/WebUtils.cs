@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using KRU.UI;
+using Client.UI;
 
-namespace KRU.Utils
+namespace Client.Utilities
 {
     public static class WebUtils
     {
@@ -23,7 +23,7 @@ namespace KRU.Utils
             string stringTask = "";
             try
             {
-                stringTask = await WebClient.GetStringAsync($"http://{UIGame.WebServerIp}:{UIGame.WebServerPort}/" + path);
+                stringTask = await WebClient.GetStringAsync($"http://{UILogin.WebServerIp}:{UILogin.WebServerPort}/" + path);
             }
             catch (Exception e)
             {
@@ -49,9 +49,9 @@ namespace KRU.Utils
             {
                 try
                 {
-                    using (var response = await WebClient.PostAsync($"http://{UIGame.WebServerIp}:{UIGame.WebServerPort}/" + path, requestContent))
+                    using (var response = await WebClient.PostAsync($"http://{UILogin.WebServerIp}:{UILogin.WebServerPort}/" + path, requestContent))
                     {
-                        GD.Print("STATUS CODE: " + response.StatusCode);
+                        GD.Print("Web Server Status Code: " + response.StatusCode);
 
                         switch (response.StatusCode)
                         {

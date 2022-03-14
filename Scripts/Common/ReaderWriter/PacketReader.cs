@@ -1,10 +1,18 @@
 using System.IO;
+using ENet;
 
-namespace Common.Networking.IO 
+namespace Common.Netcode
 {
     public class PacketReader : BinaryReader 
-    {   
-        public PacketReader(byte[] data) : base(new MemoryStream(data)) { }
+    {
+        private static readonly byte[] ReadBuffer = new byte[GamePacket.MaxSize];
+
+        public PacketReader(Packet packet) : base(new MemoryStream(ReadBuffer)) 
+        {
+            BaseStream.Position = 0;
+            packet.CopyTo(ReadBuffer);
+            packet.Dispose();
+        }
 
         public bool ReadBool() => base.ReadBoolean();
         public sbyte ReadInt8() => base.ReadSByte();

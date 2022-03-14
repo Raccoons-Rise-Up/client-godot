@@ -1,4 +1,4 @@
-﻿namespace Common.Networking.Packet
+﻿namespace Common.Netcode
 {
     // Received from Game Client
     public enum ClientPacketOpcode
@@ -65,5 +65,12 @@
         Kicked,
         Banned,
         PlayerWithUsernameExistsOnServerAlready
+    }
+
+    public struct Version
+    {
+        public byte Major { get; set; }
+        public byte Minor { get; set; }
+        public byte Patch { get; set; }
     }
 }

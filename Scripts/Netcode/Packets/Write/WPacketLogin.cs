@@ -1,7 +1,6 @@
-using Common.Networking.IO;
-using Common.Networking.Message;
+using Common.Netcode;
 
-namespace KRU.Networking
+namespace Client.Netcode
 {
     public class WPacketLogin : IWritable
     {

@@ -1,11 +1,12 @@
-using Common.Networking.Message;
-using Common.Networking.IO;
+using ENet;
 
-namespace Common.Networking.Packet 
+namespace Common.Netcode
 {
     public class ServerPacket : GamePacket
     {
-        public ServerPacket(byte opcode, IWritable writable = null)
+        public Peer[] Peers { get; private set; }
+
+        public ServerPacket(byte opcode, IWritable writable = null, params Peer[] peers)
         {
             using (var writer = new PacketWriter()) 
             {
@@ -18,6 +19,7 @@ namespace Common.Networking.Packet
             }
 
             Opcode = opcode;
+            Peers = peers;
         }
     }
 }

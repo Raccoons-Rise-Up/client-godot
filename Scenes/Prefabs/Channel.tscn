@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
+
+[node name="Name" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 576.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 766.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.03
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer"]
+margin_right = 766.0
+margin_bottom = 548.0
+size_flags_vertical = 3
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+
+[node name="Chat Content" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 766.0
+margin_bottom = 548.0
+size_flags_vertical = 3
+
+[node name="Chat Input" type="LineEdit" parent="HBoxContainer/VBoxContainer"]
+margin_top = 552.0
+margin_right = 766.0
+margin_bottom = 576.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
+margin_left = 770.0
+margin_right = 1024.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+
+[node name="User List" type="VBoxContainer" parent="HBoxContainer/ScrollContainer"]
+margin_right = 254.0
+size_flags_horizontal = 3

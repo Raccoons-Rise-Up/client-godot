@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Common.Networking.IO 
+namespace Common.Netcode
 {
     public class PacketWriter : BinaryWriter 
     {

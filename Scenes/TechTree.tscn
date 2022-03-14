@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/UI/UITechTree.cs" type="Script" id=1]
+[ext_resource path="res://Themes/Debug.tres" type="Theme" id=2]
+[ext_resource path="res://Sprites/Msc/uv texture.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 1, 0, 0, 1 )
+
+[node name="Mask" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Content" type="Panel" parent="."]
+anchor_top = -1.16167
+margin_top = 697.002
+margin_right = 2000.0
+margin_bottom = 2000.0
+rect_min_size = Vector2( 2000, 2000 )
+mouse_filter = 2
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="Content"]
+modulate = Color( 1, 1, 1, 0.0705882 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Content"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Content/CenterContainer"]
+margin_left = 921.0
+margin_top = 968.0
+margin_right = 1079.0
+margin_bottom = 1032.0
+text = "Center"
+
+[node name="Label" type="Label" parent="Content"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -300.0
+margin_top = -32.0
+margin_bottom = 32.0
+text = "Center Right"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Content"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -130.0
+margin_right = 130.0
+margin_bottom = 64.0
+text = "Center Top"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Content"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -32.0
+margin_right = 264.0
+margin_bottom = 32.0
+text = "Center Left"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Content"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -175.5
+margin_top = -64.0
+margin_right = 175.5
+text = "Center Bottom"
+__meta__ = {
+"_edit_use_anchors_": false
+}

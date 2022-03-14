@@ -1,5 +1,7 @@
 # Sprites
 
+https://opengameart.org/ is a great place for finding free art
+
 There will need to be art for each
 - Structure
 - Technology

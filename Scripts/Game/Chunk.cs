@@ -105,10 +105,10 @@ public class Chunk : MeshInstance
             vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(ChunkOffset.x + vertices[i].x, ChunkOffset.z + vertices[i].z) * strength, 0);
         }
 
-        for (int i = 0; i < ChunkSettings.Size; i++)
+        /*for (int i = 0; i < ChunkSettings.Size; i++)
         {
             AddChild(new DebugPoint(vertices[Edges[1, i]]));
-        }
+        }*/
         
         // Calculate normals
         for (int i = 0; i < Normals.Length; i++)

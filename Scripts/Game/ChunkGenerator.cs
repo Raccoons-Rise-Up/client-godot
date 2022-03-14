@@ -3,6 +3,8 @@ using System;
 
 public class ChunkGenerator : Node
 {
+    public Chunk[,] Chunks = new Chunk[128, 128];
+
     public override void _Ready()
     {
         var chunkSettings = new ChunkSettings {
@@ -15,6 +17,7 @@ public class ChunkGenerator : Node
             for (int z = 0; z < 1; z++)
             {
                 var chunk = new Chunk(chunkSettings, x, z);
+                Chunks[x, z] = chunk;
                 AddChild(chunk);
             }
         }

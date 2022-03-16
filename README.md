@@ -11,4 +11,4 @@ Please refer to the [Game Dev Document](https://docs.google.com/document/d/1xRS9
 ## Contributing
 Please see [CONTRIBUTING.md](https://github.com/Raccoons-Rise-Up/client-godot/blob/main/.github/CONTRIBUTING.md)
 
-All discussion and dev talk will be done on [Revolt](https://app.revolt.chat/invite/jHXEbbfq)
+All discussion and dev talk will be done on [Revolt](https://app.revolt.chat/invite/B8geJcGP)

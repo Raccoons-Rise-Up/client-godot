@@ -9,9 +9,11 @@ public class Chunk : MeshInstance
     private static Material Material = ResourceLoader.Load<Material>("res://Materials/Grass.tres");
 
     // Instance
-    private Vector3[] Normals;
-    private int[,] Edges;
-    private Vector3 ChunkOffset;
+    public int[,] Edges;
+    public Vector3[] Vertices;
+    public Vector3[] Normals;
+    public int[] Indices;
+    public Vector3 ChunkOffset;
 
     private Chunk()
     {
@@ -23,16 +25,18 @@ public class Chunk : MeshInstance
     {
         ChunkSettings = chunkSettings;
         ChunkOffset = new Vector3(x * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res), 0, z * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res));
+        Vertices = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
         Normals = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
+        Indices = new int[(ChunkSettings.Size - 1) * (ChunkSettings.Size - 1) * 6];
         Edges = new int[4, ChunkSettings.Size];
     }
 
     public override void _Ready()
     {
-        Generate(4);
+        Generate();
     }
 
-    public void Generate(float period) 
+    public void Generate() 
     {
         Translate(ChunkOffset);
         MaterialOverride = Material;
@@ -43,16 +47,13 @@ public class Chunk : MeshInstance
         var arrMesh = new ArrayMesh();
         var arr = new Godot.Collections.Array();
         arr.Resize((int)ArrayMesh.ArrayType.Max);
-
-        var vertices = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
-        var indices = new int[(ChunkSettings.Size - 1) * (ChunkSettings.Size - 1) * 6];
         
         var strength = 3f;
         var simplexNoise = new OpenSimplexNoise();
         simplexNoise.Seed = 1234;
         simplexNoise.Octaves = 1;
         simplexNoise.Persistence = 1f;
-        simplexNoise.Period = period;
+        simplexNoise.Period = 4f;
         
         var vertexIndex = 0;
         var triIndex = 0;
@@ -66,49 +67,36 @@ public class Chunk : MeshInstance
             for (int z = 0; z < ChunkSettings.Size; z++)
             {
                 if (x == 0)
-                {
-                    Edges[0, edge1Index++] = vertexIndex; 
-                }
+                    Edges[(int)Dir.South, edge1Index++] = vertexIndex; 
 
                 if (x == ChunkSettings.Size - 1)
-                {
-                    Edges[1, edge2Index++] = vertexIndex; 
-                }
+                    Edges[(int)Dir.North, edge2Index++] = vertexIndex; 
 
                 if (z == 0)
-                {
-                    Edges[2, edge3Index++] = vertexIndex; 
-                }
+                    Edges[(int)Dir.West, edge3Index++] = vertexIndex; 
 
                 if (z == ChunkSettings.Size - 1)
-                {
-                    Edges[3, edge4Index++] = vertexIndex; 
-                }
+                    Edges[(int)Dir.East, edge4Index++] = vertexIndex; 
 
-                vertices[vertexIndex++] = new Vector3(x, 0, z) * ChunkSettings.Res;
+                Vertices[vertexIndex++] = new Vector3(x, 0, z) * ChunkSettings.Res;
 
                 if (x == 0 || z == 0) continue;
 
-                indices[triIndex] = (ChunkSettings.Size * x + z); //Top right
-                indices[triIndex + 1] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left - First triangle
-                indices[triIndex + 2] = (ChunkSettings.Size * x + (z - 1)); //Bottom right
-                indices[triIndex + 3] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left 
-                indices[triIndex + 4] = (ChunkSettings.Size * x + z); //Top right - Second triangle
-                indices[triIndex + 5] = (ChunkSettings.Size * (x - 1) + z); //Top left
+                Indices[triIndex] = (ChunkSettings.Size * x + z); //Top right
+                Indices[triIndex + 1] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left - First triangle
+                Indices[triIndex + 2] = (ChunkSettings.Size * x + (z - 1)); //Bottom right
+                Indices[triIndex + 3] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left 
+                Indices[triIndex + 4] = (ChunkSettings.Size * x + z); //Top right - Second triangle
+                Indices[triIndex + 5] = (ChunkSettings.Size * (x - 1) + z); //Top left
 
                 triIndex += 6;
             }
                 
 
-        for (int i = 0; i < vertices.Length; i++)
+        for (int i = 0; i < Vertices.Length; i++)
         {
-            vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(ChunkOffset.x + vertices[i].x, ChunkOffset.z + vertices[i].z) * strength, 0);
+            Vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(ChunkOffset.x + Vertices[i].x, ChunkOffset.z + Vertices[i].z) * strength, 0);
         }
-
-        /*for (int i = 0; i < ChunkSettings.Size; i++)
-        {
-            AddChild(new DebugPoint(vertices[Edges[1, i]]));
-        }*/
         
         // Calculate normals
         for (int i = 0; i < Normals.Length; i++)
@@ -116,14 +104,14 @@ public class Chunk : MeshInstance
             Normals[i] = Vector3.Zero;
         }
 
-        for (int i = 0; i < indices.Length; i+=3)
+        for (int i = 0; i < Indices.Length; i+=3)
         {
-            var vertexA = indices[i];
-            var vertexB = indices[i + 2];
-            var vertexC = indices[i + 1];
+            var vertexA = Indices[i];
+            var vertexB = Indices[i + 2];
+            var vertexC = Indices[i + 1];
 
-            var edgeAB = vertices[vertexB] - vertices[vertexA];
-            var edgeAC = vertices[vertexC] - vertices[vertexA];
+            var edgeAB = Vertices[vertexB] - Vertices[vertexA];
+            var edgeAC = Vertices[vertexC] - Vertices[vertexA];
 
             var areaWeightedNormal = edgeAB.Cross(edgeAC);
             
@@ -132,16 +120,24 @@ public class Chunk : MeshInstance
             Normals[vertexC] += areaWeightedNormal;
         }
 
-        for (int i = 0; i < vertices.Length; i++) 
+        for (int i = 0; i < Vertices.Length; i++) 
         {
             Normals[i] = Normals[i].Normalized();
         }
 
-        arr[(int)ArrayMesh.ArrayType.Vertex] = vertices;
-        arr[(int)ArrayMesh.ArrayType.Index] = indices;
+        arr[(int)ArrayMesh.ArrayType.Vertex] = Vertices;
+        arr[(int)ArrayMesh.ArrayType.Index] = Indices;
         arr[(int)ArrayMesh.ArrayType.Normal] = Normals;
 
         arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arr);
         Mesh = arrMesh;
     }
+}
+
+public enum Dir 
+{
+    South,
+    North,
+    West,
+    East
 }

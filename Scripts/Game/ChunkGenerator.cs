@@ -61,8 +61,8 @@ public class ChunkGenerator : Node
         for (int i = 0; i < ChunkSettings.Size; i++)
         {
             var average = (chunk1EdgeNormals[i] + chunk2EdgeNormals[i]) / 2;
-            chunk1.Normals[chunk1.Edges[(int)Dir.North, i]] = average.Normalized();
-            chunk2.Normals[chunk2.Edges[(int)Dir.South, i]] = average.Normalized();
+            chunk1.Normals[chunk1.Edges[(int)Dir.North, i]] = average;
+            chunk2.Normals[chunk2.Edges[(int)Dir.South, i]] = average;
         }
 
         // Reapply and recalculate the normals

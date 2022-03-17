@@ -35,11 +35,11 @@ public class ChunkGenerator : Node
         // Fix normals on seams (take average of 2)
         // Start with a chunk
         var chunk1 = Chunks[0, 0];
-        var chunk1Normals = new Vector3[ChunkSettings.Size];
+        var chunk1EdgeNormals = new Vector3[ChunkSettings.Size];
 
         for (int i = 0; i < ChunkSettings.Size; i++)
         {
-            chunk1Normals[i] = chunk1.Normals[chunk1.Edges[(int)Dir.South, i]];
+            chunk1EdgeNormals[i] = chunk1.Normals[chunk1.Edges[(int)Dir.North, i]];
 
             var point = chunk1.ChunkOffset + chunk1.Vertices[chunk1.Edges[(int)Dir.North, i]];
             //AddChild(new DebugPoint(point, Colors.Red));
@@ -47,11 +47,11 @@ public class ChunkGenerator : Node
 
         // Get chunk neighbor
         var chunk2 = Chunks[1, 0];
-        var chunk2Normals = new Vector3[ChunkSettings.Size];
+        var chunk2EdgeNormals = new Vector3[ChunkSettings.Size];
 
         for (int i = 0; i < ChunkSettings.Size; i++)
         {
-            chunk2Normals[i] = chunk2.Normals[chunk2.Edges[(int)Dir.South, i]];
+            chunk2EdgeNormals[i] = chunk2.Normals[chunk2.Edges[(int)Dir.South, i]];
 
             var point = chunk2.ChunkOffset + chunk2.Vertices[chunk2.Edges[(int)Dir.South, i]] + new Vector3(0, 1, 0);
             //AddChild(new DebugPoint(point, Colors.Blue));
@@ -60,9 +60,9 @@ public class ChunkGenerator : Node
         // Take average of normals
         for (int i = 0; i < ChunkSettings.Size; i++)
         {
-            var average = (chunk1Normals[i] + chunk2Normals[i]) / 2;
-            chunk1.Normals[i] = average.Normalized();
-            chunk2.Normals[i] = average.Normalized();
+            var average = (chunk1EdgeNormals[i] + chunk2EdgeNormals[i]) / 2;
+            chunk1.Normals[chunk1.Edges[(int)Dir.North, i]] = average.Normalized();
+            chunk2.Normals[chunk2.Edges[(int)Dir.South, i]] = average.Normalized();
         }
 
         // Reapply and recalculate the normals

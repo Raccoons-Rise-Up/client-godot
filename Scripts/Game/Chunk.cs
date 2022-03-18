@@ -6,16 +6,9 @@ namespace Client.Game
 {
     public class Chunk : MeshInstance
     {
-        // Static
         private static ChunkSettings ChunkSettings;
         private static Material Material = ResourceLoader.Load<Material>("res://Materials/Grass.tres");
-
-        // Instance
-        public int[,] Edges;
-        public Vector3[] Vertices;
-        public Vector3[] Normals;
-        public int[] Indices;
-        public Vector3 ChunkOffset;
+        private int X, Z;
 
         private Chunk()
         {
@@ -26,27 +19,25 @@ namespace Client.Game
         public Chunk(ChunkSettings chunkSettings, int x, int z)
         {
             ChunkSettings = chunkSettings;
-            ChunkOffset = new Vector3(x * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res), 0, z * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res));
-            Vertices = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
-            Normals = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
-            Indices = new int[(ChunkSettings.Size - 1) * (ChunkSettings.Size - 1) * 6];
-            Edges = new int[4, ChunkSettings.Size];
+            X = x;
+            Z = z;
         }
 
         public override void _Ready()
         {
-            InitData();
-            GenerateMesh();
+            var vertices = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
+            var indices = new int[(ChunkSettings.Size - 1) * (ChunkSettings.Size - 1) * 6];
+            var normals = new Vector3[ChunkSettings.Size * ChunkSettings.Size];
+            var edges = new int[4, ChunkSettings.Size];
+            var chunkOffset = new Vector3(X * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res), 0, Z * (ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res));
+            
+            CalculateIndices(vertices, indices, edges);
+            CalculateNoise(vertices, chunkOffset);
+            CalculateNormals(vertices, indices, normals);
+            GenerateMesh(vertices, indices, normals, chunkOffset);
         }
 
-        public void InitData()
-        {
-            CalculateIndices();
-            CalculateNoise();
-            CalculateNormals();
-        }
-
-        private void CalculateIndices()
+        private void CalculateIndices(Vector3[] vertices, int[] indices, int[,] edges)
         {
             var vertexIndex = 0;
             var triIndex = 0;
@@ -60,33 +51,33 @@ namespace Client.Game
                 for (int z = 0; z < ChunkSettings.Size; z++)
                 {
                     if (x == 0)
-                        Edges[(int)Dir.South, edge1Index++] = vertexIndex;
+                        edges[(int)Dir.South, edge1Index++] = vertexIndex;
 
                     if (x == ChunkSettings.Size - 1)
-                        Edges[(int)Dir.North, edge2Index++] = vertexIndex;
+                        edges[(int)Dir.North, edge2Index++] = vertexIndex;
 
                     if (z == 0)
-                        Edges[(int)Dir.West, edge3Index++] = vertexIndex;
+                        edges[(int)Dir.West, edge3Index++] = vertexIndex;
 
                     if (z == ChunkSettings.Size - 1)
-                        Edges[(int)Dir.East, edge4Index++] = vertexIndex;
+                        edges[(int)Dir.East, edge4Index++] = vertexIndex;
 
-                    Vertices[vertexIndex++] = new Vector3(x, 0, z) * ChunkSettings.Res;
+                    vertices[vertexIndex++] = new Vector3(x, 0, z) * ChunkSettings.Res;
 
                     if (x == 0 || z == 0) continue;
 
-                    Indices[triIndex] = (ChunkSettings.Size * x + z); //Top right
-                    Indices[triIndex + 1] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left - First triangle
-                    Indices[triIndex + 2] = (ChunkSettings.Size * x + (z - 1)); //Bottom right
-                    Indices[triIndex + 3] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left 
-                    Indices[triIndex + 4] = (ChunkSettings.Size * x + z); //Top right - Second triangle
-                    Indices[triIndex + 5] = (ChunkSettings.Size * (x - 1) + z); //Top left
+                    indices[triIndex] = (ChunkSettings.Size * x + z); //Top right
+                    indices[triIndex + 1] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left - First triangle
+                    indices[triIndex + 2] = (ChunkSettings.Size * x + (z - 1)); //Bottom right
+                    indices[triIndex + 3] = (ChunkSettings.Size * (x - 1) + (z - 1)); //Bottom left 
+                    indices[triIndex + 4] = (ChunkSettings.Size * x + z); //Top right - Second triangle
+                    indices[triIndex + 5] = (ChunkSettings.Size * (x - 1) + z); //Top left
 
                     triIndex += 6;
                 }
         }
 
-        private void CalculateNoise()
+        private void CalculateNoise(Vector3[] vertices, Vector3 chunkOffset)
         {
             var strength = 3f;
             var simplexNoise = new OpenSimplexNoise();
@@ -95,39 +86,38 @@ namespace Client.Game
             simplexNoise.Persistence = 1f;
             simplexNoise.Period = 4f;
 
-            for (int i = 0; i < Vertices.Length; i++)
-                Vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(ChunkOffset.x + Vertices[i].x, ChunkOffset.z + Vertices[i].z) * strength, 0);
+            for (int i = 0; i < vertices.Length; i++)
+                vertices[i] += new Vector3(0, simplexNoise.GetNoise2d(chunkOffset.x + vertices[i].x, chunkOffset.z + vertices[i].z) * strength, 0);
         }
 
-        private void CalculateNormals()
+        private void CalculateNormals(Vector3[] vertices, int[] indices, Vector3[] normals)
         {
-            // to calculate the normals, the data for vertices and indices is needed
-            for (int i = 0; i < Normals.Length; i++)
-                Normals[i] = Vector3.Zero;
+            for (int i = 0; i < normals.Length; i++)
+                normals[i] = Vector3.Zero;
 
-            for (int i = 0; i < Indices.Length; i += 3)
+            for (int i = 0; i < indices.Length; i += 3)
             {
-                var vertexA = Indices[i];
-                var vertexB = Indices[i + 2];
-                var vertexC = Indices[i + 1];
+                var vertexA = indices[i];
+                var vertexB = indices[i + 2];
+                var vertexC = indices[i + 1];
 
-                var edgeAB = Vertices[vertexB] - Vertices[vertexA];
-                var edgeAC = Vertices[vertexC] - Vertices[vertexA];
+                var edgeAB = vertices[vertexB] - vertices[vertexA];
+                var edgeAC = vertices[vertexC] - vertices[vertexA];
 
                 var areaWeightedNormal = edgeAB.Cross(edgeAC);
 
-                Normals[vertexA] += areaWeightedNormal;
-                Normals[vertexB] += areaWeightedNormal;
-                Normals[vertexC] += areaWeightedNormal;
+                normals[vertexA] += areaWeightedNormal;
+                normals[vertexB] += areaWeightedNormal;
+                normals[vertexC] += areaWeightedNormal;
             }
 
-            for (int i = 0; i < Vertices.Length; i++)
-                Normals[i] = Normals[i].Normalized();
+            for (int i = 0; i < vertices.Length; i++)
+                normals[i] = normals[i].Normalized();
         }
 
-        public void GenerateMesh()
+        private void GenerateMesh(Vector3[] vertices, int[] indices, Vector3[] normals, Vector3 chunkOffset)
         {
-            Translate(ChunkOffset);
+            Translate(chunkOffset);
             MaterialOverride = Material;
 
             Mesh = null;
@@ -136,9 +126,9 @@ namespace Client.Game
             var arr = new Godot.Collections.Array();
             arr.Resize((int)ArrayMesh.ArrayType.Max);
 
-            arr[(int)ArrayMesh.ArrayType.Vertex] = Vertices;
-            arr[(int)ArrayMesh.ArrayType.Index] = Indices;
-            arr[(int)ArrayMesh.ArrayType.Normal] = Normals;
+            arr[(int)ArrayMesh.ArrayType.Vertex] = vertices;
+            arr[(int)ArrayMesh.ArrayType.Index] = indices;
+            arr[(int)ArrayMesh.ArrayType.Normal] = normals;
 
             arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arr);
             Mesh = arrMesh;

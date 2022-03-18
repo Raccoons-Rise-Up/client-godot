@@ -34,7 +34,7 @@ namespace Client.Game
 
         private void FixNormals()
         {
-            // Fix normals on seams (take average of 2)
+            /*// Fix normals on seams (take average of 2)
             // Start with a chunk
             var chunk1 = Chunks[0, 0];
             var chunk1EdgeNormals = new Vector3[ChunkSettings.Size];
@@ -79,7 +79,7 @@ namespace Client.Game
             arr2[(int)ArrayMesh.ArrayType.Normal] = chunk2.Normals;
 
             arrMesh2.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arr2);
-            chunk2.Mesh = arrMesh2;
+            chunk2.Mesh = arrMesh2;*/
         }
     }
 

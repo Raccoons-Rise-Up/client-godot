@@ -6,7 +6,7 @@ namespace Client.Game
 {
     public class ChunkGenerator
     {
-        public static int WorldSize = 7;
+        public static int WorldSize = 100;
         public static int SpawnSize = 5;
         public static Chunk[,] ChunkData = new Chunk[WorldSize, WorldSize];
         public static List<Pos> LoadedChunks = new List<Pos>();
@@ -36,7 +36,7 @@ namespace Client.Game
 
             foreach (var chunk in LoadedChunks) 
             {
-                ChunkData[chunk.X, chunk.Z].GenerateMesh();
+                ChunkData[chunk.X, chunk.Z].SmoothEdgeNormals();
             }
                 
         }

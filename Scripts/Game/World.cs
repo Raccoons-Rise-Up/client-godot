@@ -23,24 +23,43 @@ namespace Client.Game
             var camPos = Camera.Translation;
             var settings = ChunkGenerator.ChunkSettings;
 
-            foreach (var chunk in ChunkGenerator.ChunkData)
+            var chunkLength = settings.Size * settings.Res - settings.Res;
+            var curX = (int)Mathf.Floor(camPos.x / chunkLength);
+            var curZ = (int)Mathf.Floor(camPos.z / chunkLength);
+
+            var chunkDataRange = 12;
+            for (int x = curX - chunkDataRange / 2; x < curX + chunkDataRange / 2; x++)
             {
-                var chunkLength = settings.Size * settings.Res - settings.Res;
-                var x = (int)Mathf.Clamp(Mathf.Floor(camPos.x / chunkLength), 0, ChunkGenerator.WorldSize - 1);
-                var z = (int)Mathf.Clamp(Mathf.Floor(camPos.z / chunkLength), 0, ChunkGenerator.WorldSize - 1);
-
-                var c = ChunkGenerator.ChunkData[x, z];
-                if (c == null)
+                for (int z = curZ - chunkDataRange / 2; z < curZ + chunkDataRange / 2; z++)
                 {
-                    c = new Chunk(settings, x, z);
-                    ChunkGenerator.ChunkData[x, z] = c;
-                    AddChild(c);
+                    AddChunkData(Mathf.Clamp(x, 0, ChunkGenerator.WorldSize - 1), Mathf.Clamp(z, 0, ChunkGenerator.WorldSize - 1));
                 }
+            }
 
-                if (!c.Generated)
+            var meshDataRange = 6;
+            for (int x = curX - meshDataRange / 2; x < curX + meshDataRange / 2; x++)
+            {
+                for (int z = curZ - meshDataRange / 2; z < curZ + meshDataRange / 2; z++)
                 {
-                    c.GenerateMesh();
+                    var c = ChunkGenerator.ChunkData[Mathf.Clamp(x, 0, ChunkGenerator.WorldSize - 1), Mathf.Clamp(z, 0, ChunkGenerator.WorldSize - 1)];
+                    
+                    if (!c.Generated) 
+                    {
+                        c.SmoothEdgeNormals(); // also generates mesh
+                    }
                 }
+            }
+        }
+
+        private void AddChunkData(int x, int z)
+        {
+            var c = ChunkGenerator.ChunkData[x, z];
+
+            if (c == null)
+            {
+                c = new Chunk(ChunkGenerator.ChunkSettings, x, z);
+                ChunkGenerator.ChunkData[x, z] = c;
+                AddChild(c);
             }
         }
     }

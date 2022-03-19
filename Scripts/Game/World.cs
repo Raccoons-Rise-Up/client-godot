@@ -17,7 +17,7 @@ namespace Client.Game
         public static Camera Camera;
         public static World Instance;
 
-        private static Timer ChunkTimer;
+        public static Timer ChunkTimer;
 
         public override void _Ready()
         {
@@ -46,24 +46,6 @@ namespace Client.Game
             for (int x = curX - range / 2; x < curX + range / 2; x++)
                 for (int z = curZ - range / 2; z < curZ + range / 2; z++)
                 {
-                    //GD.Print(ChunkGenerator.LoadedChunks.Count);
-                    /*if (ChunkGenerator.LoadedChunks.Count > 150)
-                    {
-                        var chunksToBeRemoved = ChunkGenerator.LoadedChunks.Count - 150;
-
-                        for (int i = 0; i < chunksToBeRemoved; i++)
-                        {
-                            var pos = ChunkGenerator.LoadedChunks[i];
-
-                            if (ChunkGenerator.ChunkData[pos.X, pos.Z] != null)
-                            {
-                                ChunkGenerator.ChunkData[pos.X, pos.Z].QueueFree();
-                                ChunkGenerator.ChunkData[pos.X, pos.Z] = null;
-                            }
-                        }
-
-                    }*/
-
                     for (int i = 0; i < ChunkGenerator.LoadedChunks.Count; i++)
                     {
                         var pos = ChunkGenerator.LoadedChunks[i];
@@ -84,8 +66,14 @@ namespace Client.Game
                         }
                     }
 
-                    //await World.Instance.ToSignal(World.Instance.GetTree(), "idle_frame");
+                    
+                }
 
+            await World.Instance.ToSignal(World.Instance.GetTree(), "idle_frame");
+
+            for (int x = curX - range / 2; x < curX + range / 2; x++)
+                for (int z = curZ - range / 2; z < curZ + range / 2; z++)
+                {
                     var posX = Mathf.Clamp(x, 0, WorldSize - 1);
                     var posZ = Mathf.Clamp(z, 0, WorldSize - 1);
                     var c = ChunkGenerator.ChunkData[posX, posZ];
@@ -95,16 +83,6 @@ namespace Client.Game
 
                     if (!c.Generated)
                         c.GenerateMesh();
-
-                    //var chunkPos = c.GetCenterPos();
-                    //var diff = (chunkPos - camPos);
-                    //diff.y = 0;
-
-
-
-
-                    //if (diff.LengthSquared() > 1000)
-                    //c.ClearMesh();
                 }
         }
 

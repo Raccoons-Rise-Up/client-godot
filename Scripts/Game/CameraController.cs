@@ -25,12 +25,12 @@ public class CameraController : Camera
         Direction = Vector3.Zero;
 
         if (left)
-            Direction.x = 1;
-        if (right)
             Direction.x = -1;
+        if (right)
+            Direction.x = 1;
         if (down)
-            Direction.y = 1;
-        if (up)
             Direction.y = -1;
+        if (up)
+            Direction.y = 1;
     }
 }

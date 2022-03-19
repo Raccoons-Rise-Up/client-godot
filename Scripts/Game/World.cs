@@ -32,23 +32,6 @@ namespace Client.Game
             var curX = (int)Mathf.Floor(camPos.x / ChunkGenerator.ChunkLength);
             var curZ = (int)Mathf.Floor(camPos.z / ChunkGenerator.ChunkLength);
 
-
-
-            /*var chunkDataRange = 24;
-            for (int x = curX - chunkDataRange / 2; x < curX + chunkDataRange / 2; x++)
-                for (int z = curZ - chunkDataRange / 2; z < curZ + chunkDataRange / 2; z++)
-                    AddChunkData(Mathf.Clamp(x, 0, WorldSize - 1), Mathf.Clamp(z, 0, WorldSize - 1));
-
-            var meshDataRange = 12;
-            for (int x = curX - meshDataRange / 2; x < curX + meshDataRange / 2; x++)
-                for (int z = curZ - meshDataRange / 2; z < curZ + meshDataRange / 2; z++)
-                {
-                    var c = ChunkGenerator.ChunkData[Mathf.Clamp(x, 0, WorldSize - 1), Mathf.Clamp(z, 0, WorldSize - 1)];
-                    
-                    if (!c.Generated) 
-                        c.GenerateMesh();
-                }*/
-
             var range = 12;
             for (int x = curX - range / 2; x < curX + range / 2; x++)
                 for (int z = curZ - range / 2; z < curZ + range / 2; z++)
@@ -63,26 +46,13 @@ namespace Client.Game
                     if (!c.Generated)
                         c.GenerateMesh();
 
-                    var dist = c.GetCenterPos().DistanceSquaredTo(camPos);
-                    if (dist < 1000)
+                    var chunkPos = c.GetCenterPos();
+                    var diff = (chunkPos - camPos);
+                    diff.y = 0;
+
+                    if (diff.LengthSquared() > 1000)
                         c.ClearMesh();
                 }
-
-            /*for (int i = 0; i < ChunkGenerator.LoadedChunks.Count; i++)
-            {
-                var pos = ChunkGenerator.LoadedChunks[i];
-                var chunk = ChunkGenerator.ChunkData[pos.X, pos.Z];
-                var dist = chunk.GetCenterPos().DistanceSquaredTo(camPos);
-
-                if (dist < 500)
-                    AddChunkData(pos.X, pos.Z);
-
-                if (dist < 250)
-                    chunk.GenerateMesh();
-
-                if (dist > 1000)
-                    chunk.ClearMesh();
-            }*/
         }
 
         private Chunk CreateChunkData(int x, int z)

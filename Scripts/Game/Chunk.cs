@@ -43,6 +43,9 @@ namespace Client.Game
 
             ChunkLength = new Vector3(chunkSize * res - res, 0, chunkSize * res - res);
             ChunkOffset = new Vector3(X, 0, Z) * ChunkLength;
+
+            Translate(ChunkOffset);
+            MaterialOverride = Material;
             
             CalculateIndices();
             CalculateNoise();
@@ -175,11 +178,14 @@ namespace Client.Game
                 n4.Normals[n4.Edges[(int)Dir.East, i]] = avgWE;
             }
 
+            GenMesh();
+        }
+
+        private void GenMesh()
+        {
             // generate mesh
             Generated = true;
-            Translate(ChunkOffset);
-            MaterialOverride = Material;
-
+            
             Mesh = null;
 
             var arrMesh = new ArrayMesh();

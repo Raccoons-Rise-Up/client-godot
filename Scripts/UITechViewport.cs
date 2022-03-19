@@ -24,7 +24,6 @@ namespace Client.UI
 
         public async override void _Ready()
         {
-            GameViewport.ViewportSizeChanged += OnViewportSizeChanged;
             ViewportContent = UITechTree.Instance;
             Instance = this;
             Camera2D = GetNode<Camera2D>(nodePathCamera2D);
@@ -179,12 +178,6 @@ namespace Client.UI
 
             if (Godot.Input.IsActionPressed("ui_down"))
                 UITechViewport.Camera2D.Position += new Vector2(0, arrowSpeed);
-        }
-
-        // Keeping this code here for future reference on how to make and handle delegates / events
-        public void OnViewportSizeChanged(object source, EventArgs args)
-        {
-            //GD.Print(OS.WindowSize);
         }
     }
 }

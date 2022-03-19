@@ -23,17 +23,17 @@ namespace Client.Game
             var camPos = Camera.Translation;
             var settings = ChunkGenerator.ChunkSettings;
 
-            foreach (var chunk in ChunkGenerator.Chunks)
+            foreach (var chunk in ChunkGenerator.ChunkData)
             {
                 var chunkLength = settings.Size * settings.Res - settings.Res;
                 var x = (int)Mathf.Clamp(Mathf.Floor(camPos.x / chunkLength), 0, ChunkGenerator.WorldSize - 1);
                 var z = (int)Mathf.Clamp(Mathf.Floor(camPos.z / chunkLength), 0, ChunkGenerator.WorldSize - 1);
 
-                var c = ChunkGenerator.Chunks[x, z];
+                var c = ChunkGenerator.ChunkData[x, z];
                 if (c == null)
                 {
                     c = new Chunk(settings, x, z);
-                    ChunkGenerator.Chunks[x, z] = c;
+                    ChunkGenerator.ChunkData[x, z] = c;
                     AddChild(c);
                 }
 

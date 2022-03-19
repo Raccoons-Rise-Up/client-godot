@@ -42,8 +42,6 @@ namespace Client.Game
 
             ChunkLength = new Vector3(chunkSize * res - res, 0, chunkSize * res - res);
             ChunkOffset = new Vector3(X, 0, Z) * ChunkLength;
-
-            //World.Instance.AddChild(new DebugPoint(GetCenterPos()));
             
             CalculateIndices();
             CalculateNoise();
@@ -141,10 +139,10 @@ namespace Client.Game
                 return;
 
             // n is for neighbor
-            var n1 = ChunkGenerator.Chunks[X + 1, Z];
-            var n2 = ChunkGenerator.Chunks[X - 1, Z];
-            var n3 = ChunkGenerator.Chunks[X, Z + 1];
-            var n4 = ChunkGenerator.Chunks[X, Z - 1];
+            var n1 = ChunkGenerator.ChunkData[X + 1, Z];
+            var n2 = ChunkGenerator.ChunkData[X - 1, Z];
+            var n3 = ChunkGenerator.ChunkData[X, Z + 1];
+            var n4 = ChunkGenerator.ChunkData[X, Z - 1];
             
             if (n1 == null || n2 == null || n3 == null || n4 == null)
                 return;

@@ -1,12 +1,15 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace Client.Game
 {
     public class ChunkGenerator
     {
-        public static int WorldSize = 5;
-        public static Chunk[,] Chunks = new Chunk[WorldSize, WorldSize];
+        public static int WorldSize = 7;
+        public static int SpawnSize = 5;
+        public static Chunk[,] ChunkData = new Chunk[WorldSize, WorldSize];
+        public static List<Pos> LoadedChunks = new List<Pos>();
         public static ChunkSettings ChunkSettings = new ChunkSettings
         {
             Size = 30,
@@ -20,23 +23,29 @@ namespace Client.Game
 
         private void InitSpawn()
         {
-            for (int x = 0; x < 3; x++)
+            for (int x = WorldSize / 2 - SpawnSize / 2; x <= WorldSize / 2 + SpawnSize / 2; x++)
             {
-                for (int z = 0; z < 3; z++)
+                for (int z = WorldSize / 2 - SpawnSize / 2; z <= WorldSize / 2 + SpawnSize / 2; z++)
                 {
                     var chunk = new Chunk(ChunkSettings, x, z);
-                    Chunks[x, z] = chunk;
+                    ChunkData[x, z] = chunk;
+                    LoadedChunks.Add(new Pos { X = x, Z = z});
                     World.Instance.AddChild(chunk);
                 }
             }
 
-            foreach (var chunk in Chunks) 
+            foreach (var chunk in LoadedChunks) 
             {
-                if (chunk != null)
-                    chunk.SmoothEdgeNormals();
+                ChunkData[chunk.X, chunk.Z].GenerateMesh();
             }
                 
         }
+    }
+
+    public struct Pos 
+    {
+        public int X { get; set; }
+        public int Z { get; set; }
     }
 
     public struct ChunkSettings

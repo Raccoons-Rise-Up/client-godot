@@ -21,7 +21,7 @@ namespace Client.Game
 
         public override void _Ready()
         {
-            ChunkTimer = new Timer(1000);
+            ChunkTimer = new Timer(100);
             ChunkTimer.AutoReset = true;
             ChunkTimer.Elapsed += OnChunkTimedEvent;
             ChunkTimer.Enabled = true;
@@ -34,7 +34,7 @@ namespace Client.Game
             Camera.Translation += new Vector3((WorldSize * ChunkGenerator.ChunkLength) / 2, 0, (WorldSize * ChunkGenerator.ChunkLength) / 2);
         }
 
-        private static void OnChunkTimedEvent(object source, ElapsedEventArgs e)
+        private static async void OnChunkTimedEvent(object source, ElapsedEventArgs e)
         {
             var camPos = Camera.Translation;
             var settings = ChunkGenerator.ChunkSettings;
@@ -46,6 +46,46 @@ namespace Client.Game
             for (int x = curX - range / 2; x < curX + range / 2; x++)
                 for (int z = curZ - range / 2; z < curZ + range / 2; z++)
                 {
+                    //GD.Print(ChunkGenerator.LoadedChunks.Count);
+                    /*if (ChunkGenerator.LoadedChunks.Count > 150)
+                    {
+                        var chunksToBeRemoved = ChunkGenerator.LoadedChunks.Count - 150;
+
+                        for (int i = 0; i < chunksToBeRemoved; i++)
+                        {
+                            var pos = ChunkGenerator.LoadedChunks[i];
+
+                            if (ChunkGenerator.ChunkData[pos.X, pos.Z] != null)
+                            {
+                                ChunkGenerator.ChunkData[pos.X, pos.Z].QueueFree();
+                                ChunkGenerator.ChunkData[pos.X, pos.Z] = null;
+                            }
+                        }
+
+                    }*/
+
+                    for (int i = 0; i < ChunkGenerator.LoadedChunks.Count; i++)
+                    {
+                        var pos = ChunkGenerator.LoadedChunks[i];
+                        var chunk = ChunkGenerator.ChunkData[pos.X, pos.Z];
+
+                        if (chunk == null)
+                            continue;
+
+                        
+
+                        var diff = (chunk.GetCenterPos() - camPos);
+                        diff.y = 0;
+
+                        if (diff.LengthSquared() > 10000) 
+                        {
+                            chunk.QueueFree();
+                            ChunkGenerator.ChunkData[pos.X, pos.Z] = null;
+                        }
+                    }
+
+                    //await World.Instance.ToSignal(World.Instance.GetTree(), "idle_frame");
+
                     var posX = Mathf.Clamp(x, 0, WorldSize - 1);
                     var posZ = Mathf.Clamp(z, 0, WorldSize - 1);
                     var c = ChunkGenerator.ChunkData[posX, posZ];
@@ -56,12 +96,15 @@ namespace Client.Game
                     if (!c.Generated)
                         c.GenerateMesh();
 
-                    var chunkPos = c.GetCenterPos();
-                    var diff = (chunkPos - camPos);
-                    diff.y = 0;
+                    //var chunkPos = c.GetCenterPos();
+                    //var diff = (chunkPos - camPos);
+                    //diff.y = 0;
 
-                    if (diff.LengthSquared() > 1000)
-                        c.ClearMesh();
+
+
+
+                    //if (diff.LengthSquared() > 1000)
+                    //c.ClearMesh();
                 }
         }
 
@@ -69,7 +112,8 @@ namespace Client.Game
         {
             var c = new Chunk(ChunkGenerator.ChunkSettings, x, z);
             ChunkGenerator.ChunkData[x, z] = c;
-            Instance.AddChild(c);
+            Instance.CallDeferred("add_child", c);
+            //Instance.AddChild(c);
             return c;
         }
     }

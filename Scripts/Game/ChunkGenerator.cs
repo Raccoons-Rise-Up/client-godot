@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Client.Game
@@ -36,7 +37,6 @@ namespace Client.Game
             {
                 ChunkData[chunk.X, chunk.Z].GenerateMesh();
             }
-                
         }
     }
 

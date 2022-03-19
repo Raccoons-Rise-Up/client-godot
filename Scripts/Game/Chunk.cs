@@ -1,4 +1,5 @@
 using Godot;
+using Client.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -11,10 +12,12 @@ namespace Client.Game
 
         private Vector3[] Normals;
         public int[,] Edges;
+        public bool Generated;
         
         private Vector3[] Vertices;
         private int[] Indices;
         private Vector3 ChunkOffset;
+        private Vector3 ChunkLength;
         private int X, Z;
 
         private Chunk()
@@ -36,7 +39,11 @@ namespace Client.Game
 
             Vertices = new Vector3[chunkSize * chunkSize];
             Indices = new int[(chunkSize - 1) * (chunkSize - 1) * 6];
-            ChunkOffset = new Vector3(X * (chunkSize * res - res), 0, Z * (chunkSize * res - res));
+
+            ChunkLength = new Vector3(chunkSize * res - res, 0, chunkSize * res - res);
+            ChunkOffset = new Vector3(X, 0, Z) * ChunkLength;
+
+            //World.Instance.AddChild(new DebugPoint(GetCenterPos()));
             
             CalculateIndices();
             CalculateNoise();
@@ -175,6 +182,7 @@ namespace Client.Game
 
         public void GenerateMesh()
         {
+            Generated = true;
             Translate(ChunkOffset);
             MaterialOverride = Material;
 
@@ -191,6 +199,8 @@ namespace Client.Game
             arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arr);
             Mesh = arrMesh;
         }
+
+        public Vector3 GetCenterPos() => ChunkOffset + ChunkLength / 2;
     }
 
     public enum Dir

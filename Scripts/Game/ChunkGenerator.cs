@@ -3,35 +3,39 @@ using System;
 
 namespace Client.Game
 {
-    public class ChunkGenerator : Node
+    public class ChunkGenerator
     {
-        public static int WorldSize = 3;
+        public static int WorldSize = 5;
         public static Chunk[,] Chunks = new Chunk[WorldSize, WorldSize];
-        private static ChunkSettings ChunkSettings = new ChunkSettings
+        public static ChunkSettings ChunkSettings = new ChunkSettings
         {
             Size = 30,
             Res = 0.4f
         };
 
-        public override void _Ready()
+        public ChunkGenerator()
         {
             InitSpawn();
         }
 
         private void InitSpawn()
         {
-            for (int x = 0; x < WorldSize; x++)
+            for (int x = 0; x < 3; x++)
             {
-                for (int z = 0; z < WorldSize; z++)
+                for (int z = 0; z < 3; z++)
                 {
                     var chunk = new Chunk(ChunkSettings, x, z);
                     Chunks[x, z] = chunk;
-                    AddChild(chunk);
+                    World.Instance.AddChild(chunk);
                 }
             }
 
-            foreach (var chunk in Chunks)
-                chunk.SmoothEdgeNormals();
+            foreach (var chunk in Chunks) 
+            {
+                if (chunk != null)
+                    chunk.SmoothEdgeNormals();
+            }
+                
         }
     }
 

@@ -22,7 +22,7 @@ namespace Client.Utilities
             Translate(pos);
 
             // set scale
-            var scale = 0.1f;
+            var scale = 1f;
             Scale = new Vector3(scale, scale, scale);
         }
     }

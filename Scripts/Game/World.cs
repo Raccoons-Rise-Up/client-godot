@@ -1,4 +1,7 @@
 using Godot;
+using System.Timers;
+
+using Timer = System.Timers.Timer;
 
 namespace Client.Game
 {
@@ -14,8 +17,15 @@ namespace Client.Game
         public static Camera Camera;
         public static World Instance;
 
+        private static Timer ChunkTimer;
+
         public override void _Ready()
         {
+            ChunkTimer = new Timer(1000);
+            ChunkTimer.AutoReset = true;
+            ChunkTimer.Elapsed += OnChunkTimedEvent;
+            ChunkTimer.Enabled = true;
+
             Camera = GetNode<Camera>(NodePathCamera);
             Instance = this;
             var gen = new ChunkGenerator();
@@ -24,7 +34,7 @@ namespace Client.Game
             Camera.Translation += new Vector3((WorldSize * ChunkGenerator.ChunkLength) / 2, 0, (WorldSize * ChunkGenerator.ChunkLength) / 2);
         }
 
-        public override void _Process(float delta)
+        private static void OnChunkTimedEvent(object source, ElapsedEventArgs e)
         {
             var camPos = Camera.Translation;
             var settings = ChunkGenerator.ChunkSettings;
@@ -55,11 +65,11 @@ namespace Client.Game
                 }
         }
 
-        private Chunk CreateChunkData(int x, int z)
+        private static Chunk CreateChunkData(int x, int z)
         {
             var c = new Chunk(ChunkGenerator.ChunkSettings, x, z);
             ChunkGenerator.ChunkData[x, z] = c;
-            AddChild(c);
+            Instance.AddChild(c);
             return c;
         }
     }

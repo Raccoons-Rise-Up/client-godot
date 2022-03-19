@@ -6,37 +6,35 @@ namespace Client.Game
 {
     public class ChunkGenerator
     {
-        public static int WorldSize = 100;
-        public static int SpawnSize = 5;
-        public static Chunk[,] ChunkData = new Chunk[WorldSize, WorldSize];
+        public static Chunk[,] ChunkData = new Chunk[World.WorldSize, World.WorldSize];
         public static List<Pos> LoadedChunks = new List<Pos>();
         public static ChunkSettings ChunkSettings = new ChunkSettings
         {
             Size = 30,
             Res = 0.4f
         };
+        public static float ChunkLength = ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res;
 
         public ChunkGenerator()
         {
-            InitSpawn();
+            //InitSpawn();
         }
 
         private void InitSpawn()
         {
-            for (int x = WorldSize / 2 - SpawnSize / 2; x <= WorldSize / 2 + SpawnSize / 2; x++)
+            for (int x = World.WorldSize / 2 - World.SpawnSize / 2; x <= World.WorldSize / 2 + World.SpawnSize / 2; x++)
             {
-                for (int z = WorldSize / 2 - SpawnSize / 2; z <= WorldSize / 2 + SpawnSize / 2; z++)
+                for (int z = World.WorldSize / 2 - World.SpawnSize / 2; z <= World.WorldSize / 2 + World.SpawnSize / 2; z++)
                 {
                     var chunk = new Chunk(ChunkSettings, x, z);
                     ChunkData[x, z] = chunk;
-                    LoadedChunks.Add(new Pos { X = x, Z = z});
                     World.Instance.AddChild(chunk);
                 }
             }
 
             foreach (var chunk in LoadedChunks) 
             {
-                ChunkData[chunk.X, chunk.Z].SmoothEdgeNormals();
+                ChunkData[chunk.X, chunk.Z].GenerateMesh();
             }
                 
         }

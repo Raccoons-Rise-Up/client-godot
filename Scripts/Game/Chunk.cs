@@ -30,6 +30,7 @@ namespace Client.Game
             ChunkSettings = chunkSettings;
             X = x;
             Z = z;
+            ChunkGenerator.LoadedChunks.Add(new Pos { X = X, Z = Z });
 
             var chunkSize = ChunkSettings.Size;
             var res = ChunkSettings.Res;
@@ -126,14 +127,16 @@ namespace Client.Game
                 Normals[i] = Normals[i].Normalized();
         }
 
-        public void SmoothEdgeNormals()
+        public void GenerateMesh()
         {
+            // fix normal chunk edge seams
+
             // check not to go outside boundaries of array
-            if (X + 1 > ChunkGenerator.WorldSize - 1)
+            if (X + 1 > World.WorldSize - 1)
                 return;
             if (X - 1 < 0)
                 return;
-            if (Z + 1 > ChunkGenerator.WorldSize - 1)
+            if (Z + 1 > World.WorldSize - 1)
                 return;
             if (Z - 1 < 0)
                 return;
@@ -172,20 +175,7 @@ namespace Client.Game
                 n4.Normals[n4.Edges[(int)Dir.East, i]] = avgWE;
             }
 
-            GenerateMesh();
-        }
-
-        private Vector3[] GetEdgeNormals(Chunk chunk, Dir direction)
-        {
-            var arr = new Vector3[ChunkSettings.Size];
-            for (int i = 0; i < ChunkSettings.Size; i++)
-                arr[i] = chunk.Normals[chunk.Edges[(int)direction, i]];
-            
-            return arr;
-        }
-
-        public void GenerateMesh()
-        {
+            // generate mesh
             Generated = true;
             Translate(ChunkOffset);
             MaterialOverride = Material;
@@ -202,6 +192,23 @@ namespace Client.Game
 
             arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arr);
             Mesh = arrMesh;
+        }
+
+        private Vector3[] GetEdgeNormals(Chunk chunk, Dir direction)
+        {
+            var arr = new Vector3[ChunkSettings.Size];
+            for (int i = 0; i < ChunkSettings.Size; i++)
+                arr[i] = chunk.Normals[chunk.Edges[(int)direction, i]];
+            
+            return arr;
+        }
+
+        public void ClearMesh()
+        {
+            //var loadedChunks = ChunkGenerator.LoadedChunks;
+            //loadedChunks.Remove(new Pos{X = X, Z = Z});
+            Generated = false;
+            Mesh = null;
         }
 
         public Vector3 GetCenterPos() => ChunkOffset + ChunkLength / 2;

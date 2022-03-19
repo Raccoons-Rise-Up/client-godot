@@ -150,9 +150,11 @@ namespace Client.Game
             var n0 = this;
             var n0EdgeNorth = GetEdgeNormals(n0, Dir.North);
             var n0EdgeEast  = GetEdgeNormals(n0, Dir.East);
+            var n0EdgeWest  = GetEdgeNormals(n0, Dir.West);
 
             var n1EdgeSouth = GetEdgeNormals(n1, Dir.South);
             var n3EdgeWest  = GetEdgeNormals(n3, Dir.West);
+            var n4EdgeEast  = GetEdgeNormals(n4, Dir.East);
 
             // Take average of normals
             for (int i = 0; i < ChunkSettings.Size; i++)
@@ -164,6 +166,10 @@ namespace Client.Game
                 var avgEW = (n0EdgeEast[i] + n3EdgeWest[i]) / 2;
                 n0.Normals[n0.Edges[(int)Dir.East, i]] = avgEW;
                 n3.Normals[n3.Edges[(int)Dir.West, i]] = avgEW;
+
+                var avgWE = (n0EdgeWest[i] + n4EdgeEast[i]) / 2;
+                n0.Normals[n0.Edges[(int)Dir.West, i]] = avgWE;
+                n4.Normals[n4.Edges[(int)Dir.East, i]] = avgWE;
             }
 
             GenerateMesh();

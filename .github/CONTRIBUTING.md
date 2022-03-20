@@ -10,7 +10,7 @@
 1. Install [Godot Mono 64 Bit](https://godotengine.org)
 2. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
 3. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
-4. Launch Godot through VSCode
+4. Launch Godot through [VSCode](#vscode)
 5. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
 
 If the startup scene is the main menu, the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) will need to be running to get past the login screen to the main game scene, otherwise you can change the startup scene to the main game scene by going to `Godot > Project Settings > Application > Run > Main Scene`.

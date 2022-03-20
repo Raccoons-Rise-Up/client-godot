@@ -11,14 +11,14 @@ namespace Client.Game
         public static List<Pos> LoadedChunks = new List<Pos>();
         public static ChunkSettings ChunkSettings = new ChunkSettings
         {
-            Size = 30,
+            Size = 100,
             Res = 0.4f
         };
         public static float ChunkLength = ChunkSettings.Size * ChunkSettings.Res - ChunkSettings.Res;
 
         public ChunkGenerator()
         {
-            //InitSpawn();
+            InitSpawn();
         }
 
         private void InitSpawn()

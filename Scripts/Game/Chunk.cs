@@ -218,6 +218,8 @@ namespace Client.Game
         }
 
         public Vector3 GetCenterPos() => ChunkOffset + ChunkLength / 2;
+
+        public int GetVertexCount() => ChunkSettings.Size * ChunkSettings.Size;
     }
 
     public enum Dir

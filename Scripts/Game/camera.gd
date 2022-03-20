@@ -11,7 +11,7 @@ var _direction = Vector3(0.0, 0.0, 0.0)
 var _velocity = Vector3(0.0, 0.0, 0.0)
 var _acceleration = 30
 var _deceleration = -10
-var _vel_multiplier = 20
+var _vel_multiplier = 100
 
 # Keyboard state
 var _w = false

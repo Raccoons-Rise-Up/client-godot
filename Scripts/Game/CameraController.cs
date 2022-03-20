@@ -4,7 +4,7 @@ using System;
 public class CameraController : Camera
 {
     private Vector3 Direction = Vector3.Zero;
-    private float MaxSpeed = 30;
+    private float MaxSpeed = 100;
     private float Deacceleration = 0.05f;
     private Vector3 curMovement = Vector3.Zero;
 

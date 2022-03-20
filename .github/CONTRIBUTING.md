@@ -16,7 +16,7 @@
 If the startup scene is the main menu, the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) will need to be running to get past the login screen to the main game scene, otherwise you can change the startup scene to the main game scene by going to `Godot > Project Settings > Application > Run > Main Scene`.
 
 ### VSCode
-**You can skip the setup for VSCode if you are not going to be adding any code to the game.**
+VSCode is a UI friendly text editor for developers
 1. Install [VSCode](https://code.visualstudio.com)
 2. Install the following extensions for VSCode
     - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)

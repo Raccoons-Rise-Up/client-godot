@@ -7,32 +7,22 @@
 
 ## Setup
 ### Godot Mono (C#)
-NOTE: You can skip step 1 if you are not going to work on the netcode, just note that in order to get to the game scene you will need to either connect through the game / web servers or add code to bypass this and create a dummy user login. (or just change the startup scene to be other than that of the login scene)
+1. Install [Godot Mono 64 Bit](https://godotengine.org)
+2. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
+3. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
+4. Launch Godot through VSCode
+5. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI`
 
-NOTE: You do not need to start in the main menu scene which requires user auth to get to the game scene. You can change the startup scene in `Godot > Project Settings > Application > Run > Main Scene`
-1. Make sure the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) are running otherwise the client will fail to connect
-2. Fork this repository and clone your fork
-3. Install [Godot Mono 64 Bit](https://godotengine.org)
-4. Install [.NET SDK from this link](https://dotnet.microsoft.com/en-us/download)
-5. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
-6. Launch Godot through VSCode
-7. In Godot Editor > Editor Settings > Mono > Builds > Make sure `Build Tool` is set to `dotnet CLI` 
-
-![image](https://user-images.githubusercontent.com/6277739/147781322-7aacb872-cf16-4055-b1c8-2555e7014bea.png)  
-Click on `Scene Game` node in scene tree window top left.  
-
-![image](https://user-images.githubusercontent.com/6277739/147781351-98489013-212d-4550-aa20-96131fd693d3.png)  
-Make sure the IPs are set to `localhost` or your external IP.  
-
-8. Press `F5` to run the client (if you want to run multiple instances of the client you will need to [export the game](#exporting))
+If the startup scene is the main menu, the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) will need to be running to get past the login screen to the main game scene, otherwise you can change the startup scene to the main game scene by going to `Godot > Project Settings > Application > Run > Main Scene`.
 
 ## Exporting
-Export the game by going to `Project > Export...`
+Exporting is useful when you want to run multiple instances of the client at the same time. Export the game by going to `Project > Export...`
 
-![image](https://user-images.githubusercontent.com/6277739/147781789-02cc06e8-630c-44fa-8e82-07eb7fe977bd.png)  
-![image](https://user-images.githubusercontent.com/6277739/147781833-7762fd21-e683-46e6-9faf-32f20df7ad31.png)  
+Make sure to check `Runnable` and `Export with Debug`
 
-Once the game is exported make sure [enet.dll](https://github.com/nxrighthere/ENet-CSharp/releases) is beside the games executable, this is required in order for ENet to run.
+Once the game is exported make sure [enet.dll](https://github.com/nxrighthere/ENet-CSharp/releases) is beside the games executable, this is required in order for the netcode to run.
+
+Note that running the exported instance with the `--verbose` flag provides useful debug information.
 
 ### VSCode
 **You can skip the setup for VSCode if you are not going to be adding any code to the game.**

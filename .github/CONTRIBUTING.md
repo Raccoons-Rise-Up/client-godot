@@ -15,15 +15,6 @@
 
 If the startup scene is the main menu, the [game server](https://github.com/Raccoons-Rise-Up/server/blob/main/.github/CONTRIBUTING.md#setup) and [web server](https://github.com/Raccoons-Rise-Up/website/blob/main/.github/CONTRIBUTING.md) will need to be running to get past the login screen to the main game scene, otherwise you can change the startup scene to the main game scene by going to `Godot > Project Settings > Application > Run > Main Scene`.
 
-## Exporting
-Exporting is useful when you want to run multiple instances of the client at the same time. Export the game by going to `Project > Export...`
-
-Make sure to check `Runnable` and `Export with Debug`
-
-Once the game is exported make sure [enet.dll](https://github.com/nxrighthere/ENet-CSharp/releases) is beside the games executable, this is required in order for the netcode to run.
-
-Note that running the exported instance with the `--verbose` flag provides useful debug information.
-
 ### VSCode
 **You can skip the setup for VSCode if you are not going to be adding any code to the game.**
 1. Install [VSCode](https://code.visualstudio.com)
@@ -33,3 +24,12 @@ Note that running the exported instance with the `--verbose` flag provides usefu
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor` (to debug the game launch it through vscode by pressing `F5`)
+
+## Exporting
+Exporting is useful when you want to run multiple instances of the client at the same time. Export the game by going to `Project > Export...`
+
+Make sure to check `Runnable` and `Export with Debug`
+
+Once the game is exported make sure [enet.dll](https://github.com/nxrighthere/ENet-CSharp/releases) is beside the games executable, this is required in order for the netcode to run.
+
+Note that running the exported instance with the `--verbose` flag provides useful debug information.

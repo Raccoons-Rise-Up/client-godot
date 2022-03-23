@@ -36,13 +36,6 @@ namespace Client.Game
         {
             UIOptions.Save();
 
-            var chunkTimer = World.ChunkTimer;
-            if (chunkTimer != null)
-            {
-                chunkTimer.Enabled = false;
-                chunkTimer.Dispose();
-            }
-
             if (ENetClient.ENetThreadRunning)
             {
                 Tree.SetAutoAcceptQuit(false);

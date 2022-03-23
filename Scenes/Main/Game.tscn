@@ -5,6 +5,7 @@
 [ext_resource path="res://Scenes/TechTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChatSettings.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Game/camera.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChat.cs" type="Script" id=7]
 [ext_resource path="res://Sprites/UI/Buttons/Gear.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/Buttons/Close.png" type="Texture" id=9]
@@ -14,7 +15,6 @@
 [ext_resource path="res://Scripts/UI/flex_grid_container.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Prefabs/Job.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Scripts/Game/CameraController.cs" type="Script" id=16]
 [ext_resource path="res://Scripts/Utils/WorldDebugGUI.cs" type="Script" id=17]
 [ext_resource path="res://Scripts/Game/World.cs" type="Script" id=18]
 
@@ -225,7 +225,7 @@ render_target_update_mode = 0
 [node name="Camera" type="Camera" parent="Panel/Tabs/World/MarginContainer/ViewportContainer/Viewport"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0 )
 far = 8192.0
-script = ExtResource( 16 )
+script = ExtResource( 6 )
 
 [node name="World" parent="Panel/Tabs/World/MarginContainer/ViewportContainer/Viewport" instance=ExtResource( 15 )]
 script = ExtResource( 18 )

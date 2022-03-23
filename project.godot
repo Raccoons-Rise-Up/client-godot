@@ -13,15 +13,9 @@ _global_script_classes=[ {
 "class": "FlexGridContainer",
 "language": "GDScript",
 "path": "res://Scripts/UI/flex_grid_container.gd"
-}, {
-"base": "Camera",
-"class": "FreelookCamera",
-"language": "GDScript",
-"path": "res://Scripts/Game/camera.gd"
 } ]
 _global_script_class_icons={
-"FlexGridContainer": "",
-"FreelookCamera": ""
+"FlexGridContainer": ""
 }
 
 [application]

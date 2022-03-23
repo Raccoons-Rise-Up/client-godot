@@ -11,8 +11,28 @@ namespace Client.UI
         // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
+        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>() {
+            {
+                ResearchType.A, new Research {
+                    Unlocks = new ResearchType[] {
+                        ResearchType.B,
+                        ResearchType.C
+                    }
+                }
+            }, 
+            {   ResearchType.B, new Research {
+                    Unlocks = new ResearchType[] {
+                        ResearchType.D,
+                        ResearchType.E
+                    }
+            } },
+            {   ResearchType.C, new Research {} },
+            {   ResearchType.D, new Research {} },
+            {   ResearchType.E, new Research {} }
+        };
+
         // Tech tree data
-        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
+        /*public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
                 Unlocks = new ResearchType[] {
                     ResearchType.B,
@@ -68,14 +88,14 @@ namespace Client.UI
                 }
             }},
             { ResearchType.J, new Research {
-                
+
             }},
             { ResearchType.K, new Research {
             }},
             { ResearchType.L, new Research {
             }},
             { ResearchType.M, new Research {
-                
+
             }},
             { ResearchType.N, new Research {
             }},
@@ -112,8 +132,8 @@ namespace Client.UI
             }},
             { ResearchType.AA, new Research {
             }}
-            
-        };
+
+        };*/
 
         // There will be multiple tech trees
         public static TechTree[] TechTreeData = new TechTree[] {
@@ -125,47 +145,51 @@ namespace Client.UI
             }
         };
 
-        private const int SPACING_HORIZONTAL = 200;
-        private const int SPACING_VERTICAL = 100;
+        private const int SPACING_H = 200;
+        private const int SPACING_V = 100;
         private static int MaxDepth { get; set; }
         public static Vector2 ResearchNodeSize { get; set; }
 
-        public static void Init() 
+        public static void Init()
         {
             // Create an instance of the prefab to get some information from it
             var researchInstance = Research.Instance<UIResearch>();
-            ResearchNodeSize = researchInstance.RectSize;
+            ResearchNodeSize = researchInstance.RectSize; // Shouldn't static property be used???
             researchInstance.QueueFree(); // Free the child from the tree as we no longer have a use for it
 
             // This is where the first research is placed on the tech tree
             //var researchStartPos = new Vector2(UITechTree.Instance.RectSize.x / 2 - ResearchNodeSize.x / 2, UITechTree.Instance.RectSize.y / 2 - ResearchNodeSize.y / 2);
 
             // Calculate depth for all nodes and calculate MaxDepth
-            SetupNode(ResearchType.A, null, new Vector2(200, 1000));
+            SetupNode(ResearchType.A, null);
+            
+            // Sort nodes by depth
+            SortNodes();
 
-            for (int i = 0; i < MaxDepth - 1; i++)
-                PositionNode(ResearchType.A);
-
-            AddNodes(ResearchType.A);
+            PositionNodes();
         }
 
-
-        private static void AddNodes(ResearchType type, int index = 0, int length = 1)
+        private static void PositionNodes()
         {
-            CreateNode(type, index, length);
+            var pos = new Vector2(0, 0);
 
-            var unlocks = ResearchData[type].Unlocks;
+            for (int i = 0; i < MaxDepth; i++)
+            {
+                var j = 0;
+                foreach (var pair in Nodes[MaxDepth - i])
+                {
+                    var node = pair.Value;
+                    
+                    pos = new Vector2((MaxDepth - 1) * SPACING_H - i * SPACING_H, j * SPACING_V);
+                    node.Position = pos;
+                    j++;
 
-            if (unlocks == null)
-                return;
-
-            for (int i = 0; i < unlocks.Length; i++)
-                AddNodes(unlocks[i], i, unlocks.Length);
+                    CreateNode(pair.Key);
+                }
+            }
         }
 
-        private static int verticalCenter = 1000;
-
-        public static void CreateNode(ResearchType type, int i, int length)
+        public static void CreateNode(ResearchType type)
         {
             var researchInstance = Research.Instance<UIResearch>();
 
@@ -177,88 +201,25 @@ namespace Client.UI
             UITechTree.Instance.AddChild(researchInstance);
         }
 
-        private static void PositionNode(ResearchType type) 
+        private static Dictionary<int, Dictionary<ResearchType, Research>> Nodes = new Dictionary<int, Dictionary<ResearchType, Research>>();
+
+
+        // Dict[depth, Dict[type, Research]]
+        
+        // dict[depth][0][type]
+
+        private static void SortNodes() 
         {
-            var data = ResearchData[type];
+            for (int i = 0; i <= MaxDepth; i++)
+                Nodes[i] = new Dictionary<ResearchType, Research>();
 
-            if (data.Unlocks == null)
-                return;
-
-            var prevChildPos = Vector2.Zero;
-            var first = true;
-
-            for (int i = 0; i < data.Unlocks.Length; i++)
-            {
-                var childUnlocks = ResearchData[data.Unlocks[i]].Unlocks;
-
-                if (childUnlocks != null)
-                {
-                    var yOffsetChild1 = prevChildPos.y - GetFirstChildPos(data.Unlocks[i]).y;
-                    var yOffsetChild2 = prevChildPos.y - GetLastChildPos(data.Unlocks[i]).y;
-
-                    if (data.Unlocks[i] == ResearchType.W)
-                    {
-                        //GD.Print($"{data.Unlocks[i]} F: {GetFirstChildPos(data.Unlocks[i])} L: {GetLastChildPos(data.Unlocks[i])}");
-                    }
-                    
-                    if (!first)
-                    {
-                        // Apply offset to all remaining nodes in column
-                        for (int j = i; j < data.Unlocks.Length; j++)
-                        {
-                            var pos = new Vector2(0, yOffsetChild1 + ResearchNodeSize.y);
-                            ApplyPosition(data.Unlocks[j], pos);
-                        }
-                    }
-
-                    // the last child nested in the children
-                    prevChildPos = ResearchData[childUnlocks[childUnlocks.Length - 1]].Position;
-                    first = false;
-                }
-
-                PositionNode(data.Unlocks[i]);
-            }
+            foreach (var node in ResearchData) 
+                Nodes[node.Value.Depth][node.Key] = node.Value;
         }
 
-        // Gets the first child nested in the children
-        private static Vector2 GetFirstChildPos(ResearchType type)
+        private static void SetupNode(ResearchType type, ResearchType? parent, int depth = 1)
         {
             var data = ResearchData[type];
-
-            if (data.Unlocks != null)
-                return GetFirstChildPos(data.Unlocks[0]);
-
-            return ResearchData[type].Position;
-        }
-
-        private static Vector2 GetLastChildPos(ResearchType type)
-        {
-            var data = ResearchData[type];
-
-            if (data.Unlocks != null)
-                return GetLastChildPos(data.Unlocks[data.Unlocks.Length - 1]);
-
-            return ResearchData[type].Position;
-        }
-
-        private static void ApplyPosition(ResearchType type, Vector2 position)
-        {
-            var data = ResearchData[type];
-
-            data.Position += position;
-
-            if (data.Unlocks == null)
-                return;
-
-            foreach (var unlock in data.Unlocks)
-                ApplyPosition(unlock, position);
-        }
-
-        private static void SetupNode(ResearchType type, ResearchType? parent, Vector2 position, int depth = 1)
-        {
-            var data = ResearchData[type];
-
-            data.Position = position;
             data.Depth = depth;
 
             if (parent != null)
@@ -266,7 +227,7 @@ namespace Client.UI
 
             var unlocks = data.Unlocks;
 
-            if (unlocks == null) 
+            if (unlocks == null)
             {
                 if (depth > MaxDepth)
                     MaxDepth = depth;
@@ -275,17 +236,7 @@ namespace Client.UI
 
             for (int i = 0; i < unlocks.Length; i++)
             {
-                var xShift = SPACING_HORIZONTAL;
-                int yShift;
-
-                if (unlocks.Length % 2 == 0)
-                    yShift = ((i - unlocks.Length / 2) * SPACING_VERTICAL + SPACING_VERTICAL / 2);
-                else
-                    yShift = ((i - unlocks.Length / 2) * SPACING_VERTICAL);
-
-                var shift = new Vector2(xShift, yShift);
-
-                SetupNode(unlocks[i], type, position + shift, depth + 1);
+                SetupNode(unlocks[i], type, depth + 1);
             }
         }
     }
@@ -305,12 +256,12 @@ namespace Client.UI
         public int Depth { get; set; }
     }
 
-    public enum TechTreeType 
+    public enum TechTreeType
     {
         Wood
     }
 
-    public enum ResearchType 
+    public enum ResearchType
     {
         A,
         B,

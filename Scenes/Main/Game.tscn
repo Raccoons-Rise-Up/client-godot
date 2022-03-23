@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/GameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
 [ext_resource path="res://Scenes/TechTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChatSettings.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/Game/camera.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChat.cs" type="Script" id=7]
 [ext_resource path="res://Sprites/UI/Buttons/Gear.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/Buttons/Close.png" type="Texture" id=9]
@@ -14,9 +13,6 @@
 [ext_resource path="res://Scenes/Prefabs/BuildCategory.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/UI/flex_grid_container.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Prefabs/Job.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Scripts/Utils/WorldDebugGUI.cs" type="Script" id=17]
-[ext_resource path="res://Scripts/Game/World.cs" type="Script" id=18]
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
@@ -199,78 +195,6 @@ current = true
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="World" type="PanelContainer" parent="Panel/Tabs"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 24.0
-
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Tabs/World"]
-margin_right = 1024.0
-margin_bottom = 576.0
-
-[node name="ViewportContainer" type="ViewportContainer" parent="Panel/Tabs/World/MarginContainer"]
-margin_left = 25.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 551.0
-stretch = true
-
-[node name="Viewport" type="Viewport" parent="Panel/Tabs/World/MarginContainer/ViewportContainer"]
-size = Vector2( 1920, 1080 )
-handle_input_locally = false
-render_target_update_mode = 0
-
-[node name="Camera" type="Camera" parent="Panel/Tabs/World/MarginContainer/ViewportContainer/Viewport"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 100, 0 )
-far = 8192.0
-script = ExtResource( 6 )
-
-[node name="World" parent="Panel/Tabs/World/MarginContainer/ViewportContainer/Viewport" instance=ExtResource( 15 )]
-script = ExtResource( 18 )
-NodePathCamera = NodePath("../Camera")
-
-[node name="Debug GUI" type="MarginContainer" parent="Panel/Tabs/World/MarginContainer"]
-margin_left = 749.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 551.0
-rect_min_size = Vector2( 250, 0 )
-size_flags_horizontal = 8
-script = ExtResource( 17 )
-nodePathSliderPeriod = NodePath("PanelContainer/VBoxContainer/Period Slider")
-
-[node name="PanelContainer" type="PanelContainer" parent="Panel/Tabs/World/MarginContainer/Debug GUI"]
-margin_left = 25.0
-margin_top = 501.0
-margin_right = 225.0
-margin_bottom = 501.0
-size_flags_vertical = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer"]
-margin_right = 200.0
-margin_bottom = 54.0
-
-[node name="Period Label" type="Label" parent="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer/VBoxContainer"]
-margin_right = 200.0
-margin_bottom = 14.0
-text = "Period"
-
-[node name="Period Slider" type="HSlider" parent="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 200.0
-margin_bottom = 34.0
-min_value = 0.01
-max_value = 15.0
-step = 0.01
-value = 4.0
-
-[node name="Btn Regenerate" type="Button" parent="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer/VBoxContainer"]
-margin_top = 38.0
-margin_right = 200.0
-margin_bottom = 54.0
-text = "Regenerate"
 
 [node name="Chat" type="Control" parent="Panel"]
 anchor_top = 1.0
@@ -626,8 +550,6 @@ mouse_filter = 2
 
 [connection signal="mouse_entered" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_entered"]
 [connection signal="mouse_exited" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_exited"]
-[connection signal="value_changed" from="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer/VBoxContainer/Period Slider" to="Panel/Tabs/World/MarginContainer/Debug GUI" method="_on_Period_Slider_value_changed"]
-[connection signal="pressed" from="Panel/Tabs/World/MarginContainer/Debug GUI/PanelContainer/VBoxContainer/Btn Regenerate" to="Panel/Tabs/World/MarginContainer/Debug GUI" method="_on_Btn_Regenerate_pressed"]
 [connection signal="pressed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings" to="Panel/Chat" method="_on_Button_Settings_pressed"]
 [connection signal="pressed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/Close Settings" to="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings" method="_on_Close_Settings_pressed"]
 [connection signal="value_changed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/HSlider" to="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings" method="_on_HSlider_value_changed"]

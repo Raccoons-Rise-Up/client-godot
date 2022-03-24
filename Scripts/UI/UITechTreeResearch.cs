@@ -214,12 +214,12 @@ namespace Client.UI
 
                 // Nodes that were not positioned yet
                 var nodesWithNoChildren = new List<ResearchType>();
-                var largestYPos = 0f;
+                var yMax = 0f;
 
                 foreach (var node in Nodes[MaxDepth - 1 - j]) 
                 {
                     var data = ResearchData[node];
-                    var pos = Vector2.Zero;
+                    var yPos = 0f;
 
                     if (data.Unlocks == null)
                     {
@@ -228,19 +228,19 @@ namespace Client.UI
                     }
                     else
                     {
-                        // Find middle y pos based off children
+                        // Find weighted middle y pos based off children
                         for (int i = 0; i < data.Unlocks.Length; i++)
                         {
-                            pos += ResearchData[data.Unlocks[i]].Position;
+                            yPos += ResearchData[data.Unlocks[i]].Position.y;
                         }
-                        pos /= data.Unlocks.Length;
+                        yPos /= data.Unlocks.Length;
 
-                        data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, pos.y);
+                        data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, yPos);
 
                         // Determine largest Y pos
-                        if (pos.y > largestYPos)
-                            largestYPos = pos.y;
-
+                        if (yPos > yMax)
+                            yMax = yPos;
+                        
                         CreateNode(node);
                     }
                 }
@@ -250,7 +250,7 @@ namespace Client.UI
                 {
                     var data = ResearchData[nodesWithNoChildren[i]];
 
-                    data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, largestYPos + (i + 1) * SPACING_V);
+                    data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, yMax + (i + 1) * SPACING_V);
 
                     CreateNode(nodesWithNoChildren[i]);
                 }

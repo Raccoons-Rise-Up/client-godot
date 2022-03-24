@@ -11,26 +11,6 @@ namespace Client.UI
         // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
-        /*public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>() {
-            {
-                ResearchType.A, new Research {
-                    Unlocks = new ResearchType[] {
-                        ResearchType.B,
-                        ResearchType.C
-                    }
-                }
-            }, 
-            {   ResearchType.B, new Research {
-                    Unlocks = new ResearchType[] {
-                        ResearchType.D,
-                        ResearchType.E
-                    }
-            } },
-            {   ResearchType.C, new Research {} },
-            {   ResearchType.D, new Research {} },
-            {   ResearchType.E, new Research {} }
-        };*/
-
         // Tech tree data
         public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
@@ -149,6 +129,7 @@ namespace Client.UI
         private const int SPACING_V = 100;
         private static int MaxDepth { get; set; }
         public static Vector2 ResearchNodeSize { get; set; }
+        private static Dictionary<int, List<ResearchType>> Nodes = new Dictionary<int, List<ResearchType>>();
 
         public static void Init()
         {
@@ -157,26 +138,65 @@ namespace Client.UI
             ResearchNodeSize = researchInstance.RectSize; // Shouldn't static property be used???
             researchInstance.QueueFree(); // Free the child from the tree as we no longer have a use for it
 
-            // This is where the first research is placed on the tech tree
-            //var researchStartPos = new Vector2(UITechTree.Instance.RectSize.x / 2 - ResearchNodeSize.x / 2, UITechTree.Instance.RectSize.y / 2 - ResearchNodeSize.y / 2);
-
             // Calculate depth for all nodes and calculate MaxDepth
             SetupNode(ResearchType.A, null);
 
+            // Sort nodes by column aka depth (nodes with depth = 0 are not in any column)
             SortNodesByDepth();
 
-            // --- DEBUG ---
-            foreach (var node in Nodes)
-            {
-                var depth = node.Key;
-                var children = node.Value.Select(x => x.ToString()).ToArray();
-
-                // Print nodes sorted by depth
-                GD.Print($"{depth} {string.Join(" ", children)}");
-            }
-            // --- DEBUG ---
-
+            // Position the nodes
             PositionNodes();
+
+            // Enlarge the canvas if needed
+            ResizeCanvas();
+
+            // Offset nodes to be centered at start
+            OffsetNodes();
+
+            // Create the nodes
+            CreateNodes();
+        }
+
+        private static void CreateNodes()
+        {
+            // Create nodes
+            foreach (var pair in ResearchData)
+                // nodes with depth 0 have no parents or children and are therefore not connected to any nodes in the tech tree
+                if (pair.Value.Depth != 0)
+                    CreateNode(pair.Key);
+        }
+
+        private static void ResizeCanvas() 
+        {
+            // Get max XY
+            float xMax = 0, yMax = 0;
+            foreach (var pair in ResearchData)
+                if (pair.Value.Depth != 0)
+                {
+                    var pos = ResearchData[pair.Key].Position;
+
+                    if (pos.x > xMax)
+                        xMax = pos.x;
+                    if (pos.y > yMax)
+                        yMax = pos.y;
+                }
+
+            // Set tech tree canvas minsize to size of tech tree
+            if (yMax > UITechTree.Instance.RectMinSize.y / 2)
+                UITechTree.Instance.RectMinSize = new Vector2(yMax * 2, yMax * 2); // seems to work just fine
+        }
+
+        private static void OffsetNodes()
+        {
+            // Offset all nodes to center starting node at center left
+            var startPos = new Vector2(SPACING_H, UITechTree.Instance.RectMinSize.y / 2 - ResearchNodeSize.y / 2);
+
+            var startingNode = Nodes[1][0];
+            var offset = startPos - ResearchData[startingNode].Position;
+
+            foreach (var pair in ResearchData)
+                if (pair.Value.Depth != 0)
+                    ResearchData[pair.Key].Position += offset;
         }
 
         private static void SortNodesByDepth()
@@ -203,7 +223,7 @@ namespace Client.UI
                 {
                     ResearchData[node].Position = new Vector2(MaxDepth * SPACING_H, y * SPACING_V);
                     y++;
-                    CreateNode(node);
+                    //CreateNode(node);
                 }
             }
 
@@ -216,7 +236,7 @@ namespace Client.UI
                 var nodesWithNoChildren = new List<ResearchType>();
                 var yMax = 0f;
 
-                foreach (var node in Nodes[MaxDepth - 1 - j]) 
+                foreach (var node in Nodes[MaxDepth - 1 - j])
                 {
                     var data = ResearchData[node];
                     var yPos = 0f;
@@ -240,8 +260,6 @@ namespace Client.UI
                         // Determine largest Y pos
                         if (yPos > yMax)
                             yMax = yPos;
-                        
-                        CreateNode(node);
                     }
                 }
 
@@ -251,8 +269,6 @@ namespace Client.UI
                     var data = ResearchData[nodesWithNoChildren[i]];
 
                     data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, yMax + (i + 1) * SPACING_V);
-
-                    CreateNode(nodesWithNoChildren[i]);
                 }
             }
         }
@@ -268,9 +284,6 @@ namespace Client.UI
 
             UITechTree.Instance.AddChild(researchInstance);
         }
-
-        private static Dictionary<int, List<ResearchType>> Nodes = new Dictionary<int, List<ResearchType>>();
-
 
         private static void SetupNode(ResearchType type, ResearchType? parent, int depth = 1)
         {
@@ -294,16 +307,6 @@ namespace Client.UI
                 SetupNode(unlocks[i], type, depth + 1);
             }
         }
-    }
-
-    public struct Column 
-    {
-        public Group[] Groups;
-    }
-
-    public struct Group 
-    {
-        public ResearchType[] Nodes;
     }
 
     public struct TechTree

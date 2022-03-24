@@ -45,7 +45,7 @@ namespace Client.UI
             if (children == null || children.Length == 0)
                 return;
 
-            var nodeSize = UITechTreeResearch.ResearchNodeSize;
+            var nodeSize = UIResearch.Size;
 
             // horizontal line from parent
             DrawLine(node.CenterPosition, node.CenterPosition + new Vector2(nodeSize.x, 0));

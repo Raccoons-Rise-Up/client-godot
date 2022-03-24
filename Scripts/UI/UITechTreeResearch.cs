@@ -128,16 +128,10 @@ namespace Client.UI
         private const int SPACING_H = 200;
         private const int SPACING_V = 100;
         private static int MaxDepth { get; set; }
-        public static Vector2 ResearchNodeSize { get; set; }
         private static Dictionary<int, List<ResearchType>> Nodes = new Dictionary<int, List<ResearchType>>();
 
         public static void Init()
         {
-            // Create an instance of the prefab to get some information from it
-            var researchInstance = Research.Instance<UIResearch>();
-            ResearchNodeSize = researchInstance.RectSize; // Shouldn't static property be used???
-            researchInstance.QueueFree(); // Free the child from the tree as we no longer have a use for it
-
             // Calculate depth for all nodes and calculate MaxDepth
             SetupNode(ResearchType.A, null);
 
@@ -189,7 +183,7 @@ namespace Client.UI
         private static void OffsetNodes()
         {
             // Offset all nodes to center starting node at center left
-            var startPos = new Vector2(SPACING_H, UITechTree.Instance.RectMinSize.y / 2 - ResearchNodeSize.y / 2);
+            var startPos = new Vector2(SPACING_H, UITechTree.Instance.RectMinSize.y / 2 - UIResearch.Size.y / 2);
 
             var startingNode = Nodes[1][0];
             var offset = startPos - ResearchData[startingNode].Position;
@@ -318,7 +312,7 @@ namespace Client.UI
     public class Research
     {
         public Vector2 Position { get; set; }
-        public Vector2 CenterPosition => Position + new Vector2(UITechTreeResearch.ResearchNodeSize.x / 2, UITechTreeResearch.ResearchNodeSize.y / 2);
+        public Vector2 CenterPosition => Position + UIResearch.Size / 2;
         public List<ResearchType?> Requirements = new List<ResearchType?>();
         public ResearchType[] Unlocks { get; set; }
         public int Depth { get; set; }

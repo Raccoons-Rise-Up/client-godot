@@ -201,56 +201,59 @@ namespace Client.UI
                 var y = 0;
                 foreach (var node in Nodes[MaxDepth])
                 {
-                    ResearchData[node].Position = new Vector2(600, y * SPACING_V);
+                    ResearchData[node].Position = new Vector2(MaxDepth * SPACING_H, y * SPACING_V);
                     y++;
                     CreateNode(node);
                 }
             }
 
-            // Step 2a
-            // Determine positions of nodes at MaxDepth - 1 based off positions of nodes at MaxDepth
-
-            // Nodes that were not positioned yet
-            var nodesWithNoChildren = new List<ResearchType>();
-            var largestYPos = 0f;
-
-            foreach (var node in Nodes[MaxDepth - 1]) 
+            for (int j = 0; j < MaxDepth - 1; j++)
             {
-                var data = ResearchData[node];
-                var pos = Vector2.Zero;
+                // Step 2a
+                // Determine positions of nodes at MaxDepth - 1 based off positions of nodes at MaxDepth
 
-                if (data.Unlocks == null)
+                // Nodes that were not positioned yet
+                var nodesWithNoChildren = new List<ResearchType>();
+                var largestYPos = 0f;
+
+                foreach (var node in Nodes[MaxDepth - 1 - j]) 
                 {
-                    // No children
-                    nodesWithNoChildren.Add(node);
-                }
-                else
-                {
-                    // Find middle y pos based off children
-                    for (int i = 0; i < data.Unlocks.Length; i++)
+                    var data = ResearchData[node];
+                    var pos = Vector2.Zero;
+
+                    if (data.Unlocks == null)
                     {
-                        pos += ResearchData[data.Unlocks[i]].Position;
+                        // No children
+                        nodesWithNoChildren.Add(node);
                     }
-                    pos /= data.Unlocks.Length;
+                    else
+                    {
+                        // Find middle y pos based off children
+                        for (int i = 0; i < data.Unlocks.Length; i++)
+                        {
+                            pos += ResearchData[data.Unlocks[i]].Position;
+                        }
+                        pos /= data.Unlocks.Length;
 
-                    data.Position = new Vector2(400, pos.y);
+                        data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, pos.y);
 
-                    // Determine largest Y pos
-                    if (pos.y > largestYPos)
-                        largestYPos = pos.y;
+                        // Determine largest Y pos
+                        if (pos.y > largestYPos)
+                            largestYPos = pos.y;
 
-                    CreateNode(node);
+                        CreateNode(node);
+                    }
                 }
-            }
 
-            // Step 2b
-            for (int i = 0; i < nodesWithNoChildren.Count; i++)
-            {
-                var data = ResearchData[nodesWithNoChildren[i]];
+                // Step 2b
+                for (int i = 0; i < nodesWithNoChildren.Count; i++)
+                {
+                    var data = ResearchData[nodesWithNoChildren[i]];
 
-                data.Position = new Vector2(400, largestYPos + (i + 1) * SPACING_V);
+                    data.Position = new Vector2((MaxDepth - 1) * SPACING_H - j * SPACING_H, largestYPos + (i + 1) * SPACING_V);
 
-                CreateNode(nodesWithNoChildren[i]);
+                    CreateNode(nodesWithNoChildren[i]);
+                }
             }
         }
 

@@ -7,8 +7,6 @@ namespace Client.UI
 {
     public class UITechTree : Control
     {
-
-        
         private bool Draw;
         public static Control Instance;
 
@@ -19,12 +17,6 @@ namespace Client.UI
             UITechTreeResearch.Init();
 
             await ToSignal(GetTree(), "idle_frame");
-
-            /*foreach (var pair in UITechTreeResearch.Nodes) 
-            {
-                var node = pair.Value;
-                UITechTreeResearch.ResearchData[pair.Key].Position = node.Column.RectPosition + node.Group.RectPosition + node.RectPosition;
-            }*/
 
             Draw = true;
             Update();
@@ -40,11 +32,6 @@ namespace Client.UI
             var firstNode = UITechTreeResearch.ResearchData[firstNodeInTechCategory];
 
             DrawLinesForChildren(firstNodeInTechCategory);
-
-            //B F (800, 950) (800, 900)
-
-            //DrawCircle(new Vector2(800, 950), 20, Colors.Brown); // first
-            //DrawCircle(new Vector2(800, 900), 20, Colors.Blue); // last
         }
 
         private float LineThickness = 5.0f;

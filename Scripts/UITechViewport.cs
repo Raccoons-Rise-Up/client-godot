@@ -24,6 +24,9 @@ namespace Client.UI
 
         public async override void _Ready()
         {
+            // Set clear color for this viewport
+            VisualServer.SetDefaultClearColor(new Color("#323232"));
+            
             ViewportContent = UITechTree.Instance;
             Instance = this;
             Camera2D = GetNode<Camera2D>(nodePathCamera2D);

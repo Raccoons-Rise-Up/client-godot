@@ -11,7 +11,7 @@ namespace Client.UI
         // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
 
-        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>() {
+        /*public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>() {
             {
                 ResearchType.A, new Research {
                     Unlocks = new ResearchType[] {
@@ -29,10 +29,10 @@ namespace Client.UI
             {   ResearchType.C, new Research {} },
             {   ResearchType.D, new Research {} },
             {   ResearchType.E, new Research {} }
-        };
+        };*/
 
         // Tech tree data
-        /*public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
+        public static Dictionary<ResearchType, Research> ResearchData = new Dictionary<ResearchType, Research>(){
             { ResearchType.A, new Research {
                 Unlocks = new ResearchType[] {
                     ResearchType.B,
@@ -133,7 +133,7 @@ namespace Client.UI
             { ResearchType.AA, new Research {
             }}
 
-        };*/
+        };
 
         // There will be multiple tech trees
         public static TechTree[] TechTreeData = new TechTree[] {
@@ -162,31 +162,37 @@ namespace Client.UI
 
             // Calculate depth for all nodes and calculate MaxDepth
             SetupNode(ResearchType.A, null);
-            
-            // Sort nodes by depth
-            SortNodes();
+
+            SortNodesByDepth();
+
+            foreach (var node in Nodes)
+            {
+                var depth = node.Key;
+                var children = node.Value.Select(x => x.ToString()).ToArray();
+
+                GD.Print($"{depth} {string.Join(" ", children)}");
+            }
 
             PositionNodes();
         }
 
+        private static void SortNodesByDepth()
+        {
+            for (int i = 0; i <= MaxDepth; i++)
+            {
+                Nodes[i] = new List<ResearchType>();
+            }
+
+            foreach (var pair in ResearchData)
+            {
+                var depth = pair.Value.Depth;
+                Nodes[depth].Add(pair.Key);
+            }
+        }
+
         private static void PositionNodes()
         {
-            var pos = new Vector2(0, 0);
-
-            for (int i = 0; i < MaxDepth; i++)
-            {
-                var j = 0;
-                foreach (var pair in Nodes[MaxDepth - i])
-                {
-                    var node = pair.Value;
-                    
-                    pos = new Vector2((MaxDepth - 1) * SPACING_H - i * SPACING_H, j * SPACING_V);
-                    node.Position = pos;
-                    j++;
-
-                    CreateNode(pair.Key);
-                }
-            }
+            
         }
 
         public static void CreateNode(ResearchType type)
@@ -201,21 +207,8 @@ namespace Client.UI
             UITechTree.Instance.AddChild(researchInstance);
         }
 
-        private static Dictionary<int, Dictionary<ResearchType, Research>> Nodes = new Dictionary<int, Dictionary<ResearchType, Research>>();
+        private static Dictionary<int, List<ResearchType>> Nodes = new Dictionary<int, List<ResearchType>>();
 
-
-        // Dict[depth, Dict[type, Research]]
-        
-        // dict[depth][0][type]
-
-        private static void SortNodes() 
-        {
-            for (int i = 0; i <= MaxDepth; i++)
-                Nodes[i] = new Dictionary<ResearchType, Research>();
-
-            foreach (var node in ResearchData) 
-                Nodes[node.Value.Depth][node.Key] = node.Value;
-        }
 
         private static void SetupNode(ResearchType type, ResearchType? parent, int depth = 1)
         {
@@ -239,6 +232,16 @@ namespace Client.UI
                 SetupNode(unlocks[i], type, depth + 1);
             }
         }
+    }
+
+    public struct Column 
+    {
+        public Group[] Groups;
+    }
+
+    public struct Group 
+    {
+        public ResearchType[] Nodes;
     }
 
     public struct TechTree

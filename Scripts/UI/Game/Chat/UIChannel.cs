@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Common.Netcode;
+using Client.Netcode;
 
 namespace Client.UI 
 {
@@ -43,7 +45,12 @@ namespace Client.UI
 
             var textFormatted = text.Trim();
 
-            ChatContent.Text += textFormatted + '\n';
+            ENetClient.Outgoing.Enqueue(new ClientPacket((byte)ClientPacketOpcode.ChatMessage, new WPacketChatMessage {
+                ChannelId = 2,
+                Message = textFormatted
+            }));
+
+            //ChatContent.BbcodeText += $"{GameClient.Username}: {textFormatted}\n";
             ChatInput.Clear();
         }
 

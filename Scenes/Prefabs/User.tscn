@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scripts/UI/UIUser.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/UI/Game/Chat/UIUser.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture" id=2]
 
 [node name="User" type="Control"]

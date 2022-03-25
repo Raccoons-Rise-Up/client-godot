@@ -17,6 +17,8 @@ namespace Client.Netcode
 {
     public class GameClient : ENetClient 
     {
+        public static string Username = "Unnamed";
+
         public override void ProcessGodotCommands(GodotCmd cmd)
         {
             switch (cmd.Opcode)

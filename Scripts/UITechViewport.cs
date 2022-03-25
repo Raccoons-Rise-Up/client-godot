@@ -45,6 +45,9 @@ namespace Client.UI
 
         public override void _PhysicsProcess(float delta)
         {
+            if (UITabs.CurrentTab != Tab.Research)
+                return;
+            
             HandleCameraMovementSpeed();
             HandleScrollZoom();
             HandleArrowKeys();
@@ -54,6 +57,9 @@ namespace Client.UI
 
         public override void _Input(InputEvent @event)
         {
+            if (UITabs.CurrentTab != Tab.Research)
+                return;
+                
             if (@event is InputEventMouse eventMouse)
             {
                 if (Godot.Input.IsActionJustPressed("left_click"))

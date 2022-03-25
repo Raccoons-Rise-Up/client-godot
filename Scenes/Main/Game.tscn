@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/GameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
 [ext_resource path="res://Scenes/TechTree.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChatSettings.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/UI/UITabs.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChat.cs" type="Script" id=7]
 [ext_resource path="res://Sprites/UI/Buttons/Gear.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/Buttons/Close.png" type="Texture" id=9]
@@ -32,6 +33,7 @@ __meta__ = {
 [node name="Tabs" type="TabContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -191,7 +193,6 @@ nodePathCanvasLayer = NodePath("../..")
 size_flags_horizontal = 1
 
 [node name="Camera2D" type="Camera2D" parent="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport"]
-current = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -548,6 +549,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 mouse_filter = 2
 
+[connection signal="tab_changed" from="Panel/Tabs" to="Panel/Tabs" method="_on_Tabs_tab_changed"]
 [connection signal="mouse_entered" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_entered"]
 [connection signal="mouse_exited" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_exited"]
 [connection signal="pressed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings" to="Panel/Chat" method="_on_Button_Settings_pressed"]

@@ -33,7 +33,7 @@ namespace Client.UI
             CanvasLayer = GetNode<Control>(nodePathCanvasLayer);
 
             // Center camera
-            Camera2D.Position = ViewportContent.RectPosition + new Vector2(0, ViewportContent.RectSize.y) / 2;
+            Camera2D.Position = ViewportContent.RectPosition + new Vector2(500, ViewportContent.RectSize.y / 2);
 
             // This is a bug in Godot where 'HandleInputLocally' is set to false even if it is set to true (solved by waiting 1 frame then setting to true)
             await ToSignal(GetTree(), "idle_frame");
@@ -50,7 +50,10 @@ namespace Client.UI
             
             HandleCameraMovementSpeed();
             HandleScrollZoom();
-            HandleArrowKeys();
+
+            if (!UIChannel.ChatInputFocused)
+                HandleArrowKeys();
+            
             HandleMouseDrag();
             HandleCameraBounds();
         }
@@ -59,17 +62,17 @@ namespace Client.UI
         {
             if (UITabs.CurrentTab != Tab.Research)
                 return;
-                
+
             if (@event is InputEventMouse eventMouse)
             {
-                if (Godot.Input.IsActionJustPressed("left_click"))
+                if (Godot.Input.IsActionJustPressed("ui_left_click"))
                 {
                     PrevCameraPos = UITechViewport.Camera2D.Position;
                     ScreenStartPos = GetViewport().GetMousePosition();
                     Drag = true;
                 }
 
-                if (Godot.Input.IsActionJustReleased("left_click"))
+                if (Godot.Input.IsActionJustReleased("ui_left_click"))
                     Drag = false;
 
                 var scrollSpeed = 0.05f;

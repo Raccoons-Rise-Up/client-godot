@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://Scripts/UI/UIUser.cs" type="Script" id=1]
 [ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture" id=2]
 
 [node name="User" type="Control"]
@@ -21,6 +22,9 @@ text = "123456"
 icon = ExtResource( 2 )
 align = 0
 expand_icon = true
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="gui_input" from="Button" to="Button" method="_on_Button_gui_input"]

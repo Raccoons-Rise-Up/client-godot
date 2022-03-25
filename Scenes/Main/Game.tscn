@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/GameMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
@@ -14,11 +14,13 @@
 [ext_resource path="res://Scenes/Prefabs/BuildCategory.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/UI/flex_grid_container.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Prefabs/Job.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scripts/UI/UIGame.cs" type="Script" id=15]
 
 [node name="Game" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
+script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -39,6 +41,7 @@ __meta__ = {
 }
 
 [node name="Colony" type="PanelContainer" parent="Panel/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 24.0
@@ -59,7 +62,6 @@ margin_bottom = 14.0
 text = "Raccoons: 1"
 
 [node name="Jobs" type="PanelContainer" parent="Panel/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 24.0
@@ -209,9 +211,9 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-nodePathChat = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)")
-nodePathSettings = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings")
-nodePathSettingsButton = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings")
+NodePathChat = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)")
+NodePathSettings = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings")
+NodePathSettingsButton = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings")
 
 [node name="Chat & Chat Toggle Btn" type="VBoxContainer" parent="Panel/Chat"]
 margin_right = 600.0
@@ -224,12 +226,11 @@ __meta__ = {
 }
 
 [node name="Chat & Chat Settings" type="HBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn"]
-margin_right = 600.0
-margin_bottom = 24.0
+margin_right = 804.0
+margin_bottom = 300.0
 mouse_filter = 2
 
 [node name="Channel List (Hide)" type="TabContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings"]
-visible = false
 margin_right = 600.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 600, 300 )
@@ -288,7 +289,7 @@ margin_bottom = 276.0
 size_flags_horizontal = 3
 
 [node name="User List" type="VBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer"]
-margin_right = 148.0
+margin_right = 143.0
 margin_bottom = 350.0
 size_flags_horizontal = 3
 custom_constants/separation = 2
@@ -405,8 +406,9 @@ margin_right = 143.0
 margin_bottom = 350.0
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings"]
-margin_right = 200.0
-margin_bottom = 24.0
+margin_left = 604.0
+margin_right = 804.0
+margin_bottom = 300.0
 rect_min_size = Vector2( 200, 0 )
 custom_constants/margin_right = 0
 custom_constants/margin_top = 24
@@ -428,7 +430,7 @@ expand_icon = true
 visible = false
 margin_top = 24.0
 margin_right = 200.0
-margin_bottom = 24.0
+margin_bottom = 300.0
 script = ExtResource( 4 )
 
 [node name="Close Settings" type="Button" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings"]

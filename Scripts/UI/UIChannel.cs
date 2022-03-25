@@ -32,12 +32,8 @@ namespace Client.UI
 
             // apparently Godot doesn't do this automatically
             if (leftclick || rightclick)
-            {
                 if (!ChatInput.GetRect().HasPoint(GetGlobalMousePosition()))
-                {
                     ChatInput.ReleaseFocus();
-                }
-            }
         }
 
         private void _on_Chat_Input_text_entered(string text)
@@ -51,14 +47,7 @@ namespace Client.UI
             ChatInput.Clear();
         }
 
-        private void _on_Chat_Input_focus_entered()
-        {
-            ChatInputFocused = true;
-        }
-
-        private void _on_Chat_Input_focus_exited()
-        {
-            ChatInputFocused = false;
-        }
+        private void _on_Chat_Input_focus_entered() => ChatInputFocused = true;
+        private void _on_Chat_Input_focus_exited() => ChatInputFocused = false;
     }
 }

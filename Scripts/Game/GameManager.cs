@@ -19,6 +19,10 @@ namespace Client.Game
             AddChild(Client);
             
             UIOptions.Options = FileManager.GetConfig<Options>(FileManager.PathOptions);
+
+            if (UIOptions.Options == null) 
+                UIOptions.Options = FileManager.WriteConfig<Options>(FileManager.PathOptions);
+
             UIOptions.Init();
             Tree = GetTree();
         }

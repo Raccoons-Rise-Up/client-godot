@@ -35,12 +35,6 @@ namespace Client.Utilities
             File.WriteAllText(PathLoginInfo, contents);
         }
 
-        public static void WriteConfig<T>(string path, T data)
-        {
-            var contents = JsonConvert.SerializeObject(data, Formatting.Indented);
-            File.WriteAllText(path, contents);
-        }
-
         public static bool LoginInfoFileExist()
         {
             var folder = System.Environment.SpecialFolder.LocalApplicationData;
@@ -71,6 +65,15 @@ namespace Client.Utilities
             }
         }
 
+        public static T WriteConfig<T>(string path) where T : new() => WriteConfig<T>(path, new T());
+
+        public static T WriteConfig<T>(string path, T data)
+        {
+            var contents = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(path, contents);
+            return data;
+        }
+
         public static T GetConfig<T>(string path)
         {
             string contents;
@@ -79,9 +82,8 @@ namespace Client.Utilities
                 contents = File.ReadAllText(path);
                 return JsonConvert.DeserializeObject<T>(contents);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Godot.GD.Print("ERROR: Could not read config " + e.Message);
                 return default(T);
             }
         }

@@ -28,10 +28,10 @@ namespace Client.Netcode
 
         public static readonly Version Version = new Version { Major = 0, Minor = 1, Patch = 0 };
 
-        public virtual void ProcessGodotCommands(GodotCmd cmd) {}
-        public virtual void Connect(Event netEvent) {}
-        public virtual void Disconnect(Event netEvent) {}
-        public virtual void Timeout(Event netEvent) {}
+        public abstract void ProcessGodotCommands(GodotCmd cmd);
+        public abstract void Connect(Event netEvent);
+        public abstract void Disconnect(Event netEvent);
+        public abstract void Timeout(Event netEvent);
 
         public override void _Process(float delta)
         {
@@ -166,9 +166,13 @@ namespace Client.Netcode
                                 Incoming.Add(netEvent.Packet);
                                 break;
                             case EventType.Timeout:
+                                RunningNetCode = false;
+                                wantsToDisconnect = true;
                                 Timeout(netEvent);
                                 break;
                             case EventType.Disconnect:
+                                RunningNetCode = false;
+                                wantsToDisconnect = true;
                                 Disconnect(netEvent);
                                 break;
                         }

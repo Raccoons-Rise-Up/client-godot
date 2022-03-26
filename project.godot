@@ -30,6 +30,10 @@ config/icon="res://Sprites/Msc/icon.png"
 
 Global="*res://Scenes/Global.tscn"
 
+[gdnative]
+
+singletons=[  ]
+
 [input]
 
 ui_left={

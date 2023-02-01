@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Client.UI
 {
     // The word 'Node' is used a lot here to refer to 'Tech Research Nodes' placed in the tech tree, please do not confuse this with Godots nodes.
-    public class UITechTreeResearch
+    public partial class UITechTreeResearch
     {
         // Research tech tree node prefab
         private static PackedScene Research = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Research.tscn");
@@ -169,21 +169,21 @@ namespace Client.UI
                 {
                     var pos = ResearchData[pair.Key].Position;
 
-                    if (pos.x > xMax)
-                        xMax = pos.x;
-                    if (pos.y > yMax)
-                        yMax = pos.y;
+                    if (pos.X > xMax)
+                        xMax = pos.X;
+                    if (pos.Y > yMax)
+                        yMax = pos.Y;
                 }
 
             // Set tech tree canvas minsize to size of tech tree
-            if (yMax > UITechTree.Instance.RectMinSize.y / 2)
-                UITechTree.Instance.RectMinSize = new Vector2(yMax * 2, yMax * 2); // seems to work just fine
+            if (yMax > UITechTree.Instance.CustomMinimumSize.Y / 2)
+                UITechTree.Instance.CustomMinimumSize = new Vector2(yMax * 2, yMax * 2); // seems to work just fine
         }
 
         private static void OffsetNodes()
         {
             // Offset all nodes to center starting node at center left
-            var startPos = new Vector2(SPACING_H, UITechTree.Instance.RectMinSize.y / 2 - UIResearch.Size.y / 2);
+            var startPos = new Vector2(SPACING_H, UITechTree.Instance.CustomMinimumSize.Y / 2 - UIResearch.BoxSize.Y / 2);
 
             var startingNode = Nodes[1][0];
             var offset = startPos - ResearchData[startingNode].Position;
@@ -245,7 +245,7 @@ namespace Client.UI
                         // Find weighted middle y pos based off children
                         for (int i = 0; i < data.Unlocks.Length; i++)
                         {
-                            yPos += ResearchData[data.Unlocks[i]].Position.y;
+                            yPos += ResearchData[data.Unlocks[i]].Position.Y;
                         }
                         yPos /= data.Unlocks.Length;
 
@@ -269,11 +269,11 @@ namespace Client.UI
 
         public static void CreateNode(ResearchType type)
         {
-            var researchInstance = Research.Instance<UIResearch>();
+            var researchInstance = Research.Instantiate<UIResearch>();
 
             var name = Enum.GetName(typeof(ResearchType), type);
             var data = ResearchData[type];
-            researchInstance.RectPosition = data.Position;
+            researchInstance.Position = data.Position;
             researchInstance.Init(name);
 
             UITechTree.Instance.AddChild(researchInstance);
@@ -309,10 +309,10 @@ namespace Client.UI
         public ResearchType[] StartingResearchNodes { get; set; }
     }
 
-    public class Research
+    public partial class Research
     {
         public Vector2 Position { get; set; }
-        public Vector2 CenterPosition => Position + UIResearch.Size / 2;
+        public Vector2 CenterPosition => Position + UIResearch.BoxSize / 2;
         public List<ResearchType?> Requirements = new List<ResearchType?>();
         public ResearchType[] Unlocks { get; set; }
         public int Depth { get; set; }

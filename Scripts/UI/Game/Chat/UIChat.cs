@@ -5,12 +5,12 @@ using Common.Game;
 
 namespace Client.UI 
 {
-    public class UIChat : Control
+    public partial class UIChat : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath NodePathChat;
-        [Export] private readonly NodePath NodePathSettings;
-        [Export] private readonly NodePath NodePathSettingsButton;
+        [Export] private NodePath NodePathChat;
+        [Export] private NodePath NodePathSettings;
+        [Export] private NodePath NodePathSettingsButton;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static PackedScene PrefabChannel = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/Channel.tscn");
@@ -40,7 +40,7 @@ namespace Client.UI
 
         public static void CreateChannel(string name)
         {
-            var channel = (Control)PrefabChannel.Instance();
+            var channel = (Control)PrefabChannel.Instantiate();
             channel.Name = name;
             Chat.AddChild(channel);
 

@@ -8,18 +8,18 @@ using Newtonsoft.Json;
 
 namespace Client.UI 
 {
-    public class UILogin : Node
+    public partial class UILogin : Node
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly string gameServerIp;
-        [Export] private readonly ushort gameServerPort;
-        [Export] private readonly string webServerIp;
-        [Export] private readonly ushort webServerPort;
-        [Export] private readonly NodePath nodePathLoginExisting;
-        [Export] private readonly NodePath nodePathLoginNew;
-        [Export] private readonly NodePath nodePathInputUsername;
-        [Export] private readonly NodePath nodePathInputPassword;
-        [Export] private readonly NodePath nodePathLabelResponse;
+        [Export] private string gameServerIp;
+        [Export] private ushort gameServerPort;
+        [Export] private string webServerIp;
+        [Export] private ushort webServerPort;
+        [Export] private NodePath nodePathLoginExisting;
+        [Export] private NodePath nodePathLoginNew;
+        [Export] private NodePath nodePathInputUsername;
+        [Export] private NodePath nodePathInputPassword;
+        [Export] private NodePath nodePathLabelResponse;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         public static string WebServerIp { get; set; }
@@ -188,7 +188,7 @@ namespace Client.UI
         public static void LoadGameScene() 
         {
             //GD.Print("Loading game scene");
-            GameManager.ChangeScene("Main/Game");
+            GameManager.ChangeSceneToFile("Main/Game");
         }
 
         private static void ShowLoginNew()

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Common.Game
 {
-    public class Player
+    public partial class Player
     {
         public List<uint> Channels { get; set; }
         public string Username { get; set; }

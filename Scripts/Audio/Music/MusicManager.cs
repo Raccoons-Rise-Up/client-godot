@@ -4,7 +4,7 @@ using Client.Utilities;
 
 namespace Client.UI 
 {
-    public class MusicManager : AudioStreamPlayer
+    public partial class MusicManager : AudioStreamPlayer
     {
         private static AudioStream MusicMenu = ResourceLoader.Load<AudioStream>("res://Audio/Music/Menu/Unsolicited trailer music loop edit.wav");
         private static AudioStream MusicGame = ResourceLoader.Load<AudioStream>("res://Audio/Music/Game/prepare_your_swords.ogg");

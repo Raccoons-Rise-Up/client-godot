@@ -4,7 +4,7 @@ using Client.Netcode;
 
 namespace Client.UI 
 {
-    public class UIGameMenu : Control
+    public partial class UIGameMenu : Control
     {
         public static bool ClientPressedDisconnect { get; set; }
 

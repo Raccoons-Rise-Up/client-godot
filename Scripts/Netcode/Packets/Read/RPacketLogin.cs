@@ -7,7 +7,7 @@ using Common.Game;
 
 namespace Client.Netcode
 {
-    public class RPacketLogin : IReadable
+    public partial class RPacketLogin : IReadable
     {
         public LoginResponseOpcode LoginOpcode { get; set; }
         public Version Version { get; set; }

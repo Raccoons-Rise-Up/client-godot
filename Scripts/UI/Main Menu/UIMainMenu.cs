@@ -6,13 +6,13 @@ using Client.Game;
 
 namespace Client.UI 
 {
-    public class UIMainMenu : Node
+    public partial class UIMainMenu : Node
     {
-        private void _on_Multiplayer_pressed() => GameManager.ChangeScene("Main/Login");
-        private void _on_Options_pressed() => GameManager.ChangeScene("Main/Options");
-        private void _on_Credits_pressed() => GameManager.ChangeScene("Main/Credits");
+        private void _on_Multiplayer_pressed() => GameManager.ChangeSceneToFile("Main/Login");
+        private void _on_Options_pressed() => GameManager.ChangeSceneToFile("Main/Options");
+        private void _on_Credits_pressed() => GameManager.ChangeSceneToFile("Main/Credits");
         private void _on_Quit_pressed() => GameManager.ExitCleanup();
 
-        public static void LoadMainMenu() => GameManager.ChangeScene("Main/MainMenu");
+        public static void LoadMainMenu() => GameManager.ChangeSceneToFile("Main/MainMenu");
     }
 }

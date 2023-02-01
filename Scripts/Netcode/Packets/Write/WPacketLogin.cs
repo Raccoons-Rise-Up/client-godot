@@ -2,7 +2,7 @@ using Common.Netcode;
 
 namespace Client.Netcode
 {
-    public class WPacketLogin : IWritable
+    public partial class WPacketLogin : IWritable
     {
         public byte VersionMajor { get; set; }
         public byte VersionMinor { get; set; }

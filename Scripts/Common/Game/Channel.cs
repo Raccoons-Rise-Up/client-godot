@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Game
 {
-    public class Channel
+    public partial class Channel
     {
         public string Name { get; set; }
         public List<uint> Users { get; set; }

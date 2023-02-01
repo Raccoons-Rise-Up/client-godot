@@ -3,7 +3,7 @@ using System;
 
 namespace Client.UI 
 {
-    public class UITabs : Node
+    public partial class UITabs : Node
     {
         public static Tab CurrentTab = Tab.Colony;
 
@@ -13,9 +13,9 @@ namespace Client.UI
 
             // Disable camera when not needed to save performance
             if (CurrentTab == Tab.Research)
-                UITechViewport.Camera2D.Current = true;
-            else
-                UITechViewport.Camera2D.Current = false;
+                UITechViewport.Camera2D.MakeCurrent();
+            //else
+                //UITechViewport.Camera2D.Current = false;
         }
     }
 

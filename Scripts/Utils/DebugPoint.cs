@@ -2,7 +2,7 @@ using Godot;
 
 namespace Client.Utilities
 {
-    public class DebugPoint : MeshInstance
+    public partial class DebugPoint : MeshInstance3D
     {
         public DebugPoint(Vector3 pos) : this(pos, Colors.AliceBlue)
         {
@@ -12,9 +12,9 @@ namespace Client.Utilities
         public DebugPoint(Vector3 pos, Color color)
         {
             // set mesh
-            Mesh = new CubeMesh();
+            Mesh = new BoxMesh();
 
-            var mat = new SpatialMaterial();
+            var mat = new StandardMaterial3D();
             mat.AlbedoColor = color;
             MaterialOverride = mat;
 

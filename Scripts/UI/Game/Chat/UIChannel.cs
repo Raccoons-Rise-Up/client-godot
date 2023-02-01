@@ -6,12 +6,12 @@ using Client.Netcode;
 
 namespace Client.UI 
 {
-    public class UIChannel : Control
+    public partial class UIChannel : Control
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath NodePathChatContent;
-        [Export] private readonly NodePath NodePathChatInput;
-        [Export] private readonly NodePath NodePathUserList;
+        [Export] private NodePath NodePathChatContent;
+        [Export] private NodePath NodePathChatInput;
+        [Export] private NodePath NodePathUserList;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private RichTextLabel ChatContent;
@@ -50,7 +50,7 @@ namespace Client.UI
                 Message = textFormatted
             }));
 
-            //ChatContent.BbcodeText += $"{GameClient.Username}: {textFormatted}\n";
+            //ChatContent.Text += $"{GameClient.Username}: {textFormatted}\n";
             ChatInput.Clear();
         }
 

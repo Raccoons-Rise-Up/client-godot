@@ -6,12 +6,12 @@ using Client.Game;
 
 namespace Client.UI 
 {
-    public class UIOptions : Node
+    public partial class UIOptions : Node
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathCheckboxFullscreen;
-        [Export] private readonly NodePath nodePathCheckboxFullscreenBorderless;
-        [Export] private readonly NodePath nodePathHSliderMusicVolume;
+        [Export] private NodePath nodePathCheckboxFullscreen;
+        [Export] private NodePath nodePathCheckboxFullscreenBorderless;
+        [Export] private NodePath nodePathHSliderMusicVolume;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         private static CheckBox CheckBoxFullscreen;
@@ -25,8 +25,8 @@ namespace Client.UI
             CheckBoxFullscreen = GetNode<CheckBox>(nodePathCheckboxFullscreen);
             CheckBoxFullscreenBorderless = GetNode<CheckBox>(nodePathCheckboxFullscreenBorderless);
 
-            CheckBoxFullscreen.Pressed = Options.Fullscreen;
-            CheckBoxFullscreenBorderless.Pressed = Options.FullscreenBorderless;
+            CheckBoxFullscreen.ButtonPressed = Options.Fullscreen;
+            CheckBoxFullscreenBorderless.ButtonPressed = Options.FullscreenBorderless;
 
             HSliderMusicVolume = GetNode<HSlider>(nodePathHSliderMusicVolume);
             HSliderMusicVolume.Value = Options.VolumeMusic;
@@ -48,36 +48,42 @@ namespace Client.UI
 
         private void _on_Fullscreen_pressed()
         {
-            if (!OS.WindowBorderless) 
+            if (!DisplayServer.WindowGetFlag(DisplayServer.WindowFlags.Borderless))
             {
-                OS.WindowFullscreen = !OS.WindowFullscreen;
+                if (DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen)
+                    DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+                else
+                    DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+
+                //OS.WindowFullscreen = !OS.WindowFullscreen;
             }
 
-            Options.Fullscreen = CheckBoxFullscreen.Pressed;
+            Options.Fullscreen = CheckBoxFullscreen.ButtonPressed;
         }
 
         private void _on_Fullscreen_Borderless_pressed()
         {
-            if (OS.WindowBorderless) 
-            {
-                OS.WindowBorderless = false;
-                if (CheckBoxFullscreen.Pressed)
-                    OS.WindowFullscreen = true;
-            }
+			if (DisplayServer.WindowGetFlag(DisplayServer.WindowFlags.Borderless))
+			{
+                DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
+
+                if (CheckBoxFullscreen.ButtonPressed)
+					DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+			}
             else 
             {
                 EnableFullscreenBorderless();
             }
 
-            Options.FullscreenBorderless = CheckBoxFullscreenBorderless.Pressed;
+            Options.FullscreenBorderless = CheckBoxFullscreenBorderless.ButtonPressed;
         }
 
         public static void EnableFullscreenBorderless()
         {
-            OS.WindowFullscreen = false;
-            OS.WindowBorderless = true;
-            OS.WindowPosition = new Vector2(0, 0);
-            OS.WindowSize = OS.GetScreenSize() + new Vector2(1, 1); // need to add (1, 1) otherwise will act like fullscreen mode (seems like a Godot bug)
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+			DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, true);
+            DisplayServer.WindowSetPosition(new Vector2I(0, 0));
+            DisplayServer.WindowSetSize(DisplayServer.ScreenGetSize() + new Vector2I(1, 1)); // need to add (1, 1) otherwise will act like fullscreen mode (seems like a Godot bug)
         }
 
         public static void Init()
@@ -88,8 +94,9 @@ namespace Client.UI
             if (Options.FullscreenBorderless) 
                 UIOptions.EnableFullscreenBorderless();
 
-            if (Options.Fullscreen && !Options.FullscreenBorderless)
-                OS.WindowFullscreen = Options.Fullscreen;
+            // TODO: Convert to Godot 4
+            //if (Options.Fullscreen && !Options.FullscreenBorderless)
+                //OS.WindowFullscreen = Options.Fullscreen;
         }
 
         public static void Save()

@@ -8,7 +8,7 @@ using Client.Netcode;
 
 namespace Client.Game 
 {
-    public class GameManager : Node
+    public partial class GameManager : Node
     {
         public static GameClient Client { get; set; }
         public static SceneTree Tree { get; set; }
@@ -30,7 +30,7 @@ namespace Client.Game
         public override void _Notification(int what)
         {
             // Called when user presses top right window X button or does Alt + F4
-            if (what == MainLoop.NotificationWmQuitRequest) 
+            if (what == NotificationWMCloseRequest) 
             {
                 ExitCleanup();
             }
@@ -42,7 +42,7 @@ namespace Client.Game
 
             if (ENetClient.ENetThreadRunning)
             {
-                Tree.SetAutoAcceptQuit(false);
+                Tree.AutoAcceptQuit = false;
                 ENetClient.ENetCmds.Enqueue(new ENetCmd { Opcode = ENetOpcode.ClientWantsToExitApp });
                 return;
             }
@@ -50,7 +50,7 @@ namespace Client.Game
             Tree.Quit();
         }
 
-        public static void ChangeScene(string scene)
+        public static void ChangeSceneToFile(string scene)
         {
             if (scene == "Main/MainMenu")
                 MusicManager.ChangeTrack(MusicTrack.Menu);
@@ -58,7 +58,7 @@ namespace Client.Game
             if (scene == "Main/Game")
                 MusicManager.ChangeTrack(MusicTrack.Game);
 
-            Tree.ChangeScene($"res://Scenes/{scene}.tscn");
+            Tree.ChangeSceneToFile($"res://Scenes/{scene}.tscn");
         }
     }
 }

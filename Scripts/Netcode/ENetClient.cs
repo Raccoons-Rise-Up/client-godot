@@ -15,7 +15,7 @@ using Version = Common.Netcode.Version; // CS0104: Ambiguous reference between '
 
 namespace Client.Netcode
 {
-    public abstract class ENetClient : Node
+    public abstract partial class ENetClient : Node
     {
         public static readonly ConcurrentQueue<ClientPacket> Outgoing = new ConcurrentQueue<ClientPacket>();
         public static readonly ConcurrentQueue<ENetCmd> ENetCmds = new ConcurrentQueue<ENetCmd>();
@@ -33,7 +33,7 @@ namespace Client.Netcode
         public abstract void Disconnect(Event netEvent);
         public abstract void Timeout(Event netEvent);
 
-        public override void _Process(float delta)
+        public override void _Process(double delta)
         {
             while (GodotCmds.TryDequeue(out GodotCmd cmd)) 
             {
@@ -195,13 +195,13 @@ namespace Client.Netcode
         protected static void GDLog(string text) => GodotCmds.Enqueue(new GodotCmd { Opcode = GodotOpcode.LogMessage, Data = new List<object> { text }});
     }
 
-    public class GodotCmd 
+    public partial class GodotCmd 
     {
         public GodotOpcode Opcode { get; set; }
         public List<object> Data { get; set; }
     }
 
-    public class ENetCmd 
+    public partial class ENetCmd 
     {
         public ENetOpcode Opcode { get; set; }
         public List<object> Data { get; set; }

@@ -2,7 +2,7 @@ using Common.Netcode;
 
 namespace Client.Netcode
 {
-    public class WPacketChatMessage : IWritable
+    public partial class WPacketChatMessage : IWritable
     {
         public uint ChannelId { get; set; }
         public string Message { get; set; }

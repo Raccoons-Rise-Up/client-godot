@@ -3,7 +3,7 @@ using System;
 
 namespace Client.UI 
 {
-    public class UIGame : Control
+    public partial class UIGame : Control
     {
         public static Control Instance;
 

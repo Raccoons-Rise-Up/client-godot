@@ -3,7 +3,7 @@ using System;
 
 namespace Client.UI 
 {
-    public class UICredits : Node
+    public partial class UICredits : Node
     {
         public override void _Input(InputEvent @event)
         {

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.UI;
 
+using HttpClient = System.Net.Http.HttpClient;
+
 namespace Client.Utilities
 {
     public static class WebUtils
@@ -20,7 +22,7 @@ namespace Client.Utilities
 
             SendingRequest = true;
 
-            string stringTask = "";
+            string stringTask;
             try
             {
                 stringTask = await WebClient.GetStringAsync($"http://{UILogin.WebServerIp}:{UILogin.WebServerPort}/" + path);

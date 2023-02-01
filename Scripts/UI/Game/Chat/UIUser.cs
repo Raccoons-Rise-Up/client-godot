@@ -3,7 +3,7 @@ using System;
 
 namespace Client.UI 
 {
-    public class UIUser : Button
+    public partial class UIUser : Button
     {
         private static PackedScene PrefabUserDialogOptions = ResourceLoader.Load<PackedScene>("res://Scenes/Prefabs/UserDialogOptions.tscn");
 
@@ -41,8 +41,8 @@ namespace Client.UI
         {
             if (@event.IsActionPressed("ui_right_click"))
             {
-                var userDialog = PrefabUserDialogOptions.Instance<UIUserDialogOptions>();
-                userDialog.RectPosition = GetGlobalMousePosition();
+                var userDialog = PrefabUserDialogOptions.Instantiate<UIUserDialogOptions>();
+                userDialog.Position = GetGlobalMousePosition();
 
 
                 // keep track of dialog
@@ -51,7 +51,7 @@ namespace Client.UI
                 UIGame.Instance.AddChild(userDialog);
 
                 // Godot doing some weird resizing so we resize it back
-                userDialog.RectSize = new Vector2(200, 50);
+                userDialog.Size = new Vector2(200, 50);
             }
         }
     }

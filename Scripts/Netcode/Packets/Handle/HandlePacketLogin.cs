@@ -6,7 +6,7 @@ using Client.UI;
 
 namespace Client.Netcode
 {
-    public class HandlePacketLogin : HandlePacket
+    public partial class HandlePacketLogin : HandlePacket
     {
         public override ServerPacketOpcode Opcode { get; set; }
 

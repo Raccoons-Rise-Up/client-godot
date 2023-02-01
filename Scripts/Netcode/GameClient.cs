@@ -15,7 +15,7 @@ using Version = Common.Netcode.Version; // CS0104: Ambiguous reference between '
 
 namespace Client.Netcode
 {
-    public class GameClient : ENetClient 
+    public partial class GameClient : ENetClient 
     {
         public static string Username = "Unnamed";
 

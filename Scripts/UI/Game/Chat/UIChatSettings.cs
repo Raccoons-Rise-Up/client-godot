@@ -5,7 +5,7 @@ using Common.Game;
 
 namespace Client.UI 
 {
-    public class UIChatSettings : Control
+    public partial class UIChatSettings : Control
     {
         private void _on_Close_Settings_pressed() 
         {

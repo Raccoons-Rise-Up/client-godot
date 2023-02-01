@@ -89,7 +89,7 @@ namespace Client.Utilities
         }
     }
 
-    public class Options 
+    public partial class Options 
     {
         public double VolumeMusic { get; set; }
         public bool Fullscreen { get; set; }

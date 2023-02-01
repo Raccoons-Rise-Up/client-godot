@@ -3,17 +3,17 @@ using System;
 
 namespace Client.UI 
 {
-    public class UITechViewport : Viewport
+    public partial class UITechViewport : SubViewport
     {
 #pragma warning disable CS0649 // Values are assigned in the editor
-        [Export] private readonly NodePath nodePathCamera2D;
-        [Export] private readonly NodePath nodePathCanvasLayer;
+        [Export] private NodePath nodePathCamera2D;
+        [Export] private NodePath nodePathCanvasLayer;
 #pragma warning restore CS0649 // Values are assigned in the editor
 
         // Node Paths
         public static Camera2D Camera2D;
         public static Control CanvasLayer;
-        public static Viewport Instance;
+        public static SubViewport Instance;
 
         private static Control ViewportContent;
         private static bool Drag { get; set; }
@@ -25,7 +25,7 @@ namespace Client.UI
         public async override void _Ready()
         {
             // Set clear color for this viewport
-            VisualServer.SetDefaultClearColor(new Color("#323232"));
+            //SetDefaultClearColor(new Color("#323232"));
             
             ViewportContent = UITechTree.Instance;
             Instance = this;
@@ -33,17 +33,17 @@ namespace Client.UI
             CanvasLayer = GetNode<Control>(nodePathCanvasLayer);
 
             // Center camera
-            Camera2D.Position = ViewportContent.RectPosition + new Vector2(500, ViewportContent.RectSize.y / 2);
+            Camera2D.Position = ViewportContent.Position + new Vector2(500, ViewportContent.Size.Y / 2);
 
             // This is a bug in Godot where 'HandleInputLocally' is set to false even if it is set to true (solved by waiting 1 frame then setting to true)
             await ToSignal(GetTree(), "idle_frame");
             HandleInputLocally = true;
 
             // Wait 1 frame otherwise you will see camera move to start position
-            Camera2D.SmoothingEnabled = true;
+            Camera2D.PositionSmoothingEnabled = true;
         }
 
-        public override void _PhysicsProcess(float delta)
+        public override void _PhysicsProcess(double delta)
         {
             if (UITabs.CurrentTab != Tab.Research)
                 return;
@@ -102,7 +102,7 @@ namespace Client.UI
         public static void HandleCameraMovementSpeed()
         {
             var baseSpeed = 5.0f;
-            Camera2D.SmoothingSpeed = baseSpeed * Camera2D.Zoom.Length();
+            Camera2D.PositionSmoothingSpeed = baseSpeed * Camera2D.Zoom.Length();
         }
 
         public static void HandleMouseDrag()
@@ -124,14 +124,14 @@ namespace Client.UI
             }
 
             var viewportSize = ViewportContent.GetViewportRect().Size * Camera2D.Zoom;
-            var contentSize = ViewportContent.RectSize;
+            var contentSize = ViewportContent.Size;
 
             // This calculates the absolute maximum zoom, the x and y values will most likely not be the same value
             var maxZoom = (contentSize) / (viewportSize / Camera2D.Zoom);
 
             if (Camera2D.Zoom > maxZoom) 
             {
-                Camera2D.Zoom = new Vector2(maxZoom.x, maxZoom.x); // if the x and y are different then the content will get distorted
+                Camera2D.Zoom = new Vector2(maxZoom.X, maxZoom.X); // if the x and y are different then the content will get distorted
                 ScrollSpeed = Vector2.Zero;
             }
 
@@ -155,24 +155,24 @@ namespace Client.UI
         public static void HandleCameraBounds()
         {
             var viewportSize = ViewportContent.GetViewportRect().Size;
-            var rectPos = ViewportContent.RectPosition;
-            var rectSize = ViewportContent.RectSize;
+            var rectPos = ViewportContent.Position;
+            var rectSize = ViewportContent.Size;
 
-            var windowOffsetY = Mathf.Min(0, (OS.WindowSize.y - viewportSize.y - UITechViewport.CanvasLayer.RectGlobalPosition.y) * Camera2D.Zoom.y);
+            var windowOffsetY = Mathf.Min(0, (DisplayServer.WindowGetSize().Y - viewportSize.Y - UITechViewport.CanvasLayer.GlobalPosition.Y) * Camera2D.Zoom.Y);
             
-            var boundsLeft = rectPos.x + (viewportSize.x * Camera2D.Zoom.x) / 2;
-            var boundsRight = rectPos.x + rectSize.x - (viewportSize.x * Camera2D.Zoom.x) / 2;
-            var boundsTop = rectPos.y + (viewportSize.y * Camera2D.Zoom.y) / 2;
-            var boundsBottom = rectPos.y + rectSize.y - (viewportSize.y * Camera2D.Zoom.y) / 2 - windowOffsetY;
+            var boundsLeft = rectPos.X + (viewportSize.X * Camera2D.Zoom.X) / 2;
+            var boundsRight = rectPos.X + rectSize.X - (viewportSize.X * Camera2D.Zoom.X) / 2;
+            var boundsTop = rectPos.Y + (viewportSize.Y * Camera2D.Zoom.Y) / 2;
+            var boundsBottom = rectPos.Y + rectSize.Y - (viewportSize.Y * Camera2D.Zoom.Y) / 2 - windowOffsetY;
 
-            if (Camera2D.Position.x < boundsLeft) 
-                Camera2D.Position = new Vector2(boundsLeft, Camera2D.Position.y);
-            if (Camera2D.Position.x > boundsRight)
-                Camera2D.Position = new Vector2(boundsRight, Camera2D.Position.y);
-            if (Camera2D.Position.y < boundsTop)
-                Camera2D.Position = new Vector2(Camera2D.Position.x, boundsTop);
-            if (Camera2D.Position.y > boundsBottom)
-                Camera2D.Position = new Vector2(Camera2D.Position.x, boundsBottom);
+            if (Camera2D.Position.X < boundsLeft) 
+                Camera2D.Position = new Vector2(boundsLeft, Camera2D.Position.Y);
+            if (Camera2D.Position.X > boundsRight)
+                Camera2D.Position = new Vector2(boundsRight, Camera2D.Position.Y);
+            if (Camera2D.Position.Y < boundsTop)
+                Camera2D.Position = new Vector2(Camera2D.Position.X, boundsTop);
+            if (Camera2D.Position.Y > boundsBottom)
+                Camera2D.Position = new Vector2(Camera2D.Position.X, boundsBottom);
         }
 
         public static void HandleArrowKeys()

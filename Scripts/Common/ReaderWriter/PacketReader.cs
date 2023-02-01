@@ -3,7 +3,7 @@ using ENet;
 
 namespace Common.Netcode
 {
-    public class PacketReader : BinaryReader 
+    public partial class PacketReader : BinaryReader 
     {
         private static readonly byte[] ReadBuffer = new byte[GamePacket.MaxSize];
 

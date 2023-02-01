@@ -1,6 +1,6 @@
 namespace Common.Netcode
 {
-    public class ClientPacket : GamePacket
+    public partial class ClientPacket : GamePacket
     {
         public ClientPacket(byte opcode, IWritable writable = null)
         {

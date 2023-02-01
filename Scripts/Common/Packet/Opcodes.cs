@@ -1,4 +1,4 @@
-﻿namespace Common.Netcode
+namespace Common.Netcode
 {
     // Received from Game Client
     public enum ClientPacketOpcode

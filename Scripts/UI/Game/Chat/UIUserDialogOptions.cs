@@ -3,7 +3,7 @@ using System;
 
 namespace Client.UI 
 {
-    public class UIUserDialogOptions : Control
+    public partial class UIUserDialogOptions : Control
     {
         public override void _Ready()
         {

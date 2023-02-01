@@ -1,25 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://igm45f1tyye3"]
 
-[ext_resource path="res://Scripts/UI/Main Menu/UIMainMenu.cs" type="Script" id=1]
-[ext_resource path="res://Themes/Main.tres" type="Theme" id=2]
+[ext_resource type="Script" path="res://Scripts/UI/Main Menu/UIMainMenu.cs" id="1"]
+[ext_resource type="Theme" uid="uid://drgnf78hhka3c" path="res://Themes/Main.tres" id="2"]
 
 [node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 2 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("2")
+script = ExtResource("1")
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -28,46 +27,28 @@ offset_left = -100.0
 offset_top = -100.0
 offset_right = 100.0
 offset_bottom = 100.0
-custom_minimum_size = Vector2( 200, 200 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Multiplayer" type="Button" parent="Panel/VBoxContainer"]
-offset_right = 200.0
-offset_bottom = 40.0
-custom_minimum_size = Vector2( 0, 40 )
-focus_mode = 0
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 focus_mode = 0
 text = "Multiplayer"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
-offset_top = 44.0
-offset_right = 200.0
-offset_bottom = 84.0
-custom_minimum_size = Vector2( 0, 40 )
-focus_mode = 0
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 focus_mode = 0
 text = "Options"
 
 [node name="Credits" type="Button" parent="Panel/VBoxContainer"]
-offset_top = 88.0
-offset_right = 200.0
-offset_bottom = 128.0
-custom_minimum_size = Vector2( 0, 40 )
-focus_mode = 0
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 focus_mode = 0
 text = "Credits"
 
 [node name="Quit" type="Button" parent="Panel/VBoxContainer"]
-offset_top = 132.0
-offset_right = 200.0
-offset_bottom = 172.0
-custom_minimum_size = Vector2( 0, 40 )
-focus_mode = 0
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 focus_mode = 0
 text = "Quit"
 

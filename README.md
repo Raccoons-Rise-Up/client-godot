@@ -5,9 +5,7 @@ Raccoons Rise Up is a mostly text based progressive resource management MMORPG. 
 ![2](https://user-images.githubusercontent.com/6277739/215613385-29ae6839-f11b-4a2f-9c15-eda4222e71b3.png)  
 
 ## Todo
-- [ ] Convert server JSON to MongoDB
-- [ ] Netcode for Chat
-- [ ] Netcode for Structures / Jobs / Resources / Tech Tree
+- [ ] Figure out netcode / JSON save load model
 
 ## Gameplay
 Please refer to the [Game Dev Document](https://docs.google.com/document/d/1xRS9OLtn-FpSyFYY8vTu6ZNnA41VQQ8h74NBkDnywNc/edit?usp=sharing)

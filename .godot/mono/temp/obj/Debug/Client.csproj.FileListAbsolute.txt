@@ -1,0 +1,5 @@
+C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\.godot\mono\temp\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\.godot\mono\temp\obj\Debug\Client.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\.godot\mono\temp\obj\Debug\Client.AssemblyInfoInputs.cache
+C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\.godot\mono\temp\obj\Debug\Client.AssemblyInfo.cs
+C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\.godot\mono\temp\obj\Debug\Client.csproj.CoreCompileInputs.cache

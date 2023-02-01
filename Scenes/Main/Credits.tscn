@@ -19,19 +19,19 @@ anchor_bottom = 1.0
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+custom_constants/offset_right = 20
+custom_constants/offset_top = 20
+custom_constants/offset_left = 20
+custom_constants/offset_bottom = 20
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="Panel/MarginContainer"]
-margin_left = 292.0
-margin_top = 148.0
-margin_right = 731.0
-margin_bottom = 451.0
+offset_left = 292.0
+offset_top = 148.0
+offset_right = 731.0
+offset_bottom = 451.0
 size_flags_horizontal = 4
 text = "Project Lead
 

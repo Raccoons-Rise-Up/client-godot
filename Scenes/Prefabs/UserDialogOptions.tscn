@@ -6,9 +6,9 @@
 [node name="Dialog Options" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1010.0
-margin_bottom = -586.0
-rect_min_size = Vector2( 85, 50 )
+offset_right = -1010.0
+offset_bottom = -586.0
+custom_minimum_size = Vector2( 85, 50 )
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -16,24 +16,24 @@ __meta__ = {
 }
 
 [node name="List" type="VBoxContainer" parent="."]
-margin_right = 85.0
-margin_bottom = 56.0
+offset_right = 85.0
+offset_bottom = 56.0
 
 [node name="Message" type="Button" parent="List"]
-margin_right = 85.0
-margin_bottom = 16.0
+offset_right = 85.0
+offset_bottom = 16.0
 text = "Message"
 
 [node name="Friend" type="Button" parent="List"]
-margin_top = 20.0
-margin_right = 85.0
-margin_bottom = 36.0
+offset_top = 20.0
+offset_right = 85.0
+offset_bottom = 36.0
 text = "Add Friend"
 
 [node name="Block" type="Button" parent="List"]
-margin_top = 40.0
-margin_right = 85.0
-margin_bottom = 56.0
+offset_top = 40.0
+offset_right = 85.0
+offset_bottom = 56.0
 text = "Block"
 
 [connection signal="pressed" from="List/Message" to="." method="_on_Message_pressed"]

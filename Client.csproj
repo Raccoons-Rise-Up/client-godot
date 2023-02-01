@@ -1,8 +1,12 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
+<Project Sdk="Godot.NET.Sdk/4.0.0-beta.17">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+	<LangVersion>11</LangVersion>
     <RootNamespace>Client</RootNamespace>
-	<DefineConstants>CLIENT;</DefineConstants>
+    <DefineConstants>CLIENT;</DefineConstants>
+	<EnableDynamicLoading>true</EnableDynamicLoading>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!--Required in Godot 4 or Newtonsoft will not be found-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -13,7 +17,7 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <Reference Include="ENet-CSharp">
-        <HintPath>ENet-CSharp.dll</HintPath>
+      <HintPath>ENet-CSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

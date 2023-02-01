@@ -24,51 +24,51 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -100.0
-margin_right = 100.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 200, 200 )
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+custom_minimum_size = Vector2( 200, 200 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Multiplayer" type="Button" parent="Panel/VBoxContainer"]
-margin_right = 200.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 0, 40 )
+offset_right = 200.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 0, 40 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Multiplayer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Options" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 44.0
-margin_right = 200.0
-margin_bottom = 84.0
-rect_min_size = Vector2( 0, 40 )
+offset_top = 44.0
+offset_right = 200.0
+offset_bottom = 84.0
+custom_minimum_size = Vector2( 0, 40 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Options"
 
 [node name="Credits" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 88.0
-margin_right = 200.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 0, 40 )
+offset_top = 88.0
+offset_right = 200.0
+offset_bottom = 128.0
+custom_minimum_size = Vector2( 0, 40 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Credits"
 
 [node name="Quit" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 132.0
-margin_right = 200.0
-margin_bottom = 172.0
-rect_min_size = Vector2( 0, 40 )
+offset_top = 132.0
+offset_right = 200.0
+offset_bottom = 172.0
+custom_minimum_size = Vector2( 0, 40 )
 focus_mode = 0
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Quit"
 
 [connection signal="pressed" from="Panel/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_pressed"]

@@ -33,38 +33,38 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -200.0
-margin_top = -148.5
-margin_right = 200.0
-margin_bottom = 148.5
-rect_min_size = Vector2( 400, 0 )
+offset_left = -200.0
+offset_top = -148.5
+offset_right = 200.0
+offset_bottom = 148.5
+custom_minimum_size = Vector2( 400, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Login Existing" type="Label" parent="Panel/VBoxContainer"]
-margin_left = 100.0
-margin_right = 300.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 200, 0 )
+offset_left = 100.0
+offset_right = 300.0
+offset_bottom = 14.0
+custom_minimum_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 text = "Login as NAME"
 align = 1
 
 [node name="Login New" type="VBoxContainer" parent="Panel/VBoxContainer"]
-margin_top = 18.0
-margin_right = 400.0
-margin_bottom = 106.0
-rect_min_size = Vector2( 200, 0 )
+offset_top = 18.0
+offset_right = 400.0
+offset_bottom = 106.0
+custom_minimum_size = Vector2( 200, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label Username" type="Label" parent="Panel/VBoxContainer/Login New"]
-margin_left = 100.0
-margin_right = 300.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 200, 0 )
+offset_left = 100.0
+offset_right = 300.0
+offset_bottom = 14.0
+custom_minimum_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 1
 text = "Username"
@@ -74,30 +74,30 @@ __meta__ = {
 }
 
 [node name="Input Username" type="LineEdit" parent="Panel/VBoxContainer/Login New"]
-margin_left = 100.0
-margin_top = 18.0
-margin_right = 300.0
-margin_bottom = 42.0
-rect_min_size = Vector2( 200, 16 )
+offset_left = 100.0
+offset_top = 18.0
+offset_right = 300.0
+offset_bottom = 42.0
+custom_minimum_size = Vector2( 200, 16 )
 size_flags_horizontal = 4
 
 [node name="Label Password" type="Label" parent="Panel/VBoxContainer/Login New"]
-margin_left = 100.0
-margin_top = 46.0
-margin_right = 300.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 200, 0 )
+offset_left = 100.0
+offset_top = 46.0
+offset_right = 300.0
+offset_bottom = 60.0
+custom_minimum_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 size_flags_vertical = 1
 text = "Password"
 align = 1
 
 [node name="Input Password" type="LineEdit" parent="Panel/VBoxContainer/Login New"]
-margin_left = 100.0
-margin_top = 64.0
-margin_right = 300.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 200, 16 )
+offset_left = 100.0
+offset_top = 64.0
+offset_right = 300.0
+offset_bottom = 88.0
+custom_minimum_size = Vector2( 200, 16 )
 size_flags_horizontal = 4
 secret = true
 __meta__ = {
@@ -105,25 +105,25 @@ __meta__ = {
 }
 
 [node name="Login" type="Button" parent="Panel/VBoxContainer"]
-margin_left = 100.0
-margin_top = 110.0
-margin_right = 300.0
-margin_bottom = 140.0
-rect_min_size = Vector2( 200, 30 )
+offset_left = 100.0
+offset_top = 110.0
+offset_right = 300.0
+offset_bottom = 140.0
+custom_minimum_size = Vector2( 200, 30 )
 focus_mode = 0
 size_flags_horizontal = 4
-enabled_focus_mode = 0
+focus_mode = 0
 text = "Login"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Response" type="Label" parent="Panel/VBoxContainer"]
-margin_left = 100.0
-margin_top = 144.0
-margin_right = 300.0
-margin_bottom = 158.0
-rect_min_size = Vector2( 200, 0 )
+offset_left = 100.0
+offset_top = 144.0
+offset_right = 300.0
+offset_bottom = 158.0
+custom_minimum_size = Vector2( 200, 0 )
 size_flags_horizontal = 4
 text = "Response"
 align = 1

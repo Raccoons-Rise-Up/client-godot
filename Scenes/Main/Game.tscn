@@ -7,9 +7,9 @@
 [ext_resource path="res://Scripts/UITechViewport.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/UI/UITabs.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/UI/Game/Chat/UIChat.cs" type="Script" id=7]
-[ext_resource path="res://Sprites/UI/Buttons/Gear.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/UI/Buttons/Close.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/Chat/Chat.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/Buttons/Gear.png" type="Texture2D" id=8]
+[ext_resource path="res://Sprites/UI/Buttons/Close.png" type="Texture2D" id=9]
+[ext_resource path="res://Sprites/UI/Chat/Chat.png" type="Texture2D" id=10]
 [ext_resource path="res://Scenes/Prefabs/User.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Prefabs/BuildCategory.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scripts/UI/flex_grid_container.gd" type="Script" id=13]
@@ -32,7 +32,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tabs" type="TabContainer" parent="Panel"]
+[node name="TabBar" type="TabContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 6 )
@@ -40,139 +40,139 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Colony" type="PanelContainer" parent="Panel/Tabs"]
+[node name="Colony" type="PanelContainer" parent="Panel/TabBar"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
+offset_top = 24.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Tabs/Colony"]
-margin_right = 1024.0
-margin_bottom = 576.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/TabBar/Colony"]
+offset_right = 1024.0
+offset_bottom = 576.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Tabs/Colony/MarginContainer"]
-margin_left = 25.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 551.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabBar/Colony/MarginContainer"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 999.0
+offset_bottom = 551.0
 
-[node name="Label" type="Label" parent="Panel/Tabs/Colony/MarginContainer/VBoxContainer"]
-margin_right = 974.0
-margin_bottom = 14.0
+[node name="Label" type="Label" parent="Panel/TabBar/Colony/MarginContainer/VBoxContainer"]
+offset_right = 974.0
+offset_bottom = 14.0
 text = "Raccoons: 1"
 
-[node name="Jobs" type="PanelContainer" parent="Panel/Tabs"]
+[node name="Jobs" type="PanelContainer" parent="Panel/TabBar"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
+offset_top = 24.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Tabs/Jobs"]
-margin_right = 1024.0
-margin_bottom = 576.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/TabBar/Jobs"]
+offset_right = 1024.0
+offset_bottom = 576.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Tabs/Jobs/MarginContainer"]
-margin_left = 25.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 551.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabBar/Jobs/MarginContainer"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 999.0
+offset_bottom = 551.0
 custom_constants/separation = 25
 
-[node name="Miners" parent="Panel/Tabs/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
+[node name="Miners" parent="Panel/TabBar/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
 
-[node name="Miners2" parent="Panel/Tabs/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
-margin_top = 39.0
-margin_bottom = 53.0
+[node name="Miners2" parent="Panel/TabBar/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
+offset_top = 39.0
+offset_bottom = 53.0
 
-[node name="Miners3" parent="Panel/Tabs/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
-margin_top = 78.0
-margin_bottom = 92.0
+[node name="Miners3" parent="Panel/TabBar/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
+offset_top = 78.0
+offset_bottom = 92.0
 
-[node name="Miners4" parent="Panel/Tabs/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
-margin_top = 117.0
-margin_bottom = 131.0
+[node name="Miners4" parent="Panel/TabBar/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
+offset_top = 117.0
+offset_bottom = 131.0
 
-[node name="Miners5" parent="Panel/Tabs/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
-margin_top = 156.0
-margin_bottom = 170.0
+[node name="Miners5" parent="Panel/TabBar/Jobs/MarginContainer/VBoxContainer" instance=ExtResource( 14 )]
+offset_top = 156.0
+offset_bottom = 170.0
 
-[node name="Build" type="PanelContainer" parent="Panel/Tabs"]
+[node name="Build" type="PanelContainer" parent="Panel/TabBar"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
+offset_top = 24.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Tabs/Build"]
-margin_right = 1024.0
-margin_bottom = 1432.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/TabBar/Build"]
+offset_right = 1024.0
+offset_bottom = 1432.0
 
-[node name="GridContainer" type="GridContainer" parent="Panel/Tabs/Build/MarginContainer"]
-margin_left = 25.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 1407.0
+[node name="GridContainer" type="GridContainer" parent="Panel/TabBar/Build/MarginContainer"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 999.0
+offset_bottom = 1407.0
 columns = 6
 script = ExtResource( 13 )
 
-[node name="Btn1" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+[node name="Btn1" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
 
-[node name="Btn2" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 154.0
-margin_right = 304.0
+[node name="Btn2" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 154.0
+offset_right = 304.0
 
-[node name="Btn3" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 308.0
-margin_right = 458.0
+[node name="Btn3" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 308.0
+offset_right = 458.0
 
-[node name="Btn4" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 462.0
-margin_right = 612.0
+[node name="Btn4" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 462.0
+offset_right = 612.0
 
-[node name="Btn5" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 616.0
-margin_right = 766.0
+[node name="Btn5" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 616.0
+offset_right = 766.0
 
-[node name="Btn6" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 770.0
-margin_right = 920.0
+[node name="Btn6" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 770.0
+offset_right = 920.0
 
-[node name="Btn7" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_top = 154.0
-margin_bottom = 304.0
+[node name="Btn7" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_top = 154.0
+offset_bottom = 304.0
 
-[node name="Btn8" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 154.0
-margin_top = 154.0
-margin_right = 304.0
-margin_bottom = 304.0
+[node name="Btn8" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 154.0
+offset_top = 154.0
+offset_right = 304.0
+offset_bottom = 304.0
 
-[node name="Btn9" parent="Panel/Tabs/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
-margin_left = 308.0
-margin_top = 154.0
-margin_right = 458.0
-margin_bottom = 304.0
+[node name="Btn9" parent="Panel/TabBar/Build/MarginContainer/GridContainer" instance=ExtResource( 12 )]
+offset_left = 308.0
+offset_top = 154.0
+offset_right = 458.0
+offset_bottom = 304.0
 
-[node name="Research" type="PanelContainer" parent="Panel/Tabs"]
+[node name="Research" type="PanelContainer" parent="Panel/TabBar"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
+offset_top = 24.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Tabs/Research"]
-margin_right = 1024.0
-margin_bottom = 576.0
+[node name="MarginContainer" type="MarginContainer" parent="Panel/TabBar/Research"]
+offset_right = 1024.0
+offset_bottom = 576.0
 
-[node name="CanvasLayer" type="ReferenceRect" parent="Panel/Tabs/Research/MarginContainer"]
-margin_left = 25.0
-margin_top = 25.0
-margin_right = 999.0
-margin_bottom = 551.0
+[node name="CanvasLayer" type="ReferenceRect" parent="Panel/TabBar/Research/MarginContainer"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 999.0
+offset_bottom = 551.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer" type="ViewportContainer" parent="Panel/Tabs/Research/MarginContainer/CanvasLayer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Panel/TabBar/Research/MarginContainer/CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -182,7 +182,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Viewport" type="Viewport" parent="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer"]
 size = Vector2( 974, 526 )
 handle_input_locally = false
 usage = 0
@@ -191,10 +191,10 @@ script = ExtResource( 5 )
 nodePathCamera2D = NodePath("Camera2D")
 nodePathCanvasLayer = NodePath("../..")
 
-[node name="Mask" parent="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" instance=ExtResource( 3 )]
+[node name="Mask" parent="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource( 3 )]
 size_flags_horizontal = 1
 
-[node name="Camera2D" type="Camera2D" parent="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport"]
+[node name="Camera2D" type="Camera2D" parent="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer/SubViewport"]
 __meta__ = {
 "_editor_description_": ""
 }
@@ -202,9 +202,9 @@ __meta__ = {
 [node name="Chat" type="Control" parent="Panel"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -320.0
-margin_right = 600.0
-rect_min_size = Vector2( 600, 320 )
+offset_top = -320.0
+offset_right = 600.0
+custom_minimum_size = Vector2( 600, 320 )
 mouse_filter = 2
 theme = ExtResource( 2 )
 script = ExtResource( 7 )
@@ -216,9 +216,9 @@ NodePathSettings = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginC
 NodePathSettingsButton = NodePath("Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings")
 
 [node name="Chat & Chat Toggle Btn" type="VBoxContainer" parent="Panel/Chat"]
-margin_right = 600.0
-margin_bottom = 318.0
-rect_min_size = Vector2( 600, 318 )
+offset_right = 600.0
+offset_bottom = 318.0
+custom_minimum_size = Vector2( 600, 318 )
 mouse_filter = 2
 custom_constants/separation = 2
 __meta__ = {
@@ -226,15 +226,15 @@ __meta__ = {
 }
 
 [node name="Chat & Chat Settings" type="HBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn"]
-margin_right = 804.0
-margin_bottom = 300.0
+offset_right = 804.0
+offset_bottom = 300.0
 mouse_filter = 2
 
 [node name="Channel List (Hide)" type="TabContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings"]
-margin_right = 600.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 600, 300 )
-tab_align = 0
+offset_right = 600.0
+offset_bottom = 300.0
+custom_minimum_size = Vector2( 600, 300 )
+tab_alignment = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -242,34 +242,34 @@ __meta__ = {
 [node name="Name" type="PanelContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 24.0
+offset_top = 24.0
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name"]
-margin_right = 600.0
-margin_bottom = 276.0
+offset_right = 600.0
+offset_bottom = 276.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer"]
-margin_right = 448.0
-margin_bottom = 276.0
+offset_right = 448.0
+offset_bottom = 276.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.03
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/VBoxContainer"]
-margin_right = 448.0
-margin_bottom = 248.0
+offset_right = 448.0
+offset_bottom = 248.0
 size_flags_vertical = 3
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
+custom_constants/offset_top = 10
+custom_constants/offset_left = 10
 
 [node name="Chat Content" type="RichTextLabel" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/VBoxContainer/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 423.0
-margin_bottom = 223.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 423.0
+offset_bottom = 223.0
 size_flags_vertical = 3
 text = "appleman: Hello!
 wonderus23: Hi
@@ -277,150 +277,150 @@ appleman: Godot UI is amazing!
 wonderus23: I agree!"
 
 [node name="Chat Input" type="LineEdit" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/VBoxContainer"]
-margin_top = 252.0
-margin_right = 448.0
-margin_bottom = 276.0
+offset_top = 252.0
+offset_right = 448.0
+offset_bottom = 276.0
 text = "hello world"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer"]
-margin_left = 452.0
-margin_right = 600.0
-margin_bottom = 276.0
+offset_left = 452.0
+offset_right = 600.0
+offset_bottom = 276.0
 size_flags_horizontal = 3
 
 [node name="User List" type="VBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer"]
-margin_right = 143.0
-margin_bottom = 350.0
+offset_right = 143.0
+offset_bottom = 350.0
 size_flags_horizontal = 3
 custom_constants/separation = 2
 
 [node name="User" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 143.0
-margin_bottom = 20.0
+offset_right = 143.0
+offset_bottom = 20.0
 
 [node name="User2" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 22.0
-margin_right = 143.0
-margin_bottom = 42.0
+offset_top = 22.0
+offset_right = 143.0
+offset_bottom = 42.0
 
 [node name="User3" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 44.0
-margin_right = 143.0
-margin_bottom = 64.0
+offset_top = 44.0
+offset_right = 143.0
+offset_bottom = 64.0
 
 [node name="User4" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 66.0
-margin_right = 143.0
-margin_bottom = 86.0
+offset_top = 66.0
+offset_right = 143.0
+offset_bottom = 86.0
 
 [node name="User5" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 88.0
-margin_right = 143.0
-margin_bottom = 108.0
+offset_top = 88.0
+offset_right = 143.0
+offset_bottom = 108.0
 
 [node name="User6" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 110.0
-margin_right = 143.0
-margin_bottom = 130.0
+offset_top = 110.0
+offset_right = 143.0
+offset_bottom = 130.0
 
 [node name="User7" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 132.0
-margin_right = 143.0
-margin_bottom = 152.0
+offset_top = 132.0
+offset_right = 143.0
+offset_bottom = 152.0
 
 [node name="User8" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 154.0
-margin_right = 143.0
-margin_bottom = 174.0
+offset_top = 154.0
+offset_right = 143.0
+offset_bottom = 174.0
 
 [node name="User9" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 176.0
-margin_right = 143.0
-margin_bottom = 196.0
+offset_top = 176.0
+offset_right = 143.0
+offset_bottom = 196.0
 
 [node name="User10" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 198.0
-margin_right = 143.0
-margin_bottom = 218.0
+offset_top = 198.0
+offset_right = 143.0
+offset_bottom = 218.0
 
 [node name="User11" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 220.0
-margin_right = 143.0
-margin_bottom = 240.0
+offset_top = 220.0
+offset_right = 143.0
+offset_bottom = 240.0
 
 [node name="User12" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 242.0
-margin_right = 143.0
-margin_bottom = 262.0
+offset_top = 242.0
+offset_right = 143.0
+offset_bottom = 262.0
 
 [node name="User13" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 264.0
-margin_right = 143.0
-margin_bottom = 284.0
+offset_top = 264.0
+offset_right = 143.0
+offset_bottom = 284.0
 
 [node name="User14" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 286.0
-margin_right = 143.0
-margin_bottom = 306.0
+offset_top = 286.0
+offset_right = 143.0
+offset_bottom = 306.0
 
 [node name="User15" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 308.0
-margin_right = 143.0
-margin_bottom = 328.0
+offset_top = 308.0
+offset_right = 143.0
+offset_bottom = 328.0
 
 [node name="User16" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/Channel List (Hide)/Name/HBoxContainer/ScrollContainer/User List" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 330.0
-margin_right = 143.0
-margin_bottom = 350.0
+offset_top = 330.0
+offset_right = 143.0
+offset_bottom = 350.0
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings"]
-margin_left = 604.0
-margin_right = 804.0
-margin_bottom = 300.0
-rect_min_size = Vector2( 200, 0 )
-custom_constants/margin_right = 0
-custom_constants/margin_top = 24
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0
+offset_left = 604.0
+offset_right = 804.0
+offset_bottom = 300.0
+custom_minimum_size = Vector2( 200, 0 )
+custom_constants/offset_right = 0
+custom_constants/offset_top = 24
+custom_constants/offset_left = 0
+custom_constants/offset_bottom = 0
 
 [node name="Button Settings" type="Button" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer"]
 visible = false
-margin_top = 24.0
-margin_right = 18.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 18, 0 )
+offset_top = 24.0
+offset_right = 18.0
+offset_bottom = 40.0
+custom_minimum_size = Vector2( 18, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 icon = ExtResource( 8 )
@@ -428,118 +428,118 @@ expand_icon = true
 
 [node name="Settings" type="PanelContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer"]
 visible = false
-margin_top = 24.0
-margin_right = 200.0
-margin_bottom = 300.0
+offset_top = 24.0
+offset_right = 200.0
+offset_bottom = 300.0
 script = ExtResource( 4 )
 
 [node name="Close Settings" type="Button" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings"]
 visible = false
-margin_left = 182.0
-margin_right = 200.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 18, 0 )
+offset_left = 182.0
+offset_right = 200.0
+offset_bottom = 16.0
+custom_minimum_size = Vector2( 18, 0 )
 size_flags_horizontal = 8
 size_flags_vertical = 0
 icon = ExtResource( 9 )
 expand_icon = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings"]
-margin_right = 200.0
-margin_bottom = 276.0
+offset_right = 200.0
+offset_bottom = 276.0
 mouse_filter = 2
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
+custom_constants/offset_right = 5
+custom_constants/offset_top = 5
+custom_constants/offset_left = 5
+custom_constants/offset_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 195.0
-margin_bottom = 271.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 195.0
+offset_bottom = 271.0
 mouse_filter = 2
 
 [node name="Title" type="Label" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_left = 53.0
-margin_right = 136.0
-margin_bottom = 14.0
+offset_left = 53.0
+offset_right = 136.0
+offset_bottom = 14.0
 size_flags_horizontal = 6
 text = "Chat Settings"
 
 [node name="Show Timestamps" type="CheckBox" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 190.0
-margin_bottom = 36.0
+offset_top = 18.0
+offset_right = 190.0
+offset_bottom = 36.0
 size_flags_vertical = 0
 text = "Show local timestamps"
 
 [node name="Hide Users" type="CheckBox" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 40.0
-margin_right = 190.0
-margin_bottom = 58.0
+offset_top = 40.0
+offset_right = 190.0
+offset_bottom = 58.0
 size_flags_vertical = 0
 text = "Hide user list"
 
 [node name="Text Size" type="Label" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 62.0
-margin_right = 190.0
-margin_bottom = 76.0
+offset_top = 62.0
+offset_right = 190.0
+offset_bottom = 76.0
 text = "Text Size"
 align = 1
 
 [node name="HSlider" type="HSlider" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 80.0
-margin_right = 190.0
-margin_bottom = 96.0
+offset_top = 80.0
+offset_right = 190.0
+offset_bottom = 96.0
 
 [node name="Text Color" type="HBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 100.0
-margin_right = 190.0
-margin_bottom = 116.0
+offset_top = 100.0
+offset_right = 190.0
+offset_bottom = 116.0
 
 [node name="Label" type="Label" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/Text Color"]
-margin_top = 1.0
-margin_right = 96.0
-margin_bottom = 15.0
+offset_top = 1.0
+offset_right = 96.0
+offset_bottom = 15.0
 text = "Chat Text Color"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/Text Color"]
-margin_left = 115.0
-margin_right = 190.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 75, 0 )
+offset_left = 115.0
+offset_right = 190.0
+offset_bottom = 16.0
+custom_minimum_size = Vector2( 75, 0 )
 size_flags_horizontal = 10
 color = Color( 1, 1, 1, 1 )
 
 [node name="Friend Text Color" type="HBoxContainer" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer"]
-margin_top = 120.0
-margin_right = 190.0
-margin_bottom = 136.0
+offset_top = 120.0
+offset_right = 190.0
+offset_bottom = 136.0
 
 [node name="Label" type="Label" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/Friend Text Color"]
-margin_top = 1.0
-margin_right = 108.0
-margin_bottom = 15.0
+offset_top = 1.0
+offset_right = 108.0
+offset_bottom = 15.0
 text = "Friend Text Color"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/Friend Text Color"]
-margin_left = 115.0
-margin_right = 190.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 75, 0 )
+offset_left = 115.0
+offset_right = 190.0
+offset_bottom = 16.0
+custom_minimum_size = Vector2( 75, 0 )
 size_flags_horizontal = 10
 color = Color( 1, 1, 1, 1 )
 
 [node name="Chat Toggle" type="Button" parent="Panel/Chat/Chat & Chat Toggle Btn"]
-margin_top = 302.0
-margin_right = 18.0
-margin_bottom = 318.0
-rect_min_size = Vector2( 18, 0 )
+offset_top = 302.0
+offset_right = 18.0
+offset_bottom = 318.0
+custom_minimum_size = Vector2( 18, 0 )
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 10
-enabled_focus_mode = 0
+focus_mode = 0
 icon = ExtResource( 10 )
 expand_icon = true
 
@@ -547,13 +547,13 @@ expand_icon = true
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
 mouse_filter = 2
 
-[connection signal="tab_changed" from="Panel/Tabs" to="Panel/Tabs" method="_on_Tabs_tab_changed"]
-[connection signal="mouse_entered" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_entered"]
-[connection signal="mouse_exited" from="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer" to="Panel/Tabs/Research/MarginContainer/CanvasLayer/ViewportContainer/Viewport" method="_on_ViewportContainer_mouse_exited"]
+[connection signal="tab_changed" from="Panel/TabBar" to="Panel/TabBar" method="_on_Tabs_tab_changed"]
+[connection signal="mouse_entered" from="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer" to="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer/SubViewport" method="_on_ViewportContainer_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer" to="Panel/TabBar/Research/MarginContainer/CanvasLayer/SubViewportContainer/SubViewport" method="_on_ViewportContainer_mouse_exited"]
 [connection signal="pressed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Button Settings" to="Panel/Chat" method="_on_Button_Settings_pressed"]
 [connection signal="pressed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/Close Settings" to="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings" method="_on_Close_Settings_pressed"]
 [connection signal="value_changed" from="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings/MarginContainer/VBoxContainer/HSlider" to="Panel/Chat/Chat & Chat Toggle Btn/Chat & Chat Settings/MarginContainer/Settings" method="_on_HSlider_value_changed"]

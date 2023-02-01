@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/UI/Game/Chat/UIUser.cs" type="Script" id=1]
-[ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/Chat/FriendOnline.png" type="Texture2D" id=2]
 
 [node name="User" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1024.0
-margin_bottom = -600.0
-rect_min_size = Vector2( 100, 20 )
+offset_right = -1024.0
+offset_bottom = -600.0
+custom_minimum_size = Vector2( 100, 20 )
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false

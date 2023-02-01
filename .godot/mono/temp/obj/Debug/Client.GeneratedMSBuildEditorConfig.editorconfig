@@ -1,5 +1,5 @@
 is_global = true
-build_property.GodotProjectDir = C:\USERS\VALK-DESKTOP\DOCUMENTS\GODOT PROJECTS\RRU-CLIENT\
+build_property.GodotProjectDir = C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\
 build_property.GodotSourceGenerators = 
 build_property.IsGodotToolsProject = 
 build_property.TargetFramework = net7.0
@@ -11,4 +11,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Client
-build_property.ProjectDir = C:\USERS\VALK-DESKTOP\DOCUMENTS\GODOT PROJECTS\RRU-CLIENT\
+build_property.ProjectDir = C:\Users\VALK-DESKTOP\Documents\Godot Projects\RRU-client\

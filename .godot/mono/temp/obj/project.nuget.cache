@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y8ajTRZLsP2fj5aVppac2H3W86VtAblp0kVmVqmUugpViSwFwspy7M6b4itUdbmFqip5nJL21M0Rm4kXomp9Mg==",
+  "dgSpecHash": "Zbe74pONyisrbKdIRL4jNthmSWyndipdmSwtXzE31rZh6FlqKgLFVNwn9nMqeYNHtCpXD+JVmn6hHda+e6r/Nw==",
   "success": true,
-  "projectFilePath": "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\Client.csproj",
+  "projectFilePath": "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VALK-DESKTOP\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godot.sourcegenerators\\4.0.0-beta.17\\godot.sourcegenerators.4.0.0-beta.17.nupkg.sha512",
     "C:\\Users\\VALK-DESKTOP\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder\\godotsharp\\4.0.0-beta.17\\godotsharp.4.0.0-beta.17.nupkg.sha512",

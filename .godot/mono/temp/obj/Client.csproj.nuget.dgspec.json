@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\Client.csproj": {}
+    "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\Client.csproj": {}
   },
   "projects": {
-    "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\Client.csproj": {
+    "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\Client.csproj",
+        "projectUniqueName": "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\Client.csproj",
+        "projectPath": "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\Client.csproj",
         "packagesPath": "C:\\Users\\VALK-DESKTOP\\.nuget\\packages\\",
-        "outputPath": "C:\\USERS\\VALK-DESKTOP\\DOCUMENTS\\GODOT PROJECTS\\RRU-CLIENT\\.godot\\mono\\temp\\obj\\",
+        "outputPath": "C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\RRU-client\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Users\\VALK-DESKTOP\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
